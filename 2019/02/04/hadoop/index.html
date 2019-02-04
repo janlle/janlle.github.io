@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+
+  
+  <title>Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="title: hadoopdate: 2018-01-05 16:31:12tags: [linux, 大数据, hadoop]categories: hadoop HadoopHadoop背景什么是HADOOPHADOOP是apache旗下的一套开源软件平台HADOOP提供利用服务器集群，根据用户的自定义业务逻辑，对海量数据进行分布式处理,HADOOP的核心组件有:HDFS（分布式文件系统）、Y">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://yoursite.com/2019/02/04/hadoop/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="title: hadoopdate: 2018-01-05 16:31:12tags: [linux, 大数据, hadoop]categories: hadoop HadoopHadoop背景什么是HADOOPHADOOP是apache旗下的一套开源软件平台HADOOP提供利用服务器集群，根据用户的自定义业务逻辑，对海量数据进行分布式处理,HADOOP的核心组件有:HDFS（分布式文件系统）、Y">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-02-04T12:32:32.864Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Hexo">
+<meta name="twitter:description" content="title: hadoopdate: 2018-01-05 16:31:12tags: [linux, 大数据, hadoop]categories: hadoop HadoopHadoop背景什么是HADOOPHADOOP是apache旗下的一套开源软件平台HADOOP提供利用服务器集群，根据用户的自定义业务逻辑，对海量数据进行分布式处理,HADOOP的核心组件有:HDFS（分布式文件系统）、Y">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-hadoop" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/02/04/hadoop/" class="article-date">
+  <time datetime="2019-02-04T12:16:13.883Z" itemprop="datePublished">2019-02-04</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>title: hadoop<br>date: 2018-01-05 16:31:12<br>tags: [linux, 大数据, hadoop]<br>categories: hadoop</p>
+<h1 id="Hadoop"><a href="#Hadoop" class="headerlink" title="Hadoop"></a>Hadoop</h1><h2 id="Hadoop背景"><a href="#Hadoop背景" class="headerlink" title="Hadoop背景"></a>Hadoop背景</h2><h3 id="什么是HADOOP"><a href="#什么是HADOOP" class="headerlink" title="什么是HADOOP"></a>什么是HADOOP</h3><p>HADOOP是apache旗下的一套开源软件平台HADOOP提供利用服务器集群，根据用户的自定义业务逻辑，对海量数据进行分布式处理,HADOOP的核心组件有:HDFS（分布式文件系统）、YARN（运算资源调度系统）、MAPREDUCE（分布式运算编程框架），广义上来说，HADOOP通常是指一个更广泛的概念——HADOOP生态圈</p>
+<h3 id="HADOOP产生背景"><a href="#HADOOP产生背景" class="headerlink" title="HADOOP产生背景"></a>HADOOP产生背景</h3><p>HADOOP最早起源于Nutch。Nutch的设计目标是构建一个大型的全网搜索引擎，包括网页抓取、索引、查询等功能，但随着抓取网页数量的增加，遇到了严重的可扩展性问题——如何解决数十亿网页的存储和索引问题。2003年、2004年谷歌发表的两篇论文为该问题提供了可行的解决方案。——分布式文件系统（GFS），可用于处理海量网页的存储——分布式计算框架MAPREDUCE，可用于处理海量网页的索引计算问题。Nutch的开发人员完成了相应的开源实现HDFS和MAPREDUCE，并从Nutch中剥离成为独立项目HADOOP，到2008年1月，HADOOP成为Apache顶级项目，迎来了它的快速发展期。</p>
+<h3 id="HADOOP在大数据、云计算中的位置和关系"><a href="#HADOOP在大数据、云计算中的位置和关系" class="headerlink" title="HADOOP在大数据、云计算中的位置和关系"></a>HADOOP在大数据、云计算中的位置和关系</h3><ul>
+<li><p>云计算是分布式计算、并行计算、网格计算、多核计算、网络存储、虚拟化、负载均衡等传统计算机技术和互联网技术融合发展的产物。借助IaaS(基础设施即服务)、PaaS(平台即服务)、SaaS（软件即服务）等业务模式，把强大的计算能力提供给终端用户。</p>
+</li>
+<li><p>现阶段，云计算的两大底层支撑技术为“虚拟化”和“大数据技术”</p>
+</li>
+<li><p>而HADOOP则是云计算的PaaS层的解决方案之一，并不等同于PaaS，更不等同于云计算本身。</p>
+</li>
+</ul>
+<h3 id="HADOOP生态圈以及各组成部分的简介"><a href="#HADOOP生态圈以及各组成部分的简介" class="headerlink" title="HADOOP生态圈以及各组成部分的简介"></a>HADOOP生态圈以及各组成部分的简介</h3><ul>
+<li>HDFS：分布式文件系统</li>
+<li>MAPREDUCE：分布式运算程序开发框架</li>
+<li>HIVE：基于大数据技术（文件系统+运算框架）的SQL数据仓库工具</li>
+<li>HBASE：基于HADOOP的分布式海量数据库</li>
+<li>ZOOKEEPER：分布式协调服务基础组件</li>
+<li>Mahout：基于mapreduce/spark/flink等分布式运算框架的机器学习算法库</li>
+<li>Oozie：工作流调度框架</li>
+<li>Sqoop：数据导入导出工具</li>
+<li>Flume：日志数据采集框架</li>
+</ul>
+<h2 id="分布式系统概述"><a href="#分布式系统概述" class="headerlink" title="分布式系统概述"></a>分布式系统概述</h2><p><strong>注：由于大数据技术领域的各类技术框架基本上都是分布式系统，因此，理解hadoop、storm、spark等技术框架，都需要具备基本的分布式系统概念</strong></p>
+<h3 id="什么是分布式"><a href="#什么是分布式" class="headerlink" title="什么是分布式"></a>什么是分布式</h3><p>分布式系统是由一组通过网络进行通信、为了完成共同的任务而协调工作的计算机节点组成的系统。分布式系统的出现是为了用廉价的、普通的机器完成单个计算机无法完成的计算、存储任务。其目的是利用更多的机器，处理更多的数据 。分布式系统的特点是：硬件独立，各设备之间独立，互不依赖、 软件统一，对用户来说，就像是跟单个系统打交道。</p>
+<h2 id="为什么需要分布式"><a href="#为什么需要分布式" class="headerlink" title="为什么需要分布式"></a>为什么需要分布式</h2><p>为了性能扩展：系统负载高，单台机器无法承受，希望通过多台机器来提高系统负载能力 为了增强可靠性：软件不是完美的，网络不是完美的，甚至机器也不是完美的，随时可能出错，为了避免故障，需要将业务分散开保留一定的冗余度</p>
+<h3 id="分布式软件系统-Distributed-Software-Systems"><a href="#分布式软件系统-Distributed-Software-Systems" class="headerlink" title="分布式软件系统(Distributed Software Systems)"></a>分布式软件系统(Distributed Software Systems)</h3><ol>
+<li><p>该软件系统会划分成多个子系统或模块，各自运行在不同的机器上，子系统或模块之间通过网络通信进行协作，实现最终的整体功能</p>
+</li>
+<li><p>比如分布式操作系统、分布式程序设计语言及其编译(解释)系统、分布式文件系统和分布式数据库系统等。</p>
+</li>
+</ol>
+<h3 id="分布式软件系统举例：solrcloud"><a href="#分布式软件系统举例：solrcloud" class="headerlink" title="分布式软件系统举例：solrcloud"></a>分布式软件系统举例：solrcloud</h3><ul>
+<li><p>一个solrcloud集群通常有多台solr服务器</p>
+</li>
+<li><p>每一个solr服务器节点负责存储整个索引库的若干个shard（数据分片）</p>
+</li>
+<li><p>每一个shard又有多台服务器存放若干个副本互为主备用</p>
+</li>
+<li><p>索引的建立和查询会在整个集群的各个节点上并发执行</p>
+</li>
+<li><p>solrcloud集群作为整体对外服务，而其内部细节可对客户端透明</p>
+</li>
+</ul>
+<p><strong>总结：利用多个节点共同协作完成一项或多项具体业务功能的系统就是分布式系统。</strong></p>
+<h3 id="为什么使用分布式"><a href="#为什么使用分布式" class="headerlink" title="为什么使用分布式"></a>为什么使用分布式</h3><ul>
+<li>单机处理能力存在瓶颈；</li>
+<li>升级单机处理能力的性价比越来越低；</li>
+<li>分布式系统稳定性、可用性好</li>
+</ul>
+<h2 id="离线数据分析流程介绍"><a href="#离线数据分析流程介绍" class="headerlink" title="离线数据分析流程介绍"></a>离线数据分析流程介绍</h2><blockquote>
+<p>注：本环节主要感受数据分析系统的宏观概念及处理流程，初步理解hadoop等框架在其中的应用环节，不用过于关注代码细节</p>
+</blockquote>
+<h3 id="web日志数据挖掘"><a href="#web日志数据挖掘" class="headerlink" title="web日志数据挖掘"></a>web日志数据挖掘</h3><blockquote>
+<p>“Web点击流日志”包含着网站运营很重要的信息，通过日志分析，我们可以知道网站的访问量，哪个网页访问人数最多，哪个网页最有价值，广告转化率、访客的来源信息，访客的终端信息等。</p>
+</blockquote>
+<h3 id="日志来源"><a href="#日志来源" class="headerlink" title="日志来源"></a>日志来源</h3><blockquote>
+<p>本案例的数据主要由用户的点击行为记录<br>获取方式：在页面预埋一段js程序，为页面上想要监听的标签绑定事件，只要用户点击或移动到标签，即可触发ajax请求到后台servlet程序，用log4j记录下事件信息，从而在web服务器（nginx、tomcat等）上形成不断增长的日志文件。<br>形如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">58.215.204.118 - - [18/Sep/2013:06:51:35 +0000] &quot;GET /wp-includes/js/jquery/jquery.js?ver=1.10.2 HTTP/1.1&quot; 304 0 &quot;http://blog.fens.me/nodejs-socketio-chat/&quot; &quot;Mozilla/5.0 (Windows NT 5.1; rv:23.0) Gecko/20100101 Firefox/23.0&quot;</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<h3 id="流程解释"><a href="#流程解释" class="headerlink" title="流程解释"></a>流程解释</h3><ul>
+<li>数据采集：定制开发采集程序，或使用开源框架FLUME</li>
+<li>数据存储：你用hDFS分布式文件处理海量数据</li>
+<li>数据预处理：定制开发mapreduce程序运行于hadoop集群</li>
+<li>数据仓库技术：基于hadoop之上的Hive</li>
+<li>数据导出：基于hadoop的sqoop数据导入导出工具</li>
+<li>数据可视化：定制开发web程序或使用kettle等产品</li>
+<li>整个过程的流程调度：hadoop生态圈中的oozie工具或其他类似开源产品</li>
+</ul>
+<h2 id="hadoop集群搭建"><a href="#hadoop集群搭建" class="headerlink" title="hadoop集群搭建"></a>hadoop集群搭建</h2><h3 id="集群简介"><a href="#集群简介" class="headerlink" title="集群简介"></a>集群简介</h3><p>HADOOP集群具体来说包含两个集群：HDFS集群和YARN集群，两者逻辑上分离，但物理上常在一起</p>
+<ul>
+<li>HDFS集群：负责海量数据的存储，集群中的角色主要有 NameNode / DataNode</li>
+<li>YARN集群：负责海量数据运算时的资源调度，集群中的角色主要有 ResourceManager /NodeManager(那mapreduce是什么呢？它其实是一个应用程序开发包)</li>
+</ul>
+<p>服务器分配<br>本集群搭建案例，以5节点为例进行搭建，角色分配如下：</p>
+<table>
+<thead>
+<tr>
+<th>节点</th>
+<th>进程</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>node-1</td>
+<td>NameNode  SecondaryNameNode</td>
+</tr>
+<tr>
+<td>node-2</td>
+<td>ResourceManager</td>
+</tr>
+<tr>
+<td>node-3</td>
+<td>DataNode    NodeManager</td>
+</tr>
+<tr>
+<td>node-4</td>
+<td>DataNode    NodeManager</td>
+</tr>
+<tr>
+<td>node-5</td>
+<td>DataNode    NodeManager</td>
+</tr>
+</tbody>
+</table>
+<h3 id="服务器系统配置"><a href="#服务器系统配置" class="headerlink" title="服务器系统配置"></a>服务器系统配置</h3><ol>
+<li><p>配置系统网络，安装常用依赖包如文件上传、编辑器、网络工具</p>
+</li>
+<li><p>同步时间、配置各主机名称映射、配置ssh免密登陆</p>
+</li>
+<li><p>安装java环境</p>
+</li>
+</ol>
+<h3 id="hadoop集群安装部署"><a href="#hadoop集群安装部署" class="headerlink" title="hadoop集群安装部署"></a>hadoop集群安装部署</h3><ul>
+<li><p>上传HADOOP安装包并解压</p>
+</li>
+<li><p>规划安装目录  /export/servers/hadoop-2.7.7/</p>
+</li>
+<li><p>修改配置文件  $HADOOP_HOME/etc/hadoop/</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ vi /etc/profile</span><br><span class="line"></span><br><span class="line">export HADOOP_HOME=/export/servers/hadoop2.7.7</span><br><span class="line">export PATH=$PATH:$HADOOP_HOME/bin:$HADOOP_HOME/sbin</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ vi  hadoop-env.sh</span><br><span class="line"></span><br><span class="line">export JAVA_HOME=/usr/local//jdk1.8.0_191</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">$ vi  core-site.xml</span><br><span class="line"></span><br><span class="line">&lt;configuration&gt;   </span><br><span class="line">    &lt;property&gt;   </span><br><span class="line">        &lt;name&gt;fs.defaultFS&lt;/name&gt;   </span><br><span class="line">        &lt;value&gt;hdfs://hdp-node-01:9000&lt;/value&gt;   </span><br><span class="line">    &lt;/property&gt;   </span><br><span class="line">    &lt;property&gt;   </span><br><span class="line">        &lt;name&gt;hadoop.tmp.dir&lt;/name&gt;   </span><br><span class="line">        &lt;value&gt;/home/HADOOP/apps/hadoop-2.6.1/tmp&lt;/value&gt;</span><br><span class="line">    &lt;/property&gt;</span><br><span class="line">&lt;/configuration&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">$ vi  hdfs-site.xml</span><br><span class="line"></span><br><span class="line">&lt;configuration&gt;</span><br><span class="line">    &lt;property&gt;</span><br><span class="line">        &lt;name&gt;dfs.namenode.name.dir&lt;/name&gt;</span><br><span class="line">        &lt;value&gt;/home/hadoop/data/name&lt;/value&gt;</span><br><span class="line">    &lt;/property&gt;</span><br><span class="line">    &lt;property&gt;</span><br><span class="line">        &lt;name&gt;dfs.datanode.data.dir&lt;/name&gt;</span><br><span class="line">        &lt;value&gt;/home/hadoop/data/data&lt;/value&gt;</span><br><span class="line">    &lt;/property&gt;</span><br><span class="line"></span><br><span class="line">    &lt;property&gt;</span><br><span class="line">        &lt;name&gt;dfs.replication&lt;/name&gt;</span><br><span class="line">        &lt;value&gt;3&lt;/value&gt;</span><br><span class="line">    &lt;/property&gt;</span><br><span class="line"></span><br><span class="line">    &lt;property&gt;</span><br><span class="line">        &lt;name&gt;dfs.secondary.http.address&lt;/name&gt;</span><br><span class="line">        &lt;value&gt;hdp-node-01:50090&lt;/value&gt;</span><br><span class="line">    &lt;/property&gt;</span><br><span class="line">&lt;/configuration&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ vi  mapred-site.xml</span><br><span class="line"></span><br><span class="line">&lt;configuration&gt;</span><br><span class="line">    &lt;property&gt;</span><br><span class="line">        &lt;name&gt;mapreduce.framework.name&lt;/name&gt;</span><br><span class="line">        &lt;value&gt;yarn&lt;/value&gt;</span><br><span class="line">    &lt;/property&gt;</span><br><span class="line">&lt;/configuration&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">$ vi  yarn-site.xml</span><br><span class="line"></span><br><span class="line">&lt;configuration&gt;</span><br><span class="line">	&lt;property&gt;</span><br><span class="line">        &lt;name&gt;yarn.resourcemanager.hostname&lt;/name&gt;</span><br><span class="line">        &lt;value&gt;node-1&lt;/value&gt;</span><br><span class="line">    &lt;/property&gt;</span><br><span class="line"></span><br><span class="line">    &lt;property&gt;</span><br><span class="line">        &lt;name&gt;yarn.nodemanager.aux-services&lt;/name&gt;</span><br><span class="line">        &lt;value&gt;mapreduce_shuffle&lt;/value&gt;</span><br><span class="line">    &lt;/property&gt;</span><br><span class="line">&lt;/configuration&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ vi  salves</span><br><span class="line"></span><br><span class="line">node-3</span><br><span class="line">node-4</span><br><span class="line">node-5</span><br></pre></td></tr></table></figure>
+<h3 id="启动hadoop集群"><a href="#启动hadoop集群" class="headerlink" title="启动hadoop集群"></a>启动hadoop集群</h3><p>初始化HDFS<br><code>$HADOOP_HOME/sbin/hadoop  namenode  -format</code></p>
+<p>启动HDFS<br><code>$HADOOP_HOME/sbin/start-dfs.sh</code></p>
+<p>启动YARN<br><code>$HADOOP_HOME/sbin/start-yarn.sh</code></p>
+<p>启动所有<br><code>$HADOOP_HOME/sbin/start-all.sh</code></p>
+<h3 id="测试hadoop集群"><a href="#测试hadoop集群" class="headerlink" title="测试hadoop集群"></a>测试hadoop集群</h3><p>hdfs 常用操作<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">hadoop常用命令</span><br><span class="line"></span><br><span class="line"># 查看hadoop版本</span><br><span class="line">$ hadoop verion</span><br><span class="line"></span><br><span class="line"># 运行jar文件</span><br><span class="line">$ hadoop jar</span><br><span class="line"></span><br><span class="line"># 创建文件夹</span><br><span class="line">$ hadoop fs -mkdir -p /data/input</span><br><span class="line"></span><br><span class="line"># 递归查看文件夹</span><br><span class="line">$ hadoop fs -ls -R /data/input</span><br><span class="line"></span><br><span class="line"># 上传本地文件到HDFS</span><br><span class="line">$ hadoop fs -put /root/words.txt  /data/input</span><br><span class="line"></span><br><span class="line"># 查看HDFS上的文件</span><br><span class="line">$ hadoop fs -cat /data/input/words.txt</span><br><span class="line"></span><br><span class="line"># 删除HDFS上的文件</span><br><span class="line">$ hadoop fs -rm -f /data/input/words.txt</span><br></pre></td></tr></table></figure></p>
+<h3 id="运行一个mapreduce程序"><a href="#运行一个mapreduce程序" class="headerlink" title="运行一个mapreduce程序"></a>运行一个mapreduce程序</h3><blockquote>
+<p>在hadoop安装目录下，运行一个示例mr程序</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ cd $HADOOP_HOME/share/hadoop/mapreduce/</span><br><span class="line">$ hadoop jar hadoop-mapreduce-examples-2.7.7.jar wordcount /data/input /data/output</span><br></pre></td></tr></table></figure>
+<h3 id="集群使用初步"><a href="#集群使用初步" class="headerlink" title="集群使用初步"></a>集群使用初步</h3><blockquote>
+<p>可打开web控制台查看HDFS集群信息，在浏览器打开http:/node-1:50070/</p>
+</blockquote>
+<p>MAPREDUCE使用</p>
+<ul>
+<li>mapreduce是hadoop中的分布式运算编程框架，只要按照其编程规范，只需要编写少量的业务逻辑代码即可实现一个强大的海量数据并发处理程序</li>
+</ul>
+<h2 id="HDFS详解"><a href="#HDFS详解" class="headerlink" title="HDFS详解"></a>HDFS详解</h2><h3 id="HDFS前言"><a href="#HDFS前言" class="headerlink" title="HDFS前言"></a>HDFS前言</h3><p>设计思想</p>
+<ul>
+<li>分而治之：将大文件、大批量文件，分布式存放在大量服务器上，以便于采取分而治之的方式对海量数据进行运算分析；</li>
+</ul>
+<p>在大数据系统中作用：</p>
+<ul>
+<li>为各类分布式运算框架（如：mapreduce，spark，tez，……）提供数据存储服务</li>
+</ul>
+<p>重点概念</p>
+<ul>
+<li>文件切块，副本存放，元数据</li>
+</ul>
+<h3 id="HDFS的概念和特性"><a href="#HDFS的概念和特性" class="headerlink" title="HDFS的概念和特性"></a>HDFS的概念和特性</h3><blockquote>
+<p>首先，它是一个文件系统，用于存储文件，通过统一的命名空间——目录树来定位文件<br>其次，它是分布式的，由很多服务器联合起来实现其功能，集群中的服务器有各自的角色；</p>
+</blockquote>
+<ul>
+<li><p>重要特性如下：</p>
+<ul>
+<li><p>HDFS中的文件在物理上是分块存储（block），块的大小可以通过配置参数( dfs.blocksize)来规定，默认大小在hadoop2.x版本中是128M，老版本中是64M</p>
+</li>
+<li><p>HDFS文件系统会给客户端提供一个统一的抽象目录树，客户端通过路径来访问文件，形如：hdfs://host:port/xxx/xxx/file.data</p>
+</li>
+<li><p>目录结构及文件分块信息(元数据)的管理由namenode节点承担<br>——namenode是HDFS集群主节点，负责维护整个hdfs文件系统的目录树，以及每一个路径（文件）所对应的block块信息（block的id，及所在的datanode服务器）</p>
+</li>
+<li><p>文件的各个block的存储管理由datanode节点承担<br>—- datanode是HDFS集群从节点，每一个block都可以在多个datanode上存储多个副本（副本数量也可以通过参数设置dfs.replication）</p>
+</li>
+<li><p>HDFS是设计成适应一次写入，多次读出的场景，且不支持文件的修改</p>
+</li>
+</ul>
+</li>
+</ul>
+<p><strong>(注：适合用来做数据分析，并不适合用来做网盘应用，因为，不便修改，延迟大，网络开销大，成本太高)</strong></p>
+<h3 id="HDFS常用命令"><a href="#HDFS常用命令" class="headerlink" title="HDFS常用命令"></a>HDFS常用命令</h3><pre><code>* dfs == hadoop fs
+* dfs -mkdir /xxx              //在hdfs上创建目录
+* dfs -ls -r /xxx              //显示目录信息
+* dfs -lsr  /xxx          //递归查看HDFS目录文件
+* dfs -put a.html /xxx    //等同于copyFromLocal
+* dfs -get /xxx/a.html    //等同于copyToLocal，就是从hdfs下载文件到本地
+* dfs -rm -r -f /data     //删除文件夹下所有文件
+* dfs -cat    /xxx/a.txt      //显示文件内容
+* dfs -moveFromLocal         //从本地剪切粘贴到hdfs
+* dfs -moveToLocal             //从hdfs剪切粘贴到本地
+* dfs -appendToFile         //追加一个文件到已经存在的文件末尾
+* dfs -tail               //显示一个文件的末尾
+* dfs -cp                          //从hdfs的一个路径拷贝hdfs的另一个路径
+* dfs -mv                          //从hdfs的一个路径拷贝hdfs的另一个路径
+* dfs -rm                          //删除文件或文件夹
+* version 
+</code></pre><h3 id="HSFS原理"><a href="#HSFS原理" class="headerlink" title="HSFS原理"></a>HSFS原理</h3><ul>
+<li><p>hdfs工作机制</p>
+<p>（工作机制的学习主要是为加深对分布式系统的理解，以及增强遇到各种问题时的分析解决能力，形成一定的集群运维能力）</p>
+<p>  注：很多不是真正理解hadoop技术体系的人会常常觉得HDFS可用于网盘类应用，但实际并非如此。要想将技术准确用在恰当的地方，必须对技术有深刻的理解</p>
+</li>
+<li><p>概述</p>
+<ul>
+<li>HDFS集群分为两大角色：NameNode、DataNode  (Secondary Namenode)</li>
+<li>NameNode负责管理整个文件系统的元数据</li>
+<li>DataNode 负责管理用户的文件数据块</li>
+<li>文件会按照固定的大小（blocksize）切成若干块后分布式存储在若干台datanode上</li>
+<li>每一个文件块可以有多个副本，并存放在不同的datanode上</li>
+<li>Datanode会定期向Namenode汇报自身所保存的文件block信息，而namenode则会负责保持文件的副本数量</li>
+<li>HDFS的内部工作机制对客户端保持透明，客户端请求访问HDFS都是通过向namenode申请来进行</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p>HDFS上传文件的步骤</p>
+<p>客户端要向HDFS写数据，首先要跟namenode通信以确认可以写文件并获得接收文件block的datanode，然后，客户端按顺序将文件逐个block传递给相应datanode，并由接收到block的datanode负责向其他datanode复制block的副本</p>
+<ul>
+<li>根namenode通信请求上传文件，namenode检查目标文件是否已存在，父目录是否存在</li>
+<li>namenode返回是否可以上传</li>
+<li>client请求第一个 block该传输到哪些datanode服务器上</li>
+<li>namenode返回3个datanode服务器ABC</li>
+<li>client请求3台dn中的一台A上传数据（本质上是一个RPC调用，建立pipeline），A收到请求会继续调</li>
+<li>然后B调用C，将真个pipeline建立完成，逐级返回客户端</li>
+<li>client开始往A上传第一个block（先从磁盘读取数据放到一个本地内存缓存），以packet为单位，A收到一个packet就会传给B，B传给C；A每传一个packet会放入一个应答队列等待应答</li>
+<li>当一个block传输完成之后，client再次请求namenode上传第二个block的服务器。</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p>HDFS 读数据流程</p>
+<p>客户端将要读取的文件路径发送给namenode，namenode获取文件的元信息（主要是block的存放位置信息）返回给客户端，客户端根据返回的信息找到相应datanode逐个获取文件的block并在客户端本地进行数据追加合并从而获得整个文件</p>
+<ul>
+<li>跟namenode通信查询元数据，找到文件块所在的datanode服务器</li>
+<li>挑选一台datanode（就近原则，然后随机）服务器，请求建立socket流</li>
+<li>datanode开始发送数据（从磁盘里面读取数据放入流，以packet为单位来做校验）</li>
+<li>客户端以packet为单位接收，现在本地缓存，然后写入目标文件</li>
+</ul>
+</li>
+</ul>
+<h3 id="namenode工作机制"><a href="#namenode工作机制" class="headerlink" title="namenode工作机制"></a>namenode工作机制</h3><h4 id="namenode职责"><a href="#namenode职责" class="headerlink" title="namenode职责"></a>namenode职责</h4><blockquote>
+<p>负责客户端请求的响应，元数据的管理（查询，修改）</p>
+</blockquote>
+<h4 id="元数据管理"><a href="#元数据管理" class="headerlink" title="元数据管理"></a>元数据管理</h4><p>namenode对数据的管理采用了三种存储形式：</p>
+<ul>
+<li>内存元数据(NameSystem)</li>
+<li>磁盘元数据镜像文件</li>
+<li>数据操作日志文件（可通过日志运算出元数据）</li>
+</ul>
+<h5 id="元数据存储机制"><a href="#元数据存储机制" class="headerlink" title="元数据存储机制"></a>元数据存储机制</h5><ul>
+<li><p>内存中有一份完整的元数据(<strong>内存meta data</strong>)</p>
+</li>
+<li><p>磁盘有一个“准完整”的元数据镜像（<strong>fsimage</strong>）文件(在namenode的工作目录中</p>
+</li>
+<li><p>用于衔接内存metadata和持久化元数据镜像fsimage之间的操作日志（edits文件）</p>
+</li>
+</ul>
+<p><strong>注：当客户端对hdfs中的文件进行新增或者修改操作，操作记录首先被记入edits日志文件中，当客户端操作成功后，相应的元数据会更新到内存meta.data中</strong></p>
+<h5 id="元数据手动查看"><a href="#元数据手动查看" class="headerlink" title="元数据手动查看"></a>元数据手动查看</h5><ul>
+<li>可以通过hdfs的一个工具来查看edits中的信息</li>
+<li>bin/hdfs oev -i edits -o edits.xml</li>
+<li>bin/hdfs oiv -i fsimage_0000000000000000087 -p XML -o fsimage.xml</li>
+</ul>
+<h5 id="元数据的checkpoint"><a href="#元数据的checkpoint" class="headerlink" title="元数据的checkpoint"></a>元数据的checkpoint</h5><p>每隔一段时间，会由secondary namenode将namenode上积累的所有edits和一个最新的fsimage下载到本地，并加载到内存进行merge（这个过程称为checkpoint）</p>
+<h5 id="元数据目录说明"><a href="#元数据目录说明" class="headerlink" title="元数据目录说明"></a>元数据目录说明</h5><p>在第一次部署好Hadoop集群的时候，我们需要在NameNode（NN）节点上格式化磁盘：</p>
+<p>   $HADOOP_HOME/bin/hdfs   namenode -format   </p>
+<p>格式化完成之后，将会在$dfs.namenode.name.dir/current目录下如下的文件结构</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">current/</span><br><span class="line">|-- VERSION</span><br><span class="line">|-- edits_*</span><br><span class="line">|-- fsimage_0000000000008547077</span><br><span class="line">|-- fsimage_0000000000008547077.md5</span><br><span class="line">|-- seen_txid</span><br></pre></td></tr></table></figure>
+<p>其中的dfs.name.dir是在hdfs-site.xml文件中配置的，默认值如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;property&gt;</span><br><span class="line">  &lt;name&gt;dfs.name.dir&lt;/name&gt;</span><br><span class="line">  &lt;value&gt;file://$&#123;hadoop.tmp.dir&#125;/dfs/name&lt;/value&gt;</span><br><span class="line">&lt;/property&gt;</span><br><span class="line"></span><br><span class="line">hadoop.tmp.dir是在core-site.xml中配置的，默认值如下</span><br><span class="line">&lt;property&gt;</span><br><span class="line">  &lt;name&gt;hadoop.tmp.dir&lt;/name&gt;</span><br><span class="line">  &lt;value&gt;/tmp/hadoop-$&#123;user.name&#125;&lt;/value&gt;</span><br><span class="line">  &lt;description&gt;A base for other temporary directories.&lt;/description&gt;</span><br><span class="line">&lt;/property&gt;</span><br></pre></td></tr></table></figure>
+<p>dfs.namenode.name.dir属性可以配置多个目录，</p>
+<p>如/data1/dfs/name,/data2/dfs/name,/data3/dfs/name,….。各个目录存储的文件结构和内容都完全一样，相当于备份，这样做的好处是当其中一个目录损坏了，也不会影响到Hadoop的元数据，特别是当其中一个目录是NFS（网络文件系统Network File System，NFS）之上，即使你这台机器损坏了，元数据也得到保存。<br> 下面对$dfs.namenode.name.dir/current/目录下的文件进行解释。<br> 1、VERSION文件是Java属性文件，内容大致如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">#Fri Nov 15 19:47:46 CST 2013</span><br><span class="line">namespaceID=934548976</span><br><span class="line">clusterID=CID-cdff7d73-93cd-4783-9399-0a22e6dce196</span><br><span class="line">cTime=0</span><br><span class="line">storageType=NAME_NODE</span><br><span class="line">blockpoolID=BP-893790215-192.168.24.72-1383809616115</span><br><span class="line">layoutVersion=-47</span><br></pre></td></tr></table></figure>
+<p>其中<br> 　　(1).namespaceID是文件系统的唯一标识符，在文件系统首次格式化之后生成的；<br> 　　(2).storageType说明这个文件存储的是什么进程的数据结构信息（如果是DataNode，storageType=DATA_NODE）；<br> 　　(3).cTime表示NameNode存储时间的创建时间，由于我的NameNode没有更新过，所以这里的记录值为0，以后对NameNode升级之后，cTime将会记录更新时间戳；<br> 　　(4).layoutVersion表示HDFS永久性数据结构的版本信息， 只要数据结构变更，版本号也要递减，此时的HDFS也需要升级，否则磁盘仍旧是使用旧版本的数据结构，这会导致新版本的NameNode无法使用；<br> 　　(5).clusterID是系统生成或手动指定的集群ID，在-clusterid选项中可以使用它；如下说明</p>
+<p>​    a、使用如下命令格式化一个Namenode：</p>
+<p>​    <code>$HADOOP_HOME/bin/hdfs namenode -format [-clusterId &lt;cluster_id&gt;]</code></p>
+<p>​    选择一个唯一的cluster_id，并且这个cluster_id不能与环境中其他集群有冲突。如果没有提供cluster_id，则会自动生成一个唯一的ClusterID。</p>
+<p>​    b、使用如下命令格式化其他Namenode：</p>
+<pre><code>`$HADOOP_HOME/bin/hdfs namenode -format -clusterId &lt;cluster_id&gt;`
+</code></pre><p>​    c、升级集群至最新版本。在升级过程中需要提供一个ClusterID，例如：</p>
+<p>​    <code>$HADOOP_PREFIX_HOME/bin/hdfs start namenode --config $HADOOP_CONF_DIR  -upgrade -clusterId &lt;cluster_ID&gt;</code></p>
+<p>​    如果没有提供ClusterID，则会自动生成一个ClusterID。</p>
+<p>​    (6).blockpoolID：是针对每一个Namespace所对应的blockpool的ID，上面的这个BP-893790215-192.168.24.72-1383809616115就是在我的ns1的namespace下的存储块池的ID，这个ID包括了其对应的NameNode节点的ip地址。</p>
+<p>2、$dfs.namenode.name.dir/current/seen_txid非常重要，是存放transactionId的文件，format之后是0，它代表的是namenode里面的edits_*文件的尾数，namenode重启的时候，会按照seen_txid的数字，循序从头跑edits_0000001~到seen_txid的数字。所以当你的hdfs发生异常重启的时候，一定要比对seen_txid内的数字是不是你edits最后的尾数，不然会发生建置namenode时metaData的资料有缺少，导致误删Datanode上多余Block的资讯。</p>
+<p>3、$dfs.namenode.name.dir/current目录下在format的同时也会生成fsimage和edits文件，及其对应的md5校验文件。</p>
+<p>补充：seen_txid </p>
+<p>文件中记录的是edits滚动的序号，每次重启namenode时，namenode就知道要将哪些edits进行加载edits</p>
+<h3 id="DATANODE的工作机制"><a href="#DATANODE的工作机制" class="headerlink" title="DATANODE的工作机制"></a>DATANODE的工作机制</h3><h4 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h4><ul>
+<li><p>Datanode工作职责：<br>存储管理用户的文件块数据<br>定期向namenode汇报自身所持有的block信息（通过心跳信息上报）<br>（这点很重要，因为，当集群中发生某些block副本失效时，集群如何恢复block初始副本数量的问题）</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;property&gt;</span><br><span class="line">    &lt;name&gt;dfs.blockreport.intervalMsec&lt;/name&gt;</span><br><span class="line">    &lt;value&gt;3600000&lt;/value&gt;</span><br><span class="line">&lt;/property&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Datanode掉线判断时限参数<br>datanode进程死亡或者网络故障造成datanode无法与namenode通信，namenode不会立即把该节点判定为死亡，要经过一段时间，这段时间暂称作超时时长。HDFS默认的超时时长为10分钟+30秒。如果定义超时时间为timeout，则超时时长的计算公式为：<br><code>timeout  = 2 * heartbeat.recheck.interval + 10 * dfs.heartbeat.interval。</code></p>
+<p>  而默认的heartbeat.recheck.interval 大小为5分钟，dfs.heartbeat.interval默认为3秒。<br>  需要注意的是hdfs-site.xml 配置文件中的heartbeat.recheck.interval的单位为毫秒，dfs.heartbeat.interval的单位为秒。所以，举个例子，如果heartbeat.recheck.interval设置为5000（毫秒），dfs.heartbeat.interval设置为3（秒，默认），则总的超时时间为40秒。</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;property&gt;</span><br><span class="line">    &lt;name&gt;heartbeat.recheck.interval&lt;/name&gt;</span><br><span class="line">    &lt;value&gt;2000&lt;/value&gt;</span><br><span class="line">&lt;/property&gt;</span><br><span class="line">&lt;property&gt;</span><br><span class="line">    &lt;name&gt;dfs.heartbeat.interval&lt;/name&gt;</span><br><span class="line">    &lt;value&gt;1&lt;/value&gt;</span><br><span class="line">&lt;/property&gt;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="验证DATANODE功能"><a href="#验证DATANODE功能" class="headerlink" title="验证DATANODE功能"></a>验证DATANODE功能</h4><ul>
+<li>上传一个文件，观察文件的block具体的物理存放情况：</li>
+</ul>
+<p>在每一台datanode机器上的这个目录中能找到文件的切块：<br>/home/hadoop/app/hadoop-2.4.1/tmp/dfs/data/current/BP-193442119-192.168.2.120-1432457733977/current/finalized</p>
+<h3 id="hadoop-java客户端"><a href="#hadoop-java客户端" class="headerlink" title="hadoop java客户端"></a>hadoop java客户端</h3>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/02/04/hadoop/" data-id="cjrqbftz70013akc4vfk82y80" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2019/02/04/HBase/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/02/04/git-commit-standard/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/02/04/Crontab/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2019/02/04/CentOS-7.5-init/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2019/02/04/bash/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2019/02/04/awk/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2019/02/04/后台项目技术规范/">(no title)</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>

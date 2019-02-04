@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+
+  
+  <title>Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="springboot-jpa开发工具系统： windows10 开发工具： Intellij IDEA 2018.2.6 springboot: 2.0.6.RELEASE jdk： 1.8.0_192 maven: 3.6.0 数据库：mysql8 jpa简介什么是jpa JPA（Java Persistence API)是SUN官方推出的Java持久化规范，它为Java开发人员提供了一种对象/">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://yoursite.com/2019/02/04/SpringBoot-02-jpa/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="springboot-jpa开发工具系统： windows10 开发工具： Intellij IDEA 2018.2.6 springboot: 2.0.6.RELEASE jdk： 1.8.0_192 maven: 3.6.0 数据库：mysql8 jpa简介什么是jpa JPA（Java Persistence API)是SUN官方推出的Java持久化规范，它为Java开发人员提供了一种对象/">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-01-21T13:09:16.097Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Hexo">
+<meta name="twitter:description" content="springboot-jpa开发工具系统： windows10 开发工具： Intellij IDEA 2018.2.6 springboot: 2.0.6.RELEASE jdk： 1.8.0_192 maven: 3.6.0 数据库：mysql8 jpa简介什么是jpa JPA（Java Persistence API)是SUN官方推出的Java持久化规范，它为Java开发人员提供了一种对象/">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-SpringBoot-02-jpa" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/02/04/SpringBoot-02-jpa/" class="article-date">
+  <time datetime="2019-02-04T12:16:14.153Z" itemprop="datePublished">2019-02-04</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="springboot-jpa"><a href="#springboot-jpa" class="headerlink" title="springboot-jpa"></a>springboot-jpa</h1><h2 id="开发工具"><a href="#开发工具" class="headerlink" title="开发工具"></a>开发工具</h2><p>系统： windows10</p>
+<p>开发工具： Intellij IDEA 2018.2.6</p>
+<p>springboot: 2.0.6.RELEASE</p>
+<p>jdk： 1.8.0_192</p>
+<p>maven: 3.6.0</p>
+<p>数据库：mysql8</p>
+<h2 id="jpa简介"><a href="#jpa简介" class="headerlink" title="jpa简介"></a>jpa简介</h2><p><strong>什么是jpa</strong></p>
+<p>JPA（Java Persistence API)是SUN官方推出的Java持久化规范，它为Java开发人员提供了一种对象/关联映射工具来管理Java应用中的关系数据。它的出现主要是为了简化现有的持久化开发工作和整合ORM技术，结束现在Hibernate，TopLink，JDO等ORM框架各自为营的局面。值得注意的是，JPA是在充分吸收了现有Hibernate，TopLink，JDO 等ORM框架的基础上发展而来的，具有易于使用，伸缩性强等优点。从开发社区的反映上看，JPA手动极大的支持和赞扬，其中就包括了Spring与EJB3.0的开发团队，着眼未来几年的技术走向，JPA作为ORM领域的标准化者的目标应该不难实现。<br>JPA包括一下三方面的技术</p>
+<ul>
+<li><p>ORM映射元数据</p>
+<p>JPA支持XML和JDK5.0注释两种元数据形式，元数据描述对象和表之间的映射关系，框架据此将实体对象持久化到数据库表中。</p>
+</li>
+<li><p>Java持久化API</p>
+<p>用来操作实体对象，执行CRUD操作，框架在后台替我们完成所有的事情，开发者可以从繁琐的JDBC和SQL代码中解脱出来。</p>
+</li>
+<li><p>查询语言（JPQL）</p>
+<p>这是持久化操作中很重要的一个方面，通过面向对象而非面向数据库的查询语言查询数据，避免程序的SQL语句紧密耦合。</p>
+</li>
+</ul>
+<p><strong>JPA的优势</strong></p>
+<ul>
+<li>标准化</li>
+</ul>
+<p>　　JPA 是 JCP 组织发布的 Java EE 标准之一，因此任何声称符合 JPA 标准的框架都遵循同样的架构，提供相同的访问 API，这保证了基于JPA开发的企业应用能够经过少量的修改就能够在不同的JPA框架下运行。</p>
+<ul>
+<li>对容器级特性的支持</li>
+</ul>
+<p>　　JPA 框架中支持大数据集、事务、并发等容器级事务，这使得 JPA 超越了简单持久化框架的局限，在企业应用发挥更大的作用。</p>
+<ul>
+<li>简单易用，集成方便</li>
+</ul>
+<p>　　JPA的主要目标之一就是提供更加简单的编程模型：在JPA框架下创建实体和创建Java 类一样简单，没有任何的约束和限制，只需要使用 javax.persistence.Entity进行注释；JPA的框架和接口也都非常简单，没有太多特别的规则和设计模式的要求，开发者可以很容易的掌握。JPA基于非侵入式原则设计，因此可以很容易的和其它框架或者容器集成。</p>
+<ul>
+<li>可媲美JDBC的查询能力</li>
+</ul>
+<p>　　JPA的查询语言是面向对象而非面向数据库的，它以面向对象的自然语法构造查询语句，可以看成是Hibernate HQL的等价物。JPA定义了独特的JPQL（Java Persistence Query Language），JPQL是EJB QL的一种扩展，它是针对实体的一种查询语言，操作对象是实体，而不是关系数据库的表，而且能够支持批量更新和修改、JOIN、GROUP BY、HAVING 等通常只有 SQL 才能够提供的高级查询特性，甚至还能够支持子查询。</p>
+<ul>
+<li>支持面向对象的高级特性</li>
+</ul>
+<p>　　JPA 中能够支持面向对象的高级特性，如类之间的继承、多态和类之间的复杂关系，这样的支持能够让开发者最大限度的使用面向对象的模型设计企业应用，而不需要自行处理这些特性在关系数据库的持久化。</p>
+<p><strong>jpa常用注解</strong></p>
+<ul>
+<li>@Table</li>
+</ul>
+<p>标注实体和表的对应关系，若表名和类型相同时，省略@Table,比如类Users 和表 users若不相同时，必须有@Table，并设置name,为该类对应的表名。@Table(name=”users”)</p>
+<ul>
+<li>@Entity </li>
+</ul>
+<p>Entity说明这个class是实体类，并且使用默认的orm规则，即class名对应数据库表中表名，class字段名即表中的字段名。</p>
+<ul>
+<li>@Id </li>
+</ul>
+<p>声明当前field为映射表中的主键列。 id值的获取方式有五种：TABLE, SEQUENCE, IDENTITY, AUTO, NONE</p>
+<ul>
+<li>@Transient </li>
+</ul>
+<p>表示该属性并不是一个到数据库表的字段的映射，指定的这些属性不会被持久化，ORM框架将忽略该属性。 如果一个属性并非数据库表的字段映射。就务必将其标示为@Transient。否则，ORM框架默认其注解为@Basic</p>
+<ul>
+<li>@Version</li>
+</ul>
+<p>Version指定实体类在乐观事务中的version属性。在实体类重新由EntityManager管理并且加入到乐观事务中时，保证完整性。每一个类只能有一个属性被指定为version，version属性应该映射到实体类的主表上。</p>
+<ul>
+<li>@Column </li>
+</ul>
+<p>Column元数据定义了映射到数据库的列的所有属性：列名，是否唯一，是否允许为空，是否允许更新等。</p>
+<ul>
+<li><p>@Lob<br>Lob指定一个属性作为数据库支持的大对象类型在数据库中存储。使用LobType这个枚举来定义Lob是二进制类型还是字符类型。LobType枚举类型说明：BLOB 二进制大对象，Byte[]或者Serializable的类型可以指定为BLOB。 CLOB 字符型大对象，char[]、Character[]或String类型可以指定为CLOB。</p>
+</li>
+<li><p>@GeneratedValue</p>
+</li>
+</ul>
+<p>用于标注主键的生成策略，通过 strategy 属性指定。默认情况下，JPA自动选择一个最适合底层数据库的主键生成策略：javax.persistence.GenerationType中定义了以下几种可供选择的策略：IDENTITY：采用数据库 ID自增长的方式来自增主键字段，Oracle 不支持这种方式；AUTO： JPA自动选择合适的策略，是默认选项；SEQUENCE：通过序列产生主键，通过@SequenceGenerator 注解指定序列名，MySql 不支持这种方式TABLE：通过表产生主键，框架借由表模拟序列产生主键，使用该策略可以使应用更易于数据库移植。</p>
+<h2 id="创建项目和crud测试"><a href="#创建项目和crud测试" class="headerlink" title="创建项目和crud测试"></a>创建项目和crud测试</h2><ul>
+<li>pom.xml</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span><br><span class="line">&lt;project xmlns=&quot;http://maven.apache.org/POM/4.0.0&quot;</span><br><span class="line">         xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span><br><span class="line">         xsi:schemaLocation=&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd&quot;&gt;</span><br><span class="line"></span><br><span class="line">    &lt;groupId&gt;com.andy&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;spring-boot-data&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;1.0.7.RELEASE&lt;/version&gt;</span><br><span class="line">    &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;</span><br><span class="line"></span><br><span class="line">    &lt;dependencyManagement&gt;</span><br><span class="line">        &lt;dependencies&gt;</span><br><span class="line">            &lt;dependency&gt;</span><br><span class="line">                &lt;groupId&gt;io.spring.platform&lt;/groupId&gt;</span><br><span class="line">                &lt;artifactId&gt;platform-bom&lt;/artifactId&gt;</span><br><span class="line">                &lt;version&gt;Cairo-SR5&lt;/version&gt;</span><br><span class="line">                &lt;type&gt;pom&lt;/type&gt;</span><br><span class="line">                &lt;scope&gt;import&lt;/scope&gt;</span><br><span class="line">            &lt;/dependency&gt;</span><br><span class="line">        &lt;/dependencies&gt;</span><br><span class="line">    &lt;/dependencyManagement&gt;</span><br><span class="line"></span><br><span class="line">    &lt;dependencies&gt;</span><br><span class="line"></span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;</span><br><span class="line">        &lt;/dependency&gt;</span><br><span class="line"></span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;spring-boot-starter-data-jpa&lt;/artifactId&gt;</span><br><span class="line">        &lt;/dependency&gt;</span><br><span class="line"></span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;mysql&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;mysql-connector-java&lt;/artifactId&gt;</span><br><span class="line">        &lt;/dependency&gt;</span><br><span class="line"></span><br><span class="line">    &lt;/dependencies&gt;</span><br><span class="line"></span><br><span class="line">    &lt;build&gt;</span><br><span class="line">        &lt;plugins&gt;</span><br><span class="line">            &lt;plugin&gt;</span><br><span class="line">                &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;</span><br><span class="line">                &lt;artifactId&gt;maven-compiler-plugin&lt;/artifactId&gt;</span><br><span class="line">                &lt;version&gt;3.7.0&lt;/version&gt;</span><br><span class="line">                &lt;configuration&gt;</span><br><span class="line">                    &lt;source&gt;1.8&lt;/source&gt;</span><br><span class="line">                    &lt;target&gt;1.8&lt;/target&gt;</span><br><span class="line">                    &lt;encoding&gt;UTF-8&lt;/encoding&gt;</span><br><span class="line">                &lt;/configuration&gt;</span><br><span class="line">            &lt;/plugin&gt;</span><br><span class="line"></span><br><span class="line">            &lt;plugin&gt;</span><br><span class="line">                &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">                &lt;artifactId&gt;spring-boot-maven-plugin&lt;/artifactId&gt;</span><br><span class="line">                &lt;version&gt;2.0.3.RELEASE&lt;/version&gt;</span><br><span class="line">                &lt;configuration&gt;</span><br><span class="line">                    &lt;!--&lt;mainClass&gt;$&#123;start-class&#125;&lt;/mainClass&gt;--&gt;</span><br><span class="line">                    &lt;layout&gt;ZIP&lt;/layout&gt;</span><br><span class="line">                &lt;/configuration&gt;</span><br><span class="line">                &lt;executions&gt;</span><br><span class="line">                    &lt;execution&gt;</span><br><span class="line">                        &lt;goals&gt;</span><br><span class="line">                            &lt;goal&gt;repackage&lt;/goal&gt;</span><br><span class="line">                        &lt;/goals&gt;</span><br><span class="line">                    &lt;/execution&gt;</span><br><span class="line">                &lt;/executions&gt;</span><br><span class="line">            &lt;/plugin&gt;</span><br><span class="line">        &lt;/plugins&gt;</span><br><span class="line">    &lt;/build&gt;</span><br><span class="line"></span><br><span class="line">&lt;/project&gt;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>User.java</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line">import javax.persistence.*;</span><br><span class="line">import java.io.Serializable;</span><br><span class="line">import java.util.Date;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * &lt;p&gt;</span><br><span class="line"> *</span><br><span class="line"> * @author Leone</span><br><span class="line"> * @since 2018-01-24</span><br><span class="line"> **/</span><br><span class="line">@Entity</span><br><span class="line">@Table(name = &quot;t_user&quot;)</span><br><span class="line">public class User implements Serializable &#123;</span><br><span class="line"></span><br><span class="line">    @Id</span><br><span class="line">    @GeneratedValue(strategy = GenerationType.IDENTITY)</span><br><span class="line">    private Long userId;</span><br><span class="line"></span><br><span class="line">    @Column(columnDefinition = &quot;varchar(128) not null comment &apos;账号&apos;&quot;)</span><br><span class="line">    private String account;</span><br><span class="line"></span><br><span class="line">    @Column(columnDefinition = &quot;varchar(128) not null comment &apos;密码&apos;&quot;)</span><br><span class="line">    private String password;</span><br><span class="line"></span><br><span class="line">    @Column(columnDefinition = &quot;text comment &apos;简介&apos;&quot;)</span><br><span class="line">    private String description;</span><br><span class="line"></span><br><span class="line">    @Column(columnDefinition = &quot;int(11) not null comment &apos;年龄&apos;&quot;)</span><br><span class="line">    private Integer age;</span><br><span class="line"></span><br><span class="line">    @Column(columnDefinition = &quot;timestamp not null default current_timestamp comment &apos;创建时间&apos;&quot;)</span><br><span class="line">    private Date createTime;</span><br><span class="line"></span><br><span class="line">    @Column(columnDefinition = &quot;bit not null comment &apos;是否删除&apos;&quot;)</span><br><span class="line">    private boolean deleted;</span><br><span class="line"></span><br><span class="line">    public User() &#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public User(Long userId, String account, String password, String description, Integer age, Date createTime, Boolean deleted) &#123;</span><br><span class="line">        this.userId = userId;</span><br><span class="line">        this.account = account;</span><br><span class="line">        this.password = password;</span><br><span class="line">        this.description = description;</span><br><span class="line">        this.age = age;</span><br><span class="line">        this.createTime = createTime;</span><br><span class="line">        this.deleted = deleted;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // getter setter...</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>UserRepository.java</li>
+</ul>
+<p>由于 UserRepository 继承了 JpaSpecificationExecutor 所以jpa自带了一些通用的方法无需我们自己实现。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">import org.apache.ibatis.annotations.Param;</span><br><span class="line">import org.springframework.data.jpa.repository.JpaRepository;</span><br><span class="line">import org.springframework.data.jpa.repository.JpaSpecificationExecutor;</span><br><span class="line">import org.springframework.data.jpa.repository.Modifying;</span><br><span class="line">import org.springframework.data.jpa.repository.Query;</span><br><span class="line"></span><br><span class="line">import java.util.List;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * @author Leone</span><br><span class="line"> * @since 2018-05-11</span><br><span class="line"> **/</span><br><span class="line">public interface UserRepository extends JpaRepository&lt;User, Long&gt;, JpaSpecificationExecutor&lt;User&gt; &#123;</span><br><span class="line"></span><br><span class="line">    @Query(value = &quot;select * from t_user where account = ?1&quot;, nativeQuery = true)</span><br><span class="line">    User findUserByAccount(@Param(&quot;account&quot;) String account);</span><br><span class="line"></span><br><span class="line">    @Modifying</span><br><span class="line">    @Query(&quot;update User set deleted = 1 where userId in ?1&quot;)</span><br><span class="line">    Integer delByIds(List&lt;Integer&gt; ids);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>UserService.java</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br></pre></td><td class="code"><pre><span class="line">import com.andy.data.entity.User;</span><br><span class="line">import com.andy.data.repository.jpa.UserRepository;</span><br><span class="line">import com.andy.data.repository.mybatis.UserMapper;</span><br><span class="line">import lombok.extern.slf4j.Slf4j;</span><br><span class="line">import org.springframework.beans.factory.annotation.Autowired;</span><br><span class="line">import org.springframework.data.domain.Page;</span><br><span class="line">import org.springframework.data.domain.Pageable;</span><br><span class="line">import org.springframework.data.jpa.domain.Specification;</span><br><span class="line">import org.springframework.data.redis.core.RedisTemplate;</span><br><span class="line">import org.springframework.stereotype.Service;</span><br><span class="line">import org.springframework.util.StringUtils;</span><br><span class="line"></span><br><span class="line">import javax.persistence.criteria.CriteriaBuilder;</span><br><span class="line">import javax.persistence.criteria.CriteriaQuery;</span><br><span class="line">import javax.persistence.criteria.Predicate;</span><br><span class="line">import javax.persistence.criteria.Root;</span><br><span class="line">import java.util.ArrayList;</span><br><span class="line">import java.util.List;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * @author Leone</span><br><span class="line"> * @since 2018-07-08</span><br><span class="line"> **/</span><br><span class="line">@Service</span><br><span class="line">public class UserService &#123;</span><br><span class="line"></span><br><span class="line">    @Autowired</span><br><span class="line">    private UserRepository userRepository;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 查询所用</span><br><span class="line">     *</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    public List&lt;User&gt; getUsers() &#123;</span><br><span class="line">        return userRepository.findAll();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 根据主键查找</span><br><span class="line">     *</span><br><span class="line">     * @param userId</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    public User getUser(Long userId) &#123;</span><br><span class="line">        return userRepository.findById(userId).orElse(null);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 修改</span><br><span class="line">     *</span><br><span class="line">     * @param user</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    public User update(User user) &#123;</span><br><span class="line">        return userRepository.save(user);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 删除</span><br><span class="line">     *</span><br><span class="line">     * @param userId</span><br><span class="line">     */</span><br><span class="line">    public void delete(Long userId) &#123;</span><br><span class="line">        userRepository.deleteById(userId);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 条件查询分页</span><br><span class="line">     *</span><br><span class="line">     * @param pageable</span><br><span class="line">     * @param description</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    public Page&lt;User&gt; page(Pageable pageable, String description, Integer account) &#123;</span><br><span class="line">        Specification&lt;User&gt; specification = (Root&lt;User&gt; root, CriteriaQuery&lt;?&gt; criteriaQuery, CriteriaBuilder criteriaBuilder) -&gt; &#123;</span><br><span class="line">            List&lt;Predicate&gt; list = new ArrayList&lt;&gt;();</span><br><span class="line"></span><br><span class="line">            list.add(criteriaBuilder.equal(root.get(&quot;deleted&quot;).as(Integer.class), 0));</span><br><span class="line"></span><br><span class="line">            if (!StringUtils.isEmpty(description)) &#123;</span><br><span class="line">                list.add(criteriaBuilder.like(root.get(&quot;description&quot;), &quot;%&quot; + description + &quot;%&quot;));</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            if (!StringUtils.isEmpty(account)) &#123;</span><br><span class="line">                list.add(criteriaBuilder.equal(root.get(&quot;account&quot;).as(String.class), account));</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            Predicate[] predicates = new Predicate[list.size()];</span><br><span class="line">            criteriaQuery.where(list.toArray(predicates));</span><br><span class="line">            criteriaQuery.orderBy(criteriaBuilder.asc(root.get(&quot;userId&quot;)));</span><br><span class="line">            return criteriaQuery.getRestriction();</span><br><span class="line">        &#125;;</span><br><span class="line">        return userRepository.findAll(specification, pageable);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>启动类</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * @author Leone</span><br><span class="line"> * @since 2018-05-11</span><br><span class="line"> **/</span><br><span class="line">@SpringBootApplication</span><br><span class="line">public class JpaApplication &#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        SpringApplication.run(JpaApplication.class, args);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><a href="https://github.com/janlle/spring-boot-examples" target="_blank" rel="noopener">传送门</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/02/04/SpringBoot-02-jpa/" data-id="cjrqbftyg000pakc4ohgqx4qm" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2019/02/04/SpringBoot-2.x升级指南/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/02/04/SpringBoot-01/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/02/04/Crontab/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2019/02/04/CentOS-7.5-init/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2019/02/04/bash/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2019/02/04/awk/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2019/02/04/后台项目技术规范/">(no title)</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>

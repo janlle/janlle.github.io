@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+
+  
+  <title>Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="title: CentOSdate: 2018-01-05 11:31:12tags: [linux, shell, CentOS]categories: linux CentOS服务器初始化环境配置网络vi /etc/sysconfig/network-scripts/ifcfg-ens33 修改12BOOTPROTO=staticONBOOT=yes 新增123IPADDR=192.168.7">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://yoursite.com/2019/02/04/CentOS-7.5-init/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="title: CentOSdate: 2018-01-05 11:31:12tags: [linux, shell, CentOS]categories: linux CentOS服务器初始化环境配置网络vi /etc/sysconfig/network-scripts/ifcfg-ens33 修改12BOOTPROTO=staticONBOOT=yes 新增123IPADDR=192.168.7">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-02-04T12:22:44.207Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Hexo">
+<meta name="twitter:description" content="title: CentOSdate: 2018-01-05 11:31:12tags: [linux, shell, CentOS]categories: linux CentOS服务器初始化环境配置网络vi /etc/sysconfig/network-scripts/ifcfg-ens33 修改12BOOTPROTO=staticONBOOT=yes 新增123IPADDR=192.168.7">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-CentOS-7.5-init" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/02/04/CentOS-7.5-init/" class="article-date">
+  <time datetime="2019-02-04T12:16:14.425Z" itemprop="datePublished">2019-02-04</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>title: CentOS<br>date: 2018-01-05 11:31:12<br>tags: [linux, shell, CentOS]<br>categories: linux</p>
+<h1 id="CentOS服务器初始化环境"><a href="#CentOS服务器初始化环境" class="headerlink" title="CentOS服务器初始化环境"></a>CentOS服务器初始化环境</h1><h2 id="配置网络"><a href="#配置网络" class="headerlink" title="配置网络"></a>配置网络</h2><p><code>vi /etc/sysconfig/network-scripts/ifcfg-ens33</code></p>
+<p>修改<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">BOOTPROTO=static</span><br><span class="line">ONBOOT=yes</span><br></pre></td></tr></table></figure></p>
+<p>新增<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">IPADDR=192.168.79.11</span><br><span class="line">GATEWAY=192.168.79.2</span><br><span class="line">DNS1=192.168.1.253</span><br></pre></td></tr></table></figure></p>
+<p>重启网络<br><code>service network restart</code></p>
+<h2 id="设置火墙"><a href="#设置火墙" class="headerlink" title="设置火墙"></a>设置火墙</h2><ul>
+<li><p>防火墙启动关闭<br>  6.x=&gt; service firewalld [start/stop/status/restart]<br>  7.x=&gt; systemctl [start/stop/status/restart] firewalld.service</p>
+</li>
+<li><p>设置永久开启关闭<br>  systemctl disable firewalld.service<br>  systemctl enable firewalld.service</p>
+</li>
+</ul>
+<h2 id="安装常用依赖包"><a href="#安装常用依赖包" class="headerlink" title="安装常用依赖包"></a>安装常用依赖包</h2><pre><code>`yum update`
+</code></pre><ul>
+<li><p>vim编辑器</p>
+<p>  <code>yum install vim</code></p>
+</li>
+</ul>
+<ul>
+<li><p>上传下载文件工具</p>
+<p>  <code>yum install lrzsz</code></p>
+</li>
+</ul>
+<ul>
+<li><p>curl是强大的URL传输工具</p>
+<p>  <code>yum install crul</code></p>
+</li>
+</ul>
+<ul>
+<li><p>wget下载工具</p>
+<p>  <code>yum install wget</code></p>
+</li>
+</ul>
+<ul>
+<li><p>网络工具包</p>
+<p>  <code>yum install net-tools</code></p>
+</li>
+</ul>
+<ul>
+<li><p>gcc (nginx之类由c语言开发的，编译的时候需要用到)</p>
+<p>  <code>yum -y install gcc-c++</code></p>
+</li>
+<li><p>PCRE (Perl库，包括 perl 兼容的正则表达式库)</p>
+<p>  <code>yum -y install pcre pcre-devel</code></p>
+</li>
+<li><p>zlib (zlib库提供了很多种压缩和解压缩的方式)</p>
+<p>  <code>yum -y install zlib zlib-devel ruby</code></p>
+</li>
+<li><p>解压缩和压缩</p>
+<p>  <code>yum install -y unzip zip</code></p>
+</li>
+</ul>
+<ul>
+<li><p>openssl (OpenSSL 是一个强大的安全套接字层密码库，囊括主要的密码算法、常用的密钥和证书封装管理功能及SSL协议)</p>
+<p>  <code>yum -y install openssl openssl-devel patch</code></p>
+</li>
+</ul>
+<ul>
+<li><p>使用systemctl自动补全服务名称( 因为CentOS7的默认安装类型是最小安装，所以默认没有自动补全的功能)</p>
+<p>  <code>yum install -y bash-completion</code></p>
+</li>
+</ul>
+<p><code></code></p>
+<h2 id="安装各种环境"><a href="#安装各种环境" class="headerlink" title="安装各种环境"></a>安装各种环境</h2><p>## </p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/02/04/CentOS-7.5-init/" data-id="cjrqbftxb0002akc496krmaax" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2019/02/04/Crontab/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/02/04/bash/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/02/04/Crontab/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2019/02/04/CentOS-7.5-init/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2019/02/04/bash/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2019/02/04/awk/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2019/02/04/后台项目技术规范/">(no title)</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>

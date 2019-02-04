@@ -1,0 +1,1322 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+
+  
+  <title>Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://yoursite.com/page/3/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:locale" content="default">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Hexo">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-SpringBoot-2.x升级指南" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/02/04/SpringBoot-2.x升级指南/" class="article-date">
+  <time datetime="2019-02-04T12:16:14.174Z" itemprop="datePublished">2019-02-04</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Spring-Boot-2-0-升级指南"><a href="#Spring-Boot-2-0-升级指南" class="headerlink" title="Spring Boot 2.0 升级指南"></a>Spring Boot 2.0 升级指南</h1><p><strong>前言</strong></p>
+<p>Spring Boot已经发布2.0有5个月多，多了很多新特性，一些坑也慢慢被填上，最近有空，就把项目中Spring Boot 版本做了升级，顺便整理下升级的时候遇到的一些坑，做个记录，参考官方文档翻译。</p>
+<p><strong>开始之前</strong></p>
+<ul>
+<li><p>2.x 至少需要 JDK 8 的支持，2.x 里面的许多方法应用了 JDK 8 的许多高级新特性，所以你要升级到 2.0 版本，先确认你的应用必须兼容 JDK 8。<br>另外，2.x 开始了对 JDK 9 的支持。</p>
+</li>
+<li><p>2.x 对第三方类库升级了所有能升级的稳定版本，一些值得关注的类库升级我给列出来了。</p>
+<p>  1.Spring Framework 5+<br>  2.Tomcat 8.5+<br>  3.Flyway 5+<br>  4.Hibernate 5.2+<br>  5.Thymeleaf 3+</p>
+</li>
+</ul>
+<p>在 Spring Boot 2.0 中，许多配置属性被重新命名/删除，开发人员需要更新application.properties/ application.yml相应的配置。为了帮助你解决这一问题，Spring Boot 发布了一个新spring-boot-properties-migrator模块。一旦作为该模块作为依赖被添加到你的项目中，它不仅会分析应用程序的环境，而且还会在启动时打印诊断信息，而且还会在运行时为您暂时迁移属性。在您的应用程序迁移期间，这个模块是必备的：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;spring-boot-properties-migrator&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>注意：迁移完成之后，请确保从项目的依赖关系中移除该模块。</p>
+</blockquote>
+<p><strong>构建您的 Spring Boot 应用程序</strong></p>
+<p>Spring Boot Maven 插件<br>为了保持了一致性，并且避免与其他插件发生冲突，现在暴露的插件配置属性都以一个spring-boot前缀开始。</p>
+<p>例如，以下命令prod使用命令行启用配置文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mvn spring-boot:run -Dspring-boot.run.profiles=prod</span><br></pre></td></tr></table></figure>
+<p><strong>Spring Boot 新特性,默认动态代理策略</strong></p>
+<p>Spring Boot现在默认使用CGLIB动态代理(基于类的动态代理), 包括AOP. 如果需要基于接口的动态代理(JDK基于接口的动态代理) , 需要设置spring.aop.proxy-target-class属性为false.</p>
+<p><strong>开发 Web 应用程序嵌入式容器包装结构</strong> </p>
+<p>为了支持响应式用例，嵌入式容器包结构已经被大幅度的重构。 EmbeddedServletContainer已被重新命名为，WebServer并且该<code>org.springframework.boot.context.embedded</code>包已被重新定位到<code>org.springframework.boot.web.embedded</code>。例如，如果您使用TomcatEmbeddedServletContainerFactory回调接口定制嵌入式 Tomcat 容器，则应该使用TomcatServletWebServerFactory。</p>
+<p>特定于 Servlet 的服务器属性<br>许多server.* 属性 ( Servlet 特有的) 已经转移到server.servlet：</p>
+<table>
+<thead>
+<tr>
+<th>旧的属性</th>
+<th>新的属性</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>server.context-parameters.*</td>
+<td>server.servlet.context-parameters.*</td>
+</tr>
+<tr>
+<td>server.context-path</td>
+<td>server.servlet.context-path</td>
+</tr>
+<tr>
+<td>server.jsp.class-name</td>
+<td>server.servlet.jsp.class-name</td>
+</tr>
+<tr>
+<td>server.jsp.init-parameters.*</td>
+<td>server.servlet.jsp.init-parameters.*</td>
+</tr>
+<tr>
+<td>server.jsp.registered</td>
+<td>server.servlet.jsp.registered</td>
+</tr>
+<tr>
+<td>server.servlet-path</td>
+<td>server.servlet.path</td>
+</tr>
+</tbody>
+</table>
+<p><strong>模板引擎</strong></p>
+<p>Mustache模板默认的文件扩展名</p>
+<p>Mustache模板的文件扩展名曾经是.html。现在的扩展名为.mustache,与官方规格和大多数的IDE插件保持一致。你可以通过更改<code>spring.mustache.suffix</code>配置文件的configuration key来重写这个新的默认值。</p>
+<p><strong>Jackson/JSON支持</strong></p>
+<p>在2.0版本，我们已经设置Jackson配置文件的默认值，将ISO-8601 strings写作了JSR-310。如果你希望返回之前的设置，可以添加<code>spring.jackson.serialization.write-dates-as-timestamps=true</code> 到你的配置文件中。</p>
+<p>一个新的spring-boot-starter-json starter收集了必要的位去读写JSON。它不仅提供了jackson-databind，而且提供了和Java8一起运作的时候相当有用的组件：jackson-datatype-jdk8, jackson-datatype-jsr310 和jackson-module-parameter-names。如果你曾经手动地依赖这些组件，现在可以依赖这个新的starter取代。</p>
+<p><strong>HTTP/2 支持</strong></p>
+<p>为 Tomcat，Undertow 和 Jetty 提供 HTTP / 2 支持。支持取决于所选的 Web 服务器和应用程序环境（因为 JDK 8 不支持该协议）。</p>
+<p><strong>配置属性的绑定</strong></p>
+<p>在 Spring Boot 2.0 中，用于绑定Environment属性的机制<code>@ConfigurationProperties</code>已经完全彻底修改。我们借此机会收紧了松散绑定的规则，并修复了 Spring Boot 1.x 中的许多不一致之处。</p>
+<p>新的BinderAPI 也可以<code>@ConfigurationProperties</code>直接在你自己的代码之外使用。例如，下面将结合到List的CustomerProperty对象：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">List&lt;CustomerProperty&gt; people = Binder.get(applicationContext.getEnvironment())</span><br><span class="line">    .bind(&quot;customer.property&quot;, Bindable.listOf(CustomerProperty.class))</span><br><span class="line">    .orElseThrow(IllegalStateException::new);</span><br></pre></td></tr></table></figure>
+<p>配置源可以像这样在 YAML 中表示：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">customer:</span><br><span class="line">  property:</span><br><span class="line">  - first-name: wang</span><br><span class="line">    last-name: lao</span><br><span class="line">  - first-name: li</span><br><span class="line">    last-name: sheng</span><br></pre></td></tr></table></figure>
+<p><strong>Actuator 改进</strong></p>
+<p>在 Spring Boot 2.0 中 Actuator endpoints 有很大的改进。所有 HTTP Actuator endpoints 现在都在该/actuator路径下公开，并且生成的 JSON 有效负载得到了改进。</p>
+<p>我们现在也不会在默认情况下暴露很多端点。如果您要升级现有的 Spring Boot 1.5 应用程序，请务必查看迁移指南并特别注意该<code>management.endpoints.web.exposure.include</code>属性。</p>
+<p><strong>HikariCP</strong></p>
+<p>Spring Boot 2.0 中的默认数据库池技术已从 Tomcat Pool 切换到 HikariCP。我们发现 Hakari 提供了卓越的性能，我们的许多用户更喜欢 Tomcat Pool</p>
+<p><strong>初始化</strong></p>
+<p>数据库初始化逻辑在 Spring Boot 2.0 中已经合理化。Spring Batch，Spring Integration，Spring Session 和 Quartz的初始化现在仅在使用嵌入式数据库时才会默认发生。该enabled属性已被替换为更具表现力枚举。例如，如果你想一直执行 Spring Batch 的初始化，您可以设置spring.batch.initialize-schema=always。</p>
+<p>如果 Flyway 或 Liquibase 正在管理您的 DataSource 的模式，并且您正在使用嵌入式数据库，Spring Boot 现在会自动关闭 Hibernate 的自动 DDL 功能。</p>
+<p><strong>配置文件绑定</strong></p>
+<p>1.简单类型<br>在Spring Boot 2.0中对配置属性加载的时候会除了像1.x版本时候那样移除特殊字符外，还会将配置均以全小写的方式进行匹配和加载。所以，下面的4种配置方式都是等价的：</p>
+<ul>
+<li>properties格式：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">spring.jpa.databaseplatform=mysql</span><br><span class="line">spring.jpa.database-platform=mysql</span><br><span class="line">spring.jpa.databasePlatform=mysql</span><br><span class="line">spring.JPA.database_platform=mysql</span><br></pre></td></tr></table></figure>
+<ul>
+<li>yaml格式：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">spring:</span><br><span class="line">  jpa:</span><br><span class="line">    databaseplatform: mysql</span><br><span class="line">    database-platform: mysql</span><br><span class="line">    databasePlatform: mysql</span><br><span class="line">    database_platform: mysql</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>Tips：推荐使用全小写配合-分隔符的方式来配置，比如：spring.jpa.database-platform=mysql</p>
+<p>2.List类型<br>在properties文件中使用[]来定位列表类型，比如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">spring.my-example.url[0]=http://example.com</span><br><span class="line">spring.my-example.url[1]=http://spring.io</span><br></pre></td></tr></table></figure>
+<p>也支持使用逗号分割的配置方式，上面与下面的配置是等价的：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">spring.my-example.url=http://example.com,http://spring.io</span><br></pre></td></tr></table></figure>
+<p>而在yaml文件中使用可以使用如下配置：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">spring:</span><br><span class="line">  my-example:</span><br><span class="line">    url:</span><br><span class="line">      - http://example.com</span><br><span class="line">      - http://spring.io</span><br></pre></td></tr></table></figure>
+<p>也支持逗号分割的方式：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">spring:</span><br><span class="line">  my-example:</span><br><span class="line">    url: http://example.com, http://spring.io</span><br></pre></td></tr></table></figure>
+<p>注意：在Spring Boot 2.0中对于List类型的配置必须是连续的，不然会抛出UnboundConfigurationPropertiesException异常，所以如下配置是不允许的：<br>name[0]=aaa<br>name[2]=bbb<br>在Spring Boot 1.x中上述配置是可以的，name[1]由于没有配置，它的值会是null</p>
+<p>3.Map类型<br>Map类型在properties和yaml中的标准配置方式如下：</p>
+<p>properties格式：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">spring.my-example.foo=bar</span><br><span class="line">spring.my-example.hello=world</span><br></pre></td></tr></table></figure></p>
+<p>yaml格式：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">spring:</span><br><span class="line">  my-example:</span><br><span class="line">    foo: bar</span><br><span class="line">    hello: world</span><br></pre></td></tr></table></figure></p>
+<p>注意：如果Map类型的key包含非字母数字和-的字符，需要用[]括起来，比如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">spring:</span><br><span class="line">  my-example:</span><br><span class="line">    &apos;[foo.baz]&apos;: bar</span><br></pre></td></tr></table></figure>
+<p><strong>测试</strong><br>对 Spring Boot 2.0 中提供的测试支持进行了一些补充和调整：</p>
+<p>@WebFluxTest已添加新注释以支持 WebFlux 应用程序的“切片”测试。<br>Converter和GenericConverter豆类现在自动扫描@WebMvcTest和@WebFluxTest。<br>@AutoConfigureWebTestClient已经添加了一个注释来提供一个WebTestClientbean 供测试使用。注释会自动应用于@WebFluxTest测试。<br>增加了一个新的ApplicationContextRunner测试实用程序，可以很容易地测试您的自动配置。我们已将大部分内部测试套件移至此新模型。详细信息请参阅更新的文档。</p>
+<h3 id="升级遇到的一些问题总结"><a href="#升级遇到的一些问题总结" class="headerlink" title="升级遇到的一些问题总结"></a>升级遇到的一些问题总结</h3><p>1.Spring Data JPA 2.0.x findOne() 无效</p>
+<p>在使用 Spring Data JPA 中，根据 主键获得对象，一般是使用<code>&lt;S extends T&gt; S findOne(Example&lt;S&gt; example);</code> 方法，或者 <code>T getOne(ID id);</code>，在 spring-data-jpa  2.0.x版本中，获取单个对象的方法改为 <code>Optional&lt;T&gt; findById(ID id);</code>返回的是一个<code>Optional&lt;T&gt;</code>（java8新特性）Optional 类是一个可以为null的容器对象。如果值存在则isPresent()方法会返回true，调用get()方法会返回该对象。delete()方法和findOne()类似也被去掉了，可以使用deleteById(Long id)来替换，还有一个不同点是deleteById(Long id)默认实现返回值为void。</p>
+<p>spring-data-jpa 1.5.2 的CrudRepository 接口<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">@NoRepositoryBean</span><br><span class="line">public interface CrudRepository&lt;T, ID extends Serializable&gt; extends Repository&lt;T, ID&gt; &#123;</span><br><span class="line"></span><br><span class="line">    &lt;S extends T&gt; S save(S entity);</span><br><span class="line"></span><br><span class="line">    &lt;S extends T&gt; Iterable&lt;S&gt; save(Iterable&lt;S&gt; entities);</span><br><span class="line"></span><br><span class="line">    T findOne(ID id);</span><br><span class="line"></span><br><span class="line">    boolean exists(ID id);</span><br><span class="line"></span><br><span class="line">    Iterable&lt;T&gt; findAll();</span><br><span class="line"></span><br><span class="line">    Iterable&lt;T&gt; findAll(Iterable&lt;ID&gt; ids);</span><br><span class="line"></span><br><span class="line">    long count();</span><br><span class="line"></span><br><span class="line">    void delete(ID id);</span><br><span class="line"></span><br><span class="line">    void delete(T entity);</span><br><span class="line"></span><br><span class="line">    void delete(Iterable&lt;? extends T&gt; entities);</span><br><span class="line"></span><br><span class="line">    void deleteAll();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>spring-data-jpa 2.0.8 的CrudRepository 接口<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">@NoRepositoryBean</span><br><span class="line">public interface CrudRepository&lt;T, ID&gt; extends Repository&lt;T, ID&gt; &#123;</span><br><span class="line"></span><br><span class="line">    &lt;S extends T&gt; S save(S entity);</span><br><span class="line"></span><br><span class="line">    &lt;S extends T&gt; Iterable&lt;S&gt; saveAll(Iterable&lt;S&gt; entities);</span><br><span class="line"></span><br><span class="line">    Optional&lt;T&gt; findById(ID id);</span><br><span class="line"></span><br><span class="line">    boolean existsById(ID id);</span><br><span class="line"></span><br><span class="line">    Iterable&lt;T&gt; findAll();</span><br><span class="line"></span><br><span class="line">    Iterable&lt;T&gt; findAllById(Iterable&lt;ID&gt; ids);</span><br><span class="line"></span><br><span class="line">    long count();</span><br><span class="line"></span><br><span class="line">    void deleteById(ID id);</span><br><span class="line"></span><br><span class="line">    void delete(T entity);</span><br><span class="line"></span><br><span class="line">    void deleteAll(Iterable&lt;? extends T&gt; entities);</span><br><span class="line"></span><br><span class="line">    void deleteAll();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>2.<code>@GeneratedValue(strategy = GenerationType.AUTO)</code>Spring Boot 2.0 需要指定主键的自增策略，这个和 Spring Boot 1.0 有所区别，1.0 会使用默认的策略<code>@GeneratedValue(strategy = GenerationType.IDENTITY)</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">@Id</span><br><span class="line">@GeneratedValue(strategy= GenerationType.IDENTITY)</span><br><span class="line">private long id;</span><br></pre></td></tr></table></figure></p>
+<p>3.jpa2.0的方言设置如果需要指定InnoDB存储引擎可以使用<code>database-platform: org.hibernate.dialect.MySQL57InnoDBDialect</code>默认会使用myisam（不支持事务）在jpa中无法体现换成mybatis可以很好的验证。</p>
+<p>4.日志类报错：Spring Boot 2.0 默认不包含 log4j，建议使用 slf4j 。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">import org.apache.log4j.Logger;</span><br><span class="line">protected Logger logger = Logger.getLogger(this.getClass());</span><br></pre></td></tr></table></figure></p>
+<p>改为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">import org.slf4j.Logger;</span><br><span class="line">import org.slf4j.LoggerFactory;</span><br><span class="line">protected Logger logger =  LoggerFactory.getLogger(this.getClass());</span><br></pre></td></tr></table></figure></p>
+<p>5.Thymeleaf 3.0 默认不包含布局模块。</p>
+<p>将 Pom 包升级到 2.0之后，访问首页的时候一片空白什么都没有，查看后台也没有任何的报错信息，首先尝试着跟踪了 http 请求，对比了一下也没有发现什么异常，在查询 Thymeleaf 3.0 变化时才发现：Spring Boot 2.0 中spring-boot-starter-thymeleaf 包默认并不包含布局模块，需要使用的时候单独添加，添加布局模块如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">   &lt;groupId&gt;nz.net.ultraq.thymeleaf&lt;/groupId&gt;</span><br><span class="line">   &lt;artifactId&gt;thymeleaf-layout-dialect&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+<p>6.分页组件PageRequest变化。</p>
+<p>在 Spring Boot 2.0 中 ，方法new PageRequest(page, size, sort) 已经过期不再推荐使用，推荐使用以下方式来构建分页信息：<br><code>Pageable pageable =PageRequest.of(page, size, Sort.by(Sort.Direction.ASC,&quot;id&quot;));</code><br>跟踪了一下源码发现PageRequest.of()方法，内部还是使用的new PageRequest(page, size, sort)，只是最新的写法更简洁一些。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">public static PageRequest of(int page, int size, Sort sort) &#123;</span><br><span class="line">    return new PageRequest(page, size, sort);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/02/04/SpringBoot-2.x升级指南/" data-id="cjrqbftyj000sakc4v2r3r7ep" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-SpringBoot-02-jpa" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/02/04/SpringBoot-02-jpa/" class="article-date">
+  <time datetime="2019-02-04T12:16:14.153Z" itemprop="datePublished">2019-02-04</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="springboot-jpa"><a href="#springboot-jpa" class="headerlink" title="springboot-jpa"></a>springboot-jpa</h1><h2 id="开发工具"><a href="#开发工具" class="headerlink" title="开发工具"></a>开发工具</h2><p>系统： windows10</p>
+<p>开发工具： Intellij IDEA 2018.2.6</p>
+<p>springboot: 2.0.6.RELEASE</p>
+<p>jdk： 1.8.0_192</p>
+<p>maven: 3.6.0</p>
+<p>数据库：mysql8</p>
+<h2 id="jpa简介"><a href="#jpa简介" class="headerlink" title="jpa简介"></a>jpa简介</h2><p><strong>什么是jpa</strong></p>
+<p>JPA（Java Persistence API)是SUN官方推出的Java持久化规范，它为Java开发人员提供了一种对象/关联映射工具来管理Java应用中的关系数据。它的出现主要是为了简化现有的持久化开发工作和整合ORM技术，结束现在Hibernate，TopLink，JDO等ORM框架各自为营的局面。值得注意的是，JPA是在充分吸收了现有Hibernate，TopLink，JDO 等ORM框架的基础上发展而来的，具有易于使用，伸缩性强等优点。从开发社区的反映上看，JPA手动极大的支持和赞扬，其中就包括了Spring与EJB3.0的开发团队，着眼未来几年的技术走向，JPA作为ORM领域的标准化者的目标应该不难实现。<br>JPA包括一下三方面的技术</p>
+<ul>
+<li><p>ORM映射元数据</p>
+<p>JPA支持XML和JDK5.0注释两种元数据形式，元数据描述对象和表之间的映射关系，框架据此将实体对象持久化到数据库表中。</p>
+</li>
+<li><p>Java持久化API</p>
+<p>用来操作实体对象，执行CRUD操作，框架在后台替我们完成所有的事情，开发者可以从繁琐的JDBC和SQL代码中解脱出来。</p>
+</li>
+<li><p>查询语言（JPQL）</p>
+<p>这是持久化操作中很重要的一个方面，通过面向对象而非面向数据库的查询语言查询数据，避免程序的SQL语句紧密耦合。</p>
+</li>
+</ul>
+<p><strong>JPA的优势</strong></p>
+<ul>
+<li>标准化</li>
+</ul>
+<p>　　JPA 是 JCP 组织发布的 Java EE 标准之一，因此任何声称符合 JPA 标准的框架都遵循同样的架构，提供相同的访问 API，这保证了基于JPA开发的企业应用能够经过少量的修改就能够在不同的JPA框架下运行。</p>
+<ul>
+<li>对容器级特性的支持</li>
+</ul>
+<p>　　JPA 框架中支持大数据集、事务、并发等容器级事务，这使得 JPA 超越了简单持久化框架的局限，在企业应用发挥更大的作用。</p>
+<ul>
+<li>简单易用，集成方便</li>
+</ul>
+<p>　　JPA的主要目标之一就是提供更加简单的编程模型：在JPA框架下创建实体和创建Java 类一样简单，没有任何的约束和限制，只需要使用 javax.persistence.Entity进行注释；JPA的框架和接口也都非常简单，没有太多特别的规则和设计模式的要求，开发者可以很容易的掌握。JPA基于非侵入式原则设计，因此可以很容易的和其它框架或者容器集成。</p>
+<ul>
+<li>可媲美JDBC的查询能力</li>
+</ul>
+<p>　　JPA的查询语言是面向对象而非面向数据库的，它以面向对象的自然语法构造查询语句，可以看成是Hibernate HQL的等价物。JPA定义了独特的JPQL（Java Persistence Query Language），JPQL是EJB QL的一种扩展，它是针对实体的一种查询语言，操作对象是实体，而不是关系数据库的表，而且能够支持批量更新和修改、JOIN、GROUP BY、HAVING 等通常只有 SQL 才能够提供的高级查询特性，甚至还能够支持子查询。</p>
+<ul>
+<li>支持面向对象的高级特性</li>
+</ul>
+<p>　　JPA 中能够支持面向对象的高级特性，如类之间的继承、多态和类之间的复杂关系，这样的支持能够让开发者最大限度的使用面向对象的模型设计企业应用，而不需要自行处理这些特性在关系数据库的持久化。</p>
+<p><strong>jpa常用注解</strong></p>
+<ul>
+<li>@Table</li>
+</ul>
+<p>标注实体和表的对应关系，若表名和类型相同时，省略@Table,比如类Users 和表 users若不相同时，必须有@Table，并设置name,为该类对应的表名。@Table(name=”users”)</p>
+<ul>
+<li>@Entity </li>
+</ul>
+<p>Entity说明这个class是实体类，并且使用默认的orm规则，即class名对应数据库表中表名，class字段名即表中的字段名。</p>
+<ul>
+<li>@Id </li>
+</ul>
+<p>声明当前field为映射表中的主键列。 id值的获取方式有五种：TABLE, SEQUENCE, IDENTITY, AUTO, NONE</p>
+<ul>
+<li>@Transient </li>
+</ul>
+<p>表示该属性并不是一个到数据库表的字段的映射，指定的这些属性不会被持久化，ORM框架将忽略该属性。 如果一个属性并非数据库表的字段映射。就务必将其标示为@Transient。否则，ORM框架默认其注解为@Basic</p>
+<ul>
+<li>@Version</li>
+</ul>
+<p>Version指定实体类在乐观事务中的version属性。在实体类重新由EntityManager管理并且加入到乐观事务中时，保证完整性。每一个类只能有一个属性被指定为version，version属性应该映射到实体类的主表上。</p>
+<ul>
+<li>@Column </li>
+</ul>
+<p>Column元数据定义了映射到数据库的列的所有属性：列名，是否唯一，是否允许为空，是否允许更新等。</p>
+<ul>
+<li><p>@Lob<br>Lob指定一个属性作为数据库支持的大对象类型在数据库中存储。使用LobType这个枚举来定义Lob是二进制类型还是字符类型。LobType枚举类型说明：BLOB 二进制大对象，Byte[]或者Serializable的类型可以指定为BLOB。 CLOB 字符型大对象，char[]、Character[]或String类型可以指定为CLOB。</p>
+</li>
+<li><p>@GeneratedValue</p>
+</li>
+</ul>
+<p>用于标注主键的生成策略，通过 strategy 属性指定。默认情况下，JPA自动选择一个最适合底层数据库的主键生成策略：javax.persistence.GenerationType中定义了以下几种可供选择的策略：IDENTITY：采用数据库 ID自增长的方式来自增主键字段，Oracle 不支持这种方式；AUTO： JPA自动选择合适的策略，是默认选项；SEQUENCE：通过序列产生主键，通过@SequenceGenerator 注解指定序列名，MySql 不支持这种方式TABLE：通过表产生主键，框架借由表模拟序列产生主键，使用该策略可以使应用更易于数据库移植。</p>
+<h2 id="创建项目和crud测试"><a href="#创建项目和crud测试" class="headerlink" title="创建项目和crud测试"></a>创建项目和crud测试</h2><ul>
+<li>pom.xml</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span><br><span class="line">&lt;project xmlns=&quot;http://maven.apache.org/POM/4.0.0&quot;</span><br><span class="line">         xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span><br><span class="line">         xsi:schemaLocation=&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd&quot;&gt;</span><br><span class="line"></span><br><span class="line">    &lt;groupId&gt;com.andy&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;spring-boot-data&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;1.0.7.RELEASE&lt;/version&gt;</span><br><span class="line">    &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;</span><br><span class="line"></span><br><span class="line">    &lt;dependencyManagement&gt;</span><br><span class="line">        &lt;dependencies&gt;</span><br><span class="line">            &lt;dependency&gt;</span><br><span class="line">                &lt;groupId&gt;io.spring.platform&lt;/groupId&gt;</span><br><span class="line">                &lt;artifactId&gt;platform-bom&lt;/artifactId&gt;</span><br><span class="line">                &lt;version&gt;Cairo-SR5&lt;/version&gt;</span><br><span class="line">                &lt;type&gt;pom&lt;/type&gt;</span><br><span class="line">                &lt;scope&gt;import&lt;/scope&gt;</span><br><span class="line">            &lt;/dependency&gt;</span><br><span class="line">        &lt;/dependencies&gt;</span><br><span class="line">    &lt;/dependencyManagement&gt;</span><br><span class="line"></span><br><span class="line">    &lt;dependencies&gt;</span><br><span class="line"></span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;</span><br><span class="line">        &lt;/dependency&gt;</span><br><span class="line"></span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;spring-boot-starter-data-jpa&lt;/artifactId&gt;</span><br><span class="line">        &lt;/dependency&gt;</span><br><span class="line"></span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;mysql&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;mysql-connector-java&lt;/artifactId&gt;</span><br><span class="line">        &lt;/dependency&gt;</span><br><span class="line"></span><br><span class="line">    &lt;/dependencies&gt;</span><br><span class="line"></span><br><span class="line">    &lt;build&gt;</span><br><span class="line">        &lt;plugins&gt;</span><br><span class="line">            &lt;plugin&gt;</span><br><span class="line">                &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;</span><br><span class="line">                &lt;artifactId&gt;maven-compiler-plugin&lt;/artifactId&gt;</span><br><span class="line">                &lt;version&gt;3.7.0&lt;/version&gt;</span><br><span class="line">                &lt;configuration&gt;</span><br><span class="line">                    &lt;source&gt;1.8&lt;/source&gt;</span><br><span class="line">                    &lt;target&gt;1.8&lt;/target&gt;</span><br><span class="line">                    &lt;encoding&gt;UTF-8&lt;/encoding&gt;</span><br><span class="line">                &lt;/configuration&gt;</span><br><span class="line">            &lt;/plugin&gt;</span><br><span class="line"></span><br><span class="line">            &lt;plugin&gt;</span><br><span class="line">                &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">                &lt;artifactId&gt;spring-boot-maven-plugin&lt;/artifactId&gt;</span><br><span class="line">                &lt;version&gt;2.0.3.RELEASE&lt;/version&gt;</span><br><span class="line">                &lt;configuration&gt;</span><br><span class="line">                    &lt;!--&lt;mainClass&gt;$&#123;start-class&#125;&lt;/mainClass&gt;--&gt;</span><br><span class="line">                    &lt;layout&gt;ZIP&lt;/layout&gt;</span><br><span class="line">                &lt;/configuration&gt;</span><br><span class="line">                &lt;executions&gt;</span><br><span class="line">                    &lt;execution&gt;</span><br><span class="line">                        &lt;goals&gt;</span><br><span class="line">                            &lt;goal&gt;repackage&lt;/goal&gt;</span><br><span class="line">                        &lt;/goals&gt;</span><br><span class="line">                    &lt;/execution&gt;</span><br><span class="line">                &lt;/executions&gt;</span><br><span class="line">            &lt;/plugin&gt;</span><br><span class="line">        &lt;/plugins&gt;</span><br><span class="line">    &lt;/build&gt;</span><br><span class="line"></span><br><span class="line">&lt;/project&gt;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>User.java</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line">import javax.persistence.*;</span><br><span class="line">import java.io.Serializable;</span><br><span class="line">import java.util.Date;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * &lt;p&gt;</span><br><span class="line"> *</span><br><span class="line"> * @author Leone</span><br><span class="line"> * @since 2018-01-24</span><br><span class="line"> **/</span><br><span class="line">@Entity</span><br><span class="line">@Table(name = &quot;t_user&quot;)</span><br><span class="line">public class User implements Serializable &#123;</span><br><span class="line"></span><br><span class="line">    @Id</span><br><span class="line">    @GeneratedValue(strategy = GenerationType.IDENTITY)</span><br><span class="line">    private Long userId;</span><br><span class="line"></span><br><span class="line">    @Column(columnDefinition = &quot;varchar(128) not null comment &apos;账号&apos;&quot;)</span><br><span class="line">    private String account;</span><br><span class="line"></span><br><span class="line">    @Column(columnDefinition = &quot;varchar(128) not null comment &apos;密码&apos;&quot;)</span><br><span class="line">    private String password;</span><br><span class="line"></span><br><span class="line">    @Column(columnDefinition = &quot;text comment &apos;简介&apos;&quot;)</span><br><span class="line">    private String description;</span><br><span class="line"></span><br><span class="line">    @Column(columnDefinition = &quot;int(11) not null comment &apos;年龄&apos;&quot;)</span><br><span class="line">    private Integer age;</span><br><span class="line"></span><br><span class="line">    @Column(columnDefinition = &quot;timestamp not null default current_timestamp comment &apos;创建时间&apos;&quot;)</span><br><span class="line">    private Date createTime;</span><br><span class="line"></span><br><span class="line">    @Column(columnDefinition = &quot;bit not null comment &apos;是否删除&apos;&quot;)</span><br><span class="line">    private boolean deleted;</span><br><span class="line"></span><br><span class="line">    public User() &#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public User(Long userId, String account, String password, String description, Integer age, Date createTime, Boolean deleted) &#123;</span><br><span class="line">        this.userId = userId;</span><br><span class="line">        this.account = account;</span><br><span class="line">        this.password = password;</span><br><span class="line">        this.description = description;</span><br><span class="line">        this.age = age;</span><br><span class="line">        this.createTime = createTime;</span><br><span class="line">        this.deleted = deleted;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // getter setter...</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>UserRepository.java</li>
+</ul>
+<p>由于 UserRepository 继承了 JpaSpecificationExecutor 所以jpa自带了一些通用的方法无需我们自己实现。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">import org.apache.ibatis.annotations.Param;</span><br><span class="line">import org.springframework.data.jpa.repository.JpaRepository;</span><br><span class="line">import org.springframework.data.jpa.repository.JpaSpecificationExecutor;</span><br><span class="line">import org.springframework.data.jpa.repository.Modifying;</span><br><span class="line">import org.springframework.data.jpa.repository.Query;</span><br><span class="line"></span><br><span class="line">import java.util.List;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * @author Leone</span><br><span class="line"> * @since 2018-05-11</span><br><span class="line"> **/</span><br><span class="line">public interface UserRepository extends JpaRepository&lt;User, Long&gt;, JpaSpecificationExecutor&lt;User&gt; &#123;</span><br><span class="line"></span><br><span class="line">    @Query(value = &quot;select * from t_user where account = ?1&quot;, nativeQuery = true)</span><br><span class="line">    User findUserByAccount(@Param(&quot;account&quot;) String account);</span><br><span class="line"></span><br><span class="line">    @Modifying</span><br><span class="line">    @Query(&quot;update User set deleted = 1 where userId in ?1&quot;)</span><br><span class="line">    Integer delByIds(List&lt;Integer&gt; ids);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>UserService.java</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br></pre></td><td class="code"><pre><span class="line">import com.andy.data.entity.User;</span><br><span class="line">import com.andy.data.repository.jpa.UserRepository;</span><br><span class="line">import com.andy.data.repository.mybatis.UserMapper;</span><br><span class="line">import lombok.extern.slf4j.Slf4j;</span><br><span class="line">import org.springframework.beans.factory.annotation.Autowired;</span><br><span class="line">import org.springframework.data.domain.Page;</span><br><span class="line">import org.springframework.data.domain.Pageable;</span><br><span class="line">import org.springframework.data.jpa.domain.Specification;</span><br><span class="line">import org.springframework.data.redis.core.RedisTemplate;</span><br><span class="line">import org.springframework.stereotype.Service;</span><br><span class="line">import org.springframework.util.StringUtils;</span><br><span class="line"></span><br><span class="line">import javax.persistence.criteria.CriteriaBuilder;</span><br><span class="line">import javax.persistence.criteria.CriteriaQuery;</span><br><span class="line">import javax.persistence.criteria.Predicate;</span><br><span class="line">import javax.persistence.criteria.Root;</span><br><span class="line">import java.util.ArrayList;</span><br><span class="line">import java.util.List;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * @author Leone</span><br><span class="line"> * @since 2018-07-08</span><br><span class="line"> **/</span><br><span class="line">@Service</span><br><span class="line">public class UserService &#123;</span><br><span class="line"></span><br><span class="line">    @Autowired</span><br><span class="line">    private UserRepository userRepository;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 查询所用</span><br><span class="line">     *</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    public List&lt;User&gt; getUsers() &#123;</span><br><span class="line">        return userRepository.findAll();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 根据主键查找</span><br><span class="line">     *</span><br><span class="line">     * @param userId</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    public User getUser(Long userId) &#123;</span><br><span class="line">        return userRepository.findById(userId).orElse(null);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 修改</span><br><span class="line">     *</span><br><span class="line">     * @param user</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    public User update(User user) &#123;</span><br><span class="line">        return userRepository.save(user);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 删除</span><br><span class="line">     *</span><br><span class="line">     * @param userId</span><br><span class="line">     */</span><br><span class="line">    public void delete(Long userId) &#123;</span><br><span class="line">        userRepository.deleteById(userId);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 条件查询分页</span><br><span class="line">     *</span><br><span class="line">     * @param pageable</span><br><span class="line">     * @param description</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    public Page&lt;User&gt; page(Pageable pageable, String description, Integer account) &#123;</span><br><span class="line">        Specification&lt;User&gt; specification = (Root&lt;User&gt; root, CriteriaQuery&lt;?&gt; criteriaQuery, CriteriaBuilder criteriaBuilder) -&gt; &#123;</span><br><span class="line">            List&lt;Predicate&gt; list = new ArrayList&lt;&gt;();</span><br><span class="line"></span><br><span class="line">            list.add(criteriaBuilder.equal(root.get(&quot;deleted&quot;).as(Integer.class), 0));</span><br><span class="line"></span><br><span class="line">            if (!StringUtils.isEmpty(description)) &#123;</span><br><span class="line">                list.add(criteriaBuilder.like(root.get(&quot;description&quot;), &quot;%&quot; + description + &quot;%&quot;));</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            if (!StringUtils.isEmpty(account)) &#123;</span><br><span class="line">                list.add(criteriaBuilder.equal(root.get(&quot;account&quot;).as(String.class), account));</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            Predicate[] predicates = new Predicate[list.size()];</span><br><span class="line">            criteriaQuery.where(list.toArray(predicates));</span><br><span class="line">            criteriaQuery.orderBy(criteriaBuilder.asc(root.get(&quot;userId&quot;)));</span><br><span class="line">            return criteriaQuery.getRestriction();</span><br><span class="line">        &#125;;</span><br><span class="line">        return userRepository.findAll(specification, pageable);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>启动类</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * @author Leone</span><br><span class="line"> * @since 2018-05-11</span><br><span class="line"> **/</span><br><span class="line">@SpringBootApplication</span><br><span class="line">public class JpaApplication &#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        SpringApplication.run(JpaApplication.class, args);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><a href="https://github.com/janlle/spring-boot-examples" target="_blank" rel="noopener">传送门</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/02/04/SpringBoot-02-jpa/" data-id="cjrqbftyg000pakc4ohgqx4qm" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-SpringBoot-01" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/02/04/SpringBoot-01/" class="article-date">
+  <time datetime="2019-02-04T12:16:14.133Z" itemprop="datePublished">2019-02-04</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Spring-Boot"><a href="#Spring-Boot" class="headerlink" title="Spring Boot"></a>Spring Boot</h1><p><strong>Spring Boot 简介</strong></p>
+<p>Spring Boot是由Pivotal团队提供的全新框架，其设计目的是用来简化新Spring应用的初始搭建以及开发过程。该框架使用了特定的方式来进行配置，从而使开发人员不再需要定义样板化的配置。通过这种方式，Boot致力于在蓬勃发展的快速应用开发领域（rapid application development）成为领导者。</p>
+<p><strong>Spring Boot特点</strong> </p>
+<ol>
+<li>创建独立的Spring应用程序</li>
+<li>嵌入的Tomcat，无需部署WAR文件</li>
+<li>简化Maven配置</li>
+<li>自动配置Spring</li>
+<li>提供生产就绪型功能，如指标，健康检查和外部配置</li>
+<li>绝对没有代码生成和对XML没有要求配置</li>
+</ol>
+<p><strong>Spring Boot 主要目标是</strong></p>
+<ul>
+<li><p>为所有 Spring 的开发提供一个从根本上更快的入门体验</p>
+</li>
+<li><p>开箱即用，但通过自己设置参数，即可快速摆脱这种方式。</p>
+</li>
+<li><p>提供了一些大型项目中常见的非功能性特性，如内嵌服务器、安全、指标，健康检测、外部化配置等</p>
+</li>
+<li><p>绝对没有代码生成，也无需 XML 配置。</p>
+</li>
+</ul>
+<h2 id="应用的全局配置文件"><a href="#应用的全局配置文件" class="headerlink" title="应用的全局配置文件"></a>应用的全局配置文件</h2><p>可以在Spring Boot项目的src/main/resources目录下或者在类路径下创建一个全局的配置文件application.properties或者application.yml的文件用于修改Spring Boot项目的默认配置值，例如修改项目的默认端口，或者进入DispatcherServlet的请求地址规则等。通常，在实际开发中我们习惯使用application.properties文件作为应用的全局配置文件，一般我们放到src/main/resources目录下。例如,在src/main/resources目录下创建一个名称为application.yml的文件，配置内容如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">spring:</span><br><span class="line">  application:</span><br><span class="line">    name: spring-boot-demo</span><br><span class="line">server:</span><br><span class="line">  port: 8080</span><br><span class="line">  servlet:</span><br><span class="line">    context-path: /demo</span><br></pre></td></tr></table></figure>
+<h2 id="Starters启动器"><a href="#Starters启动器" class="headerlink" title="Starters启动器"></a>Starters启动器</h2><p>Spring Boot为我们提供了简化项目开发的Starter启动器，例如我们在项目中使用的pom.xml文件下配置：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+<p>Spring Boot就会自动关联web开发相关的依赖，如Tomcat以及spring-webmvc等，进而对web开发进行支持，同时相关技术的配置也将实现自动配置,程序员即可从繁琐的配置文件中脱身而出了。除此之外，官方还提供了如下Starters：</p>
+<ul>
+<li><p>spring-boot-starter：这是Spring Boot的核心启动器，包含了自动配置、日志和YAML文件的支持。</p>
+</li>
+<li><p>spring-boot-starter-activemq：为JMS使用Apache ActiveMQ ActiveMQ 是Apache出品，最流行的，能力强劲的开源消息总线</p>
+</li>
+<li><p>spring-boot-starter-amqp：通过spring-rabbit来支持AMQP协议（Advanced Message Queuing Protocol）。</p>
+</li>
+<li><p>spring-boot-starter-aop：支持面向方面的编程即AOP，包括spring-aop和AspectJ。</p>
+</li>
+<li><p>spring-boot-starter-artemis：通过Apache Artemis支持JMS的API（Java Message Service API）。</p>
+</li>
+<li><p>spring-boot-starter-batch：支持Spring Batch，包括HSQLDB数据库。</p>
+</li>
+<li><p>spring-boot-starter-cache：支持Spring的Cache抽象。</p>
+</li>
+<li><p>spring-boot-starter-cloud-connectors：支持Spring Cloud Connectors，简化了在像Cloud Foundry或Heroku这样的云平台上连接服务。</p>
+</li>
+<li><p>spring-boot-starter-data-cassandra：使用Cassandra分布式数据库、Spring Data Cassandra,Apache Cassandra是一套开源分布式NoSQL数据库系统。</p>
+</li>
+<li><p>spring-boot-starter-data-couchbase：使用Couchbase 文件存储数据库、Spring Data Couchbase。Spring Data是一个用于简化数据库访问，并支持云服务的开源框架。</p>
+</li>
+<li><p>spring-boot-starter-data-elasticsearch：支持ElasticSearch搜索和分析引擎，包括spring-data-elasticsearch。</p>
+</li>
+<li><p>spring-boot-starter-data-gemfire：支持GemFire分布式数据存储，包括spring-data-gemfire。</p>
+</li>
+<li><p>spring-boot-starter-data-jpa：支持JPA（Java Persistence API），包括spring-data-jpa、spring-orm、Hibernate。</p>
+</li>
+<li><p>spring-boot-starter-data-ldap：支持 Spring Data LDAP。</p>
+</li>
+<li><p>spring-boot-starter-data-mongodb：支持MongoDB数据，包括spring-data-mongodb。</p>
+</li>
+<li><p>spring-boot-starter-data-neo4j：使用Neo4j图形数据库、Spring Data Neo4j Neo4j是一个高性能的，NOSQL图形数据库，它将结构化数据存储在网络上而不是表中。</p>
+</li>
+<li><p>spring-boot-starter-redis：支持Redis键值存储数据库，包括spring-redis。</p>
+</li>
+<li><p>spring-boot-starter-data-rest：通过spring-data-rest-webmvc，支持通过REST暴露Spring Data数据仓库。</p>
+</li>
+<li><p>spring-boot-starter-data-solr：支持Apache Solr搜索平台，包括spring-data-solr。</p>
+</li>
+<li><p>spring-boot-starter-freemarker：支持FreeMarker模板引擎。</p>
+</li>
+<li><p>spring-boot-starter-groovy-templates：支持Groovy模板引擎。</p>
+</li>
+<li><p>spring-boot-starter-hateoas：通过spring-hateoas支持基于HATEOAS的RESTful Web服务。</p>
+</li>
+<li><p>spring-boot-starter-integration：支持通用的spring-integration模块。</p>
+</li>
+<li><p>spring-boot-starter-jdbc：支持JDBC数据库。</p>
+</li>
+<li><p>spring-boot-starter-jersey：支持Jersey RESTful Web服务框架。</p>
+</li>
+<li><p>spring-boot-starter-hornetq：通过HornetQ支持JMS。</p>
+</li>
+<li><p>spring-boot-starter-jta-atomikos：通过Atomikos支持JTA分布式事务处理。</p>
+</li>
+<li><p>spring-boot-starter-jta-bitronix：通过Bitronix支持JTA分布式事务处理。</p>
+</li>
+<li><p>spring-boot-starter-mail：支持javax.mail模块。</p>
+</li>
+<li><p>spring-boot-starter-mobile：支持spring-mobile。</p>
+</li>
+<li><p>spring-boot-starter-mustache：支持Mustache模板引擎。</p>
+</li>
+<li><p>spring-boot-starter-security：支持spring-security。</p>
+</li>
+<li><p>spring-boot-starter-social-facebook：支持spring-social-facebook</p>
+</li>
+<li><p>spring-boot-starter-social-linkedin：支持pring-social-linkedin</p>
+</li>
+<li><p>spring-boot-starter-social-twitter：支持pring-social-twitter</p>
+</li>
+<li><p>spring-boot-starter-test：支持常规的测试依赖，包括JUnit、Hamcrest、Mockito以及spring-test模块。</p>
+</li>
+<li><p>spring-boot-starter-thymeleaf：支持Thymeleaf模板引擎，包括与Spring的集成。</p>
+</li>
+<li><p>spring-boot-starter-velocity：支持Velocity模板引擎。</p>
+</li>
+<li><p>spring-boot-starter-web：支持全栈式Web开发，包括Tomcat和spring-webmvc。</p>
+</li>
+<li><p>spring-boot-starter-websocket：支持WebSocket开发。</p>
+</li>
+<li><p>spring-boot-starter-ws：支持Spring Web Services。</p>
+</li>
+</ul>
+<h2 id="Spring-Boot-自动配置的原理"><a href="#Spring-Boot-自动配置的原理" class="headerlink" title="Spring Boot 自动配置的原理"></a>Spring Boot 自动配置的原理</h2><p>Spring Boot在进行SpringApplication对象实例化时会加载META-INF/spring.factories文件，将该配置文件中的配置载入到Spring容器，进行自动配置。</p>
+<h2 id="开始开发-Spring-Boot-应用"><a href="#开始开发-Spring-Boot-应用" class="headerlink" title="开始开发 Spring Boot 应用"></a>开始开发 Spring Boot 应用</h2><ul>
+<li><p>起步依赖</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span><br><span class="line">&lt;project xmlns=&quot;http://maven.apache.org/POM/4.0.0&quot;</span><br><span class="line">         xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span><br><span class="line">         xsi:schemaLocation=&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd&quot;&gt;</span><br><span class="line">    &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;</span><br><span class="line"></span><br><span class="line">    &lt;groupId&gt;com.andy&lt;/groupId&gt;</span><br><span class="line">    &lt;version&gt;1.0.0.RELEASE&lt;/version&gt;</span><br><span class="line">    &lt;artifactId&gt;spring-boot-demo&lt;/artifactId&gt;</span><br><span class="line"></span><br><span class="line">    &lt;dependencyManagement&gt;</span><br><span class="line">        &lt;dependencies&gt;</span><br><span class="line">            &lt;dependency&gt;</span><br><span class="line">                &lt;groupId&gt;io.spring.platform&lt;/groupId&gt;</span><br><span class="line">                &lt;artifactId&gt;platform-bom&lt;/artifactId&gt;</span><br><span class="line">                &lt;version&gt;Cairo-SR2&lt;/version&gt;</span><br><span class="line">                &lt;type&gt;pom&lt;/type&gt;</span><br><span class="line">                &lt;scope&gt;import&lt;/scope&gt;</span><br><span class="line">            &lt;/dependency&gt;</span><br><span class="line">        &lt;/dependencies&gt;</span><br><span class="line">    &lt;/dependencyManagement&gt;</span><br><span class="line"></span><br><span class="line">    &lt;dependencies&gt;</span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;</span><br><span class="line">        &lt;/dependency&gt;</span><br><span class="line">    &lt;/dependencies&gt;</span><br><span class="line"></span><br><span class="line">&lt;/project&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>启动类</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">@SpringBootApplication</span><br><span class="line">public class App &#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        SpringApplication.run(App.class, args);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>启动后访问localhost:8080/hello</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">@RestController</span><br><span class="line">public class HelloWorldController &#123;</span><br><span class="line"></span><br><span class="line">    @RequestMapping(&quot;/hello&quot;)</span><br><span class="line">    public String hello() &#123;</span><br><span class="line">        return &quot;Hello,World!&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/02/04/SpringBoot-01/" data-id="cjrqbftxj0006akc4j2ueu2zz" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-SpringBoot-00-template" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/02/04/SpringBoot-00-template/" class="article-date">
+  <time datetime="2019-02-04T12:16:14.132Z" itemprop="datePublished">2019-02-04</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="spring-boot-aop"><a href="#spring-boot-aop" class="headerlink" title="spring-boot-aop"></a>spring-boot-aop</h1><h2 id="开发环境"><a href="#开发环境" class="headerlink" title="开发环境"></a>开发环境</h2><p>开发工具：Intellij IDEA 2018.2.6</p>
+<p>springboot: 2.0.6.RELEASE</p>
+<p>jdk：1.8.0_192</p>
+<p>maven: 3.6.0</p>
+<h2 id="spring-boot-aop-1"><a href="#spring-boot-aop-1" class="headerlink" title="spring-boot-aop"></a>spring-boot-aop</h2><ul>
+<li>pom.xml</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<ul>
+<li>启动类</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<ul>
+<li>application.yml</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p><a href="https://github.com/janlle/spring-boot-examples" target="_blank" rel="noopener">github</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/02/04/SpringBoot-00-template/" data-id="cjrqbftxh0005akc4atgqgmpp" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Spark" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/02/04/Spark/" class="article-date">
+  <time datetime="2019-02-04T12:16:14.124Z" itemprop="datePublished">2019-02-04</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="spark"><a href="#spark" class="headerlink" title="spark"></a>spark</h1><h2 id="spark背景"><a href="#spark背景" class="headerlink" title="spark背景"></a>spark背景</h2><h3 id="什么是spark"><a href="#什么是spark" class="headerlink" title="什么是spark"></a>什么是spark</h3><p>Spark是一种快速、通用、可扩展的大数据分析引擎，2009年诞生于加州大学伯克利分校AMPLab，2010年开源，2013年6月成为Apache孵化项目，2014年2月成为Apache顶级项目。目前，Spark生态系统已经发展成为一个包含多个子项目的集合，其中包含SparkSQL、Spark Streaming、GraphX、MLlib等子项目，Spark是基于内存计算的大数据并行计算框架。Spark基于内存计算，提高了在大数据环境下数据处理的实时性，同时保证了高容错性和高可伸缩性，允许用户将Spark部署在大量廉价硬件之上，形成集群。</p>
+<h3 id="Spark与Hadoop"><a href="#Spark与Hadoop" class="headerlink" title="Spark与Hadoop"></a>Spark与Hadoop</h3><p>Spark是一个计算框架,而Hadoop中包含计算框架MapReduce和分布式文件系统HDFS,Hadoop更广泛地说还包括在其生态系统上的其他系统.</p>
+<h3 id="为什么使用Spark"><a href="#为什么使用Spark" class="headerlink" title="为什么使用Spark?"></a>为什么使用Spark?</h3><p>Hadoop的MapReduce计算模型存在问题:<br>Hadoop的MapReduce的核心是Shuffle(洗牌).在整个Shuffle的过程中,至少产生6次I/O流.基于MapReduce计算引擎通常会将结果输出到次盘上,进行存储和容错.另外,当一些查询(如:hive)翻译到MapReduce任务是,往往会产生多个Stage,而这些Stage有依赖底层文件系统来存储每一个Stage的输出结果,而I/O的效率往往较低,从而影响MapReduce的运行速度.</p>
+<h3 id="Spark的特点-快-易用-通用-兼容性"><a href="#Spark的特点-快-易用-通用-兼容性" class="headerlink" title="Spark的特点: 快, 易用, 通用,兼容性"></a>Spark的特点: 快, 易用, 通用,兼容性</h3><ul>
+<li>快：与Hadoop的MapReduce相比，Spark基于内存的运算要快100倍以上，基于硬盘的运算也要快10倍以上。Spark实现了高效的DAG执行引擎，可以通过基于内存来高效处理数据流。</li>
+<li>易用：Spark支持Java、Python和Scala的API，还支持超过80种高级算法，使用户可以快速构建不同的应用。而且Spark支持交互式的Python和Scala的shell，可以非常方便地在这些shell中使用Spark集群来验证解决问题的方法。</li>
+<li>通用：Spark提供了统一的解决方案。Spark可以用于批处理、交互式查询（Spark SQL）、实时流处理（Spark Streaming）、机器学习（Spark MLlib）和图计算（GraphX）。这些不同类型的处理都可以在同一个应用中无缝使用。Spark统一的解决方案非常具有吸引力，毕竟任何公司都想用统一的平台去处理遇到的问题，减少开发和维护的人力成本和部署平台的物力成本。</li>
+<li>兼容性：Spark 可以非常方便地与其他的开源产品进行融合。比如，Spark 可以使用Hadoop 的 YARN 和 Apache Mesos 作为它的资源管理和调度器.并且可以处理所有 Hadoop 支持的数据，包括 HDFS、HBase 和 Cassandra 等。这对于已经部署Hadoop 集群的用户特别重要，因为不需要做任何数据迁移就可以使用 Spark 的强大处理能力。Spark 也可以不依赖于第三方的资源管理和调度器，它实现了Standalone 作为其内置的资源管理和调度框架，这样进一步降低了 Spark 的使用门槛，使得所有人都可以非常容易地部署和使用 Spark。此外，Spark 还提供了在EC2 上部Standalone 的 Spark 集群的工具。</li>
+</ul>
+<h3 id="Spark的生态系统"><a href="#Spark的生态系统" class="headerlink" title="Spark的生态系统"></a>Spark的生态系统</h3><ul>
+<li>1.Spark Streaming:<br>Spark Streaming基于微批量方式的计算和处理,可以用于处理实时的流数据.它使用DStream,简单来说是一个弹性分布式数据集(RDD)系列,处理实时数据.数据可以从Kafka,Flume,Kinesis或TCP套接字等众多来源获取,并且可以使用由高级函数（如 map，reduce，join 和 window）开发的复杂算法进行流数据处理。最后，处理后的数据可以被推送到文件系统，数据库和实时仪表板。</li>
+<li>2.Spark SQL<br>SPark SQL可以通过JDBC API将Spark数据集暴露出去,而且还可以用传统的BI和可视化工具在Spark数据上执行类似SQL的查询,用户哈可以用Spark SQL对不同格式的数据(如Json, Parque以及数据库等)执行ETl,将其转化,然后暴露特定的查询.</li>
+<li>3.Spark MLlib<br>MLlib是一个可扩展的Spark机器学习库，由通用的学习算法和工具组成，包括二元分类、线性回归、聚类、协同过滤、梯度下降以及底层优化原语。</li>
+<li>4.Spark Graphx:<br>GraphX是用于图计算和并行图计算的新的（alpha）Spark API。通过引入弹性分布式属性图（Resilient Distributed Property Graph），一种顶点和边都带有属性的有向多重图，扩展了Spark RDD。为了支持图计算，GraphX暴露了一个基础操作符集合（如subgraph，joinVertices和aggregateMessages）和一个经过优化的Pregel API变体。此外，GraphX还包括一个持续增长的用于简化图分析任务的图算法和构建器集合。</li>
+<li>5.Tachyon<br>Tachyon是一个以内存为中心的分布式文件系统,能够提供内存级别速度的跨集群框架(如Spark和mapReduce)的可信文件共享.它将工作集文件缓存在内存中,从而避免到磁盘中加载需要经常读取的数据集,通过这一机制,不同的作业/查询和框架可以内存级的速度访问缓存文件.<br>此外，还有一些用于与其他产品集成的适配器，如Cassandra（Spark Cassandra 连接器）和R（SparkR）。Cassandra Connector可用于访问存储在Cassandra数据库中的数据并在这些数据上执行数据分析。</li>
+<li>6.Mesos<br>Mesos是一个资源管理框架<br>提供类似于YARN的功能<br>用户可以在其中插件式地运行Spark,MapReduce,Tez等计算框架任务<br>Mesos对资源和任务进行隔离,并实现高效的资源任务调度</li>
+<li>7.BlinkDB<br>BlinkDB是一个用于在海量数据上进行交互式SQL的近似查询引擎<br>允许用户通过查询准确性和查询时间之间做出权衡,完成近似查询<br>核心思想:通过一个自适应优化框架,随着时间的推移,从原始数据建立并维护一组多维样本,通过一个动态样本选择策略,选择一个适当大小的示例,然后基于查询的准确性和响应时间满足用户查询需求</li>
+</ul>
+<p>除了这些库意外,还有一些其他的库,如Blink和Tachyon.<br>BlinkDB是一个近似查询 引擎,用于海量数据执行交互式SQL查询.BlinkDB可以通过牺牲数据精度来提升查询响应时间.通过在数据样本上执行查询并展示包含有意义的错误线注解的结果,操作大数据集合.</p>
+<p>Spark架构采用了分布式计算中的Master-Slave模型。Master是对应集群中的含有Master进程的节点，Slave是集群中含有Worker进程的节点。Master作为整个集群的控制器，负责整个集群的正常运行；Worker相当于是计算节点，接收主节点命令与进行状态汇报；Executor负责任务的执行；Client作为用户的客户端负责提交应用，Driver负责控制一个应用的执行.<br>Spark集群部署后,需要在主节点和从节点分别启动master进程和Worker进程,对整个集群进行控制.在一个Spark应用的执行程序中.Driver和Worker是两个重要的角色.Driver程序是应用逻辑执行的起点，负责作业的调度,即Task任务的发布,而多个Worker用来管理计算节点和创建Executor并行处理任务.在执行阶段,Driver会将Task和Task所依赖的file和jar序列化后传递给对应的Worker机器.同时Executor对相应数据分区的任务进行处理.</p>
+<h3 id="Sparkde架构中的基本组件"><a href="#Sparkde架构中的基本组件" class="headerlink" title="Sparkde架构中的基本组件:"></a>Sparkde架构中的基本组件:</h3><ul>
+<li>ClusterManager:在standlone模式中即为Master(主节点),控制整个集群.监控Worker.在Yarn模式中为资源管理器.</li>
+<li>Worker:从节点,负责控制计算节点,启动Ex而粗投入或Driver</li>
+<li>NodeManager:负责计算节点的控制。</li>
+<li>Driver:运行Application的main() 函数并创建SparkContext</li>
+<li>Executor: 执行器,在worker node上执行任务组件,用于启动线程执行任务.每个Application拥有独立的一组Executors</li>
+<li>SparkContext: 整个应用的上下文,监控应用的生命周期</li>
+<li>RDD:弹性分布式集合,spark的基本计算单元，一组RDD可形成执行的有向无环图RDD Graph</li>
+<li>DAG Scheduler: 根据作业(Job)构建基于Stage的DAG,并交给Stage给TaskScheduler</li>
+<li>TaskScheduler：将任务（Task）分发给Executor执行 </li>
+<li>SparkEnv：线程级别的上下文，存储运行时的重要组件的引用。SparkEnv内创建并包含如下一些重要组件的引用。</li>
+<li>MapOutPutTracker：负责Shuffle元信息的存储。</li>
+<li>BroadcastManager：负责广播变量的控制与元信息的存储。</li>
+<li>BlockManager：负责存储管理、创建和查找块。</li>
+<li>MetricsSystem：监控运行时性能指标信息。</li>
+<li>SparkConf：负责存储配置信息。</li>
+<li>Spark的整体流程:client提交应用,Master找到一个Worker启动Driver,Driver向Master或者向资源管理器申请资源,之后将应用转化为RDD Graph，再由DAGScheduler将RDD Graph转化为Stage的有向无环图提交给TaskScheduler，由TaskScheduler提交任务给Executor执行。在任务执行的过程中，其他组件协同工作，确保整个应用顺利执行。</li>
+</ul>
+<h2 id="搭建spark集群"><a href="#搭建spark集群" class="headerlink" title="搭建spark集群"></a>搭建spark集群</h2><blockquote>
+<p>安装java环境,spark自动会把scala SDK打包到spark中无需安装scala环境</p>
+</blockquote>
+<h3 id="配置spark"><a href="#配置spark" class="headerlink" title="配置spark"></a>配置spark</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ cp $SPARK_HOME/conf/spark-env.sh.template spark-env.sh</span><br><span class="line">$ vim $SPARK_HOME/conf/spark-env.sh</span><br><span class="line"></span><br><span class="line">添加</span><br><span class="line">export JAVA_HOME=/usr/java/jdk1.8.0_191</span><br><span class="line"></span><br><span class="line">#export SPARK_MASTER_IP=node-1</span><br><span class="line">#export SPARK_MASTER_PORT=7077</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ cp $SPARK_HOME/conf/slaves.template slaves</span><br><span class="line"></span><br><span class="line">$ vi slaves</span><br><span class="line"># 在该文件中添加子节点所在的位置（Worker节点）</span><br><span class="line">node-2</span><br><span class="line">node-3</span><br><span class="line">node-4</span><br></pre></td></tr></table></figure>
+<h3 id="启动spark集群"><a href="#启动spark集群" class="headerlink" title="启动spark集群"></a>启动spark集群</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$SPARK_HOME/sbin/start-master.sh</span><br><span class="line"></span><br><span class="line">$SPARK_HOME/sbin/start-slaves.sh</span><br></pre></td></tr></table></figure>
+<p>启动后执行jps命令，主节点上有Master进程，其他子节点上有Work进行，登录Spark管理界面查看集群状态（主节点）：<a href="http://node-1:8080/" target="_blank" rel="noopener">http://node-1:8080/</a></p>
+<p>到此为止，Spark集群安装完毕，但是有一个很大的问题，那就是Master节点存在单点故障，要解决此问题，就要借助zookeeper，并且启动至少两个Master节点来实现高可靠，配置方式比较简单：</p>
+<p>Spark集群规划：node-1，node-2是Master；node-3，node-4，node-5是Worker</p>
+<p>安装配置zk集群，并启动zk集群</p>
+<p>停止spark所有服务，修改配置文件spark-env.sh，在该配置文件中删掉SPARK_MASTER_IP并添加如下配置</p>
+<p>export SPARK_DAEMON_JAVA_OPTS=”-Dspark.deploy.recoveryMode=ZOOKEEPER -Dspark.deploy.zookeeper.url=zk1,zk2,zk3 -Dspark.deploy.zookeeper.dir=/spark”</p>
+<p>1.在node1节点上修改slaves配置文件内容指定worker节点</p>
+<p>2.在node1上执行$SPARK_HOME/sbin/start-all.sh，然后在node2上执行$SPARK_HOME/sbin/start-master.sh启动第二个Master</p>
+<h3 id="执行第一个spark程序"><a href="#执行第一个spark程序" class="headerlink" title="执行第一个spark程序"></a>执行第一个spark程序</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$SPARK_HOME/bin/spark-submit --class org.apache.spark.examples.SparkPi --master spark://localhost:7077 --executor-memory 1G --total-executor-cores 1 $SPARK_HOME/examples/jars/spark-examples_2.11-2.2.2.jar 100</span><br></pre></td></tr></table></figure>
+<h3 id="spark-Shell"><a href="#spark-Shell" class="headerlink" title="spark Shell"></a>spark Shell</h3><p>spark-shell是Spark自带的交互式Shell程序，方便用户进行交互式编程，用户可以在该命令行下用scala编写spark程序。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$SPARK_HOME/bin/spark-shell \</span><br><span class="line"></span><br><span class="line">--master spark://localhost:7077 \</span><br><span class="line"></span><br><span class="line">--executor-memory 2g \</span><br><span class="line"></span><br><span class="line">--total-executor-cores 2</span><br></pre></td></tr></table></figure>
+<p>参数说明：</p>
+<p>–master spark://localhost:7077       指定Master的地址</p>
+<p>–executor-memory 2g                指定每个worker可用内存为2G</p>
+<p>–total-executor-cores 2                指定整个集群使用的cup核数为2个</p>
+<p>注意：</p>
+<p>如果启动spark shell时没有指定master地址，但是也可以正常启动spark shell和执行spark shell中的程序，其实是启动了spark的local模式，该模式仅在本机启动一个进程，没有与集群建立联系。Spark Shell中已经默认将SparkContext类初始化为对象sc。用户代码如果需要用到，则直接应用sc即可</p>
+<h3 id="spark-shell中编写WordCount"><a href="#spark-shell中编写WordCount" class="headerlink" title="spark shell中编写WordCount"></a>spark shell中编写WordCount</h3><p>在spark shell中用scala语言编写spark程序</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sc.textFile(&quot;file:///root/tmp/words.dta&quot;).flatMap(_.split(&quot; &quot;)).map((_,1)).reduceByKey(_+_).saveAsTextFile(&quot;file:///root/tmp/out&quot;)</span><br></pre></td></tr></table></figure>
+<p>说明：</p>
+<p>sc是SparkContext对象，该对象时提交spark程序的入口</p>
+<p>textFile(“file:///root/tmp/words.dta”)  从本地文件中读取数据</p>
+<p>flatMap(_.split(“ “))                     先map在压平</p>
+<p>map((_,1))                              将单词和1构成元组</p>
+<p>reduceByKey(_+_)                          按照key进行reduce，并将value累加</p>
+<p>saveAsTextFile(“file:///root/tmp/out”)  将结果写入到指定位置</p>
+<h2 id="spark-RDD"><a href="#spark-RDD" class="headerlink" title="spark RDD"></a>spark RDD</h2><h3 id="RDD概述"><a href="#RDD概述" class="headerlink" title="RDD概述"></a>RDD概述</h3><h4 id="什么是RDD"><a href="#什么是RDD" class="headerlink" title="什么是RDD"></a>什么是RDD</h4><p>RDD（Resilient Distributed Dataset）叫做分布式数据集，是Spark中最基本的数据抽象，它代表一个不可变、可分区、里面的元素可并行计算的集合。RDD具有数据流模型的特点：自动容错、位置感知性调度和可伸缩性。RDD允许用户在执行多个查询时显式地将工作集缓存在内存中，后续的查询能够重用工作集，这极大地提升了查询速度。</p>
+<h4 id="RDD的属性"><a href="#RDD的属性" class="headerlink" title="RDD的属性"></a>RDD的属性</h4><ul>
+<li>一组分片（Partition），即数据集的基本组成单位。对于RDD来说，每个分片都会被一个计算任务处理，并决定并行计算的粒度。用户可以在创建RDD时指定RDD的分片个数，如果没有指定，那么就会采用默认值。默认值就是程序所分配到的CPU Core的数目。</li>
+</ul>
+<ul>
+<li>一个计算每个分区的函数。Spark中RDD的计算是以分片为单位的，每个RDD都会实现compute函数以达到这个目的。compute函数会对迭代器进行复合，不需要保存每次计算的结果。</li>
+</ul>
+<ul>
+<li>RDD之间的依赖关系。RDD的每次转换都会生成一个新的RDD，所以RDD之间就会形成类似于流水线一样的前后依赖关系。在部分分区数据丢失时，Spark可以通过这个依赖关系重新计算丢失的分区数据，而不是对RDD的所有分区进行重新计算。</li>
+</ul>
+<ul>
+<li>一个Partitioner，即RDD的分片函数。当前Spark中实现了两种类型的分片函数，一个是基于哈希的HashPartitioner，另外一个是基于范围的RangePartitioner。只有对于于key-value的RDD，才会有Partitioner，非key-value的RDD的Parititioner的值是None。Partitioner函数不但决定了RDD本身的分片数量，也决定了parent RDD Shuffle输出时的分片数量。</li>
+</ul>
+<ul>
+<li>一个列表，存储存取每个Partition的优先位置（preferred location）。对于一个HDFS文件来说，这个列表保存的就是每个Partition所在的块的位置。按照“移动数据不如移动计算”的理念，Spark在进行任务调度的时候，会尽可能地将计算任务分配到其所要处理数据块的存储位置。</li>
+</ul>
+<h4 id="创建RDD"><a href="#创建RDD" class="headerlink" title="创建RDD"></a>创建RDD</h4><ul>
+<li>由一个已经存在的Scala集合创建。</li>
+</ul>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> rdd1 = sc.parallelize(<span class="type">Array</span>(<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>,<span class="number">7</span>,<span class="number">8</span>))</span><br></pre></td></tr></table></figure>
+<ul>
+<li>由外部存储系统的数据集创建，包括本地的文件系统，还有所有Hadoop支持的数据集，比如HDFS、Cassandra、HBase等</li>
+</ul>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> rdd2 = sc.textFile(<span class="string">"hdfs://localhost:9000/wc/words.txt"</span>)</span><br></pre></td></tr></table></figure>
+<h3 id="RDD编程模型"><a href="#RDD编程模型" class="headerlink" title="RDD编程模型"></a>RDD编程模型</h3><h4 id="spark算子的分类"><a href="#spark算子的分类" class="headerlink" title="spark算子的分类"></a>spark算子的分类</h4><ul>
+<li><p>从大方向来说，Spark 算子大致可以分为以下两类:</p>
+<p>​     1.Transformation 变换/转换算子：这种变换并不触发提交作业，完成作业中间过程处理。Transformation 操作是延迟计算的，也就是说从一个RDD 转换生成另一个 RDD 的转换操作不是马上执行，需要等到有 Action 操作的时候才会真正触发运算。</p>
+<p>​     2.Action 行动算子：这类算子会触发 SparkContext 提交 Job 作业。Action 算子会触发 Spark 提交作业（Job），并将数据输出 Spark系统。</p>
+</li>
+<li><p>从小方向来说，Spark 算子大致可以分为以下三类:</p>
+<p>​ 1.Value数据类型的Transformation算子，这种变换并不触发提交作业，针对处理的数据项是Value型的数据。<br>​ 2.Key-Value数据类型的Transfromation算子，这种变换并不触发提交作业，针对处理的数据项是Key-Value型的数据对。</p>
+<p>​ 3.Action算子，这类算子会触发SparkContext提交Job作业。</p>
+</li>
+<li><p>Value数据类型的Transformation算子</p>
+<p>| 类型 | 算子 |<br>| —— | —— |<br>| 输入分区与输出分区一对一型 | 1、map算子2、flatMap算子3、mapPartitions算子4、glom算子      |<br>| 输入分区与输出分区多对一型 | 5、union算子6、cartesian算子                                 |<br>| 输入分区与输出分区多对多型 | 7、grouBy算子                                                |<br>| 输出分区为输入分区子集型   | 8、filter算子9、distinct算子10、subtract算子11、sample算子12、takeSample算子 |<br>| Cache类型                  | 13、cache算子14、persist算子                                 |</p>
+</li>
+</ul>
+<ul>
+<li><p>Key-Value数据类型的Transfromation算子</p>
+<p>| 类型                     | 算子                                                         |<br>| ———————— | ———————————————————— |<br>| 输入分区与输出分区一对一 | 15、mapValues算子                                            |<br>| 对单个RDD或两个RDD聚集   | 单个RDD聚集16、combineByKey算子17、reduceByKey算子18、partitionBy算子两个RDD聚集19、Cogroup算子 |<br>| 连接                     | 20、join算子21、leftOutJoin和rightOutJoin算子                |</p>
+</li>
+</ul>
+<ul>
+<li><p>Action算子</p>
+<p>| 类型                | 算子                                                         |<br>| ——————- | ———————————————————— |<br>| 无输出              | 22、foreach算子                                              |<br>| HDFS                | 23、saveAsTextFile算子24、saveAsObjectFile算子               |<br>| Scala集合和数据类型 | 25、collect算子26、collectAsMap算子27、reduceByKeyLocally算子28、lookup算子29、count算子30、top算子31、reduce算子32、fold算子33、aggregate算子 |</p>
+</li>
+</ul>
+<h4 id="Transformation算子详细介绍"><a href="#Transformation算子详细介绍" class="headerlink" title="Transformation算子详细介绍"></a>Transformation算子详细介绍</h4><p>RDD中的所有转换都是延迟加载的，也就是说，它们并不会直接计算结果。相反的，它们只是记住这些应用到基础数据集（例如一个文件）上的转换动作。只有当发生一个要求返回结果给Driver的动作时，这些转换才会真正运行。这种设计让Spark更加有效率地运行。</p>
+<p>常用的Transformation：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left"><strong>转换</strong></th>
+<th><strong>含义</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><strong>map</strong>(func)</td>
+<td>将原来 RDD 的每个数据项通过 map 中的用户自定义函数 f 映射转变为一个新的元素。源码中 map 算子相当于初始化一个 RDD， 新 RDD 叫做 MappedRDD(this, sc.clean(f))。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>filter</strong>(func)</td>
+<td>返回一个新的RDD，该RDD由经过func函数计算后返回值为true的输入元素组成</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>flatMap</strong>(func)</td>
+<td>将原来 RDD 中的每个元素通过函数 f 转换为新的元素，并将生成的 RDD 的每个集合中的元素合并为一个集合，内部创建 FlatMappedRDD(this，sc.clean(f))。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>mapPartitions</strong>(func)</td>
+<td>类似于map，但独立地在RDD的每一个分片上运行，因此在类型为T的RDD上运行时，func的函数类型必须是Iterator[T] =&gt; Iterator[U]</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>mapPartitionsWithIndex</strong>(func)</td>
+<td>类似于mapPartitions，但func带有一个整数参数表示分片的索引值，因此在类型为T的RDD上运行时，func的函数类型必须是   (Int,   Interator[T]) =&gt; Iterator[U]</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>sample</strong>(withReplacement, fraction, seed)</td>
+<td>根据fraction指定的比例对数据进行采样，可以选择是否使用随机数进行替换，seed用于指定随机数生成器种子</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>union</strong>(otherDataset)</td>
+<td>对源RDD和参数RDD求并集后返回一个新的RDD</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>intersection</strong>(otherDataset)</td>
+<td>对源RDD和参数RDD求交集后返回一个新的RDD</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>distinct</strong>([numTasks]))</td>
+<td>对源RDD进行去重后返回一个新的RDD</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>groupByKey</strong>([numTasks])</td>
+<td>在一个(K,V)的RDD上调用，返回一个(K, Iterator[V])的RDD</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>reduceByKey</strong>(func, [numTasks])</td>
+<td>在一个(K,V)的RDD上调用，返回一个(K,V)的RDD，使用指定的reduce函数，将相同key的值聚合到一起，与groupByKey类似，reduce任务的个数可以通过第二个可选的参数来设置</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>aggregateByKey</strong>(zeroValue)(seqOp, combOp, [numTasks])</td>
+<td>类似reduceByKey，对pairRDD中想用的key值进行聚合操作，使用初始值（seqOp中使用，而combOpenCL中未使用）对应返回值为pairRDD，而区于aggregate（返回值为非RDD）</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>sortByKey</strong>([ascending], [numTasks])</td>
+<td>在一个(K,V)的RDD上调用，K必须实现Ordered接口，返回一个按照key进行排序的(K,V)的RDD</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>sortBy</strong>(func,[ascending], [numTasks])</td>
+<td>与sortByKey类似，但是更灵活</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>join</strong>(otherDataset, [numTasks])</td>
+<td>在类型为(K,V)和(K,W)的RDD上调用，返回一个相同key对应的所有元素对在一起的(K,(V,W))的RDD</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>cogroup</strong>(otherDataset, [numTasks])</td>
+<td>在类型为(K,V)和(K,W)的RDD上调用，返回一个(K,(Iterable<v>,Iterable<w>))类型的RDD</w></v></td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>cartesian</strong>(otherDataset)</td>
+<td>求笛卡尔乘积。该操作不会执行shuffle操作。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>pipe</strong>(command, [envVars])</td>
+<td>通过一个shell命令来对RDD各分区进行“管道化”。通过pipe变换将一些shell命令用于Spark中生成的新RDD</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>coalesce</strong>(numPartitions<strong>)</strong></td>
+<td>重新分区，减少RDD中分区的数量到numPartitions</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>repartition</strong>(numPartitions)</td>
+<td>repartition是coalesce接口中shuffle为true的简易实现，即Reshuffle RDD并随机分区，使各分区数据量尽可能平衡。若分区之后分区数远大于原分区数，则需要shuffle。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>repartitionAndSortWithinPartitions</strong>(partitioner)</td>
+<td>该方法根据partitioner对RDD进行分区，并且在每个结果分区中按key进行排序。</td>
+</tr>
+</tbody>
+</table>
+<h4 id="Action算子详细介绍"><a href="#Action算子详细介绍" class="headerlink" title="Action算子详细介绍"></a>Action算子详细介绍</h4><table>
+<thead>
+<tr>
+<th><strong>动作</strong></th>
+<th><strong>含义</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>reduce</strong>(<em>func</em>)</td>
+<td>通过func函数聚集RDD中的所有元素，这个功能必须是课交换且可并联的</td>
+</tr>
+<tr>
+<td><strong>collect</strong>()</td>
+<td>在驱动程序中，以数组的形式返回数据集的所有元素</td>
+</tr>
+<tr>
+<td><strong>count</strong>()</td>
+<td>返回RDD的元素个数</td>
+</tr>
+<tr>
+<td><strong>first</strong>()</td>
+<td>返回RDD的第一个元素（类似于take(1)）</td>
+</tr>
+<tr>
+<td><strong>take</strong>(<em>n</em>)</td>
+<td>返回一个由数据集的前n个元素组成的数组</td>
+</tr>
+<tr>
+<td><strong>takeSample</strong>(<em>withReplacement</em>,<em>num</em>, [<em>seed</em>])</td>
+<td>返回一个数组，该数组由从数据集中随机采样的num个元素组成，可以选择是否用随机数替换不足的部分，seed用于指定随机数生成器种子</td>
+</tr>
+<tr>
+<td><strong>takeOrdered</strong>(<em>n</em>, <em>[ordering]</em>)</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>saveAsTextFile</strong>(<em>path</em>)</td>
+<td>将数据集的元素以textfile的形式保存到HDFS文件系统或者其他支持的文件系统，对于每个元素，Spark将会调用toString方法，将它装换为文件中的文本</td>
+</tr>
+<tr>
+<td><strong>saveAsSequenceFile</strong>(<em>path</em>)</td>
+<td>将数据集中的元素以Hadoop sequencefile的格式保存到指定的目录下，可以使HDFS或者其他Hadoop支持的文件系统。</td>
+</tr>
+<tr>
+<td><strong>saveAsObjectFile</strong>(<em>path</em>)</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>countByKey</strong>()</td>
+<td>针对(K,V)类型的RDD，返回一个(K,Int)的map，表示每一个key对应的元素个数。</td>
+</tr>
+<tr>
+<td><strong>foreach</strong>(<em>func</em>)</td>
+<td>在数据集的每一个元素上，运行函数func进行更新。</td>
+</tr>
+</tbody>
+</table>
+<h3 id="RDD的依赖关系"><a href="#RDD的依赖关系" class="headerlink" title="RDD的依赖关系"></a>RDD的依赖关系</h3><p>RDD和它依赖的父RDD（s）的关系有两种不同的类型，即窄依赖（narrow dependency）和宽依赖（wide dependency）。</p>
+<p>shuffle重要的依据：父RDD的一个分区的数据，要给子RDD的多个分区</p>
+<h4 id="窄依赖"><a href="#窄依赖" class="headerlink" title="窄依赖"></a>窄依赖</h4><p>窄依赖指的是每一个父RDD的Partition最多被子RDD的一个Partition使用</p>
+<p>总结：窄依赖我们形象的比喻为独生子女</p>
+<h4 id="宽依赖"><a href="#宽依赖" class="headerlink" title="宽依赖"></a>宽依赖</h4><p>宽依赖指的是多个子RDD的Partition会依赖同一个父RDD的Partition</p>
+<p>总结：窄依赖我们形象的比喻为超生</p>
+<h4 id="Lineage"><a href="#Lineage" class="headerlink" title="Lineage"></a>Lineage</h4><p>RDD只支持粗粒度转换，即在大量记录上执行的单个操作。将创建RDD的一系列Lineage（即血统）记录下来，以便恢复丢失的分区。RDD的Lineage会记录RDD的元数据信息和转换行为，当该RDD的部分分区数据丢失时，它可以根据这些信息来重新运算和恢复丢失的数据分区。</p>
+<h3 id="RDD的缓存"><a href="#RDD的缓存" class="headerlink" title="RDD的缓存"></a>RDD的缓存</h3><p>RDD通过persist方法或cache方法可以将前面的计算结果缓存，但是并不是这两个方法被调用时立即缓存，而是触发后面的action时，该RDD将会被缓存在计算节点的内存中，并供后面重用。</p>
+<p>cache最终也是调用了persist方法，默认的存储级别都是仅在内存存储一份，Spark的存储级别还有好多种，存储级别在object StorageLevel中定义的。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/02/04/Spark/" data-id="cjrqbftzd0016akc47vhcpxwt" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Shadowsocks" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/02/04/Shadowsocks/" class="article-date">
+  <time datetime="2019-02-04T12:16:14.122Z" itemprop="datePublished">2019-02-04</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>title: shadowsocks<br>date: 2018-01-05 15:31:12<br>tags: [linux, shadowsocks]<br>categories: shadowsocks</p>
+<h1 id="搭建shadowsocks-server"><a href="#搭建shadowsocks-server" class="headerlink" title="搭建shadowsocks server"></a>搭建shadowsocks server</h1><h2 id="什么是shadowsocks"><a href="#什么是shadowsocks" class="headerlink" title="什么是shadowsocks"></a>什么是shadowsocks</h2><p>shadowsocks是一种基于Socks5代理方式的网络数据加密传输包，并采用Apache许可证、GPL、MIT许可证等多种自由软件许可协议开放源代码。shadowsocks分为服务器端和客户端，在使用之前，需要先将服务器端部署到服务器上面，然后通过客户端连接并创建本地代理。目前包使用Python、C、C++、C#、Go语言等编程语言开发。<br>运行原理：<br>Shadowsocks的运行原理与其他代理工具基本相同，使用特定的中转服务器完成数据传输。在服务器端部署完成后，用户需要按照指定的密码、加密方式和端口使用客户端软件与其连接。在成功连接到服务器后，客户端会在用户的电脑上构建一个本地Socks5代理。浏览网络时，网络流量会被分到本地socks5代理，客户端将其加密之后发送到服务器，服务器以同样的加密方式将流量回传给客户端，以此实现代理上网。</p>
+<h2 id="搭建教程"><a href="#搭建教程" class="headerlink" title="搭建教程"></a>搭建教程</h2><ul>
+<li>服务器：阿里云共享型ECS</li>
+<li>CPU: 1核</li>
+<li>内存：512M</li>
+<li>带宽：100Mbps（按量计费）</li>
+<li>系统：CentOS7.5_x64</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"># 获取一键安装脚本</span><br><span class="line">$ wget --no-check-certificate https://raw.githubusercontent.com/teddysun/shadowsocks_install/master/shadowsocks-all.sh</span><br><span class="line"></span><br><span class="line"># 修改脚本的权限</span><br><span class="line">$ chmod +x shadowsocks-all.sh</span><br><span class="line"></span><br><span class="line"># 执行脚本</span><br><span class="line">$ ./shadowsocks-all.sh</span><br><span class="line"></span><br><span class="line"># 执行后，会提示输入源码语言，密码、端口、及加密方式等。（语言我选的python，端口是12217，加密方式我这里选择aes-256-cfb）</span><br><span class="line"></span><br><span class="line"># 执行成功后的日志(大概需要等一到三分钟左右)</span><br><span class="line">INFO: loading config from /etc/shadowsocks-python/config.json</span><br><span class="line">2019-01-22 00:30:27 INFO     loading libcrypto from libcrypto.so.10</span><br><span class="line">Starting Shadowsocks success</span><br><span class="line"></span><br><span class="line">Congratulations, Shadowsocks-Python server install completed!</span><br><span class="line">Your Server IP        :  57.90.221.76 </span><br><span class="line">Your Server Port      :  12217</span><br><span class="line">Your Password         :  123456 </span><br><span class="line">Your Encryption Method:  aes-256-cfb </span><br><span class="line"></span><br><span class="line">Your QR Code: (For Shadowsocks Windows, OSX, Android and iOS clients)</span><br><span class="line"> ss://YWVzLTI1Ni1jZmI6MDYyMDE1QDQ3LjkwLjI1MS43NjoxMDIxNQ== </span><br><span class="line">Your QR Code has been saved as a PNG file path:</span><br><span class="line"> /root/shadowsocks_python_qr.png </span><br><span class="line"></span><br><span class="line">Welcome to visit: https://teddysun.com/486.html</span><br><span class="line">Enjoy it!</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># 关闭系统的防火墙</span><br><span class="line">$ service stop firewalld.service</span><br><span class="line"></span><br><span class="line"># 修改阿里云安全组配置开放刚才暴露的端口后重启服务器即可</span><br><span class="line"></span><br><span class="line"># 安装谷歌BBR加速</span><br><span class="line">$ wget --no-check-certificate https://github.com/teddysun/across/raw/master/bbr.sh</span><br><span class="line"></span><br><span class="line"># 修改脚本的权限</span><br><span class="line">$ chmod u+x bbr.sh</span><br><span class="line"></span><br><span class="line"># 执行脚本</span><br><span class="line">$ ./bbr.sh</span><br><span class="line"></span><br><span class="line"># 安装完成之后重启服务器</span><br><span class="line">$ reboot</span><br><span class="line"></span><br><span class="line"># 查看bbr是否安装并启动成功</span><br><span class="line">$ lsmod | grep bbr</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/02/04/Shadowsocks/" data-id="cjrqbftxg0004akc419lg6tq0" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-sed" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/02/04/sed/" class="article-date">
+  <time datetime="2019-02-04T12:16:14.111Z" itemprop="datePublished">2019-02-04</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Sed"><a href="#Sed" class="headerlink" title="Sed"></a>Sed</h1><h2 id="Sed简介"><a href="#Sed简介" class="headerlink" title="Sed简介"></a>Sed简介</h2><p>sed 是一种在线编辑器，它一次处理一行内容。处理时，把当前处理的行存储在临时缓冲区中，称为“模式空间”（pattern space），接着用sed命令处理缓冲区中的内容，处理完成后，把缓冲区的内容送往屏幕。接着处理下一行，这样不断重复，直到文件末尾。文件内容并没有 改变，除非你使用重定向存储输出。Sed主要用来自动编辑一个或多个文件；简化对文件的反复操作；编写转换程序等。以下介绍的是Gnu版本的Sed 3.02。</p>
+<h3 id="定址"><a href="#定址" class="headerlink" title="定址"></a>定址</h3><p>可以通过定址来定位你所希望编辑的行，该地址用数字构成，用逗号分隔的两个行数表示以这两行为起止的行的范围（包括行数表示的那两行）。如1，3表示1，2，3行，美元符号($)表示最后一行。范围可以通过数据，正则表达式或者二者结合的方式确定 。</p>
+<ol>
+<li><p>Sed命令<br>调用sed命令有两种形式：</p>
+<p>sed [options] ‘command’ file(s)</p>
+<p>sed [options] -f scriptfile file(s)<br>a\<br>在当前行后面加入一行文本。<br>b lable<br>分支到脚本中带有标记的地方，如果分支不存在则分支到脚本的末尾。<br>c\<br>用新的文本改变本行的文本。<br>d<br>从模板块（Pattern space）位置删除行。<br>D<br>删除模板块的第一行。<br>i\<br>在当前行上面插入文本。<br>h<br>拷贝模板块的内容到内存中的缓冲区。<br>H<br>追加模板块的内容到内存中的缓冲区<br>g<br>获得内存缓冲区的内容，并替代当前模板块中的文本。<br>G<br>获得内存缓冲区的内容，并追加到当前模板块文本的后面。<br>l<br>列表不能打印字符的清单。<br>n<br>读取下一个输入行，用下一个命令处理新的行而不是用第一个命令。<br>N<br>追加下一个输入行到模板块后面并在二者间嵌入一个新行，改变当前行号码。<br>p<br>打印模板块的行。<br>P（大写）<br>打印模板块的第一行。<br>q<br>退出Sed。<br>r file<br>从file中读行。<br>t label<br>if分支，从最后一行开始，条件一旦满足或者T，t命令，将导致分支到带有标号的命令处，或者到脚本的末尾。<br>T label<br>错误分支，从最后一行开始，一旦发生错误或者T，t命令，将导致分支到带有标号的命令处，或者到脚本的末尾。<br>w file<br>写并追加模板块到file末尾。<br>W file<br>写并追加模板块的第一行到file末尾。<br>!<br>表示后面的命令对所有没有被选定的行发生作用。<br>s/re/string<br>用string替换正则表达式re。<br>=<br>打印当前行号码。<br>#<br>把注释扩展到下一个换行符以前。<br>以下的是替换标记<br><em><br>g表示行内全面替换。
+</em><br>p表示打印行。<br><em><br>w表示把行写入一个文件。
+</em><br>x表示互换模板块中的文本和缓冲区中的文本。<br>*<br>y表示把一个字符翻译为另外的字符（但是不用于正则表达式）</p>
+</li>
+<li><p>选项<br>-e command, –expression=command<br>允许多台编辑。<br>-h, –help<br>打印帮助，并显示bug列表的地址。<br>-n, –quiet, –silent<br>取消默认输出。<br>-f, –filer=script-file<br>引导sed脚本文件名。<br>-V, –version<br>打印版本和版权信息。</p>
+</li>
+<li><p>元字符集^<br>锚定行的开始 如：/^sed/匹配所有以sed开头的行。<br>$<br>锚定行的结束 如：/sed$/匹配所有以sed结尾的行。<br>.<br>匹配一个非换行符的字符 如：/s.d/匹配s后接一个任意字符，然后是d。<br><em><br>匹配零或多个字符 如：/</em>sed/匹配所有模板是一个或多个空格后紧跟sed的行。<br>[]<br>匹配一个指定范围内的字符，如/[Ss]ed/匹配sed和Sed。<br>[^]<br>匹配一个不在指定范围内的字符，如：/[^A-RT-Z]ed/匹配不包含A-R和T-Z的一个字母开头，紧跟ed的行。<br>(..)<br>保存匹配的字符，如s/(love)able/\1rs，loveable被替换成lovers。<br>&amp;<br>保存搜索字符用来替换其他字符，如s/love/<strong>&amp;</strong>/，love这成<strong>love</strong>。<br>\&lt;<br>锚定单词的开始，如:/\&lt;love/匹配包含以love开头的单词的行。<br>><br>锚定单词的结束，如/love>/匹配包含以love结尾的单词的行。<br>x{m}<br>重复字符x，m次，如：/o{5}/匹配包含5个o的行。<br>x{m,}<br>重复字符x,至少m次，如：/o{5,}/匹配至少有5个o的行。<br>x{m,n}<br>重复字符x，至少m次，不多于n次，如：/o{5,10}/匹配5–10个o的行。</p>
+</li>
+<li><p>实例<br>删除：d命令<br><em><br>$ sed ‘2d’ example—–删除example文件的第二行。
+</em><br>$ sed ‘2,$d’ example—–删除example文件的第二行到末尾所有行。<br><em><br>$ sed ‘$d’ example—–删除example文件的最后一行。
+</em><br>$ sed ‘/test/‘d example—–删除example文件所有包含test的行。<br>替换：s命令<br><em><br>$ sed ‘s/test/mytest/g’ example—–在整行范围内把test替换为mytest。如果没有g标记，则只有每行第一个匹配的test被替换成mytest。
+</em><br>$ sed -n ‘s/^test/mytest/p’ example—–(-n)选项和p标志一起使用表示只打印那些发生替换的行。也就是说，如果某一行开头的test被替换成mytest，就打印它。<br><em><br>$ sed ‘s/^192.168.0.1/&amp;localhost/‘ example—–&amp;符号表示替换换字符串中被找到的部份。所有以192.168.0.1开头的行都会被替换成它自已加 localhost，变成192.168.0.1localhost。
+</em><br>$ sed -n ‘s/(love)able/\1rs/p’ example—–love被标记为1，所有loveable会被替换成lovers，而且替换的行会被打印出来。<br><em><br>$ sed ‘s#10#100#g’ example—–不论什么字符，紧跟着s命令的都被认为是新的分隔符，所以，“#”在这里是分隔符，代替了默认的“/”分隔符。表示把所有10替换成100。<br>选定行的范围：逗号
+</em><br>$ sed -n ‘/test/,/check/p’ example—–所有在模板test和check所确定的范围内的行都被打印。<br><em><br>$ sed -n ‘5,/^test/p’ example—–打印从第五行开始到第一个包含以test开始的行之间的所有行。
+</em><br>$ sed ‘/test/,/check/s/$/sed test/‘ example—–对于模板test和west之间的行，每行的末尾用字符串sed test替换。<br>多点编辑：e命令<br><em><br>$ sed -e ‘1,5d’ -e ‘s/test/check/‘ example—–(-e)选项允许在同一行里执行多条命令。如例子所示，第一条命令删除1至5行，第二条命令用check替换test。命令的执 行顺序对结果有影响。如果两个命令都是替换命令，那么第一个替换命令将影响第二个替换命令的结果。
+</em><br>$ sed –expression=’s/test/check/‘ –expression=’/love/d’ example—–一个比-e更好的命令是–expression。它能给sed表达式赋值。<br>从文件读入：r命令<br><em><br>$ sed ‘/test/r file’ example—–file里的内容被读进来，显示在与test匹配的行后面，如果匹配多行，则file的内容将显示在所有匹配行的下面。<br>写入文件：w命令
+</em><br>$ sed -n ‘/test/w file’ example—–在example中所有包含test的行都被写入file里。<br>追加命令：a命令<br><em><br>$ sed ‘/^test/a\—&gt;this is a example’ example    ‘—–&gt;this is a example’被追加到以test开头的行后面，sed要求命令a后面有一个反斜杠。<br>插入：i命令<br>$ sed ‘/test/i\<br>new line<br>————————-‘ example<br>如果test被匹配，则把反斜杠后面的文本插入到匹配行的前面。<br>下一个：n命令
+</em><br>$ sed ‘/test/{ n; s/aa/bb/; }’ example—–如果test被匹配，则移动到匹配行的下一行，替换这一行的aa，变为bb，并打印该行，然后继续。<br>变形：y命令<br><em><br>$ sed ‘1,10y/abcde/ABCDE/‘ example—–把1–10行内所有abcde转变为大写，注意，正则表达式元字符不能使用这个命令。<br>退出：q命令
+</em><br>$ sed ‘10q’ example—–打印完第10行后，退出sed。<br>保持和获取：h命令和G命令<br><em><br>$ sed -e ‘/test/h’ -e ‘$G example—–在sed处理文件的时候，每一行都被保存在一个叫模式空间的临时缓冲区中，除非行被删除或者输出被取消，否则所有被处理的行都将 打印在屏幕上。接着模式空间被清空，并存入新的一行等待处理。在这个例子里，匹配test的行被找到后，将存入模式空间，h命令将其复制并存入一个称为保 持缓存区的特殊缓冲区内。第二条语句的意思是，当到达最后一行后，G命令取出保持缓冲区的行，然后把它放回模式空间中，且追加到现在已经存在于模式空间中 的行的末尾。在这个例子中就是追加到最后一行。简单来说，任何包含test的行都被复制并追加到该文件的末尾。<br>保持和互换：h命令和x命令
+</em><br>$ sed -e ‘/test/h’ -e ‘/check/x’ example —–互换模式空间和保持缓冲区的内容。也就是把包含test与check的行互换。</p>
+</li>
+<li><p>脚本<br>Sed脚本是一个sed的命令清单，启动Sed时以-f选项引导脚本文件名。Sed对于脚本中输入的命令非常挑剔，在命令的末尾不能有任何空白或文本，如果在一行中有多个命令，要用分号分隔。以#开头的行为注释行，且不能跨行。</p>
+</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/02/04/sed/" data-id="cjrqbftyo000wakc4s8mw1fxy" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-scala" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/02/04/scala/" class="article-date">
+  <time datetime="2019-02-04T12:16:14.087Z" itemprop="datePublished">2019-02-04</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="scala"><a href="#scala" class="headerlink" title="scala"></a>scala</h1><h2 id="基本语法"><a href="#基本语法" class="headerlink" title="基本语法"></a>基本语法</h2><p>for(i &lt;- 1 to 3; j &lt;-1 to 4 if i != j) {printf(“i=%d, j=%d, res=%d”,i,j,i*j);println()}</p>
+<p>for(x &lt;- 1 to 10) yield x %2;</p>
+<p>def add(a:Int,b:Int):Int = {var c = a+b;c;}</p>
+<p>def decorate(prefix:String,str:String,suffix:String) = {prefix + str + suffix}</p>
+<p>def add(a:Int*) = {var sum = 0;for(x&lt;-a)sum += x;sum}</p>
+<p>def out(a:Int){println(“hello”)}</p>
+<p>lazy val a:Int = “hello world”</p>
+<p>lazy val x = scala.io.Source.fromFile(“d:\tmp\HelloScala.scala”).mkString</p>
+<p>try{<br>    “hello”.toInt;<br>} catch {<br>    case _: Exception =&gt; print(“xxx”)<br>    case ex:java.io.IOException =&gt; print(ex)<br>}</p>
+<p>val arr:Array[Int] = new Array<a href="4">Int</a>;<br>val arr = Array<a href="5">Int</a><br>val arr = Array[]<a href=""></a>();</p>
+<p>var arr = new Array<a href="4">Array[Int]</a></p>
+<p>for((k,v)&lt;-map2) println(k + “—“ + v)</p>
+<p>class Person{<br>        private var i = 0;<br>        def incre(a:Int) = {i+=a}<br>        def current()=i<br>    }</p>
+<p>trait supperMan{def log1() = println(“hello log1”)}</p>
+<p>trait extends supperMan supperLyon{def log2() = println(“hello log2”)}</p>
+<p>trait man extends supperMan with supperLyon{}</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/02/04/scala/" data-id="cjrqbftxy000hakc4mo4nkajo" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-redis" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/02/04/redis/" class="article-date">
+  <time datetime="2019-02-04T12:16:14.077Z" itemprop="datePublished">2019-02-04</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a>Redis</h1><h2 id="Redis简介及原理"><a href="#Redis简介及原理" class="headerlink" title="Redis简介及原理"></a>Redis简介及原理</h2><h3 id="什么是redis"><a href="#什么是redis" class="headerlink" title="什么是redis"></a>什么是redis</h3><p>Redis是由意大利人Salvatore Sanfilippo开发的一款内存高速缓存数据库。Redis本质上是一种键值数据库，但是它在保持键值数据库简单快捷特点的同时，又吸收了部分关系型数库的优点。从而使它的位置处于关系数据库和键值数据库之间。Redis不仅能保存String类型的数据，还能保持lists类型（有序）和Sets类型（无序）的数据，而且还能完成排序（sort）等高级功能，在实现INCR，SETNX等功能的时候，保证了其操作的原子性，除此之外，还支持主从复制功能。</p>
+<p>Redis是一款开源的、高性能的键-值存储（key-value store）。它常被称作是一款数据结构服务器（data structure server）。</p>
+<p>Redis的键值可以包括字符串（strings）类型，同时它还包括哈希（hashes）、列表（lists）、集合（sets）和 有序集合（sorted sets）等数据类型。 对于这些数据类型，你可以执行原子操作。例如：对字符串进行附加操作（append）；递增哈希中的值；向列表中增加元素；计算集合的交集、并集与差集等。</p>
+<p>为了获得优异的性能，Redis采用了内存中（in-memory）数据集（dataset）的方式。同时，Redis支持数据的持久化，你可以每隔一段时间将数据集转存到磁盘上（snapshot），或者在日志尾部追加每一条操作命令（append only file,aof）。</p>
+<p>Redis同样支持主从复制（master-slave replication），并且具有非常快速的非阻塞首次同步（ non-blocking first synchronization）、网络断开自动重连等功能。同时Redis还具有其它一些特性，其中包括简单的事物支持、发布订阅 （ pub/sub）、管道（pipeline）和虚拟内存（vm）等 。<br>Redis具有丰富的客户端，支持现阶段流行的大多数编程语言。</p>
+<h3 id="NoSQL数据库"><a href="#NoSQL数据库" class="headerlink" title="NoSQL数据库"></a>NoSQL数据库</h3><p>　　在过去几年中，NoSQL数据库一度成为高并发、海量数据存储解决方案的代名词，与之相应的产品也如同雨后春笋般出现，然而在众多产品中，能够脱颖而出的却　　屈指可数，如Redis、MongoDB、BerkeleyDB和CouchDB等。由于每种产品所拥有的特性不同，因此它们的应用场景也存在着一定差异。</p>
+<p>BerkeleyDB是一种极为流行的开源嵌入式数据库，在更多情况下可用于存储引擎，比如BerlkeyDB再被Oracle收购之前曾作为MySQL的存储引擎，由此可见，该产品拥有极好的并发伸缩性，支持事物及嵌套事物，海量数据存储等重要特性，在用于存储实时数据方面具有极高的可用价值。</p>
+<p>MongDB定义为Oriented-Document数据库服务器，和BerkeleyDB不同的是，该数据库可以像其他关系型数据库服务器那样独立的运行并提供相关的数据服务。MongoDB主要适用于论坛或博客等类型的网站，这些网站具有并发访问量高、多读少些、数据量大、逻辑关系简单、以文档数据作为主要数据源等特点，适合用MongoDB提供数据服务。</p>
+<p>Memcahced，数据缓存服务器。在使用方式上，它和Redis最为相似，它们之间最大的区别是，memcached只是提供了数据缓存服务，而没有提供任何形式的数据持久化功能，而Redis则提供了这样的功能。一旦Memcached服务器宕机，之前在内存中缓存的数据也将全部消失。再有就是，Redis提供了更为丰富的数据存储结构</p>
+<p>Redis，典型的NoSQL数据库服务器。与BerkeleyDB相比，它可以作为服务程序独立运行于自己的服务器主机。Redis除了Key/Value之外还支持List、Hash、Set和Ordered Set等数据结构，因此它的用途也更广泛。</p>
+<h3 id="redis特点"><a href="#redis特点" class="headerlink" title="redis特点"></a>redis特点</h3><ul>
+<li><p>速度快，因为数据存在内存中，类似于HashMap，HashMap的优势就是查找和操作的时间复杂度都是O(1)。Redis用c语言编写，以内存作为数据存储介质，所以读写数据的效率极高，以设置和获取一个256字节字符串为例，它的读取速度可高达110000次/s，写速度高达81000次/s。</p>
+</li>
+<li><p>支持丰富数据类型：string（字符串），hash（哈希），list（列表），set（集合）及zset(sorted set：有序集合)。</p>
+</li>
+<li><p>支持事务：Redis的所有操作都是原子性的，同时Redis还支持对几个操作全并后的原子性执行。</p>
+</li>
+<li><p>丰富的特性：可用于缓存，消息，按key设置过期时间，过期后将会自动删除</p>
+</li>
+<li><p>Redis支持主从模式：可以配置集群，这样更利于支撑大型的项目</p>
+</li>
+<li><p>丰富的特性： Redis还支持 publish/subscribe, 通知, key 过期等等特性。</p>
+</li>
+<li><p>存储在Redis中的数据是持久化的，断电或重启后，数据也不会丢失。因为Redis的存储分为内存存储、硬盘存储和log文件三部分。重启后，Redis可以从磁盘重新将数据加载到内存中，保证数据不会丢失</p>
+</li>
+</ul>
+<h2 id="Redis安装"><a href="#Redis安装" class="headerlink" title="Redis安装"></a>Redis安装</h2><p>下载安装redis<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">$ wget http://download.redis.io/releases/redis-5.0.3.tar.gz</span><br><span class="line"></span><br><span class="line">$ tar -zxvf redis-5.0.3.tar.gz</span><br><span class="line"></span><br><span class="line">$ cd redis-5.0.3</span><br><span class="line"></span><br><span class="line">$ make </span><br><span class="line"></span><br><span class="line">$ cd src</span><br><span class="line"></span><br><span class="line">$ make test</span><br><span class="line"></span><br><span class="line"># make test 报错 You need tcl 8.5 or newer in order to run the Redis test</span><br><span class="line">$ yum install tcl</span><br><span class="line"></span><br><span class="line">$ make install PREFIX=/usr/local/redis</span><br><span class="line"></span><br><span class="line"># 拷贝redis的配置文件到etc目录</span><br><span class="line">cp redis.conf /etc/redis/6379.conf</span><br><span class="line"></span><br><span class="line"># 拷贝redis启动脚本到系统服务目录</span><br><span class="line">$ cp utils/redis_init_script /etc/init.d/redis</span><br><span class="line"></span><br><span class="line"># 修改redis启动脚本把这两行修改为你安装redis的路下的文件</span><br><span class="line">$ vim /etc/init.d/redis</span><br><span class="line"></span><br><span class="line">EXEC=/usr/local/redis/bin/redis-server</span><br><span class="line">CLIEXEC=/usr/local/redis/bin/redis-cli</span><br><span class="line"></span><br><span class="line"># 启动redis</span><br><span class="line">$ service redis start</span><br><span class="line"></span><br><span class="line"># 如果发现redis启动成功但是无法使用客户端远程连接需要修改redis的配置文件</span><br><span class="line">`bind 127.0.0.1`改为`bind 0.0.0.0`</span><br></pre></td></tr></table></figure></p>
+<h2 id="Redis-配置详解"><a href="#Redis-配置详解" class="headerlink" title="Redis 配置详解"></a>Redis 配置详解</h2><ol>
+<li><p>Redis默认不是以守护进程的方式运行，可以通过该配置项修改，使用yes启用守护进程</p>
+<p> <code>daemonize yes</code></p>
+</li>
+<li><p>当Redis以守护进程方式运行时，Redis默认会把pid写入/var/run/redis_6379.pid文件，可以通过pidfile指定</p>
+<p> <code>pidfile /var/run/redis_${REDISPORT}.pid</code></p>
+</li>
+<li><p>指定Redis监听端口，默认端口为6379，作者在自己的一篇博文中解释了为什么选用6379作为默认端口，因为6379在手机按键上MERZ对应的号码，而MERZ取自意大利歌女Alessia Merz的名字</p>
+<p> <code>port 6379</code></p>
+</li>
+<li><p>绑定的主机地址</p>
+<p> <code>bind 127.0.0.1</code></p>
+</li>
+<li><p>当 客户端闲置多长时间后关闭连接，如果指定为0，表示关闭该功能</p>
+<p> <code>timeout 300</code></p>
+</li>
+<li><p>指定日志记录级别，Redis总共支持四个级别：debug、verbose、notice、warning，默认为verbose</p>
+<p> <code>loglevel verbose</code></p>
+</li>
+<li><p>日志记录方式，默认为标准输出，如果配置Redis为守护进程方式运行，而这里又配置为日志记录方式为标准输出，则日志将会发送给/dev/null</p>
+<p> <code>logfile stdout</code></p>
+</li>
+</ol>
+<ol start="8">
+<li><p>设置数据库的数量，默认数据库为0，可以使用SELECT <dbid>命令在连接上指定数据库id</dbid></p>
+<p> <code>databases 16</code></p>
+</li>
+</ol>
+<ol start="9">
+<li><p>指定在多长时间内，有多少次更新操作，就将数据同步到数据文件，可以多个条件配合</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">save &lt;seconds&gt; &lt;changes&gt;</span><br><span class="line">Redis 默认配置文件中提供了三个条件：</span><br><span class="line">save 900 1</span><br><span class="line">save 300 10</span><br><span class="line">save 60 10000</span><br></pre></td></tr></table></figure>
+<p> 分别表示900秒（15分钟）内有1个更改，300秒（5分钟）内有10个更改以及60秒内有10000个更改。</p>
+</li>
+<li><p>指定存储至本地数据库时是否压缩数据，默认为yes，Redis采用LZF压缩，如果为了节省CPU时间，可以关闭该选项，但会导致数据库文件变的巨大     </p>
+<p><code>rdbcompression yes</code></p>
+</li>
+<li><p>指定本地数据库文件名，默认值为dump.rdb</p>
+<p><code>dbfilename dump.rdb</code></p>
+</li>
+<li><p>指定本地数据库存放目录</p>
+<p><code>dir ./</code></p>
+</li>
+<li><p>设置当本机为slav服务时，设置master服务的IP地址及端口，在Redis启动时，它会自动从master进行数据同步</p>
+<p><code>slaveof &lt;masterip&gt; &lt;masterport&gt;</code></p>
+</li>
+<li><p>当master服务设置了密码保护时，slav服务连接master的密码</p>
+<p><code>masterauth &lt;master-password&gt;</code></p>
+</li>
+<li><p>设置Redis连接密码，如果配置了连接密码，客户端在连接Redis时需要通过AUTH <password>命令提供密码，默认关闭</password></p>
+<p><code>requirepass foobared</code></p>
+</li>
+<li><p>设置同一时间最大客户端连接数，默认无限制，Redis可以同时打开的客户端连接数为Redis进程可以打开的最大文件描述符数，如果设置 maxclients 0，表示不作限制。当客户端连接数到达限制时，Redis会关闭新的连接并向客户端返回max number of clients reached错误信息</p>
+<p><code>maxclients 128</code></p>
+</li>
+<li><p>指定Redis最大内存限制，Redis在启动时会把数据加载到内存中，达到最大内存后，Redis会先尝试清除已到期或即将到期的Key，当此方法处理 后，仍然到达最大内存设置，将无法再进行写入操作，但仍然可以进行读取操作。Redis新的vm机制，会把Key存放内存，Value会存放在swap区</p>
+<p><code>maxmemory &lt;bytes&gt;</code></p>
+</li>
+<li><p>指定是否在每次更新操作后进行日志记录，Redis在默认情况下是异步的把数据写入磁盘，如果不开启，可能会在断电时导致一段时间内的数据丢失。因为 redis本身同步数据文件是按上面save条件来同步的，所以有的数据会在一段时间内只存在于内存中。默认为no</p>
+<p><code>appendonly no</code></p>
+</li>
+<li><p>指定更新日志文件名，默认为appendonly.aof</p>
+<p><code>appendfilename appendonly.aof</code></p>
+</li>
+<li><p>指定更新日志条件，共有3个可选值：   no：表示等操作系统进行数据缓存同步到磁盘（快）    always：表示每次更新操作后手动调用fsync()将数据写到磁盘（慢，安全    everysec：表示每秒同步一次（折衷，默认值）</p>
+<p><code>appendfsync everysec</code></p>
+</li>
+<li><p>指定是否启用虚拟内存机制，默认值为no，简单的介绍一下，VM机制将数据分页存放，由Redis将访问量较少的页即冷数据swap到磁盘上，访问多的页面由磁盘自动换出到内存中（在后面的文章我会仔细分析Redis的VM机制）</p>
+<p><code>vm-enabled no</code></p>
+</li>
+<li><p>虚拟内存文件路径，默认值为/tmp/redis.swap，不可多个Redis实例共享</p>
+<p><code>vm-swap-file /tmp/redis.swap</code></p>
+</li>
+<li><p>将所有大于vm-max-memory的数据存入虚拟内存,无论vm-max-memory设置多小,所有索引数据都是内存存储的(Redis的索引数据 就是keys),也就是说,当vm-max-memory设置为0的时候,其实是所有value都存在于磁盘。默认值为0</p>
+<p><code>vm-max-memory 0</code></p>
+</li>
+<li><p>Redis swap文件分成了很多的page，一个对象可以保存在多个page上面，但一个page上不能被多个对象共享，vm-page-size是要根据存储的 数据大小来设定的，作者建议如果存储很多小对象，page大小最好设置为32或者64bytes；如果存储很大大对象，则可以使用更大的page，如果不 确定，就使用默认值</p>
+<p><code>vm-page-size 32</code></p>
+</li>
+<li><p>设置swap文件中的page数量，由于页表（一种表示页面空闲或使用的bitmap）是在放在内存中的，，在磁盘上每8个pages将消耗1byte的内存。</p>
+<p><code>vm-pages 134217728</code></p>
+</li>
+<li><p>设置访问swap文件的线程数,最好不要超过机器的核数,如果设置为0,那么所有对swap文件的操作都是串行的，可能会造成比较长时间的延迟。默认值为4</p>
+<p><code>vm-max-threads 4</code></p>
+</li>
+<li><p>设置在向客户端应答时，是否把较小的包合并为一个包发送，默认为开启</p>
+<p><code>glueoutputbuf yes</code></p>
+</li>
+<li><p>指定在超过一定的数量或者最大的元素超过某一临界值时，采用一种特殊的哈希算法</p>
+<p><code>hash-max-zipmap-entries 64</code><br><code>hash-max-zipmap-value 512</code></p>
+</li>
+<li><p>指定是否激活重置哈希，默认为开启</p>
+<p><code>activerehashing yes</code></p>
+</li>
+<li><p>指定包含其它的配置文件，可以在同一主机上多个Redis实例之间使用同一份配置文件，而同时各个实例又拥有自己的特定配置文件</p>
+<p><code>include /path/to/local.conf</code></p>
+</li>
+</ol>
+<h2 id="Redis数据类型"><a href="#Redis数据类型" class="headerlink" title="Redis数据类型"></a>Redis数据类型</h2><ul>
+<li>String</li>
+</ul>
+<p>Strings 数据结构是简单的key-value类型，value其实不仅是String，也可以是数字.<br>常用命令:  set,get,decr,incr,mget 等。</p>
+<p>应用场景：String是最常用的一种数据类型，普通的key/ value 存储都可以归为此类.即可以完全实现目前 Memcached 的功能，并且效率更高。还可以享受Redis的定时持久化，操作日志及 Replication等功能。</p>
+<ul>
+<li>Hash</li>
+</ul>
+<p>常用命令：hget,hset,hgetall 等。</p>
+<p>应用场景：在Memcached中，我们经常将一些结构化的信息打包成HashMap，在客户端序列化后存储为一个字符串的值，比如用户的昵称、年龄、性别、积分等，这时候在需要修改其中某一项时，通常需要将所有值取出反序列化后，修改某一项的值，再序列化存储回去。这样不仅增大了开销，也不适用于一些可能并发操作的场合（比如两个并发的操作都需要修改积分）。而Redis的Hash结构可以使你像在数据库中Update一个属性一样只修改某一项属性值。我们简单举个实例来描述下Hash的应用场景，比如我们要存储一个用户信息对象数据，包含以下信息：用户ID为查找的key，存储的value用户对象包含姓名，年龄，生日等信息，</p>
+<ul>
+<li>List</li>
+</ul>
+<p>常用命令：lpush,rpush,lpop,rpop,lrange等。</p>
+<p>应用场景：Redis list的应用场景非常多，也是Redis最重要的数据结构之一，比如twitter的关注列表，粉丝列表等都可以用Redis的list结构来实现。Lists 就是链表，相信略有数据结构知识的人都应该能理解其结构。使用Lists结构，我们可以轻松地实现最新消息排行等功能。Lists的另一个应用就是消息队列，<br>可以利用Lists的PUSH操作，将任务存在Lists中，然后工作线程再用POP操作将任务取出进行执行。Redis还提供了操作Lists中某一段的api，你可以直接查询，删除Lists中某一段的元素。</p>
+<ul>
+<li>Set</li>
+</ul>
+<p>常用命令：sadd,spop,smembers,sunion 等。</p>
+<p>应用场景：Redis set对外提供的功能与list类似是一个列表的功能，特殊之处在于set是可以自动排重的，当你需要存储一个列表数据，又不希望出现重复数据时，set是一个很好的选择，并且set提供了判断某个成员是否在一个set集合内的重要接口，这个也是list所不能提供的。</p>
+<p>Sets 集合的概念就是一堆不重复值的组合。利用Redis提供的Sets数据结构，可以存储一些集合性的数据，比如在微博应用中，可以将一个用户所有的关注人存在一个集合中，将其所有粉丝存在一个集合。Redis还为集合提供了求交集、并集、差集等操作，可以非常方便的实现如共同关注、共同喜好、二度好友等功能，对上面的所有集合操作，你还可以使用不同的命令选择将结果返回给客户端还是存集到一个新的集合中。</p>
+<ul>
+<li>Sorted Set</li>
+</ul>
+<p>常用命令：zadd,zrange,zrem,zcard等</p>
+<p>使用场景：Redis sorted set的使用场景与set类似，区别是set不是自动有序的，而sorted set可以通过用户额外提供一个优先级(score)的参数来为成员排序，并且是插入有序的，即自动排序。当你需要一个有序的并且不重复的集合列表，那么可以选择sorted set数据结构，比如twitter 的public timeline可以以发表时间作为score来存储，这样获取时就是自动按时间排好序的。</p>
+<p>另外还可以用Sorted Sets来做带权重的队列，比如普通消息的score为1，重要消息的score为2，然后工作线程可以选择按score的倒序来获取工作任务。让重要的任务优先执行。</p>
+<h2 id="Redis的持久化方式RDB和AOF"><a href="#Redis的持久化方式RDB和AOF" class="headerlink" title="Redis的持久化方式RDB和AOF"></a>Redis的持久化方式RDB和AOF</h2><p><strong>二者的区别</strong></p>
+<p>RDB持久化是指在指定的时间间隔内将内存中的数据集快照写入磁盘，实际操作过程是fork一个子进程，先将数据集写入临时文件，写入成功后，再替换之前的文件，用二进制压缩存储。</p>
+<p>AOF持久化以日志的形式记录服务器所处理的每一个写、删除操作，查询操作不会记录，以文本的方式记录，可以打开文件看到详细的操作记录。</p>
+<p><strong>二者优缺点</strong></p>
+<p>RDB存在哪些优势呢？<br>1). 一旦采用该方式，那么你的整个Redis数据库将只包含一个文件，这对于文件备份而言是非常完美的。比如，你可能打算每个小时归档一次最近24小时的数据，同时还要每天归档一次最近30天的数据。通过这样的备份策略，一旦系统出现灾难性故障，我们可以非常容易的进行恢复。</p>
+<p>2). 对于灾难恢复而言，RDB是非常不错的选择。因为我们可以非常轻松的将一个单独的文件压缩后再转移到其它存储介质上。</p>
+<p>3). 性能最大化。对于Redis的服务进程而言，在开始持久化时，它唯一需要做的只是fork出子进程，之后再由子进程完成这些持久化的工作，这样就可以极大的避免服务进程执行IO操作了。</p>
+<p>4). 相比于AOF机制，如果数据集很大，RDB的启动效率会更高。</p>
+<p>RDB又存在哪些劣势呢？</p>
+<p>1). 如果你想保证数据的高可用性，即最大限度的避免数据丢失，那么RDB将不是一个很好的选择。因为系统一旦在定时持久化之前出现宕机现象，此前没有来得及写入磁盘的数据都将丢失。</p>
+<p>2). 由于RDB是通过fork子进程来协助完成数据持久化工作的，因此，如果当数据集较大时，可能会导致整个服务器停止服务几百毫秒，甚至是1秒钟。</p>
+<p>AOF的优势有哪些呢？<br>1). 该机制可以带来更高的数据安全性，即数据持久性。Redis中提供了3中同步策略，即每秒同步、每修改同步和不同步。事实上，每秒同步也是异步完成的，其效率也是非常高的，所差的是一旦系统出现宕机现象，那么这一秒钟之内修改的数据将会丢失。而每修改同步，我们可以将其视为同步持久化，即每次发生的数据变化都会被立即记录到磁盘中。可以预见，这种方式在效率上是最低的。至于无同步，无需多言，我想大家都能正确的理解它。</p>
+<p>2). 由于该机制对日志文件的写入操作采用的是append模式，因此在写入过程中即使出现宕机现象，也不会破坏日志文件中已经存在的内容。然而如果我们本次操作只是写入了一半数据就出现了系统崩溃问题，不用担心，在Redis下一次启动之前，我们可以通过redis-check-aof工具来帮助我们解决数据一致性的问题。</p>
+<p>3). 如果日志过大，Redis可以自动启用rewrite机制。即Redis以append模式不断的将修改数据写入到老的磁盘文件中，同时Redis还会创建一个新的文件用于记录此期间有哪些修改命令被执行。因此在进行rewrite切换时可以更好的保证数据安全性。</p>
+<p>4). AOF包含一个格式清晰、易于理解的日志文件用于记录所有的修改操作。事实上，我们也可以通过该文件完成数据的重建。</p>
+<p>AOF的劣势有哪些呢？</p>
+<p>1). 对于相同数量的数据集而言，AOF文件通常要大于RDB文件。RDB 在恢复大数据集时的速度比 AOF 的恢复速度要快。</p>
+<p>2). 根据同步策略的不同，AOF在运行效率上往往会慢于RDB。总之，每秒同步策略的效率是比较高的，同步禁用策略的效率和RDB一样高效。</p>
+<p>二者选择的标准，就是看系统是愿意牺牲一些性能，换取更高的缓存一致性（aof），还是愿意写操作频繁的时候，不启用备份来换取更高的性能，待手动运行save的时候，再做备份（rdb）。rdb这个就更有些 eventually consistent的意思了。</p>
+<p><strong>Redis持久化常用配置</strong></p>
+<p>RDB持久化配置</p>
+<p>Redis会将数据集的快照dump到dump.rdb文件中。此外，我们也可以通过配置文件来修改Redis服务器dump快照的频率，在打开6379.conf文件之后，我们搜索save，可以看到下面的配置信息：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"># RDB持久化配置</span><br><span class="line"></span><br><span class="line">save 900 1             #在900秒(15分钟)之后，如果至少有1个key发生变化，则dump内存快照。</span><br><span class="line"></span><br><span class="line">save 300 10            #在300秒(5分钟)之后，如果至少有10个key发生变化，则dump内存快照。</span><br><span class="line"></span><br><span class="line">save 60 10000          #在60秒(1分钟)之后，如果至少有10000个key发生变化，则dump内存快照。</span><br><span class="line"></span><br><span class="line"># AOF持久化配置,在Redis的配置文件中存在三种同步方式，它们分别是：</span><br><span class="line"></span><br><span class="line">appendfsync always     #每次有数据修改发生时都会写入AOF文件。</span><br><span class="line"></span><br><span class="line">appendfsync everysec   #每秒钟同步一次，该策略为AOF的缺省策略。</span><br><span class="line"></span><br><span class="line">appendfsync no          #从不同步。高效但是数据不会被持久化。</span><br></pre></td></tr></table></figure>
+<h2 id="主从复制"><a href="#主从复制" class="headerlink" title="主从复制"></a>主从复制</h2><p><strong>机器规划</strong></p>
+<p>需要准备三台安装好redis linux服务器我这里用的是CentOS7.5</p>
+<p>192.168.79.15    master<br>192.168.79.16    slave1<br>192.168.79.17    slave1</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"># 编辑salve1、slave2 的配置文件</span><br><span class="line"></span><br><span class="line">$ vim /etc/redis/6379.conf</span><br><span class="line"></span><br><span class="line"># 添加如下配置(新版本的redis 使用 replicaof 代替了 slaveof)</span><br><span class="line">replicaof 192.168.79.15 6379</span><br><span class="line"></span><br><span class="line"># 配置完成后启动redis集群,查看redis的角色</span><br><span class="line"></span><br><span class="line">&gt; info replication</span><br><span class="line"></span><br><span class="line"># 模拟主节点挂掉后，手动将slave1子节点升级为Master</span><br><span class="line"># 在 master redis 客户端执行</span><br><span class="line">&gt; shutdown</span><br><span class="line"></span><br><span class="line"># 在是 slave redis 客户度执行</span><br><span class="line">&gt; slaveof no one</span><br></pre></td></tr></table></figure>
+<h2 id="Redis哨兵（Sentinel）模式"><a href="#Redis哨兵（Sentinel）模式" class="headerlink" title="Redis哨兵（Sentinel）模式"></a>Redis哨兵（Sentinel）模式</h2><p><strong>哨兵模式概述</strong></p>
+<p>Sentinel(哨兵)进程是用于监控redis集群中Master主服务器工作的状态，在Master主服务器发生故障的时候，可以实现Master和Slave服务器的切换，保证系统的高可用，其已经被集成在redis2.6+的版本中，Redis的哨兵模式到了2.8版本之后就稳定了下来。一般在生产环境也建议使用Redis的2.8版本的以后版本。哨兵(Sentinel) 是一个分布式系统，你可以在一个架构中运行多个哨兵(sentinel) 进程，这些进程使用流言协议(gossipprotocols)来接收关于Master主服务器是否下线的信息，并使用投票协议(Agreement Protocols)来决定是否执行自动故障迁移,以及选择哪个Slave作为新的Master。每个哨兵(Sentinel)进程会向其它哨兵(Sentinel)、Master、Slave定时发送消息，以确认对方是否”活”着，如果发现对方在指定配置时间(可配置的)内未得到回应，则暂时认为对方已掉线，也就是所谓的”主观认为宕机” ，英文名称：Subjective Down，简称SDOWN。有主观宕机，肯定就有客观宕机。当“哨兵群”中的多数Sentinel进程在对Master主服务器做出 SDOWN 的判断，并且通过 SENTINEL is-master-down-by-addr 命令互相交流之后，得出的Master Server下线判断，这种方式就是“客观宕机”，英文名称是：Objectively Down， 简称 ODOWN。通过一定的vote算法，从剩下的slave从服务器节点中，选一台提升为Master服务器节点，然后自动修改相关配置，并开启故障转移（failover）。</p>
+<p>哨兵(sentinel) 虽然有一个单独的可执行文件 redis-sentinel ,但实际上它只是一个运行在特殊模式下的 Redis 服务器，你可以在启动一个普通 Redis 服务器时通过给定 –sentinel 选项来启动哨兵(sentinel)，哨兵(sentinel) 的一些设计思路和zookeeper非常类似。</p>
+<p>Sentinel集群之间会互相通信，沟通交流redis节点的状态，做出相应的判断并进行处理，这里的主观下线状态和客观下线状态是比较重要的状态，它们决定了是否进行故障转移，可以 通过订阅指定的频道信息，当服务器出现故障得时候通知管理员，客户端可以将 Sentinel 看作是一个只提供了订阅功能的 Redis 服务器，你不可以使用 PUBLISH 命令向这个服务器发送信息，但你可以用 SUBSCRIBE 命令或者 PSUBSCRIBE 命令， 通过订阅给定的频道来获取相应的事件提醒。一个频道能够接收和这个频道的名字相同的事件。 比如说， 名为 +sdown 的频道就可以接收所有实例进入主观下线（SDOWN）状态的事件。</p>
+<p><strong>Sentinel（哨兵）进程的作用：</strong></p>
+<p>1.监控(Monitoring): 哨兵(sentinel) 会不断地检查你的Master和Slave是否运作正常。</p>
+<p>2.提醒(Notification)：当被监控的某个Redis节点出现问题时, 哨兵(sentinel) 可以通过 API 向管理员或者其他应用程序发送通知。</p>
+<p>3.自动故障迁移(Automatic failover)：当一个Master不能正常工作时，哨兵(sentinel) 会开始一次自动故障迁移操作，它会将失效Master的其中一个Slave升级为新的Master, 并让失效Master的其他Slave改为复制新的Master；当客户端试图连接失效的Master时，集群也会向客户端返回新Master的地址，使得集群可以使用现在的Master替换失效Master。Master和Slave服务器切换后，Master的redis.conf、Slave的redis.conf和sentinel.conf的配置文件的内容都会发生相应的改变，即，Master主服务器的redis.conf配置文件中会多一行slaveof的配置，sentinel.conf的监控目标会随之调换。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"># 拷贝redis解压目录中的哨兵(sentinel.conf)配置文件</span><br><span class="line">$ cp sentinel.conf /etc/redis</span><br><span class="line"></span><br><span class="line"># 主要修改一下配置文件其他默认即可</span><br><span class="line"></span><br><span class="line"># 哨兵进程的端口</span><br><span class="line">port 26379</span><br><span class="line"></span><br><span class="line"># 后台运行</span><br><span class="line">daemonize yes</span><br><span class="line"></span><br><span class="line"># 监听的节点</span><br><span class="line">sentinel monitor mymaster 192.168.79.15 6379 1</span><br><span class="line"></span><br><span class="line"># 哨兵的日志文件</span><br><span class="line">logfile &quot;/export/logs/redis/sentinel.log&quot;</span><br><span class="line"></span><br><span class="line"># redis 的密码</span><br><span class="line">sentinel auth-pass mymaster &quot;123456&quot;</span><br></pre></td></tr></table></figure>
+<p><strong>redis 哨兵模式java客户端调用</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * &lt;p&gt; redis 哨兵集群</span><br><span class="line"> *</span><br><span class="line"> * @author leone</span><br><span class="line"> * @since 2019-01-29</span><br><span class="line"> **/</span><br><span class="line">public class RedisSentinelTest &#123;</span><br><span class="line"></span><br><span class="line">    @SuppressWarnings(&quot;deprecation&quot;)</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line"></span><br><span class="line">        Set&lt;String&gt; sentinels = new HashSet&lt;&gt;();</span><br><span class="line"></span><br><span class="line">        sentinels.add(&quot;192.168.79.15:26379&quot;);</span><br><span class="line">        sentinels.add(&quot;192.168.79.16:26379&quot;);</span><br><span class="line">        sentinels.add(&quot;192.168.79.17:26379&quot;);</span><br><span class="line"></span><br><span class="line">        String clusterName = &quot;mymaster&quot;;</span><br><span class="line">        String password = &quot;123456&quot;;</span><br><span class="line"></span><br><span class="line">        JedisSentinelPool redisSentinelPool = new JedisSentinelPool(clusterName, sentinels, password);</span><br><span class="line"></span><br><span class="line">        Jedis jedis = null;</span><br><span class="line">        try &#123;</span><br><span class="line">            jedis = redisSentinelPool.getResource();</span><br><span class="line">            jedis.set(&quot;k10&quot;, &quot;v10&quot;);</span><br><span class="line">            System.out.println(jedis.get(&quot;k10&quot;));</span><br><span class="line">        &#125; catch (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; finally &#123;</span><br><span class="line">            redisSentinelPool.returnBrokenResource(jedis);</span><br><span class="line">        &#125;</span><br><span class="line">        redisSentinelPool.close();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="发布订阅-pub-sub"><a href="#发布订阅-pub-sub" class="headerlink" title="发布订阅(pub/sub)"></a>发布订阅(pub/sub)</h2><p>特性介绍：</p>
+<p>　　什么是redis的发布订阅（pub/sub）? Pub/Sub功能（means Publish, Subscribe）即发布及订阅功能。基于事件的系统中，Pub/Sub是目前广泛使用的通信模型，它采用事件作为基本的通信机制，提供大规模系统所要求的松散耦合的交互模式：订阅者(如客户端)以事件订阅的方式表达出它有兴趣接收的一个事件或一类事件；发布者(如服务器)可将订阅者感兴趣的事件随时通知相关订阅者。熟悉设计模式的朋友应该了解这与23种设计模式中的观察者模式极为相似。 </p>
+<p>同样,Redis的pub/sub是一种消息通信模式，主要的目的是解除消息发布者和消息订阅者之间的耦合,  Redis作为一个pub/sub的server, 在订阅者和发布者之间起到了消息路由的功能。</p>
+<p>　　简单来讲，这里面还有个channel的概念，这里就是频道的意思，比如你订阅了银行的频道，当你的资金发生变动时，银行就会通过它的频道给你发送信息，在这里，你是属于被动接收的，而不是向银行索要信息，这个例子中，你就是sub（订阅者），而银行就是pub（发布者）。</p>
+<h3 id="代码示例"><a href="#代码示例" class="headerlink" title="代码示例"></a>代码示例</h3><ul>
+<li>Subscriber.java</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">import redis.clients.jedis.JedisPubSub;</span><br><span class="line"></span><br><span class="line">public class Subscriber extends JedisPubSub &#123;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 收到消息会调用</span><br><span class="line">     *</span><br><span class="line">     * @param channel</span><br><span class="line">     * @param message</span><br><span class="line">     */</span><br><span class="line">    @Override</span><br><span class="line">    public void onMessage(String channel, String message) &#123;</span><br><span class="line">        System.out.println(String.format(&quot;receive redis published message, channel: %s, message: %s&quot;, channel, message));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 订阅了频道会调用</span><br><span class="line">     *</span><br><span class="line">     * @param channel</span><br><span class="line">     * @param subscribedChannels</span><br><span class="line">     */</span><br><span class="line">    @Override</span><br><span class="line">    public void onSubscribe(String channel, int subscribedChannels) &#123;</span><br><span class="line">        System.out.println(String.format(&quot;subscribe redis channel success, channel: %s, subscribedChannels: %d&quot;, channel, subscribedChannels));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 取消订阅 会调用</span><br><span class="line">     *</span><br><span class="line">     * @param channel</span><br><span class="line">     * @param subscribedChannels</span><br><span class="line">     */</span><br><span class="line">    @Override</span><br><span class="line">    public void onUnsubscribe(String channel, int subscribedChannels) &#123;</span><br><span class="line">        System.out.println(String.format(&quot;unsubscribe redis channel, channel: %s, subscribedChannels: %d&quot;, channel, subscribedChannels));</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>SubThread.java</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">import redis.clients.jedis.Jedis;</span><br><span class="line">import redis.clients.jedis.JedisPool;</span><br><span class="line"></span><br><span class="line">public class SubThread extends Thread &#123;</span><br><span class="line"></span><br><span class="line">    private final JedisPool jedisPool;</span><br><span class="line"></span><br><span class="line">    private final Subscriber subscriber = new Subscriber();</span><br><span class="line"></span><br><span class="line">    private final String channel = &quot;channel1&quot;;</span><br><span class="line"></span><br><span class="line">    public SubThread(JedisPool jedisPool) &#123;</span><br><span class="line">        super(&quot;SubThread&quot;);</span><br><span class="line">        this.jedisPool = jedisPool;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void run() &#123;</span><br><span class="line">        System.out.println(String.format(&quot;subscribe redis, channel %s, thread will be blocked&quot;, channel));</span><br><span class="line">        Jedis jedis = null;</span><br><span class="line">        try &#123;</span><br><span class="line">            // 取出一个连接</span><br><span class="line">            jedis = jedisPool.getResource();</span><br><span class="line">            // 通过subscribe 的api去订阅，入参是订阅者和频道名</span><br><span class="line">            jedis.subscribe(subscriber, channel);</span><br><span class="line">        &#125; catch (Exception e) &#123;</span><br><span class="line">            System.out.println(String.format(&quot;subscribe channel error, %s&quot;, e));</span><br><span class="line">        &#125; finally &#123;</span><br><span class="line">            jedis.close();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Publisher.java</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">import redis.clients.jedis.Jedis;</span><br><span class="line">import redis.clients.jedis.JedisPool;</span><br><span class="line"></span><br><span class="line">import java.io.BufferedReader;</span><br><span class="line">import java.io.IOException;</span><br><span class="line">import java.io.InputStreamReader;</span><br><span class="line"></span><br><span class="line">public class Publisher extends Thread &#123;</span><br><span class="line"></span><br><span class="line">    private final JedisPool jedisPool;</span><br><span class="line"></span><br><span class="line">    public Publisher(JedisPool jedisPool) &#123;</span><br><span class="line">        this.jedisPool = jedisPool;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void run() &#123;</span><br><span class="line">        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));</span><br><span class="line">        // 连接池中取出一个连接</span><br><span class="line">        Jedis jedis = jedisPool.getResource();</span><br><span class="line">        while (true) &#123;</span><br><span class="line">            String line;</span><br><span class="line">            try &#123;</span><br><span class="line">                line = reader.readLine();</span><br><span class="line">                if (!&quot;quit&quot;.equals(line)) &#123;</span><br><span class="line">                    // 从 channel1 的频道上推送消息</span><br><span class="line">                    jedis.publish(&quot;channel1&quot;, line);</span><br><span class="line">                &#125; else &#123;</span><br><span class="line">                    break;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; catch (IOException e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>RedisPubSubTest.java</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">import redis.clients.jedis.JedisPool;</span><br><span class="line">import redis.clients.jedis.JedisPoolConfig;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * &lt;p&gt;</span><br><span class="line"> *</span><br><span class="line"> * @author leone</span><br><span class="line"> * @since 2019-01-29</span><br><span class="line"> **/</span><br><span class="line">public class RedisPubSubTest &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        // 连接池配置对象 (config, host + port + timeout + password + db)</span><br><span class="line">        JedisPool jedisPool = new JedisPool(new JedisPoolConfig(), &quot;192.168.79.17&quot;, 6379, 5000, &quot;123456&quot;, 1);</span><br><span class="line"></span><br><span class="line">        System.out.println(String.format(&quot;redis pool is starting, redis ip %s, redis port %d&quot;, &quot;127.0.0.1&quot;, 6379));</span><br><span class="line"></span><br><span class="line">        // 订阅者</span><br><span class="line">        SubThread subThread = new SubThread(jedisPool);</span><br><span class="line">        subThread.start();</span><br><span class="line"></span><br><span class="line">        // 发布者</span><br><span class="line">        Publisher publisher = new Publisher(jedisPool);</span><br><span class="line">        publisher.start();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Redis-javaAPI"><a href="#Redis-javaAPI" class="headerlink" title="Redis javaAPI"></a>Redis javaAPI</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br><span class="line">282</span><br><span class="line">283</span><br><span class="line">284</span><br><span class="line">285</span><br><span class="line">286</span><br><span class="line">287</span><br><span class="line">288</span><br><span class="line">289</span><br><span class="line">290</span><br><span class="line">291</span><br><span class="line">292</span><br><span class="line">293</span><br><span class="line">294</span><br><span class="line">295</span><br><span class="line">296</span><br><span class="line">297</span><br><span class="line">298</span><br><span class="line">299</span><br><span class="line">300</span><br><span class="line">301</span><br><span class="line">302</span><br><span class="line">303</span><br><span class="line">304</span><br><span class="line">305</span><br><span class="line">306</span><br><span class="line">307</span><br><span class="line">308</span><br><span class="line">309</span><br><span class="line">310</span><br><span class="line">311</span><br><span class="line">312</span><br><span class="line">313</span><br><span class="line">314</span><br><span class="line">315</span><br><span class="line">316</span><br><span class="line">317</span><br><span class="line">318</span><br><span class="line">319</span><br><span class="line">320</span><br><span class="line">321</span><br><span class="line">322</span><br><span class="line">323</span><br><span class="line">324</span><br><span class="line">325</span><br><span class="line">326</span><br><span class="line">327</span><br><span class="line">328</span><br><span class="line">329</span><br><span class="line">330</span><br><span class="line">331</span><br><span class="line">332</span><br><span class="line">333</span><br></pre></td><td class="code"><pre><span class="line">import org.junit.Test;</span><br><span class="line">import redis.clients.jedis.*;</span><br><span class="line">import java.util.HashMap;</span><br><span class="line">import java.util.Map;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * &lt;p&gt;</span><br><span class="line"> *</span><br><span class="line"> * @author leone</span><br><span class="line"> * @since 2018-12-19</span><br><span class="line"> **/</span><br><span class="line">public class RedisClient &#123;</span><br><span class="line"></span><br><span class="line">    private static final String HOST = &quot;127.0.0.1&quot;;</span><br><span class="line"></span><br><span class="line">    private static final Integer PORT = 6379;</span><br><span class="line"></span><br><span class="line">    private static final Integer TIME_OUT = 15000;</span><br><span class="line"></span><br><span class="line">    private static Jedis jedis;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    private static final JedisPool jedisPool;</span><br><span class="line"></span><br><span class="line">    static &#123;</span><br><span class="line">        JedisPoolConfig config = new JedisPoolConfig();</span><br><span class="line">        // 最大连接数</span><br><span class="line">        config.setMaxTotal(32);</span><br><span class="line">        // 闲置最大连接数</span><br><span class="line">        config.setMaxIdle(6);</span><br><span class="line">        // 闲置最小连接数</span><br><span class="line">        config.setMinIdle(0);</span><br><span class="line">        // 到达最大连接数后，调用者阻塞时间</span><br><span class="line">        config.setMaxWaitMillis(15000);</span><br><span class="line">        // 连接空闲的最小时间，可能被移除</span><br><span class="line">        config.setMinEvictableIdleTimeMillis(300000);</span><br><span class="line">        // 连接空闲的最小时间，多余最小闲置连接的将被移除</span><br><span class="line">        config.setSoftMinEvictableIdleTimeMillis(-1);</span><br><span class="line">        // 设置每次检查闲置的个数</span><br><span class="line">        config.setNumTestsPerEvictionRun(3);</span><br><span class="line">        // 申请连接时，是否检查连接有效</span><br><span class="line">        config.setTestOnBorrow(false);</span><br><span class="line">        // 返回连接时，是否检查连接有效</span><br><span class="line">        config.setTestOnReturn(false);</span><br><span class="line">        // 空闲超时,是否执行检查有效</span><br><span class="line">        config.setTestWhileIdle(false);</span><br><span class="line">        // 空闲检查时间</span><br><span class="line">        config.setTimeBetweenEvictionRunsMillis(60000);</span><br><span class="line">        // 当连接数耗尽，是否阻塞</span><br><span class="line">        config.setBlockWhenExhausted(true);</span><br><span class="line">        // 连接池配置对象 (host + port + timeout + password + db)</span><br><span class="line">        jedisPool = new JedisPool(config, HOST, PORT, TIME_OUT, null, 1);</span><br><span class="line">        jedis = jedisPool.getResource();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * set and get string</span><br><span class="line">     */</span><br><span class="line">    @Test</span><br><span class="line">    public void testString() &#123;</span><br><span class="line">        System.out.println(&quot;----------------redis-String-----------------&quot;);</span><br><span class="line">        // set:返回操作结果</span><br><span class="line">        System.out.println(&quot;name=&gt;wsy:&quot; + jedis.set(&quot;name&quot;, &quot;wsy&quot;));</span><br><span class="line"></span><br><span class="line">        // get:value</span><br><span class="line">        System.out.println(&quot;name:&quot; + jedis.get(&quot;name&quot;));</span><br><span class="line"></span><br><span class="line">        // append:字符串长度</span><br><span class="line">        System.out.println(&quot;append:&quot; + jedis.append(&quot;name&quot;, &quot;_ss&quot;));</span><br><span class="line"></span><br><span class="line">        // strLength:字符串长度</span><br><span class="line">        System.out.println(&quot;strLength:&quot; + jedis.strlen(&quot;name&quot;));</span><br><span class="line"></span><br><span class="line">        // getrange:返回不包括起始坐标的值</span><br><span class="line">        System.out.println(&quot;getrange:&quot; + jedis.getrange(&quot;name&quot;, 10, 13));</span><br><span class="line"></span><br><span class="line">        // setrange:从起始坐标考试替换，未替换的保持</span><br><span class="line">        System.out.println(&quot;setRange:&quot; + jedis.setrange(&quot;name&quot;, 10, &quot;#&quot;));</span><br><span class="line"></span><br><span class="line">        // mset:批量设置，返回批量设置结果</span><br><span class="line">        System.out.println(&quot;mset:&quot; + jedis.mset(&quot;name&quot;, &quot;wsy&quot;, &quot;age&quot;, &quot;29&quot;));</span><br><span class="line"></span><br><span class="line">        // mget:返回数组</span><br><span class="line">        System.out.println(&quot;mget:&quot; + jedis.mget(&quot;name&quot;, &quot;age&quot;));</span><br><span class="line"></span><br><span class="line">        // incr:value自增1后，返回value</span><br><span class="line">        System.out.println(&quot;incr:&quot; + jedis.incr(&quot;age&quot;));</span><br><span class="line"></span><br><span class="line">        // incr:value自增传参值后，返回value</span><br><span class="line">        System.out.println(&quot;incrBy:&quot; + jedis.incrBy(&quot;age&quot;, 3));</span><br><span class="line"></span><br><span class="line">        // decr:value自减1，返回value</span><br><span class="line">        System.out.println(&quot;decr:&quot; + jedis.decr(&quot;age&quot;));</span><br><span class="line"></span><br><span class="line">        // decrBy:value自减入参值，返回value</span><br><span class="line">        System.out.println(&quot;decrBy:&quot; + jedis.decrBy(&quot;age&quot;, 3));</span><br><span class="line"></span><br><span class="line">        // setex:设置key值+有效时间，如果key存在则覆盖value</span><br><span class="line">        System.out.println(&quot;setex:&quot; + jedis.setex(&quot;phone&quot;, 10, &quot;13600000001&quot;));</span><br><span class="line"></span><br><span class="line">        // setnx:当key不存在时，设置才成功</span><br><span class="line">        System.out.println(&quot;setnx:&quot; + jedis.setnx(&quot;address&quot;, &quot;china&quot;));</span><br><span class="line"></span><br><span class="line">        // del:删除对应key</span><br><span class="line">        System.out.println(&quot;del:&quot; + jedis.del(&quot;address1&quot;));</span><br><span class="line"></span><br><span class="line">        System.out.println(&quot;----------------redis-String-----------------\n&quot;);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * redis中hash类型常用操作</span><br><span class="line">     */</span><br><span class="line">    @Test</span><br><span class="line">    public void testHash() &#123;</span><br><span class="line">        System.out.println(&quot;----------------redis-HashMap-----------------&quot;);</span><br><span class="line">        // hset:返回值为key为新返回1，为旧覆盖旧值返回0</span><br><span class="line">        System.out.println(&quot;hset:&quot; + jedis.hset(&quot;user&quot;, &quot;name&quot;, &quot;wangshaoyi&quot;));</span><br><span class="line"></span><br><span class="line">        Map&lt;String, String&gt; map = new HashMap&lt;&gt;();</span><br><span class="line"></span><br><span class="line">        map.put(&quot;name&quot;, &quot;wsy&quot;);</span><br><span class="line">        map.put(&quot;age&quot;, &quot;29&quot;);</span><br><span class="line"></span><br><span class="line">        // hmset:map对象</span><br><span class="line">        System.out.println(&quot;hmset:&quot; + jedis.hmset(&quot;user&quot;, map));</span><br><span class="line"></span><br><span class="line">        // hexists:判断hashmap中key是否存在</span><br><span class="line">        System.out.println(&quot;hexists:&quot; + jedis.hexists(&quot;user&quot;, &quot;age&quot;));</span><br><span class="line"></span><br><span class="line">        // hget:获取map中key对应的value</span><br><span class="line">        System.out.println(&quot;hget:&quot; + jedis.hget(&quot;user&quot;, &quot;name&quot;));</span><br><span class="line"></span><br><span class="line">        // hgetAll:获取map中所有对象</span><br><span class="line">        System.out.println(&quot;hgetAll:&quot; + jedis.hgetAll(&quot;user&quot;));</span><br><span class="line"></span><br><span class="line">        // hkeys:获取map中所有key</span><br><span class="line">        System.out.println(&quot;hkeys:&quot; + jedis.hkeys(&quot;user&quot;));</span><br><span class="line"></span><br><span class="line">        // hvals:获取map中所有value</span><br><span class="line">        System.out.println(&quot;hvals:&quot; + jedis.hvals(&quot;user&quot;));</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        // hmget:批量获取keys的对象，返回List</span><br><span class="line">        System.out.println(&quot;hmget:&quot; + jedis.hmget(&quot;user&quot;, &quot;age&quot;, &quot;name&quot;));</span><br><span class="line"></span><br><span class="line">        // hlen:map的大小</span><br><span class="line">        System.out.println(&quot;hlen:&quot; + jedis.hlen(&quot;user&quot;));</span><br><span class="line"></span><br><span class="line">        // hdel:删除map中对应key,正确删除返回1</span><br><span class="line">        System.out.println(&quot;hdel:&quot; + jedis.hdel(&quot;user&quot;, &quot;age0&quot;));</span><br><span class="line"></span><br><span class="line">        System.out.println(&quot;----------------redis-HashMap-----------------\n&quot;);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * redis中 list 类型常用操作</span><br><span class="line">     */</span><br><span class="line">    @Test</span><br><span class="line">    public void testList() &#123;</span><br><span class="line">        System.out.println(&quot;----------------redis-List-----------------&quot;);</span><br><span class="line">        jedis.del(&quot;contacts&quot;);</span><br><span class="line">        jedis.del(&quot;contacts_old&quot;);</span><br><span class="line"></span><br><span class="line">        // lpush:批量头部插入，返回List的size</span><br><span class="line">        System.out.println(&quot;lpush:&quot; + jedis.lpush(&quot;contacts&quot;, &quot;xx&quot;, &quot;yy&quot;, &quot;zz&quot;));</span><br><span class="line"></span><br><span class="line">        // lpushx:单个头部插入，返回List的size</span><br><span class="line">        System.out.println(&quot;lpushx:&quot; + jedis.lpushx(&quot;contacts&quot;, &quot;aa&quot;));</span><br><span class="line"></span><br><span class="line">        // linsert:指定对象位置(前or后)插入</span><br><span class="line">        System.out.println(&quot;linsert:&quot; + jedis.linsert(&quot;contacts&quot;, BinaryClient.LIST_POSITION.BEFORE, &quot;zz&quot;, &quot;bb&quot;));</span><br><span class="line"></span><br><span class="line">        // lset:将指定的位置设置值（替换旧值）</span><br><span class="line">        System.out.println(&quot;lset:&quot; + jedis.lset(&quot;contacts&quot;, 2, &quot;cc&quot;));</span><br><span class="line"></span><br><span class="line">        // lpop:链表头的对象</span><br><span class="line">        System.out.println(&quot;lpop:&quot; + jedis.lpop(&quot;contacts&quot;));</span><br><span class="line"></span><br><span class="line">        // lrange:获取list指定start、end位置value</span><br><span class="line">        System.out.println(&quot;lrange:&quot; + jedis.lrange(&quot;contacts&quot;, 1, 3));</span><br><span class="line"></span><br><span class="line">        // ltrim:只剩start\end中list值，其余删除</span><br><span class="line">        System.out.println(&quot;ltrim:&quot; + jedis.ltrim(&quot;contacts&quot;, 1, 3));</span><br><span class="line"></span><br><span class="line">        // lrem:删除list指定值（次数指定），返回删除个数</span><br><span class="line">        System.out.println(&quot;lrem:&quot; + jedis.lrem(&quot;contacts&quot;, 2, &quot;yy&quot;));</span><br><span class="line"></span><br><span class="line">        // rpoplpush:将源list尾部对象移到目标list对象头部</span><br><span class="line">        System.out.println(&quot;rpoplpush:&quot; + jedis.rpoplpush(&quot;contacts&quot;, &quot;contacts_old&quot;));</span><br><span class="line"></span><br><span class="line">        // rpush:在list尾部对象添加值</span><br><span class="line">        System.out.println(&quot;rpush:&quot; + jedis.rpush(&quot;contacts&quot;, &quot;aa&quot;, &quot;bb&quot;));</span><br><span class="line"></span><br><span class="line">        // rpop:移除在list尾部值，返回移除的对象</span><br><span class="line">        System.out.println(&quot;rpop:&quot; + jedis.rpop(&quot;contacts&quot;));</span><br><span class="line"></span><br><span class="line">        // brpop:阻塞尾部对象抛出，指定超时时间，返回抛出值</span><br><span class="line">        System.out.println(&quot;brpop:&quot; + jedis.brpop(1, &quot;contacts&quot;));</span><br><span class="line"></span><br><span class="line">        System.out.println(&quot;blpop:&quot; + jedis.blpop(1, &quot;contacts&quot;));</span><br><span class="line"></span><br><span class="line">        System.out.println(&quot;blpop（阻塞1秒返回）:&quot; + jedis.blpop(1, &quot;contacts&quot;));</span><br><span class="line"></span><br><span class="line">        System.out.println(&quot;----------------redis-List-----------------\n&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * redis中 set 类型常用操作</span><br><span class="line">     */</span><br><span class="line">    @Test</span><br><span class="line">    public void testSet() &#123;</span><br><span class="line">        System.out.println(&quot;----------------redis-Set-----------------&quot;);</span><br><span class="line">        jedis.del(&quot;phones&quot;);</span><br><span class="line">        jedis.del(&quot;phones_old&quot;);</span><br><span class="line">        jedis.del(&quot;phones_old_1&quot;);</span><br><span class="line">        jedis.del(&quot;phones_new&quot;);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        // sadd:集合添加元素,返回添加成功后数据</span><br><span class="line">        System.out.println(&quot;sadd:&quot; + jedis.sadd(&quot;phones&quot;, &quot;13600000001&quot;, &quot;13300000001&quot;));</span><br><span class="line">        System.out.println(&quot;sadd:&quot; + jedis.sadd(&quot;phones&quot;, &quot;13600000002&quot;, &quot;13300000002&quot;));</span><br><span class="line"></span><br><span class="line">        // scard:返回集合中元素数</span><br><span class="line">        System.out.println(&quot;scard:&quot; + jedis.scard(&quot;phones&quot;));</span><br><span class="line"></span><br><span class="line">        jedis.sadd(&quot;phones_old&quot;, &quot;13600000002&quot;);</span><br><span class="line">        jedis.sadd(&quot;phones_old_1&quot;, &quot;13300000001&quot;);</span><br><span class="line"></span><br><span class="line">        // sdiff:首set与其他set之间的差集，返回差集值</span><br><span class="line">        System.out.println(&quot;sdiff:&quot; + jedis.sdiff(&quot;phones&quot;, &quot;phones_old&quot;, &quot;phones_old_1&quot;));</span><br><span class="line"></span><br><span class="line">        // sdiffstore:首set与其他set之间的差集保存至新set，返回差集数</span><br><span class="line">        System.out.println(&quot;sdiffstore:&quot; + jedis.sdiffstore(&quot;phones_new&quot;, &quot;phones&quot;, &quot;phones_old&quot;));</span><br><span class="line"></span><br><span class="line">        // sinter:返回集合的交集</span><br><span class="line">        System.out.println(&quot;sinter:&quot; + jedis.sinter(&quot;phones&quot;, &quot;phones_new&quot;));</span><br><span class="line"></span><br><span class="line">        // sismember:判断value是否为set的值</span><br><span class="line">        System.out.println(&quot;sismember:&quot; + jedis.sismember(&quot;phones&quot;, &quot;13600000001&quot;));</span><br><span class="line"></span><br><span class="line">        // smembers:返回集合中成员</span><br><span class="line">        System.out.println(&quot;smembers:&quot; + jedis.smembers(&quot;phones&quot;));</span><br><span class="line"></span><br><span class="line">        // smove:将首源set中元素移动目标set，返回移动数</span><br><span class="line">        System.out.println(&quot;smove:&quot; + jedis.smove(&quot;phones&quot;, &quot;phones_new&quot;, &quot;13600000002&quot;));</span><br><span class="line"></span><br><span class="line">        // spop:随机移除set的一元素，返回移除元素</span><br><span class="line">        System.out.println(&quot;spop:&quot; + jedis.spop(&quot;phones&quot;));</span><br><span class="line"></span><br><span class="line">        // srandmember:随机取出集合中一个元素</span><br><span class="line">        System.out.println(&quot;srandmember:&quot; + jedis.srandmember(&quot;phones_new&quot;));</span><br><span class="line"></span><br><span class="line">        // srem:删除集合中指定元素</span><br><span class="line">        System.out.println(&quot;srem:&quot; + jedis.srem(&quot;phones_new&quot;, &quot;13600000002&quot;));</span><br><span class="line"></span><br><span class="line">        // sunion:集合中并集</span><br><span class="line">        System.out.println(&quot;sunion:&quot; + jedis.sunion(&quot;phones&quot;, &quot;phones_new&quot;, &quot;phones_old&quot;));</span><br><span class="line"></span><br><span class="line">        System.out.println(&quot;----------------redis-Set-----------------\n&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * redis中 SortedSet 类型常用操作</span><br><span class="line">     */</span><br><span class="line">    @Test</span><br><span class="line">    public void testSortedSet() &#123;</span><br><span class="line">        System.out.println(&quot;----------------redis-SortedSet-----------------&quot;);</span><br><span class="line">        jedis.del(&quot;scores&quot;);</span><br><span class="line">        jedis.del(&quot;scores_1&quot;);</span><br><span class="line">        jedis.del(&quot;scores_total&quot;);</span><br><span class="line">        jedis.del(&quot;score_inter&quot;);</span><br><span class="line">        jedis.del(&quot;score_max&quot;);</span><br><span class="line"></span><br><span class="line">        // zadd:sortedSet添加元素</span><br><span class="line">        System.out.println(&quot;zadd:&quot; + jedis.zadd(&quot;scores&quot;, 610.5, &quot;xx&quot;));</span><br><span class="line">        jedis.zadd(&quot;scores&quot;, 630, &quot;yy&quot;);</span><br><span class="line"></span><br><span class="line">        // zcard:返回sortedset中元素数</span><br><span class="line">        System.out.println(&quot;zcard:&quot; + jedis.zcard(&quot;scores&quot;));</span><br><span class="line"></span><br><span class="line">        // zcount:返回指定分值（包括）的元素数</span><br><span class="line">        System.out.println(&quot;zcount:&quot; + jedis.zcount(&quot;scores&quot;, 610, 620));</span><br><span class="line"></span><br><span class="line">        // zincrby:将指定值分数加分，返回加后的分数</span><br><span class="line">        System.out.println(&quot;zincrby:&quot; + jedis.zincrby(&quot;scores&quot;, 10, &quot;xx&quot;));</span><br><span class="line"></span><br><span class="line">        // zrange:返回指定坐标的值</span><br><span class="line">        System.out.println(&quot;zrange:&quot; + jedis.zrange(&quot;scores&quot;, 0, 1));</span><br><span class="line"></span><br><span class="line">        // zrangeByScore:返回指定分数范围内的对象</span><br><span class="line">        System.out.println(&quot;zrangeByScore:&quot; + jedis.zrangeByScore(&quot;scores&quot;, 600, 700));</span><br><span class="line"></span><br><span class="line">        // zrank:返回指定值的位置（分数低-&gt;高，0开始）</span><br><span class="line">        System.out.println(&quot;zrank:&quot; + jedis.zrank(&quot;scores&quot;, &quot;yy&quot;));</span><br><span class="line"></span><br><span class="line">        // zrevrank:返回指定值的位置（分数高-&gt;低，0开始）</span><br><span class="line">        System.out.println(&quot;zrevrank:&quot; + jedis.zrevrank(&quot;scores&quot;, &quot;yy&quot;));</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        // zrem:删除，其中还有zremrangeByRank\zremrangeByScore</span><br><span class="line">        System.out.println(&quot;zrem:&quot; + jedis.zrem(&quot;scores&quot;, &quot;yy&quot;));</span><br><span class="line"></span><br><span class="line">        jedis.zadd(&quot;scores&quot;, 630, &quot;yy&quot;);</span><br><span class="line">        jedis.zadd(&quot;scores&quot;, 640, &quot;zz&quot;);</span><br><span class="line">        // zrevrange：获取指定位置数据（分数从高-&gt;低）</span><br><span class="line">        System.out.println(&quot;:&quot; + jedis.zrevrange(&quot;scores&quot;, 0, 1));</span><br><span class="line"></span><br><span class="line">        System.out.println(&quot;zrangeByScoreWithScores:&quot; + jedis.zrangeByScoreWithScores(&quot;scores&quot;, 600, 700));</span><br><span class="line"></span><br><span class="line">        // zscore:获取指定分数</span><br><span class="line">        System.out.println(&quot;zscore:&quot; + jedis.zscore(&quot;scores&quot;, &quot;xx&quot;));</span><br><span class="line">        jedis.zadd(&quot;scores_1&quot;, 630.5, &quot;xx&quot;);</span><br><span class="line">        jedis.zadd(&quot;scores_1&quot;, 610.5, &quot;bb&quot;);</span><br><span class="line">        jedis.zadd(&quot;scores_1&quot;, 622.5, &quot;cc&quot;);</span><br><span class="line"></span><br><span class="line">        // zunionstore:sortedset集合的并集并保存,如果集合中元素相同，则分数相加</span><br><span class="line">        System.out.println(&quot;zunionstore:&quot; + jedis.zunionstore(&quot;score_total&quot;, &quot;scores&quot;, &quot;scores_1&quot;));</span><br><span class="line"></span><br><span class="line">        ZParams zParams = new ZParams();</span><br><span class="line">        zParams.aggregate(ZParams.Aggregate.MAX);// 指定分数操作：+，最小，最大</span><br><span class="line">        zParams.weightsByDouble(1, 0.1);// 分数中的乘法因子</span><br><span class="line">        System.out.println(&quot;zunionstore:&quot; + jedis.zunionstore(&quot;score_max&quot;, zParams, &quot;scores&quot;, &quot;scores_1&quot;));</span><br><span class="line"></span><br><span class="line">        // zinterstore:集合元素取交集，相同元素值相加(默认)</span><br><span class="line">        System.out.println(&quot;zinterstore:&quot; + jedis.zinterstore(&quot;score_inter&quot;, &quot;scores&quot;, &quot;scores_1&quot;));</span><br><span class="line">        System.out.println(&quot;----------------redis-SortedSet-----------------\n&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/02/04/redis/" data-id="cjrqbftzm001aakc4eberlx78" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-python" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/02/04/python/" class="article-date">
+  <time datetime="2019-02-04T12:16:14.075Z" itemprop="datePublished">2019-02-04</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/02/04/python/" data-id="cjrqbftx90001akc4puo2fjnn" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+
+
+  <nav id="page-nav">
+    
+    <a class="extend prev" rel="prev" href="/page/2/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/4/">Next &raquo;</a>
+  </nav>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/02/04/Crontab/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2019/02/04/CentOS-7.5-init/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2019/02/04/bash/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2019/02/04/awk/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2019/02/04/后台项目技术规范/">(no title)</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>

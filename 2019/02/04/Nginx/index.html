@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+
+  
+  <title>Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="nginxnginx详解什么是nginxNginx (engine x) 是一个高性能的HTTP和反向代理服务，也是一个IMAP/POP3/SMTP服务。Nginx是由伊戈尔·赛索耶夫为俄罗斯访问量第二的Rambler.ru站点（俄文：Рамблер）开发的，第一个公开版本0.1.0发布于2004年10月4日。其将源代码以类BSD许可证的形式发布，因它的稳定性、丰富的功能集、示例配置文件和低系统资">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://yoursite.com/2019/02/04/Nginx/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="nginxnginx详解什么是nginxNginx (engine x) 是一个高性能的HTTP和反向代理服务，也是一个IMAP/POP3/SMTP服务。Nginx是由伊戈尔·赛索耶夫为俄罗斯访问量第二的Rambler.ru站点（俄文：Рамблер）开发的，第一个公开版本0.1.0发布于2004年10月4日。其将源代码以类BSD许可证的形式发布，因它的稳定性、丰富的功能集、示例配置文件和低系统资">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-01-28T13:32:15.905Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Hexo">
+<meta name="twitter:description" content="nginxnginx详解什么是nginxNginx (engine x) 是一个高性能的HTTP和反向代理服务，也是一个IMAP/POP3/SMTP服务。Nginx是由伊戈尔·赛索耶夫为俄罗斯访问量第二的Rambler.ru站点（俄文：Рамблер）开发的，第一个公开版本0.1.0发布于2004年10月4日。其将源代码以类BSD许可证的形式发布，因它的稳定性、丰富的功能集、示例配置文件和低系统资">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Nginx" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/02/04/Nginx/" class="article-date">
+  <time datetime="2019-02-04T12:16:14.034Z" itemprop="datePublished">2019-02-04</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="nginx"><a href="#nginx" class="headerlink" title="nginx"></a>nginx</h1><h2 id="nginx详解"><a href="#nginx详解" class="headerlink" title="nginx详解"></a>nginx详解</h2><h3 id="什么是nginx"><a href="#什么是nginx" class="headerlink" title="什么是nginx"></a>什么是nginx</h3><p>Nginx (engine x) 是一个高性能的HTTP和反向代理服务，也是一个IMAP/POP3/SMTP服务。Nginx是由伊戈尔·赛索耶夫为俄罗斯访问量第二的Rambler.ru站点（俄文：Рамблер）开发的，第一个公开版本0.1.0发布于2004年10月4日。<br>其将源代码以类BSD许可证的形式发布，因它的稳定性、丰富的功能集、示例配置文件和低系统资源的消耗而闻名。2011年6月1日，nginx 1.0.4发布。<br>Nginx是一款轻量级的Web 服务器/反向代理服务器及电子邮件（IMAP/POP3）代理服务器，并在一个BSD-like 协议下发行。其特点是占有内存少，并发能力强，事实上nginx的并发能力确实在同类型的网页服务器中表现较好。</p>
+<h2 id="nginx的安装配置详解"><a href="#nginx的安装配置详解" class="headerlink" title="nginx的安装配置详解"></a>nginx的安装配置详解</h2><h3 id="nginx的安装"><a href="#nginx的安装" class="headerlink" title="nginx的安装"></a>nginx的安装</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"># 安装nginx依赖包</span><br><span class="line">yum -y install gcc gcc-c++ make libtool zlib zlib-devel openssl openssl-devel pcre pcre-devel</span><br><span class="line"></span><br><span class="line"># 下载nginx</span><br><span class="line">$ wget http://nginx.org/download/nginx-1.8.0.tar.gz</span><br><span class="line"></span><br><span class="line"># 解压缩</span><br><span class="line">$ tar -zxvf nginx-1.8.0.tar.gz</span><br><span class="line"></span><br><span class="line"># 配置</span><br><span class="line">$ ./configure --prefix=/usr/local/nginx</span><br><span class="line"></span><br><span class="line"># 编译并安装</span><br><span class="line">$ make &amp;&amp; make install</span><br><span class="line"></span><br><span class="line"># 查看nginx的版本</span><br><span class="line">$ /usr/local/nginx/sbin/nginx -v</span><br><span class="line"></span><br><span class="line"># 校验nginx的配置是否正确</span><br><span class="line">$ /usr/local/nginx/sbin/nginx -t</span><br><span class="line"></span><br><span class="line"># 默认配置文件 /usr/local/nginx/conf/nginx.conf，-c 指定</span><br><span class="line">$ /usr/local/nginx/sbin/nginx     </span><br><span class="line"></span><br><span class="line">$ /usr/local/nginx/sbin/nginx -s reload # 重新载入配置文件</span><br><span class="line"></span><br><span class="line"># 重启Nginx，不会改变启动时指定的配置文件</span><br><span class="line">$ /usr/local/nginx/sbin/nginx -s reopen </span><br><span class="line"></span><br><span class="line"># 停止Nginx</span><br><span class="line">$ /usr/local/nginx/sbin/nginx -s stop</span><br></pre></td></tr></table></figure>
+<h3 id="安装ssl模块"><a href="#安装ssl模块" class="headerlink" title="安装ssl模块"></a>安装ssl模块</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"># 进入nginx解压目录</span><br><span class="line">./configure --prefix=/usr/local/nginx --with-http_stub_status_module  --with-http_ssl_module</span><br><span class="line"></span><br><span class="line"># 编译不要make install，否则就覆盖安装了make完之后在objs目录下就生成会有一个nginx文件这个就是支持ssl的nginx程序</span><br><span class="line">$ make</span><br><span class="line"></span><br><span class="line"># 备份旧的nginx程序</span><br><span class="line">cp /usr/local/nginx/sbin/nginx /usr/local/nginx/sbin/nginx.bak</span><br><span class="line"></span><br><span class="line"># 把新的nginx程序覆盖旧的</span><br><span class="line">cp objs/nginx /usr/local/nginx/sbin/nginx</span><br></pre></td></tr></table></figure>
+<h3 id="nginx-配置文件"><a href="#nginx-配置文件" class="headerlink" title="nginx 配置文件"></a>nginx 配置文件</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br></pre></td><td class="code"><pre><span class="line"># nginx进程,一般设置为和cpu核数一样</span><br><span class="line">worker_processes  1;</span><br><span class="line"></span><br><span class="line"># 错误日志存放目录 </span><br><span class="line"># 全局错误日志定义类型，[ debug | info | notice | warn | error | crit ]</span><br><span class="line">#error_log  logs/error.log;</span><br><span class="line">#error_log  logs/error.log  notice;</span><br><span class="line">#error_log  logs/error.log  info;</span><br><span class="line"></span><br><span class="line"># 进程pid存放位置</span><br><span class="line">#pid        logs/nginx.pid;</span><br><span class="line"></span><br><span class="line"># 一个nginx进程打开的最多文件描述符数目，理论值应该是最多打开文件数（系统的值ulimit -n）与nginx进程数相除，但是nginx分配请求并不均匀，所以建议与ulimit -n的值保持一致。</span><br><span class="line">worker_rlimit_nofile 65535;</span><br><span class="line"></span><br><span class="line"># nginx工作模式配置</span><br><span class="line"></span><br><span class="line">events &#123;</span><br><span class="line">    # 单个后台worker process进程的最大并发链接数</span><br><span class="line">    worker_connections  1024;     </span><br><span class="line">    multi_accept        on;       </span><br><span class="line">    # epoll是多路复用IO(I/O Multiplexing)中的一种方式,但是仅用于linux2.6以上内核,可以大大提高nginx的性能</span><br><span class="line">    use                 epoll;            </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"># http设置</span><br><span class="line"></span><br><span class="line">http &#123;</span><br><span class="line">    # 文件扩展名与文件类型映射表</span><br><span class="line">    include           mime.types;</span><br><span class="line">    # 默认文件类型</span><br><span class="line">    default_type      application/octet-stream;</span><br><span class="line">    </span><br><span class="line">    # 开启高效文件传输模式，sendfile指令指定nginx是否调用sendfile函数来输出文件，对于普通应用设为 on，如果用来进行下载等应用磁盘IO重负载应用，可设置为off，以平衡磁盘与网络I/O处理速度，降低系统的负载。注意：如果图片显示不正常把这个改成off。</span><br><span class="line">    sendfile           on;</span><br><span class="line"></span><br><span class="line">    # 长连接超时时间，单位是秒</span><br><span class="line">    keepalive_timeout  65;</span><br><span class="line">    </span><br><span class="line">    # 存储访问记录的日志目录</span><br><span class="line">    access_log         logs/access.log; </span><br><span class="line"></span><br><span class="line">    # 存储记录错误发生的日志目录</span><br><span class="line">    error_log          logs/error.log;  </span><br><span class="line"></span><br><span class="line">    # 设定mime类型,类型由mime.type文件定义</span><br><span class="line">    include mime.types;</span><br><span class="line"></span><br><span class="line">    server &#123;</span><br><span class="line">        listen 80;</span><br><span class="line">        server_name    *.xxx.com;</span><br><span class="line">        return         301 https://$server_name$request_uri;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    # 虚拟主机的配置</span><br><span class="line">    server &#123;</span><br><span class="line">        # 监听端口</span><br><span class="line">        listen                  443 ssl;</span><br><span class="line"></span><br><span class="line">        # 域名可以有多个，用空格隔开</span><br><span class="line">        server_name             *.xxx.com;</span><br><span class="line">        </span><br><span class="line">        # 字符集</span><br><span class="line">        charset                 utf-8;</span><br><span class="line">        ssl                     on;</span><br><span class="line">        # 证书路径</span><br><span class="line">        ssl_certificate         /xxx/yyy/fullchain.pem;</span><br><span class="line">        # 私钥路径</span><br><span class="line">        ssl_certificate_key     /xxx/yyy/privkey.pem;</span><br><span class="line"></span><br><span class="line">        # 开启gzip压缩</span><br><span class="line">        gzip  on;</span><br><span class="line"></span><br><span class="line">        # 连接超时时间</span><br><span class="line">        keepalive_timeout  65;</span><br><span class="line">        </span><br><span class="line">        location / &#123;</span><br><span class="line">            # 访问域名跟目录</span><br><span class="line">            root       /xxx/xxx/;</span><br><span class="line"></span><br><span class="line">            # 载入其他配置文件</span><br><span class="line">            index      index.html;</span><br><span class="line"></span><br><span class="line">            if ($host ~ ^(api)\.rllin\.cn$)&#123;</span><br><span class="line">                  proxy_pass http://0.0.0.0:9901;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            if ($host ~ ^(dev)\.rllin\.cn$)&#123;</span><br><span class="line">                  proxy_pass http://0.0.0.0:9902;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">        # 错误页面</span><br><span class="line">        error_page   500 502 503 504  /50x.html;</span><br><span class="line">        </span><br><span class="line">        location = /50x.html &#123;</span><br><span class="line">            root   html;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    # 其他配置文件位置</span><br><span class="line">    include /usr/local/nginx/conf.d/*.xxx.conf;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/02/04/Nginx/" data-id="cjrqbftxd0003akc4oeux9bw8" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2019/02/04/openCV/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/02/04/mysql-install/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/02/04/Crontab/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2019/02/04/CentOS-7.5-init/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2019/02/04/bash/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2019/02/04/awk/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2019/02/04/后台项目技术规范/">(no title)</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>

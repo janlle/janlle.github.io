@@ -62,42 +62,893 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-hello-world" class="article article-type-post" itemscope="" itemprop="blogPost">
+    <article id="post-Crontab" class="article article-type-post" itemscope="" itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2019/02/04/hello-world/" class="article-date">
-  <time datetime="2019-02-04T11:05:24.472Z" itemprop="datePublished">2019-02-04</time>
+    <a href="/2019/02/04/Crontab/" class="article-date">
+  <time datetime="2019-02-04T12:16:14.441Z" itemprop="datePublished">2019-02-04</time>
 </a>
     
   </div>
   <div class="article-inner">
     
     
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/02/04/hello-world/">Hello World</a>
-    </h1>
-  
-
-      </header>
-    
     <div class="article-entry" itemprop="articleBody">
       
-        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
+        <p>title: crontab<br>date: 2018-01-05 11:31:12<br>tags: [linux, shell, crontab]<br>categories: linux</p>
+<h1 id="crontab"><a href="#crontab" class="headerlink" title="crontab"></a>crontab</h1><h2 id="crontab简介"><a href="#crontab简介" class="headerlink" title="crontab简介"></a>crontab简介</h2><p>crond是linux下用来周期性的执行某种任务或等待处理某些事件的一个守护进程，与windows下的计划任务类似，当安装完成操作系统后，默认会安装此服务工具，并且会自动启动crond进程，crond进程每分钟会定期检查是否有要执行的任务，如果有要执行的任务，则自动执行该任务。Linux下的任务调度分为两类，系统任务调度和用户任务调度。</p>
+<p>系统任务调度：系统周期性所要执行的工作，比如写缓存数据到硬盘、日志清理等。在/etc目录下有一个crontab文件，这个就是系统任务调度的配置文件。</p>
+<p>/etc/crontab文件包括下面几行：</p>
+<p>[root@localhost ~]# cat /etc/crontab</p>
+<p>SHELL = /bin/bash</p>
+<p>PATH=/sbin:/bin:/usr/sbin:/usr/bin</p>
+<p>MAILTO=””HOME=/</p>
+<p># run-parts</p>
+<p>51 <em> </em> <em> </em> root run-parts /etc/cron.hourly</p>
+<p>24 7 <em> </em> * root run-parts /etc/cron.daily</p>
+<p>22 4 <em> </em> 0 root run-parts /etc/cron.weekly</p>
+<p>42 4 1 <em> </em> root run-parts /etc/cron.monthly</p>
+<p>[root@localhost ~]#</p>
+<p>前四行是用来配置crond任务运行的环境变量，第一行SHELL变量指定了系统要使用哪个shell，这里是bash，第二行PATH变量指定了系统执行命令的路径，第三行MAILTO变量指定了crond的任务执行信息将通过电子邮件发送给root用户，如果MAILTO变量的值为空，则表示不发送任务执行信息给用户，第四行的HOME变量指定了在执行命令或者脚本时使用的主目录。第六至九行表示的含义将在下个小节详细讲述。这里不在多说。</p>
+<p>用户任务调度：用户定期要执行的工作，比如用户数据备份、定时邮件提醒等。用户可以使用 crontab 工具来定制自己的计划任务。所有用户定义的crontab 文件都被保存在 /var/spool/cron目录中。其文件名与用户名一致。</p>
+<p><strong>使用者权限文件：</strong></p>
+<p>文件：</p>
+<p>/etc/cron.deny</p>
+<p>说明：</p>
+<p>该文件中所列用户不允许使用crontab命令</p>
+<p>文件：</p>
+<p>/etc/cron.allow</p>
+<p>说明：</p>
+<p>该文件中所列用户允许使用crontab命令</p>
+<p>文件：</p>
+<p>/var/spool/cron/</p>
+<p>说明：</p>
+<p>所有用户crontab文件存放的目录,以用户名命名</p>
+<h2 id="crontab-文件的含义"><a href="#crontab-文件的含义" class="headerlink" title="crontab 文件的含义"></a>crontab 文件的含义</h2><p>用户所建立的crontab文件中，每一行都代表一项任务，每行的每个字段代表一项设置，它的格式共分为六个字段，前五段是时间设定段，第六段是要执行的命令段，格式如下：</p>
+<p>minute   hour   day   month   week   command</p>
+<p>其中：</p>
+<p>minute： 表示分钟，可以是从0到59之间的任何整数。</p>
+<p>hour：表示小时，可以是从0到23之间的任何整数。</p>
+<p>day：表示日期，可以是从1到31之间的任何整数。</p>
+<p>month：表示月份，可以是从1到12之间的任何整数。</p>
+<p>week：表示星期几，可以是从0到7之间的任何整数，这里的0或7代表星期日。</p>
+<p>command：要执行的命令，可以是系统命令，也可以是自己编写的脚本文件。</p>
+<p><img src="file:///C:\Users\ADMINI~1\AppData\Local\Temp\msohtmlclip1\01\clip_image002.gif" alt="img"> </p>
+<p>在以上各个字段中，还可以使用以下特殊字符：</p>
+<p>星号（*）：代表所有可能的值，例如month字段如果是星号，则表示在满足其它字段的制约条件后每月都执行该命令操作。</p>
+<p>逗号（,）：可以用逗号隔开的值指定一个列表范围，例如，“1,2,5,7,8,9”</p>
+<p>中杠（-）：可以用整数之间的中杠表示一个整数范围，例如“2-6”表示“2,3,4,5,6”</p>
+<p>正斜线（/）：可以用正斜线指定时间的间隔频率，例如“0-23/2”表示每两小时执行一次。同时正斜线可以和星号一起使用，例如*/10，如果用在minute字段，表示每十分钟执行一次。</p>
+<h2 id="crond服务"><a href="#crond服务" class="headerlink" title="crond服务"></a>crond服务</h2><p>安装crontab：</p>
+<p>yum install crontabs</p>
+<p>服务操作说明：</p>
+<p>/sbin/service crond start //启动服务</p>
+<p>/sbin/service crond stop //关闭服务</p>
+<p>/sbin/service crond restart //重启服务</p>
+<p>/sbin/service crond reload //重新载入配置</p>
+<p>查看crontab服务状态：</p>
+<p>service crond status</p>
+<p>手动启动crontab服务：</p>
+<p>service crond start</p>
+<p>查看crontab服务是否已设置为开机启动，执行命令：</p>
+<p>ntsysv</p>
+<p>加入开机自动启动：</p>
+<p>chkconfig –level 35 crond on</p>
+<h2 id="crontab命令详解"><a href="#crontab命令详解" class="headerlink" title="crontab命令详解"></a>crontab命令详解</h2><p>命令格式：</p>
+<p>crontab [-u user] file</p>
+<p>crontab [-u user] [ -e | -l | -r ]</p>
+<p>命令功能：</p>
+<p>通过crontab 命令，我们可以在固定的间隔时间执行指定的系统指令或 shell script脚本。时间间隔的单位可以是分钟、小时、日、月、周及以上的任意组合。这个命令非常设合周期性的日志分析或数据备份等工作。</p>
+<p>命令参数：</p>
+<p>-u user：用来设定某个用户的crontab服务，例如，“-u ixdba”表示设定ixdba用户的crontab服务，此参数一般有root用户来运行。</p>
+<p>file：file是命令文件的名字,表示将file做为crontab的任务列表文件并载入crontab。如果在命令行中没有指定这个文件，crontab命令将接受标准输入（键盘）上键入的命令，并将它们载入crontab。</p>
+<p>-e：编辑某个用户的crontab文件内容。如果不指定用户，则表示编辑当前用户的crontab文件。</p>
+<p>-l：显示某个用户的crontab文件内容，如果不指定用户，则表示显示当前用户的crontab文件内容。</p>
+<p>-r：从/var/spool/cron目录中删除某个用户的crontab文件，如果不指定用户，则默认删除当前用户的crontab文件。</p>
+<p>-i：在删除用户的crontab文件时给确认提示。</p>
+<p>常用方法：</p>
+<h2 id="创建一个新的crontab文件"><a href="#创建一个新的crontab文件" class="headerlink" title="创建一个新的crontab文件"></a>创建一个新的crontab文件</h2><p>在考虑向cron进程提交一个crontab文件之前，首先要做的一件事情就是设置环境变量EDITOR。cron进程根据它来确定使用哪个编辑器编辑crontab文件。9 9 %的UNIX和LINUX用户都使用vi，如果你也是这样，那么你就编辑$ HOME目录下的. profile文件，在其中加入这样一行：</p>
+<p>EDITOR=vi; export EDITOR</p>
+<p>然后保存并退出。不妨创建一个名为<user> cron的文件，其中<user>是用户名，例如， davecron。在该文件中加入如下的内容。</user></user></p>
+<p>​      # (put your own initials here)echo the date to the console every</p>
+<p>​      # 15minutes between 6pm and 6am</p>
+<p>​      0,15,30,45 18-06 <em> </em> * /bin/echo ‘date’ &gt; /dev/console</p>
+<p>​    保存并退出。确信前面5个域用空格分隔。</p>
+<p>在上面的例子中，系统将每隔1 5分钟向控制台输出一次当前时间。如果系统崩溃或挂起，从最后所显示的时间就可以一眼看出系统是什么时间停止工作的。在有些系统中，用tty1来表示控制台，可以根据实际情况对上面的例子进行相应的修改。为了提交你刚刚创建的crontab文件，可以把这个新创建的文件作为cron命令的参数：</p>
+<p>​     $ crontab davecron</p>
+<p>现在该文件已经提交给cron进程，它将每隔1 5分钟运行一次。</p>
+<p>同时，新创建文件的一个副本已经被放在/var/spool/cron目录中，文件名就是用户名(即dave)。</p>
+<p><strong>2).</strong> <strong>列出crontab文件</strong></p>
+<p>   为了列出crontab文件，可以用：</p>
+<p>​     $ crontab -l</p>
+<p>​     0,15,30,45,18-06 <em> </em> * /bin/echo <code>date</code> &gt; dev/tty1</p>
+<p>你将会看到和上面类似的内容。可以使用这种方法在$ H O M E目录中对crontab文件做一备份：</p>
+<p>​     $ crontab -l &gt; $HOME/mycron</p>
+<p>​    这样，一旦不小心误删了crontab文件，可以用上一节所讲述的方法迅速恢复。</p>
+<h2 id="编辑crontab文件"><a href="#编辑crontab文件" class="headerlink" title="编辑crontab文件"></a>编辑crontab文件</h2><p>   如果希望添加、删除或编辑crontab文件中的条目，而E D I TO R环境变量又设置为v i，那么就可以用v i来编辑crontab文件，相应的命令为：</p>
+<p>​     $ crontab -e</p>
+<p>可以像使用v i编辑其他任何文件那样修改crontab文件并退出。如果修改了某些条目或添加了新的条目，那么在保存该文件时， c r o n会对其进行必要的完整性检查。如果其中的某个域出现了超出允许范围的值，它会提示你。</p>
+<p>我们在编辑crontab文件时，没准会加入新的条目。例如，加入下面的一条：</p>
+<p>​    # DT:delete core files,at 3.30am on 1,7,14,21,26,26 days of each month</p>
+<p>​     30 3 1,7,14,21,26 <em> </em> /bin/find -name “core’ -exec rm {} \;</p>
+<p>现在保存并退出。最好在crontab文件的每一个条目之上加入一条注释，这样就可以知道它的功能、运行时间，更为重要的是，知道这是哪位用户的作业。</p>
+<p>现在让我们使用前面讲过的crontab -l命令列出它的全部信息：</p>
+<p>​    $ crontab -l </p>
+<p>​    # (crondave installed on Tue May 4 13:07:43 1999)</p>
+<p>​    # DT:ech the date to the console every 30 minites</p>
+<p>   0,15,30,45 18-06 <em> </em> * /bin/echo <code>date</code> &gt; /dev/tty1</p>
+<p>​    # DT:delete core files,at 3.30am on 1,7,14,21,26,26 days of each month</p>
+<p>​    30 3 1,7,14,21,26 <em> </em> /bin/find -name “core’ -exec rm {} \;</p>
+<h2 id="删除crontab文件"><a href="#删除crontab文件" class="headerlink" title="删除crontab文件"></a>删除crontab文件</h2><p>要删除crontab文件，可以用：</p>
+<p>​    $ crontab -r</p>
+<h2 id="恢复丢失的crontab文件"><a href="#恢复丢失的crontab文件" class="headerlink" title="恢复丢失的crontab文件"></a>恢复丢失的crontab文件</h2><p>如果不小心误删了crontab文件，假设你在自己的$ H O M E目录下还有一个备份，那么可以将其拷贝到/var/spool/cron/<username>，其中<username>是用户名。如果由于权限问题无法完成拷贝，可以用：</username></username></p>
+<p>​     $ crontab <filename></filename></p>
+<p>​    其中，<filename>是你在$ H O M E目录中副本的文件名。</filename></p>
+<p>我建议你在自己的$ H O M E目录中保存一个该文件的副本。我就有过类似的经历，有数次误删了crontab文件（因为r键紧挨在e键的右边）。这就是为什么有些系统文档建议不要直接编辑crontab文件，而是编辑该文件的一个副本，然后重新提交新的文件。</p>
+<p>有些crontab的变体有些怪异，所以在使用crontab命令时要格外小心。如果遗漏了任何选项，crontab可能会打开一个空文件，或者看起来像是个空文件。这时敲delete键退出，不要按<ctrl-d>，否则你将丢失crontab文件。</ctrl-d></p>
+<h2 id="使用实例"><a href="#使用实例" class="headerlink" title="使用实例"></a>使用实例</h2><p><strong>每1分钟执行一次command</strong></p>
+<p><strong>命令：</strong></p>
+<p>* <em> </em> <em> </em> command</p>
+<p><strong>实例2：每小时的第3和第15分钟执行</strong></p>
+<p><strong>命令：</strong></p>
+<p>3,15 <em> </em> <em> </em> command</p>
+<p><strong>实例3：在上午8点到11点的第3和第15分钟执行</strong></p>
+<p><strong>命令：</strong></p>
+<p>3,15 8-11 <em> </em> * command</p>
+<p><strong>实例4：每隔两天的上午8点到11点的第3和第15分钟执行</strong></p>
+<p><strong>命令：</strong></p>
+<p>3,15 8-11 <em>/2 </em> * command</p>
+<p><strong>实例5：每个星期一的上午8点到11点的第3和第15分钟执行</strong></p>
+<p><strong>命令：</strong></p>
+<p>3,15 8-11 <em> </em> 1 command</p>
+<p><strong>实例6：每晚的21:30重启smb</strong> </p>
+<p><strong>命令：</strong></p>
+<p>30 21 <em> </em> * /etc/init.d/smb restart</p>
+<p><strong>实例7：每月1、10、22日的4 : 45重启smb</strong> </p>
+<p><strong>命令：</strong></p>
+<p>45 4 1,10,22 <em> </em> /etc/init.d/smb restart</p>
+<p><strong>实例8：每周六、周日的1 : 10重启smb</strong></p>
+<p><strong>命令：</strong></p>
+<p>10 1 <em> </em> 6,0 /etc/init.d/smb restart</p>
+<p><strong>实例9：每天18 : 00至23 : 00之间每隔30分钟重启smb</strong> </p>
+<p><strong>命令：</strong></p>
+<p>0,30 18-23 <em> </em> * /etc/init.d/smb restart</p>
+<p><strong>实例10：每星期六的晚上11 : 00 pm重启smb</strong> </p>
+<p><strong>命令：</strong></p>
+<p>0 23 <em> </em> 6 /etc/init.d/smb restart</p>
+<p><strong>实例11：每一小时重启smb</strong> </p>
+<p><strong>命令：</strong></p>
+<p>* <em>/1 </em> <em> </em> /etc/init.d/smb restart</p>
+<p><strong>实例12：晚上11点到早上7点之间，每隔一小时重启smb</strong> </p>
+<p><strong>命令：</strong></p>
+<p>* 23-7/1 <em> </em> * /etc/init.d/smb restart</p>
+<p><strong>实例13：每月的4号与每周一到周三的11点重启smb</strong> </p>
+<p><strong>命令：</strong></p>
+<p>0 11 4 * mon-wed /etc/init.d/smb restart</p>
+<p><strong>实例14：一月一号的4点重启smb</strong> </p>
+<p><strong>命令：</strong></p>
+<p>0 4 1 jan * /etc/init.d/smb restart</p>
+<p><strong>实例15：每小时执行/etc/cron.hourly目录内的脚本</strong></p>
+<p><strong>命令：</strong></p>
+<p>01   <em>   </em>   <em>   </em>     root run-parts /etc/cron.hourly</p>
+<p><strong>说明：</strong></p>
+<p>run-parts这个参数了，如果去掉这个参数的话，后面就可以写要运行的某个脚本名，而不是目录名了</p>
+<h2 id="使用注意事项"><a href="#使用注意事项" class="headerlink" title="使用注意事项"></a>使用注意事项</h2><h3 id="注意环境变量问题"><a href="#注意环境变量问题" class="headerlink" title="注意环境变量问题"></a>注意环境变量问题</h3><p>有时我们创建了一个crontab，但是这个任务却无法自动执行，而手动执行这个任务却没有问题，这种情况一般是由于在crontab文件中没有配置环境变量引起的。</p>
+<p>在crontab文件中定义多个调度任务时，需要特别注意的一个问题就是环境变量的设置，因为我们手动执行某个任务时，是在当前shell环境下进行的，程序当然能找到环境变量，而系统自动执行任务调度时，是不会加载任何环境变量的，因此，就需要在crontab文件中指定任务运行所需的所有环境变量，这样，系统执行任务调度时就没有问题了。</p>
+<p>不要假定cron知道所需要的特殊环境，它其实并不知道。所以你要保证在shelll脚本中提供所有必要的路径和环境变量，除了一些自动设置的全局变量。所以注意如下3点：</p>
+<p>1）脚本中涉及文件路径时写全局路径；</p>
+<p>2）脚本执行要用到java或其他环境变量时，通过source命令引入环境变量，如：</p>
+<p>cat start_cbp.sh</p>
+<p>#!/bin/sh</p>
+<p>source /etc/profile</p>
+<p>export RUN_CONF=/home/d139/conf/platform/cbp/cbp_jboss.conf</p>
+<p>/usr/local/jboss-4.0.5/bin/run.sh -c mev &amp;</p>
+<p>3）当手动执行脚本OK，但是crontab死活不执行时。这时必须大胆怀疑是环境变量惹的祸，并可以尝试在crontab中直接引入环境变量解决问题。如：</p>
+<p>0 <em> </em> <em> </em> . /etc/profile;/bin/sh /var/www/java/audit_no_count/bin/restart_audit.sh</p>
+<h2 id="注意清理系统用户的邮件日志"><a href="#注意清理系统用户的邮件日志" class="headerlink" title="注意清理系统用户的邮件日志"></a>注意清理系统用户的邮件日志</h2><p>每条任务调度执行完毕，系统都会将任务输出信息通过电子邮件的形式发送给当前系统用户，这样日积月累，日志信息会非常大，可能会影响系统的正常运行，因此，将每条任务进行重定向处理非常重要。</p>
+<p>例如，可以在crontab文件中设置如下形式，忽略日志输出：</p>
+<p>0 <em>/3 </em> <em> </em> /usr/local/apache2/apachectl restart &gt;/dev/null 2&gt;&amp;1</p>
+<p>“/dev/null 2&gt;&amp;1”表示先将标准输出重定向到/dev/null，然后将标准错误重定向到标准输出，由于标准输出已经重定向到了/dev/null，因此标准错误也会重定向到/dev/null，这样日志输出问题就解决了。</p>
+<h2 id="系统级任务调度与用户级任务调度"><a href="#系统级任务调度与用户级任务调度" class="headerlink" title="系统级任务调度与用户级任务调度"></a>系统级任务调度与用户级任务调度</h2><p>系统级任务调度主要完成系统的一些维护操作，用户级任务调度主要完成用户自定义的一些任务，可以将用户级任务调度放到系统级任务调度来完成（不建议这么做），但是反过来却不行，root用户的任务调度操作可以通过“crontab –uroot –e”来设置，也可以将调度任务直接写入/etc/crontab文件，需要注意的是，如果要定义一个定时重启系统的任务，就必须将任务放到/etc/crontab文件，即使在root用户下创建一个定时重启系统的任务也是无效的。</p>
+<h2 id="其他注意事项"><a href="#其他注意事项" class="headerlink" title="其他注意事项"></a>其他注意事项</h2><p>新创建的cron job，不会马上执行，至少要过2分钟才执行。如果重启cron则马上执行。</p>
+<p>当crontab突然失效时，可以尝试/etc/init.d/crond restart解决问题。或者查看日志看某个job有没有执行/报错tail -f /var/log/cron。</p>
+<p>千万别乱运行crontab -r。它从Crontab目录（/var/spool/cron）中删除用户的Crontab文件。删除了该用户的所有crontab都没了。</p>
+<p>在crontab中%是有特殊含义的，表示换行的意思。如果要用的话必须进行转义\%，如经常用的date ‘+%Y%m%d’在crontab里是不会执行的，应该换成date ‘+\%Y\%m\%d</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/02/04/hello-world/" data-id="cjrq9elik0000vsc4tw980nt5" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/02/04/Crontab/" data-id="cjrqbfty9000jakc48rws68ui" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-CentOS-7.5-init" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/02/04/CentOS-7.5-init/" class="article-date">
+  <time datetime="2019-02-04T12:16:14.425Z" itemprop="datePublished">2019-02-04</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>title: CentOS<br>date: 2018-01-05 11:31:12<br>tags: [linux, shell, CentOS]<br>categories: linux</p>
+<h1 id="CentOS服务器初始化环境"><a href="#CentOS服务器初始化环境" class="headerlink" title="CentOS服务器初始化环境"></a>CentOS服务器初始化环境</h1><h2 id="配置网络"><a href="#配置网络" class="headerlink" title="配置网络"></a>配置网络</h2><p><code>vi /etc/sysconfig/network-scripts/ifcfg-ens33</code></p>
+<p>修改<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">BOOTPROTO=static</span><br><span class="line">ONBOOT=yes</span><br></pre></td></tr></table></figure></p>
+<p>新增<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">IPADDR=192.168.79.11</span><br><span class="line">GATEWAY=192.168.79.2</span><br><span class="line">DNS1=192.168.1.253</span><br></pre></td></tr></table></figure></p>
+<p>重启网络<br><code>service network restart</code></p>
+<h2 id="设置火墙"><a href="#设置火墙" class="headerlink" title="设置火墙"></a>设置火墙</h2><ul>
+<li><p>防火墙启动关闭<br>  6.x=&gt; service firewalld [start/stop/status/restart]<br>  7.x=&gt; systemctl [start/stop/status/restart] firewalld.service</p>
+</li>
+<li><p>设置永久开启关闭<br>  systemctl disable firewalld.service<br>  systemctl enable firewalld.service</p>
+</li>
+</ul>
+<h2 id="安装常用依赖包"><a href="#安装常用依赖包" class="headerlink" title="安装常用依赖包"></a>安装常用依赖包</h2><pre><code>`yum update`
+</code></pre><ul>
+<li><p>vim编辑器</p>
+<p>  <code>yum install vim</code></p>
+</li>
+</ul>
+<ul>
+<li><p>上传下载文件工具</p>
+<p>  <code>yum install lrzsz</code></p>
+</li>
+</ul>
+<ul>
+<li><p>curl是强大的URL传输工具</p>
+<p>  <code>yum install crul</code></p>
+</li>
+</ul>
+<ul>
+<li><p>wget下载工具</p>
+<p>  <code>yum install wget</code></p>
+</li>
+</ul>
+<ul>
+<li><p>网络工具包</p>
+<p>  <code>yum install net-tools</code></p>
+</li>
+</ul>
+<ul>
+<li><p>gcc (nginx之类由c语言开发的，编译的时候需要用到)</p>
+<p>  <code>yum -y install gcc-c++</code></p>
+</li>
+<li><p>PCRE (Perl库，包括 perl 兼容的正则表达式库)</p>
+<p>  <code>yum -y install pcre pcre-devel</code></p>
+</li>
+<li><p>zlib (zlib库提供了很多种压缩和解压缩的方式)</p>
+<p>  <code>yum -y install zlib zlib-devel ruby</code></p>
+</li>
+<li><p>解压缩和压缩</p>
+<p>  <code>yum install -y unzip zip</code></p>
+</li>
+</ul>
+<ul>
+<li><p>openssl (OpenSSL 是一个强大的安全套接字层密码库，囊括主要的密码算法、常用的密钥和证书封装管理功能及SSL协议)</p>
+<p>  <code>yum -y install openssl openssl-devel patch</code></p>
+</li>
+</ul>
+<ul>
+<li><p>使用systemctl自动补全服务名称( 因为CentOS7的默认安装类型是最小安装，所以默认没有自动补全的功能)</p>
+<p>  <code>yum install -y bash-completion</code></p>
+</li>
+</ul>
+<p><code></code></p>
+<h2 id="安装各种环境"><a href="#安装各种环境" class="headerlink" title="安装各种环境"></a>安装各种环境</h2><p>## </p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/02/04/CentOS-7.5-init/" data-id="cjrqbftxb0002akc496krmaax" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-bash" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/02/04/bash/" class="article-date">
+  <time datetime="2019-02-04T12:16:14.423Z" itemprop="datePublished">2019-02-04</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>title: bash<br>date: 2018-01-05 11:31:12<br>tags: [linux, shell]<br>categories: linux</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/02/04/bash/" data-id="cjrqbftxt000cakc4w19ug0r2" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-awk" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/02/04/awk/" class="article-date">
+  <time datetime="2019-02-04T12:16:14.408Z" itemprop="datePublished">2019-02-04</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>title: AWK<br>date: 2018-01-05 11:31:12<br>tags: [linux, shell]<br>categories: linux</p>
+<h1 id="AWK"><a href="#AWK" class="headerlink" title="AWK"></a>AWK</h1><h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>awk是一个强大的文本分析工具，相对于grep的查找，sed的编辑，awk在其对数据分析并生成报告时，显得尤为强大。简单来说awk就是把文件逐行的读入，以空格为默认分隔符将每行切片，切开的部分再进行各种分析处理。</p>
+<p>awk有3个不同版本: awk、nawk和gawk，未作特别说明，一般指gawk，gawk 是 AWK 的 GNU 版本。</p>
+<p>awk其名称得自于它的创始人 Alfred Aho 、Peter Weinberger 和 Brian Kernighan 姓氏的首个字母。实际上 AWK 的确拥有自己的语言： AWK 程序设计语言 ， 三位创建者已将它正式定义为“样式扫描和处理语言”。它允许您创建简短的程序，这些程序读取输入文件、为数据排序、处理数据、对输入执行计算以及生成报表，还有无数其他的功能。</p>
+<h2 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h2><p>awk ‘{pattern + action}’ {filenames}<br>尽管操作可能会很复杂，但语法总是这样，其中 pattern 表示 AWK 在数据中查找的内容，而 action 是在找到匹配内容时所执行的一系列命令。花括号（{}）不需要在程序中始终出现，但它们用于根据特定的模式对一系列指令进行分组。 pattern就是要表示的正则表达式，用斜杠括起来。</p>
+<p>awk语言的最基本功能是在文件或者字符串中基于指定规则浏览和抽取信息，awk抽取信息后，才能进行其他文本操作。完整的awk脚本通常用来格式化文本文件中的信息。</p>
+<p>通常，awk是以文件的一行为处理单位的。awk每接收文件的一行，然后执行相应的命令，来处理文本。</p>
+<h2 id="调用awk"><a href="#调用awk" class="headerlink" title="调用awk"></a>调用awk</h2><blockquote>
+<p>有三种方式调用awk</p>
+</blockquote>
+<p>1.命令行方式<br>awk [-F  field-separator]  ‘commands’  input-file(s)<br>其中，commands 是真正awk命令，[-F域分隔符]是可选的。 input-file(s) 是待处理的文件。<br>在awk中，文件的每一行中，由域分隔符分开的每一项称为一个域。通常，在不指名-F域分隔符的情况下，默认的域分隔符是空格。</p>
+<p>2.shell脚本方式<br>将所有的awk命令插入一个文件，并使awk程序可执行，然后awk命令解释器作为脚本的首行，一遍通过键入脚本名称来调用。<br>相当于shell脚本首行的：#!/bin/sh<br>可以换成：#!/bin/awk</p>
+<p>3.将所有的awk命令插入一个单独文件，然后调用：<br>awk -f awk-script-file input-file(s)<br>其中，-f选项加载awk-script-file中的awk脚本，input-file(s)跟上面的是一样的。</p>
+<p><strong>本章重点介绍命令行方式。</strong></p>
+<p>入门实例<br>假设last -n 5的输出如下</p>
+<p>[root@www ~]# last -n 5 &lt;==仅取出前五行<br>root     pts/1   192.168.1.100  Tue Feb 10 11:21   still logged in<br>root     pts/1   192.168.1.100  Tue Feb 10 00:46 - 02:28  (01:41)<br>root     pts/1   192.168.1.100  Mon Feb  9 11:41 - 18:30  (06:48)<br>dmtsai   pts/1   192.168.1.100  Mon Feb  9 11:41 - 11:41  (00:00)<br>root     tty1                   Fri Sep  5 14:09 - 14:10  (00:01)<br>如果只是显示最近登录的5个帐号</p>
+<p>#last -n 5 | awk  ‘{print $1}’<br>root<br>root<br>root<br>dmtsai<br>root<br>awk工作流程是这样的：读入有’\n’换行符分割的一条记录，然后将记录按指定的域分隔符划分域，填充域，$0则表示所有域,$1表示第一个域,$n表示第n个域。默认域分隔符是”空白键” 或 “[tab]键”,所以$1表示登录用户，$3表示登录用户ip,以此类推。</p>
+<p>如果只是显示/etc/passwd的账户</p>
+<p>#cat /etc/passwd |awk  -F ‘:’  ‘{print $1}’<br>root<br>daemon<br>bin<br>sys<br>这种是awk+action的示例，每行都会执行action{print $1}。</p>
+<p>-F指定域分隔符为’:’。</p>
+<p>如果只是显示/etc/passwd的账户和账户对应的shell,而账户与shell之间以tab键分割</p>
+<p>#cat /etc/passwd |awk  -F ‘:’  ‘{print $1”\t”$7}’<br>root    /bin/bash<br>daemon  /bin/sh<br>bin     /bin/sh<br>sys     /bin/sh</p>
+<p>如果只是显示/etc/passwd的账户和账户对应的shell,而账户与shell之间以逗号分割,而且在所有行添加列名name,shell,在最后一行添加”blue,/bin/nosh”。</p>
+<p>cat /etc/passwd |awk  -F ‘:’  ‘BEGIN {print “name,shell”}  {print $1”,”$7} END {print “blue,/bin/nosh”}’<br>name,shell<br>root,/bin/bash<br>daemon,/bin/sh<br>bin,/bin/sh<br>sys,/bin/sh<br>….<br>blue,/bin/nosh</p>
+<p>awk工作流程是这样的：先执行BEGING，然后读取文件，读入有/n换行符分割的一条记录，然后将记录按指定的域分隔符划分域，填充域，$0则表示所有域,$1表示第一个域,$n表示第n个域,随后开始执行模式所对应的动作action。接着开始读入第二条记录······直到所有的记录都读完，最后执行END操作。</p>
+<p>搜索/etc/passwd有root关键字的所有行</p>
+<p>#awk -F: ‘/root/‘ /etc/passwd<br>root:x:0:0:root:/root:/bin/bash<br>这种是pattern的使用示例，匹配了pattern(这里是root)的行才会执行action(没有指定action，默认输出每行的内容)。</p>
+<p>搜索支持正则，例如找root开头的: awk -F: ‘/^root/‘ /etc/passwd</p>
+<p>搜索/etc/passwd有root关键字的所有行，并显示对应的shell</p>
+<h1 id="awk-F-‘-root-print-7-’-etc-passwd"><a href="#awk-F-‘-root-print-7-’-etc-passwd" class="headerlink" title="awk -F: ‘/root/{print $7}’ /etc/passwd"></a>awk -F: ‘/root/{print $7}’ /etc/passwd</h1><p>/bin/bash<br> 这里指定了action{print $7}</p>
+<p>awk内置变量<br>awk有许多内置变量用来设置环境信息，这些变量可以被改变，下面给出了最常用的一些变量。</p>
+<p>ARGC               命令行参数个数<br>ARGV               命令行参数排列<br>ENVIRON            支持队列中系统环境变量的使用<br>FILENAME           awk浏览的文件名<br>FNR                浏览文件的记录数<br>FS                 设置输入域分隔符，等价于命令行 -F选项<br>NF                 浏览记录的域的个数<br>NR                 已读的记录数<br>OFS                输出域分隔符<br>ORS                输出记录分隔符<br>RS                 控制记录分隔符</p>
+<p> 此外,$0变量是指整条记录。$1表示当前行的第一个域,$2表示当前行的第二个域,……以此类推。</p>
+<p>统计/etc/passwd:文件名，每行的行号，每行的列数，对应的完整行内容:</p>
+<p>#awk  -F ‘:’  ‘{print “filename:” FILENAME “,linenumber:” NR “,columns:” NF “,linecontent:”$0}’ /etc/passwd<br>filename:/etc/passwd,linenumber:1,columns:7,linecontent:root:x:0:0:root:/root:/bin/bash<br>filename:/etc/passwd,linenumber:2,columns:7,linecontent:daemon:x:1:1:daemon:/usr/sbin:/bin/sh<br>filename:/etc/passwd,linenumber:3,columns:7,linecontent:bin:x:2:2:bin:/bin:/bin/sh<br>filename:/etc/passwd,linenumber:4,columns:7,linecontent:sys:x:3:3:sys:/dev:/bin/sh</p>
+<p>使用printf替代print,可以让代码更加简洁，易读</p>
+<p> awk  -F ‘:’  ‘{printf(“filename:%s,linenumber:%s,columns:%s,linecontent:%s\n”,FILENAME,NR,NF,$0)}’ /etc/passwd</p>
+<p>print和printf<br>awk中同时提供了print和printf两种打印输出的函数。</p>
+<p>其中print函数的参数可以是变量、数值或者字符串。字符串必须用双引号引用，参数用逗号分隔。如果没有逗号，参数就串联在一起而无法区分。这里，逗号的作用与输出文件的分隔符的作用是一样的，只是后者是空格而已。</p>
+<p>printf函数，其用法和c语言中printf基本相似,可以格式化字符串,输出复杂时，printf更加好用，代码更易懂。</p>
+<p>%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% </p>
+<p> awk编程<br> 变量和赋值</p>
+<p>除了awk的内置变量，awk还可以自定义变量。</p>
+<p>下面统计/etc/passwd的账户人数</p>
+<p>awk ‘{count++;print $0;} END{print “user count is “, count}’ /etc/passwd<br>root:x:0:0:root:/root:/bin/bash<br>……<br>user count is  40<br>count是自定义变量。之前的action{}里都是只有一个print,其实print只是一个语句，而action{}可以有多个语句，以;号隔开。</p>
+<p>这里没有初始化count，虽然默认是0，但是妥当的做法还是初始化为0:</p>
+<p>awk ‘BEGIN {count=0;print “[start]user count is “, count} {count=count+1;print $0;} END{print “[end]user count is “, count}’ /etc/passwd<br>[start]user count is  0<br>root:x:0:0:root:/root:/bin/bash<br>…<br>[end]user count is  40</p>
+<p>统计某个文件夹下的文件占用的字节数</p>
+<p>ls -l |awk ‘BEGIN {size=0;} {size=size+$5;} END{print “[end]size is “, size}’<br>[end]size is  8657198</p>
+<p>如果以M为单位显示:</p>
+<p>ls -l |awk ‘BEGIN {size=0;} {size=size+$5;} END{print “[end]size is “, size/1024/1024,”M”}’<br>[end]size is  8.25889 M<br>注意，统计不包括文件夹的子目录。</p>
+<p>条件语句</p>
+<p> awk中的条件语句是从C语言中借鉴来的，见如下声明方式：</p>
+<p>if (expression) {<br>    statement;<br>    statement;<br>    … …<br>}</p>
+<p>if (expression) {<br>    statement;<br>} else {<br>    statement2;<br>}</p>
+<p>if (expression) {<br>    statement1;<br>} else if (expression1) {<br>    statement2;<br>} else {<br>    statement3;<br>}</p>
+<p>统计某个文件夹下的文件占用的字节数,过滤4096大小的文件(一般都是文件夹):</p>
+<p>ls -l |awk ‘BEGIN {size=0;print “[start]size is “, size} {if($5!=4096){size=size+$5;}} END{print “[end]size is “, size/1024/1024,”M”}’<br>[end]size is  8.22339 M</p>
+<p>循环语句</p>
+<p>awk中的循环语句同样借鉴于C语言，支持while、do/while、for、break、continue，这些关键字的语义和C语言中的语义完全相同。</p>
+<p>数组</p>
+<p>  因为awk中数组的下标可以是数字和字母，数组的下标通常被称为关键字(key)。值和关键字都存储在内部的一张针对key/value应用hash的表格里。由于hash不是顺序存储，因此在显示数组内容时会发现，它们并不是按照你预料的顺序显示出来的。数组和变量一样，都是在使用时自动创建的，awk也同样会自动判断其存储的是数字还是字符串。一般而言，awk中的数组用来从记录中收集信息，可以用于计算总和、统计单词以及跟踪模板被匹配的次数等等。</p>
+<p>显示/etc/passwd的账户</p>
+<p>awk -F ‘:’ ‘BEGIN {count=0;} {name[count] = $1;count++;}; END{for (i = 0; i &lt; NR; i++) print i, name[i]}’ /etc/passwd<br>0 root<br>1 daemon<br>2 bin<br>3 sys<br>4 sync<br>5 games<br>……</p>
+<p>这里使用for循环遍历数组</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/02/04/awk/" data-id="cjrqbftym000uakc44yyjawby" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-后台项目技术规范" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/02/04/后台项目技术规范/" class="article-date">
+  <time datetime="2019-02-04T12:16:14.382Z" itemprop="datePublished">2019-02-04</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="java后台项目技术规范"><a href="#java后台项目技术规范" class="headerlink" title="java后台项目技术规范"></a>java后台项目技术规范</h2><p>本规范自发布之日起执行，范围芦苇信息科技有限公司java后台的新项目。我们通过“强制”和“推荐”二个词来区分本文中不同规范的级别。</p>
+<ul>
+<li><p>【强制】：描述的是必须遵循的规范。违反该级别的规范而又具有正当理由的情况是极其罕见的；</p>
+</li>
+<li><p>【推荐】：描述的是在一般情况下推荐使用的规范，但如果完全理解规范背后的道理，并有很好的理由不遵循它时，也不要畏惧打破常规；</p>
+</li>
+</ul>
+<h3 id="编程规范"><a href="#编程规范" class="headerlink" title="编程规范"></a>编程规范</h3><p><em>1.命名风格</em></p>
+<ul>
+<li><p>【强制】代码中的命名均不能以下划线或美元符号开始，也不能以下划线或美元符号结束。 </p>
+<blockquote>
+<p>反例：<em>name / __name / $name / name</em>  / name$</p>
+</blockquote>
+</li>
+<li><p>【强制】代码中的命名严禁使用拼音与英文混合的方式，更不允许直接使用中文的方式。 </p>
+<blockquote>
+<p>说明：正确的英文拼写和语法可以让阅读者易于理解，避免歧义。注意，即使纯拼音命名方式 也要避免采用。 正例：luwei / tianqi / youku / guangzhou 等国际通用的名称，可视同英文。 反例：DaZhePromotion [打折] / getPingfenByName() [评分] / int 某变量 = 3 </p>
+</blockquote>
+</li>
+<li><p>【强制】类名使用 UpperCamelCase 风格，必须遵从驼峰形式，但以下情形例外：DO / BO / DTO / VO / AO</p>
+<blockquote>
+<p>正例：MarcoPolo / UserDO / XmlService / TcpUdpDeal / TaPromotion<br>反例：macroPolo / UserDo / XMLService / TCPUDPDeal / TAPromotion</p>
+</blockquote>
+</li>
+<li><p>【强制】方法名、参数名、成员变量、局部变量都统一使用 lowerCamelCase 风格，必须遵从 驼峰形式。</p>
+<blockquote>
+<p>正例： localValue / getHttpMessage() / inputUserId</p>
+</blockquote>
+</li>
+<li><p>【强制】常量命名全部大写，单词间用下划线隔开，力求语义表达完整清楚，不要嫌名字长。</p>
+<blockquote>
+<p>正例：MAX_STOCK_COUNT 反例：MAX_COUNT</p>
+</blockquote>
+</li>
+<li><p>【强制】抽象类命名使用 Abstract 或 Base 开头；异常类命名使用 Exception 结尾；测试类命名以它要测试的类的名称开始，以 Test 结尾。</p>
+</li>
+<li><p>【强制】Model 类中布尔类型的变量，都不要加 is，否则部分框架解析会引起序列化错误。</p>
+<blockquote>
+<p>反例：定义为基本数据类型 Boolean isDeleted；的属性，它的方法也是 isDeleted()，RPC框架在反向解析的时候，“以为”对应的属性名称是 deleted，导致属性获取不到，进而抛出异常。</p>
+</blockquote>
+</li>
+</ul>
+<ul>
+<li><p>【推荐】接口类中的方法和属性不要加任何修饰符号（public 也不要加），保持代码的简洁 性，并加上有效 的Javadoc 注释。尽量不要在接口里定义变量，如果一定要定义变量，肯定是 与接口方法相关，并且是整个应用的基础常量。<br>正例：接口方法签名：void f(); 接口基础常量表示：String COMPANY = “luwei”;<br>反例：接口方法定义：public abstract void f();<br>说明：JDK8 中接口允许有默认实现，那么这个default方法，是对所有实现类都有价值的默 认实现。</p>
+</li>
+<li><p>【参考】枚举类名建议带上 Enum 后缀，枚举成员名称需要全大写，单词间用下划线隔开。<br>说明：枚举其实就是特殊的常量类，且构造方法被默认强制是私有。<br>正例：枚举名字为 ProcessStatusEnum 的成员名称：SUCCESS / UNKOWN_REASON。</p>
+</li>
+<li><p>【参考】各层命名规约：</p>
+<blockquote>
+<p>A) Service/DAO 层方法命名规约<br>  1） 获取单个对象的方法用 get 做前缀。<br>  2） 获取多个对象的方法用 list 做前缀。<br>  3） 获取统计值的方法用 count 做前缀。<br>  3） 分页的方法用 page 做后缀。<br>  4） 插入的方法用 save/insert 做前缀。<br>  5） 删除的方法用 remove/delete 做前缀。<br>  6） 修改的方法用 update 做前缀。  </p>
+</blockquote>
+<blockquote>
+<p>B)领域模型命名规约<br>  1） 数据传输对象：xxxDTO，xxx 为业务领域相关的名称。<br>  2） 展示对象：xxxVO，xxx 一般为网页名称。<br>  3） POJO 是 DO/DTO/BO/VO 的统称，禁止命名成 xxxPOJO  </p>
+</blockquote>
+</li>
+</ul>
+<p><em>2.代码格式</em></p>
+<ul>
+<li><p>【强制】大括号的使用约定。如果是大括号内为空，则简洁地写成{}即可，不需要换行；如果 是非空代码块则：<br>1） 左大括号前不换行。<br>2） 左大括号后换行。<br>3） 右大括号前换行。<br>4） 右大括号后还有 else 等代码则不换行 表示终止的右大括号后必须换行。  </p>
+</li>
+<li><p>【强制】 每次写完一个类后使用diea的格式化功能，格式化代码和去掉无用导入的包，快捷键为Ctrl+Alt+o和Ctrl+Alt+l</p>
+</li>
+<li><p>【强制】IDE 的 text file encoding 设置为 UTF-8; 项目的代码编码全部使用UTF-8</p>
+</li>
+</ul>
+<p><em>3.OOP规范</em></p>
+<ul>
+<li><p>【强制】所有的覆写方法，必须加@Override 注解。</p>
+</li>
+<li><p>【强制】不能使用过时的类或方法。</p>
+</li>
+<li><p>【强制】Object 的 equals 方法容易抛空指针异常，应使用常量或确定有值的对象来调用 equals。</p>
+<blockquote>
+<p>正例：”test”.equals(object);<br>  反例：object.equals(“test”);</p>
+</blockquote>
+</li>
+<li><p>【强制】所有的相同类型的包装类对象之间值的比较，全部使用 equals 方法比较。</p>
+<blockquote>
+<p>说明：对于 Integer var = ? 在-128 至 127 范围内的赋值，Integer 对象是在IntegerCache.cache 产生，会复用已有对象，这个区间内的 Integer 值可以直接使用==进行判断，但是这个区间之外的所有数据，都会在堆上产生，并不会复用已有对象，这是一个大坑， 推荐使用 equals 方法进行判断。</p>
+</blockquote>
+</li>
+<li><p>【强制】构造方法里面禁止加入任何业务逻辑，如果有初始化逻辑，请放在 init 方法中。</p>
+</li>
+<li><p>【推荐】当一个类有多个构造方法，或者多个同名方法，这些方法应该按顺序放置在一起， 便于阅读。</p>
+</li>
+</ul>
+<p><em>4.集合处理</em></p>
+<ul>
+<li><p>【强制】使用集合转数组的方法，必须使用集合的 toArray(T[] array)，传入的是类型完全一样的数组，大小就是 list.size()。<br>说明：使用 toArray 带参方法，入参分配的数组空间不够大时，toArray 方法内部将重新分配 内存空间，并返回新数组地址；如果数组元素大于实际所需，下标为[ list.size() ]的数组 元素将被置为 null，其它数组元素保持原值，因此最好将方法入参数组大小定义与集合元素 个数一致。 </p>
+<blockquote>
+<p>正例：<br>  List<string> list = new ArrayList<string>(2);<br>  list.add(“guan”);<br>  list.add(“bao”);<br>  String[] array = new String[list.size()];<br>  array = list.toArray(array);</string></string></p>
+</blockquote>
+<blockquote>
+<p>反例：直接使用 toArray 无参方法存在问题，此方法返回值只能是 Object[]类，若强转其它 类型数组将出现 ClassCastException 错误。</p>
+</blockquote>
+</li>
+<li><p>【强制】不要在 foreach 循环里进行元素的 remove/add 操作。remove 元素请使用 Iterator方式，如果并发操作，需要对 Iterator 对象加锁。<br>正例：</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">Iterator&lt;String&gt; iterator = list.iterator();</span><br><span class="line">  while (iterator.hasNext()) &#123;</span><br><span class="line">      String item = iterator.next();</span><br><span class="line">      if (删除元素的条件) &#123;</span><br><span class="line">        iterator.remove();</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">反例：</span><br><span class="line"></span><br><span class="line">    List&lt;String&gt; list = new ArrayList&lt;String&gt;();</span><br><span class="line">    list.add(&quot;1&quot;);</span><br><span class="line">    list.add(&quot;2&quot;);</span><br><span class="line">    for (String item : list) &#123;</span><br><span class="line">      if (&quot;1&quot;.equals(item)) &#123;</span><br><span class="line">        list.remove(item);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>【推荐】使用 entrySet 遍历 Map 类集合 KV，而不是 keySet 方式进行遍历。</p>
+</li>
+</ul>
+<p><em>5.控制语句</em></p>
+<ul>
+<li><p>【强制】在一个 switch 块内，每个 case 要么通过 break/return 等来终止，要么注释说明程序将继续执行到哪一个 case 为止；在一个 switch 块内，都必须包含一个 default 语句并且 放在最后，即使它什么代码也没有。</p>
+</li>
+<li><p>【强制】在 if/else/for/while/do 语句中必须使用大括号。即使只有一行代码，避 单行的编码方式：if (condition) statements;</p>
+</li>
+<li><p>【推荐】除常用方法（如 getXxx/isXxx）等外，不要在条件判断中执行其它复杂的语句，将复 杂逻辑判断的结果赋值给一个有意义的布尔变量名，以提高可读性。 说明：很多 if 语句内的逻辑相当复杂，阅读者需要分析条件表达式的最终结果，才能明确什么 样的条件执行什么样的语句，那么，如果阅读者分析逻辑表达式错误呢？<br>正例： // 伪代码如下</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">final boolean existed = (file.open(fileName, &quot;w&quot;) != null) &amp;&amp; (...) || (...);</span><br><span class="line">if (existed) &#123;</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br><span class="line">反例：</span><br><span class="line"></span><br><span class="line">if ((file.open(fileName, &quot;w&quot;) != null) &amp;&amp; (...) || (...)) &#123;</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>【推荐】循环体中的语句要考量性能，以下操作尽量移至循环体外处理，如定义对象、变量、 获取数据库连接，进行不必要的 try-catch 操作（这个 try-catch 是否可以移至循环体外）。</p>
+</li>
+<li><p>【参考】下列情形，需要进行参数校验：<br>1） 调用频次低的方法。<br>2） 执行时间开销很大的方法。此情形中，参数校验时间几乎可以忽略不计，但如果因为参 数错误导致中间执行回退，或者错误，那得不偿失。<br>3） 需要极高稳定性和可用性的方法。</p>
+</li>
+</ul>
+<p><em>6.注释规范</em></p>
+<ul>
+<li><p>【强制】类、类属性、类方法的注释必须使用 Javadoc 规范，使用/*<em>内容</em>/ 格式，不得使用 // xxx 方式。</p>
+</li>
+<li><p>【强制】所有的类都必须添加创建者和创建日期。</p>
+</li>
+<li><p>【强制】方法内部单行注释，在被注释语句上方另起一行，使用//注释。方法内部多行注释 使用/<em> </em>/注释，注意与代码对齐。</p>
+</li>
+<li><p>【强制】所有的枚举类型字段必须要有注释，说明每个数据项的用途。</p>
+</li>
+<li><p>【推荐】代码修改的同时，注释也要进行相应的修改，尤其是参数、返回值、异常、核心逻辑 等的修改。 </p>
+<blockquote>
+<p>说明：代码与注释更新不同步，就像路网与导航软件更新不同步一样，如果导航软件严重滞后， 就失去了导航的意义。</p>
+</blockquote>
+</li>
+<li><p>【参考】谨慎注释掉代码。在上方详细说明，而不是简单地注释掉。如果无用，则删除。</p>
+<blockquote>
+<p>1） 待办事宜（TODO）:（ 标记人，标记时间，[预计处理时间]） 表示需要实现，但目前还未实现的功能。这实际上是一个 Javadoc 的标签，目前的 Javadoc 还没有实现，但已经被广泛使用。只能应用于类，接口和方法（因为它是一个 Javadoc 标签）。</p>
+</blockquote>
+<blockquote>
+<p>2） 错误，不能工作（FIXME）:（标记人，标记时间，[预计处理时间]） 在注释中用 FIXME 标记某代码是错误的，而且不能工作，需要及时纠正的情况。</p>
+</blockquote>
+</li>
+</ul>
+<p><em>7.其他</em></p>
+<ul>
+<li><p>【强制】在使用正则表达式时，利用好其预编译功能，可以有效加快正则匹配速度。 说明：不要在方法体内定义：Pattern pattern = Pattern.compile(规则);</p>
+</li>
+<li><p>【强制】注意 Math.random() 这个方法返回是 double 类型，注意取值的范围 0≤x&lt;1（能够 取到零值，注意除零异常），如果想获取整数类型的随机数，不要将 x 放大 10 的若干倍然后 取整，直接使用 Random 对象的 nextInt 或者 nextLong 方法。</p>
+</li>
+<li><p>【推荐】获取当前毫秒数 System.currentTimeMillis(); 而不是 new Date().getTime();</p>
+</li>
+<li><p>【推荐】任何数据结构的构造或初始化，都应指定大小，避免数据结构无限增长吃光内存。</p>
+</li>
+</ul>
+<h3 id="数据库设计规范"><a href="#数据库设计规范" class="headerlink" title="数据库设计规范"></a>数据库设计规范</h3><ul>
+<li><p>【强制】表名、字段名必须使用小写字母或数字，禁止出现数字开头，禁止两个下划线中间只 出现数字。数据库字段名的修改代价很大，因为无法进行预发布，所以字段名称需要慎重考虑。<br>说明：MySQL 在 Windows 下不区分大小写，但在 Linux 下默认是区分大小写。因此，数据库 名、表名、字段名，都不允许出现任何大写字母，避免节外生枝。</p>
+</li>
+<li><p>【强制】禁用保留字，如 desc、range、match、delayed 等，请参考 MySQL <a href="https://blog.csdn.net/carechere/article/details/51781454" target="_blank" rel="noopener">官方保留字</a>。</p>
+</li>
+<li><p>【强制】小数类型为 decimal，禁止使用 float 和 double。</p>
+</li>
+<li><p>【强制】如果存储的字符串长度几乎相等，使用 char 定长字符串类型。</p>
+</li>
+<li><p>【强制】varchar 是可变长字符串，不预先分配存储空间，长度不要超过 5000，如果存储长度大于此值，定义字段类型为 text。</p>
+</li>
+<li><p>【强制】表必备四个字段：id，create_time, update_time, delete_flag</p>
+</li>
+<li><p>【强制】表和字段都需要添加注释信息。</p>
+</li>
+</ul>
+<h3 id="工程结构"><a href="#工程结构" class="headerlink" title="工程结构"></a>工程结构</h3><p>公司所有项目均使用java后台的project-templet 项目为项目模板git地址为:<a href="mailto:`git@103.224.81.114" target="_blank" rel="noopener">`git@103.224.81.114</a>:server/project-templet.git`如有对接第三方这可以使用公司已有的模块化,以减少不必要的时间精力去重新开发，如七牛、shiro、阿里云短息、微信支付、阿里支付、极光推送、<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;com.luwei.module&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;qiniu&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;&#123;last version&#125;&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line"></span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;com.luwei.module&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;shiro&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;&#123;last version&#125;&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line"></span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;com.luwei.module&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;qiniu&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;&#123;last version&#125;&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line"></span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;artifactId&gt;ali-sms&lt;/artifactId&gt;</span><br><span class="line">    &lt;groupId&gt;com.luwei.module&lt;/groupId&gt;</span><br><span class="line">    &lt;version&gt;&#123;last version&#125;&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line"></span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;com.luwei.module.pay&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;alipay&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;&#123;last version&#125;&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line"></span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;com.luwei.module.pay&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;wxpay&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;&#123;last version&#125;&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line"></span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;com.luwei.module.pay&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;jpush-model&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;&#123;last version&#125;&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure></p>
+<p>模板项目分为web、cms、service，web和cms共同依赖service，项目的oom依赖大部分放到service里面web和cms只放控制层的代码、swagger的配置、启动类、等和某个端强依赖的东西。service模块存放项目所有的实体、业务代码、公共配置、枚举、工具类等。项目大致的结构为，具体根据项目适当调整。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">project</span><br><span class="line">├─cms</span><br><span class="line">│  ├─src</span><br><span class="line">│  │  └─main</span><br><span class="line">│  │      ├─java</span><br><span class="line">│  │      │  └─com</span><br><span class="line">│  │      │      └─luwei</span><br><span class="line">│  │      │          ├─controllers</span><br><span class="line">│  │      └─resources</span><br><span class="line">│  │          └─static</span><br><span class="line">├─service</span><br><span class="line">│  ├─src</span><br><span class="line">│  │  └─main</span><br><span class="line">│  │      ├─java</span><br><span class="line">│  │      │  └─com</span><br><span class="line">│  │      │      └─luwei</span><br><span class="line">│  │      │          ├─common</span><br><span class="line">│  │      │          ├─config</span><br><span class="line">│  │      │          ├─modules</span><br><span class="line">│  │      │          └─service</span><br><span class="line">│  │      └─resources</span><br><span class="line">├─web</span><br><span class="line">|  ├─src</span><br><span class="line">|  │  └─main</span><br><span class="line">|  │      ├─java</span><br><span class="line">|  │      │  └─com</span><br><span class="line">|  │      │      └─luwei</span><br><span class="line">|  │      │          └─controller</span><br><span class="line">|  │      └─resources</span><br><span class="line">|  │          └─static</span><br></pre></td></tr></table></figure></p>
+<h3 id="git规范"><a href="#git规范" class="headerlink" title="git规范"></a>git规范</h3><p><strong>分支</strong></p>
+<p>master 分支为主分支(保护分支)，不能直接在 master 上进行修改代码和提交；<br>dev 分支为测试分支，所以开发完成需要提交测试的功能合并到该分支；</p>
+<p><strong>提交规则</strong></p>
+<p>一个commit只做一件事情，若一个commit做了多件事情需要拆分成多个commit<br>严格遵循commit message格式</p>
+<p><strong>提交格式</strong></p>
+<p>每次提交，Commit message 都包括三个部分：header，body 和 footer。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;type&gt;(&lt;scope&gt;): &lt;subject&gt;</span><br><span class="line">&lt;BLANK LINE&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">&lt;BLANK LINE&gt;</span><br><span class="line">&lt;footer&gt;</span><br></pre></td></tr></table></figure></p>
+<p>其中，header 是必需的，body 和 footer 可以省略。<br>不管是哪一个部分，任何一行都不得超过72个字符（或100个字符）。这是为了避免自动换行影响美观。</p>
+<p><strong>type</strong></p>
+<p>用于说明 commit 的类别，只允许使用下面7个标识。</p>
+<ul>
+<li>feat：新功能（feature）</li>
+<li>fix：修补bug</li>
+<li>docs：文档（documentation）</li>
+<li>style： 格式（不影响代码运行的变动）</li>
+<li>refactor：重构（即不是新增功能，也不是修改bug的代码变动）</li>
+<li>test：增加测试</li>
+<li>chore：构建过程或辅助工具的变动</li>
+</ul>
+<p><strong>scope</strong></p>
+<p>scope用于说明 commit 影响的范围，比如service、controller、dao等。</p>
+<p>如果你的修改影响了不止一个scope，你可以使用all代替。</p>
+<p><strong>subject</strong></p>
+<p>subject是 commit 目的的简短描述，不超过50个字符。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/02/04/后台项目技术规范/" data-id="cjrqbftz80014akc40g3utod7" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Zookeeper" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/02/04/Zookeeper/" class="article-date">
+  <time datetime="2019-02-04T12:16:14.370Z" itemprop="datePublished">2019-02-04</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="zookeeper"><a href="#zookeeper" class="headerlink" title="zookeeper"></a>zookeeper</h1><h2 id="zookeeper是什么"><a href="#zookeeper是什么" class="headerlink" title="zookeeper是什么"></a>zookeeper是什么</h2><p>Apache ZooKeeper是Apache软件基金会的一个软件项目，他为大型分布式计算提供开源的分布式配置服务、同步服务和命名注册。ZooKeeper曾经是Hadoop的一个子项目，但现在是一个独立的顶级项目。</p>
+<p>ZooKeeper的架构通过冗余服务实现高可用性。因此，如果第一次无应答，客户端就可以询问另一台ZooKeeper主机。ZooKeeper节点将它们的数据存储于一个分层的命名空间，非常类似于一个文件系统或一个前缀树结构。客户端可以在节点读写，从而以这种方式拥有一个共享的配置服务。</p>
+<p>使用ZooKeeper的公司包括Rackspace、雅虎和eBay，以及类似于像Solr这样的开源企业级搜索系统。</p>
+<h3 id="zookeeper提供了什么"><a href="#zookeeper提供了什么" class="headerlink" title="zookeeper提供了什么"></a>zookeeper提供了什么</h3><ul>
+<li><p>文件系统：zookeeper维护一个类似文件系统的数据结构，每个子目录项如 NameService 都被称作为 znode，和文件系统一样，自由增加及删除，唯一不同其可存储数据。Znode分为四种类型</p>
+<ul>
+<li><p>PERSISTENT-持久化目录节点。（客户端与zookeeper断开连接后，该节点依旧存在）。</p>
+</li>
+<li><p>PERSISTENT_SEQUENTIAL-持久化顺序编号目录节点。（客户端与zookeeper断开连接后，该节点依旧存在，只是Zookeeper给该节点名称进行顺序编号）</p>
+</li>
+<li><p>EPHEMERAL-临时目录节点（客户端与zookeeper断开连接后，该节点被删除）</p>
+</li>
+<li><p>EPHEMERAL_SEQUENTIAL-临时顺序编号目录节点。（客户端与zookeeper断开连接后，该节点被删除，只是Zookeeper给该节点名称进行顺序编号）</p>
+</li>
+</ul>
+</li>
+<li><p>通知机制：客户端注册监听它关心的目录节点，当目录节点发生变化（数据改变、被删除、子目录节点增加删除）时，zookeeper会通知客户端。</p>
+</li>
+</ul>
+<h3 id="zookeeper能为我们做什么？"><a href="#zookeeper能为我们做什么？" class="headerlink" title="zookeeper能为我们做什么？"></a>zookeeper能为我们做什么？</h3><ul>
+<li><p>命名服务：在zookeeper的文件系统里创建一个目录，即有唯一的path。在我们使用tborg无法确定上游程序的部署机器时即可与下游程序约定好path，通过path即能互相探索发现。</p>
+</li>
+<li><p>配置管理：把应用配置放置zookeeper上去,保存在 Zookeeper 的某个目录节点中，然后所有相关应用程序对这个目录节点进行监听，一旦配置信息发生变化，每个应用程序就会收到 Zookeeper 的通知，然后从 Zookeeper 获取新的配置信息应用到系统中就好。</p>
+</li>
+</ul>
+<ul>
+<li>集群管理：节点（机器）增删及Master选取。节点增删：所有机器约定在父目录GroupMembers下创建临时目录节点，然后监听父目录节点的子节点变化消息。一旦有机器挂掉，该机器与 zookeeper的连接断开，其所创建的临时目录节点被删除，所有其他机器都收到通知：某个兄弟目录被删除，于是，所有人都知道：它上船了。新机器加入 也是类似，所有机器收到通知：新兄弟目录加入，highcount又有了。Master选取：所有机器创建临时顺序编号目录节点，每次选取编号最小的机器作为master就好。</li>
+</ul>
+<ul>
+<li>分布式锁：基于zookeeper一致性文件系统,实现锁服务。锁服务分为保存独占及时序控制两类。保存独占：将zookeeper上的一个znode看作是一把锁，通过createznode的方式来实现。所有客户端都去创建 /distribute_lock 节点，最终成功创建的那个客户端也即拥有了这把锁。用完删除自己创建的distribute_lock 节点就释放锁。时序控制：基于/distribute_lock锁，所有客户端在它下面创建临时顺序编号目录节点，和选master一样，编号最小的获得锁，用完删除，依次方便。</li>
+</ul>
+<ul>
+<li>队列管理：分同步队列,FIFO队列（入队与出队），同步队列：当一个队列的成员都聚齐时，这个队列才可用，否则一直等待所有成员到达。在约定目录下创建临时目录节点，监听节点数目是否是我们要求的数目。FIFO队列：和分布式锁服务中的控制时序场景基本原理一致，入列有编号，出列按编号。</li>
+</ul>
+<ul>
+<li>分布式与数据复制：Zookeeper作为一个集群提供一致的数据服务，必然在所有机器间做数据复制。数据复制好处：（1）容错：一个节点出错，不致于让整个系统停止工作，别的节点可以接管它的工作。（2）提高系统的扩展能力：把负载分布到多个节点上，或者增加节点来提高系统的负载能力；（3）性能提升：让客户端本地访问就近节点,提高用户访问速度。</li>
+</ul>
+<h3 id="zookeeper基本概念"><a href="#zookeeper基本概念" class="headerlink" title="zookeeper基本概念"></a>zookeeper基本概念</h3><h4 id="角色简介"><a href="#角色简介" class="headerlink" title="角色简介"></a>角色简介</h4><p>Zookeeper角色分为三类，领导者：负责进行投票的发起和决议,更新系统状态。跟随者：Follower用于接收客户请求并向客户端返回结果，在选中过程中参与投票。观察者：Observer可以接收客户端连接，将写请求转发给leader节点。但不参加投票过程,只同步leader状态。Observer目的在于扩展系统，提高读取速度。</p>
+<h4 id="设计目的"><a href="#设计目的" class="headerlink" title="设计目的"></a>设计目的</h4><ul>
+<li><p>一致性：client不论连接到哪个Server，展示给它都是同一个视图，这是zookeeper最重要的性能。</p>
+</li>
+<li><p>可靠性：具有简单、健壮、良好的性能，如果消息m被到一台服务器接受，那么它将被所有的服务器接受。</p>
+</li>
+<li><p>实时性：Zookeeper保证客户端将在一个时间间隔范围内获得服务器的更新信息，或者服务器失效的信息。但由于网络延时等原因，Zookeeper不能保证两个客户端能同时得到刚更新的数据，如果需要最新数据，应该在读数据之前调用sync()接口。</p>
+</li>
+<li><p>等待无关（wait-free）：慢的或者失效的client不得干预快速的client的请求，使得每个client都能有效的等待。</p>
+</li>
+<li><p>原子性：更新只能成功或者失败，没有中间状态。</p>
+</li>
+<li><p>顺序性：包括全局有序和偏序两种：全局有序是指如果在一台服务器上消息a在消息b前发布，则在所有Server上消息a都将在消息b前被发布；偏序是指如果一个消息b在消息a后被同一个发送者发布，a必将排在b前面。</p>
+</li>
+</ul>
+<h3 id="选主流程"><a href="#选主流程" class="headerlink" title="选主流程"></a>选主流程</h3><p>当leader崩溃或者leader失去大多数的follower，这时候zk进入恢复模式，恢复模式需要重新选举出一个新的leader，让所有的Server都恢复到一个正确的状态。Zk的选举算法有两种：一种是基于basic paxos实现的，另外一种是基于fast paxos算法实现的。系统默认的选举算法为fast paxos。先介绍basic paxos流程：</p>
+<p>选举线程由当前Server发起选举的线程担任，其主要功能是对投票结果进行统计，并选出推荐的Server；<br>选举线程首先向所有Server发起一次询问(包括自己)；<br>选举线程收到回复后，验证是否是自己发起的询问(验证zxid是否一致)，然后获取对方的id(myid)，并存储到当前询问对象列表中，最后获取对方提议的leader相关信息(id,zxid)，并将这些信息存储到当次选举的投票记录表中；<br>收到所有Server回复以后，就计算出zxid最大的那个Server，并将这个Server相关信息设置成下一次要投票的Server；<br>线程将当前zxid最大的Server设置为当前Server要推荐的Leader，如果此时获胜的Server获得n/2 + 1的Server票数， 设置当前推荐的leader为获胜的Server，将根据获胜的Server相关信息设置自己的状态，否则，继续这个过程，直到leader被选举出来。<br>通过流程分析我们可以得出：要使Leader获得多数Server的支持，则Server总数必须是奇数2n+1，且存活的Server的数目不得少于n+1.</p>
+<p>每个Server启动后都会重复以上流程。在恢复模式下，如果是刚从崩溃状态恢复的或者刚启动的server还会从磁盘快照中恢复数据和会话信息，zk会记录事务日志并定期进行快照，方便在恢复时进行状态恢复。</p>
+<p>fast paxos流程是在选举过程中，某Server首先向所有Server提议自己要成为leader，当其它Server收到提议以后，解决epoch和zxid的冲突，并接受对方的提议，然后向对方发送接受提议完成的消息，重复这个流程，最后一定能选举出Leader。</p>
+<h3 id="zookeeper的安装使用"><a href="#zookeeper的安装使用" class="headerlink" title="zookeeper的安装使用"></a>zookeeper的安装使用</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">wget http://mirrors.cnnic.cn/apache/zookeeper/zookeeper-3.4.8/zookeeper-3.4.8.tar.gz</span><br><span class="line"></span><br><span class="line">tar zxvf zookeeper-3.4.8.tar.gz -C /usr/local/</span><br><span class="line"></span><br><span class="line">cd $ZOOKEEPER_HOME</span><br><span class="line"></span><br><span class="line">cp conf/zoo_sample.cfg conf/zoo.cfg</span><br><span class="line"></span><br><span class="line"># 集群需要在zoo.cfg配置</span><br><span class="line"></span><br><span class="line">server.1=192.168.1.148:2888:3888</span><br><span class="line">server.2=192.168.1.149:2888:3888</span><br><span class="line">server.3=192.168.1.150:2888:3888</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># 在zookeeper的临时目录创建myid</span><br><span class="line">mkdir -p /tmp/zookeeper</span><br><span class="line"></span><br><span class="line"># 分别在不同节点创建myid文件里面的数字对应节点的编号比如server.1就对应1，server.2就对应2</span><br><span class="line">echo 1 &gt; /tmp/zookeeper/myid</span><br><span class="line"></span><br><span class="line"># 最后分别启动集群上的节点</span><br><span class="line">$ZOOKEEPER_HOME/bin/zkServer.sh start</span><br><span class="line"></span><br><span class="line"># 查看zookeeper的状态</span><br><span class="line">$ZOOKEEPER_HOME/bin/zkServer.sh status</span><br><span class="line"></span><br><span class="line"># 停止zookeeper服务</span><br><span class="line">$ZOOKEEPER_HOME/bin/zkServer.sh stop</span><br></pre></td></tr></table></figure>
+<h3 id="zookeeper命令行操作"><a href="#zookeeper命令行操作" class="headerlink" title="zookeeper命令行操作"></a>zookeeper命令行操作</h3><p>启动zookeeper服务后到bin目录启动zookeeper的客户端$ZOOKEEPER_HOME/bin/zkCli.sh</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"># 输入help</span><br><span class="line"></span><br><span class="line">[zk: localhost:2181(CONNECTED) 0] help</span><br><span class="line">ZooKeeper -server host:port cmd args</span><br><span class="line">        stat path [watch]</span><br><span class="line">        set path data [version]</span><br><span class="line">        ls path [watch]</span><br><span class="line">        delquota [-n|-b] path</span><br><span class="line">        ls2 path [watch]</span><br><span class="line">        setAcl path acl</span><br><span class="line">        setquota -n|-b val path</span><br><span class="line">        history </span><br><span class="line">        redo cmdno</span><br><span class="line">        printwatches on|off</span><br><span class="line">        delete path [version]</span><br><span class="line">        sync path</span><br><span class="line">        listquota path</span><br><span class="line">        rmr path</span><br><span class="line">        get path [watch]</span><br><span class="line">        create [-s] [-e] path data acl</span><br><span class="line">        addauth scheme auth</span><br><span class="line">        quit </span><br><span class="line">        getAcl path</span><br><span class="line">        close </span><br><span class="line">        connect host:port</span><br></pre></td></tr></table></figure>
+<p>创建节点<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[zk: localhost:2181(CONNECTED) 14] create /test test-data</span><br><span class="line">Created /test</span><br></pre></td></tr></table></figure></p>
+<p>查看节点<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[zk: localhost:2181(CONNECTED) 1] ls /</span><br><span class="line">[abc, zookeeper, eclipse]</span><br></pre></td></tr></table></figure></p>
+<p>获取节点<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">[zk: localhost:2181(CONNECTED) 10] get /test</span><br><span class="line">test-update</span><br><span class="line">cZxid = 0x38</span><br><span class="line">ctime = Sat Dec 22 10:11:46 CST 2018</span><br><span class="line">mZxid = 0x39</span><br><span class="line">mtime = Sat Dec 22 10:12:05 CST 2018</span><br><span class="line">pZxid = 0x38</span><br><span class="line">cversion = 0</span><br><span class="line">dataVersion = 1</span><br><span class="line">aclVersion = 0</span><br><span class="line">ephemeralOwner = 0x0</span><br><span class="line">dataLength = 11</span><br><span class="line">numChildren = 0</span><br></pre></td></tr></table></figure></p>
+<p>修改节点<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">[zk: localhost:2181(CONNECTED) 11] set /test test-update</span><br><span class="line">cZxid = 0x38</span><br><span class="line">ctime = Sat Dec 22 10:11:46 CST 2018</span><br><span class="line">mZxid = 0x3a</span><br><span class="line">mtime = Sat Dec 22 10:15:04 CST 2018</span><br><span class="line">pZxid = 0x38</span><br><span class="line">cversion = 0</span><br><span class="line">dataVersion = 2</span><br><span class="line">aclVersion = 0</span><br><span class="line">ephemeralOwner = 0x0</span><br><span class="line">dataLength = 11</span><br><span class="line">numChildren = 0</span><br></pre></td></tr></table></figure></p>
+<p>删除节点<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[zk: localhost:2181(CONNECTED) 13] delete /test</span><br></pre></td></tr></table></figure></p>
+<h3 id="zookeeper-java-客户端操作"><a href="#zookeeper-java-客户端操作" class="headerlink" title="zookeeper java 客户端操作"></a>zookeeper java 客户端操作</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br></pre></td><td class="code"><pre><span class="line">import org.apache.zookeeper.*;</span><br><span class="line">import org.apache.zookeeper.data.Stat;</span><br><span class="line">import org.junit.Before;</span><br><span class="line">import org.junit.Test;</span><br><span class="line">import org.slf4j.Logger;</span><br><span class="line">import org.slf4j.LoggerFactory;</span><br><span class="line"></span><br><span class="line">import java.util.List;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * @author leone</span><br><span class="line"> * @since 2018-06-16</span><br><span class="line"> **/</span><br><span class="line">public class ZkClient &#123;</span><br><span class="line"></span><br><span class="line">    private final static Logger logger = LoggerFactory.getLogger(ZkClient.class);</span><br><span class="line"></span><br><span class="line">    private final static String ZK_URL = &quot;xxx.xxx.xxx.xxx:2181&quot;;</span><br><span class="line"></span><br><span class="line">    private final static int TIME_OUT = 5000;</span><br><span class="line"></span><br><span class="line">    private static ZooKeeper zkClient = null;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    @Before</span><br><span class="line">    public void init() throws Exception &#123;</span><br><span class="line">        zkClient = new ZooKeeper(ZK_URL, TIME_OUT, (WatchedEvent event) -&gt; &#123;</span><br><span class="line">            // 收到事件通知后的回调函数（应该是我们自己的事件处理逻辑）</span><br><span class="line">            logger.info(event.getType() + &quot;---&quot; + event.getPath());</span><br><span class="line">            try &#123;</span><br><span class="line">                zkClient.getChildren(&quot;/&quot;, true);</span><br><span class="line">            &#125; catch (Exception e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 设置值</span><br><span class="line">     *</span><br><span class="line">     * @throws Exception</span><br><span class="line">     */</span><br><span class="line">    @Test</span><br><span class="line">    public void testSetData() throws Exception &#123;</span><br><span class="line">        zkClient.setData(&quot;/eclipse&quot;, &quot;world&quot;.getBytes(), -1);</span><br><span class="line">        byte[] data = zkClient.getData(&quot;/eclipse&quot;, false, null);</span><br><span class="line">        System.out.println(new String(data));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 创建节点</span><br><span class="line">     *</span><br><span class="line">     * @throws Exception</span><br><span class="line">     */</span><br><span class="line">    @Test</span><br><span class="line">    public void testCreate() throws Exception &#123;</span><br><span class="line">        // 参数1：要创建的节点的路径 参数2：节点数据 参数3：节点的权限 参数4：节点的类型</span><br><span class="line">        zkClient.create(&quot;/eclipse/aaa&quot;, &quot;aaaData&quot;.getBytes(), ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.PERSISTENT);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 测试某节点是否存在</span><br><span class="line">     *</span><br><span class="line">     * @throws Exception</span><br><span class="line">     */</span><br><span class="line">    @Test</span><br><span class="line">    public void testExists() throws Exception &#123;</span><br><span class="line">        Stat stat = zkClient.exists(&quot;/eclipse&quot;, false);</span><br><span class="line">        System.out.println(stat == null ? &quot;not exist&quot; : &quot;exist&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 获取子节点</span><br><span class="line">     *</span><br><span class="line">     * @throws Exception</span><br><span class="line">     */</span><br><span class="line">    @Test</span><br><span class="line">    public void testGetChild() throws Exception &#123;</span><br><span class="line">        List&lt;String&gt; children = zkClient.getChildren(&quot;/&quot;, true);</span><br><span class="line">        for (String child : children) &#123;</span><br><span class="line">            System.out.println(child);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 删除节点</span><br><span class="line">     *</span><br><span class="line">     * @throws Exception</span><br><span class="line">     */</span><br><span class="line">    @Test</span><br><span class="line">    public void testDelete() throws Exception &#123;</span><br><span class="line">        // 参数2：指定要删除的版本，-1表示删除所有版本</span><br><span class="line">        zkClient.delete(&quot;/abc&quot;, -1);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 获取节点的数据</span><br><span class="line">     *</span><br><span class="line">     * @throws Exception</span><br><span class="line">     */</span><br><span class="line">    @Test</span><br><span class="line">    public void testGetDate() throws Exception &#123;</span><br><span class="line">        byte[] data = zkClient.getData(&quot;/eclipse&quot;, false, null);</span><br><span class="line">        System.out.println(new String(data));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/02/04/Zookeeper/" data-id="cjrqbftyk000takc4kk82b5nn" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-whoami" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/02/04/whoami/" class="article-date">
+  <time datetime="2019-02-04T12:16:14.368Z" itemprop="datePublished">2019-02-04</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/02/04/whoami/" data-id="cjrqbftxz000iakc4rz42xf40" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-VMware" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/02/04/VMware/" class="article-date">
+  <time datetime="2019-02-04T12:16:14.354Z" itemprop="datePublished">2019-02-04</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="VMware虚拟机三种联网方法及原理"><a href="#VMware虚拟机三种联网方法及原理" class="headerlink" title="VMware虚拟机三种联网方法及原理"></a>VMware虚拟机三种联网方法及原理</h1><h2 id="一、Brigde——桥接：默认使用VMnet0"><a href="#一、Brigde——桥接：默认使用VMnet0" class="headerlink" title="一、Brigde——桥接：默认使用VMnet0"></a>一、Brigde——桥接：默认使用VMnet0</h2><p>1、原理： </p>
+<p>Bridge  桥”就是一个主机，这个机器拥有两块网卡，分别处于两个局域网中，同时在”桥”上，运行着程序，让局域网A中的所有数据包原封不动的流入B，反之亦然。这样，局域网A和B就无缝的在链路层连接起来了，在桥接时，VMWare网卡和物理网卡应该处于同一IP网段  当然要保证两个局域网没有冲突的IP. </p>
+<p>VMWare 的桥也是同样的道理，只不过，本来作为硬件的一块网卡，现在由VMWare软件虚拟了！当采用桥接时，VMWare会虚拟一块网卡和真正的物理网卡就行桥接，这样，发到物理网卡的所有数据包就到了VMWare虚拟机，而由VMWare发出的数据包也会通过桥从物理网卡的那端发出。 </p>
+<p>所以，如果物理网卡可以上网，那么桥接的软网卡也没有问题了，这就是桥接上网的原理了。  　　<br>2、联网方式： </p>
+<p>这一种联网方式最简单，在局域网内，你的主机是怎么联网的，你在虚拟机里就怎么连网。把虚拟机看成局域网内的另一台电脑就行了！ </p>
+<p>提示：主机网卡处在一个可以访问Internet的局域网中，虚拟机才能通过Bridge访问Internet。 </p>
+<h2 id="二、NAT——网络地址转换-默认使用VMnet8"><a href="#二、NAT——网络地址转换-默认使用VMnet8" class="headerlink" title="二、NAT——网络地址转换:默认使用VMnet8"></a>二、NAT——网络地址转换:默认使用VMnet8</h2><p>1、原理： </p>
+<p>NAT 是  Network  address  translate的简称。NAT技术应用在internet网关和路由器上，比如192.168.0.123这个地址要访问internet，它的数据包就要通过一个网关或者路由器，而网关或者路由器拥有一个能访问internet的ip地址，这样的网关和路由器就要在收发数据包时，对数据包的IP协议层数据进行更改（即  NAT），以使私有网段的主机能够顺利访问internet。此技术解决了IP地址稀缺的问题。同样的私有IP可以网关NAT  上网。    </p>
+<p>VMWare的NAT上网也是同样的道理，它在主机和虚拟机之间用软件伪造出一块网卡，这块网卡和虚拟机的ip处于一个地址段。同时，在这块网卡和主机的网络接口之间进行NAT。虚拟机发出的每一块数据包都会经过虚拟网卡，然后NAT，然后由主机的接口发出。 </p>
+<p>虚拟网卡和虚拟机处于一个地址段，虚拟机和主机不同一个地址段，主机相当于虚拟机的网关，所以虚拟机能ping到主机的IP，但是主机ping不到虚拟机的IP。<br>　　　　<br>2、联网方式： </p>
+<p>方法1、动态IP地址。 </p>
+<p>主机是静态IP或动态IP，都无所谓，将虚拟机设置成使用DHCP方式上网,Windows下选择“自动获取IP“，linux下开启DHCP服务即可。（这种方法最简单，不用过多的设置，但要在VMware中进行“编辑→虚拟网络设置”，将NAT和DHCP都开启了。一般NAT默认开启，DHCP默认关闭）<br>　　<br>方法2、静态IP地址。 </p>
+<p>如果不想使用DHCP，也可以手动设置：　 </p>
+<p>IP设置与vmnet1同网段,网关设置成vmnet8的网关（在“虚拟网络设置”里的Net选项卡里能找到Gateway）通常是xxx.xxx.xxx.2。<br>子网掩码设置与VMnet8相同（设置好IP地址后，子网掩码自动生成）<br>DNS设置与主机相同。 </p>
+<p>例如：主机IP是10.70.54.31,设置虚拟机IP为10.70.54.22。Netmask,Gateway,DNS都与主机相同即可实现  虚拟机  —主机  虚拟机<---->互联网  通信。    </----></p>
+<p>提示：使用NAT技术，主机能上网，虚拟机就可以访问Internet，但是主机不能访问虚拟机。 </p>
+<h2 id="三、Host-Only——私有网络共享主机：默认使用VMnet1"><a href="#三、Host-Only——私有网络共享主机：默认使用VMnet1" class="headerlink" title="三、Host-Only——私有网络共享主机：默认使用VMnet1"></a>三、Host-Only——私有网络共享主机：默认使用VMnet1</h2><p>1、原理： </p>
+<p>提供的是主机和虚拟机之间的网络互访。只想让虚拟机和主机之间有数据交换，而不想让虚拟机访问Internet，就要采用这个设置了。 </p>
+<p>Host-only的条件下，VMWare在真正的Windows系统中，建立一块软网卡。这块网卡可以在网络连接中看到，一般是VMNET1，这块网卡的作用就是使Windows看到虚拟机的IP。 </p>
+<p>2、联网方法： </p>
+<p>方法1、动态IP地址。<br>像上面那样开启DHCP后，虚拟机直接自动获取IP地址和DNS。就可以和主机相连了。当然，还要进行一些局域网共享的操作，这里不再赘述。 </p>
+<p>方法2、静态IP地址。    </p>
+<p>也可以手动设置，将虚拟机IP设置与VMnet1同网段,网关设置成VMnet1的网关相同,其余设置与VMnet1相同,DNS设置与主机相同。 </p>
+<p>例如：VMnet1  IP:172.16.249.1         Gateway  :172.16.249.2<br>　　<br>那么虚拟机    IP:172.16.249.100       Gateway:  172.16.249.2<br>　　<br>这样、       虚拟机<--->主机              可以通信<br>但是、       虚拟机<--->互联网            无法通信 </---></---></p>
+<p>提示：Host-only技术只用于主机和虚拟机互访，于访问internet无关。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/02/04/VMware/" data-id="cjrqbftxs000bakc4m5lttq87" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Storm" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/02/04/Storm/" class="article-date">
+  <time datetime="2019-02-04T12:16:14.332Z" itemprop="datePublished">2019-02-04</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="storm"><a href="#storm" class="headerlink" title="storm"></a>storm</h1><h2 id="storm-核心概念"><a href="#storm-核心概念" class="headerlink" title="storm 核心概念"></a>storm 核心概念</h2><h3 id="什么是storm"><a href="#什么是storm" class="headerlink" title="什么是storm"></a>什么是storm</h3><p>Storm是一个分布式计算框架，主要由Clojure编程语言编写。最初是由Nathan Marz及其团队创建于BackType，该项目在被Twitter取得后开源。它使用用户创建的“管（spouts）”和“螺栓（bolts）”来定义信息源和操作来允许批量、分布式处理流式数据。最初的版本发布于2011年9月17日。Storm应用被设计成为一个拓扑结构，其接口创建一个转换“流”。它提供与MapReduce作业类似的功能，当遇到异常时该拓扑结构理论上将不确定地运行，直到它被手动终止2013年，Apache软件基金会将Storm纳入它的孵化计划。</p>
+<h3 id="storm基本概念名称解释"><a href="#storm基本概念名称解释" class="headerlink" title="storm基本概念名称解释"></a>storm基本概念名称解释</h3><ul>
+<li>topology（拓扑）</li>
+</ul>
+<p>Topology 是 storm 中最核心的概念，其是运行在 storm 集群上的一个实时计算应用，相当于 hadoop 中的一个 job，区别于 job 的时，job 会有明确的开始和结束，而 topology 由于实时的流式计算的特殊性，从启动的那一刻起会永远的运行下去，直到手动停止。<br>Topology 由 stream，spouts，bolts 组成，</p>
+<ul>
+<li>stream（数据流）</li>
+</ul>
+<p>Stream 是 storm 中对数据流的抽象，是由无限制的 tuple 组成的序列。Tuple 可以理解为包含一个或多个键值对的 hash。Tuples 在 stream 中流经 bolts，被逐步处理，最终得到预设的结果。<br>Stream 可比作一条源源不绝的河流，tuple 就是组成这条河流的无数水滴。每一个 stream 在 storm 中都有一个唯一标示的 id。</p>
+<ul>
+<li><p>spout（水龙头、数据源）<br>从图一可以看出，spout 是一个 topology 的数据源，负责连接数据源，并将数据转化为 tuple emit 到 topology中，经由 bolts 处理。<br>Spout 提供了一对核心方法&lt;ack, fail&gt;来保障 storm 在数据没有被正确处理的情况下，不会被丢弃，仍能被重新处理，当然这是可选的，我们也可以不关心 tuple 是否被正确的处理，只负责向topology 中 emit 数据（在某些场景下可能不需要）。具体实现原理在后文会详细介绍。<br>Storm + Kakfa 是很常见的组合，storm提供了storm-kafka扩展，封装了多个可用的 kafka spouts 供直接使用。</p>
+</li>
+<li><p>bolt（螺栓，数据筛选处理）<br>Bolt 是 topology 中的数据处理单元，每个 bolt 都会对 stream 中的 tuple 进行数据处理。复杂的数据处理逻辑一般拆分成多个简单的处理逻辑交由每个 Bolt 负责。<br>Bolt 可以执行丰富的数据处理逻辑，如过滤，聚合，链接，数据库操作等等。<br>Bolt 可以接受任意个数据流中的 tuples，并在对数据进行处理后选择性的输出到多个流中。也就是说，bolt 可以订阅任意数量的spouts 或其他 bolts emit 的数据流，这样最终形成了复杂的数据流处理网络，如图一。<br>理解了 storm 的核心概念后，下文将介绍storm的并发机制。</p>
+</li>
+<li><p>stream group（数据流分组）</p>
+</li>
+<li><p>reliability（可靠性）<br>storm可以保证每一个spout发出的tuple能够被完整处理，通过跟踪tuple树上的每个tuple，检查是否被成功处理。每个topology有一个超时时间，如果storm检查到某个tuple已经超时，将重新发送该tuple。为了使用这种特性，需要定义tuple的起点，以及tuple被成功处理。更多内容查看Guaranteeing message processing。</p>
+</li>
+<li><p>task（任务）<br>task是spout和bolt的实例，他们的nextTuple()和execute()方法会被executors线程调用执行。根据数据流分组来确定如何从某个task中的tuple发送到其他的task。</p>
+</li>
+<li><p>worker（执行者）</p>
+</li>
+</ul>
+<p>topology运行在一个或多个worker进程上，worker是jvm虚拟机，运行topology所有task的一部分。比如，topology的并发是300，有50个worker，那每个worker就有6个task。Storm会平衡所有worker的task数量。通过Config.TOPOLOGY_WORKERS来设置topology的worker数量。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/02/04/Storm/" data-id="cjrqbftxp000aakc49qyw9k67" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-SpringCloud-03-Zuul" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/02/04/SpringCloud-03-Zuul/" class="article-date">
+  <time datetime="2019-02-04T12:16:14.331Z" itemprop="datePublished">2019-02-04</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="spring-boot-aop"><a href="#spring-boot-aop" class="headerlink" title="spring-boot-aop"></a>spring-boot-aop</h1><h2 id="开发环境"><a href="#开发环境" class="headerlink" title="开发环境"></a>开发环境</h2><p>开发工具：Intellij IDEA 2018.2.6</p>
+<p>springboot: 2.0.6.RELEASE</p>
+<p>jdk：1.8.0_192</p>
+<p>maven: 3.6.0</p>
+<p>Zuul：</p>
+<h2 id="spring-boot-aop-1"><a href="#spring-boot-aop-1" class="headerlink" title="spring-boot-aop"></a>spring-boot-aop</h2><ul>
+<li>pom.xml</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<ul>
+<li>启动类</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<ul>
+<li>application.yml</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p><a href="https://github.com/janlle/spring-boot-examples" target="_blank" rel="noopener">github</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/02/04/SpringCloud-03-Zuul/" data-id="cjrqbftxm0008akc4w2cg60kb" class="article-share-link">Share</a>
       
       
     </footer>
@@ -108,6 +959,11 @@
 
   
 
+
+  <nav id="page-nav">
+    
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
+  </nav>
 
 </section>
         
@@ -138,7 +994,23 @@
       <ul>
         
           <li>
-            <a href="/2019/02/04/hello-world/">Hello World</a>
+            <a href="/2019/02/04/Crontab/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2019/02/04/CentOS-7.5-init/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2019/02/04/bash/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2019/02/04/awk/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2019/02/04/后台项目技术规范/">(no title)</a>
           </li>
         
       </ul>
