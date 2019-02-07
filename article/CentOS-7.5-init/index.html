@@ -14,11 +14,11 @@
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     <title>
         
-          leone | Blog
+          ContOS - leone | Blog
         
     </title>
 
-    <link rel="canonical" href="http://www.wealip.cn/">
+    <link rel="canonical" href="http://www.wealip.cn/article/CentOS-7.5-init/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -71,8 +71,8 @@
 <style type="text/css">
     header.intro-header{
         
-            background-image: url('/img/header_img/home.jpg') 
-            /*config*/
+            background-image: url('/img/article_header/article_header.png')
+            /*post*/
         
     }
     
@@ -85,10 +85,22 @@
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                 
-                    <div class="site-heading">
-                        <h1>leone</h1>
-                        <!--<hr class="small">-->
-                        <span class="subheading">个人博客</span>
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#linux" title="linux">linux</a>
+                            
+                              <a class="tag" href="/tags/#运维" title="运维">运维</a>
+                            
+                              <a class="tag" href="/tags/#CentOS" title="CentOS">CentOS</a>
+                            
+                        </div>
+                        <h1>ContOS</h1>
+                        <h2 class="subheading">ContOS 简介及入门</h2>
+                        <span class="meta">
+                            Posted by leone on
+                            2018-05-18
+                        </span>
                     </div>
                 
 
@@ -191,372 +203,257 @@
 
 
     <!-- Main Content -->
-    <!-- Main Content -->
-<div class="container">
-    <div class="row">
-        
+    <!-- Modify by Yu-Hsuan Yen -->
 
-<!-- USE SIDEBAR -->
-    <!-- Post Container -->
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
             <div class="
-                col-lg-8 col-lg-offset-1
-                col-md-8 col-md-offset-1
-                col-sm-12
-                col-xs-12
-                post-container
-            ">
-            
-                <!-- Main Content -->
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
 
-
-<div class="post-preview">
-
-    <a href="/article/flume/">
-        <h2 class="post-title">
-            flume
-        </h2>
-        <h3 class="post-subtitle">
-            flume 简介及核心概念
-        </h3>
-        <div class="post-content-preview">
-            flume
-flume 简介及核心概念
-什么是flume
-Flume是Cloudera提供的一个高可用的，高可靠的，分布式的海量日志采集、聚合和传输的系统，目前是Apache的顶级项目。Flume支持在日志系统中定制各类数据发送方，用于收集数据；同时，Flume提供对数据进行简单处理，并写到各种数据接受方（可定制）的能力。
-flume 优点
-1、可靠性
-当节点出现故障时，日志能够被传送到其他......
-        </div>
-    </a>
-    
-        <p class="post-meta" style="margin: 10px 0;">
-            Posted by leone on
-            2018-10-18
-        </p>
-        <div class="tags">
-            
-              <a href="/tags/#linux" title="linux">linux</a>
-            
-              <a href="/tags/#flume" title="flume">flume</a>
-            
-              <a href="/tags/#大数据" title="大数据">大数据</a>
-            
-        </div>
-    
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/article/Docker/">
-        <h2 class="post-title">
-            Docker
-        </h2>
-        <h3 class="post-subtitle">
-            Docker 核心概念及入门
-        </h3>
-        <div class="post-content-preview">
-            Docker
-Docker 核心概念及入门
-什么是docker
-Docker是一个开放源代码软件项目，让应用程序布署在软件货柜下的工作可以自动化进行，借此在Linux操作系统上，提供一个额外的软件抽象层，以及操作系统层虚拟化的自动管理机制。Docker利用Linux核心中的资源分离机制，例如cgroups，以及Linux核心名字空间（namespaces），来创建独立的容器（containe......
-        </div>
-    </a>
-    
-        <p class="post-meta" style="margin: 10px 0;">
-            Posted by leone on
-            2018-10-18
-        </p>
-        <div class="tags">
-            
-              <a href="/tags/#linux" title="linux">linux</a>
-            
-              <a href="/tags/#Docker" title="Docker">Docker</a>
-            
-              <a href="/tags/#容器" title="容器">容器</a>
-            
-        </div>
-    
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/article/Crontab/">
-        <h2 class="post-title">
-            crontab
-        </h2>
-        <h3 class="post-subtitle">
-            crontab 简介及入门
-        </h3>
-        <div class="post-content-preview">
-            crontab
-crontab简介
-crond是linux下用来周期性的执行某种任务或等待处理某些事件的一个守护进程，与windows下的计划任务类似，当安装完成操作系统后，默认会安装此服务工具，并且会自动启动crond进程，crond进程每分钟会定期检查是否有要执行的任务，如果有要执行的任务，则自动执行该任务。Linux下的任务调度分为两类，系统任务调度和用户任务调度。
-系统任务调度：系统......
-        </div>
-    </a>
-    
-        <p class="post-meta" style="margin: 10px 0;">
-            Posted by leone on
-            2018-09-18
-        </p>
-        <div class="tags">
-            
-              <a href="/tags/#linux" title="linux">linux</a>
-            
-              <a href="/tags/#运维" title="运维">运维</a>
-            
-              <a href="/tags/#Docker" title="Docker">Docker</a>
-            
-        </div>
-    
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/article/awk/">
-        <h2 class="post-title">
-            AWK
-        </h2>
-        <h3 class="post-subtitle">
-            AWK 简介及入门
-        </h3>
-        <div class="post-content-preview">
-            AWK
-简介
-awk是一个强大的文本分析工具，相对于grep的查找，sed的编辑，awk在其对数据分析并生成报告时，显得尤为强大。简单来说awk就是把文件逐行的读入，以空格为默认分隔符将每行切片，切开的部分再进行各种分析处理。
-awk有3个不同版本: awk、nawk和gawk，未作特别说明，一般指gawk，gawk 是 AWK 的 GNU 版本。
-awk其名称得自于它的创始人 Alfred......
-        </div>
-    </a>
-    
-        <p class="post-meta" style="margin: 10px 0;">
-            Posted by leone on
-            2018-09-08
-        </p>
-        <div class="tags">
-            
-              <a href="/tags/#linux" title="linux">linux</a>
-            
-              <a href="/tags/#AWK" title="AWK">AWK</a>
-            
-        </div>
-    
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/article/CentOS-7.5-init/">
-        <h2 class="post-title">
-            ContOS
-        </h2>
-        <h3 class="post-subtitle">
-            ContOS 简介及入门
-        </h3>
-        <div class="post-content-preview">
-            CentOS服务器初始化环境
-配置网络
-vi /etc/sysconfig/network-scripts/ifcfg-ens33
-修改
-12BOOTPROTO=staticONBOOT=yes
-新增
-123IPADDR=192.168.79.11GATEWAY=192.168.79.2DNS1=192.168.1.253
-重启网络
-service network restart
-设置火墙
-......
-        </div>
-    </a>
-    
-        <p class="post-meta" style="margin: 10px 0;">
-            Posted by leone on
-            2018-05-18
-        </p>
-        <div class="tags">
-            
-              <a href="/tags/#linux" title="linux">linux</a>
-            
-              <a href="/tags/#运维" title="运维">运维</a>
-            
-              <a href="/tags/#CentOS" title="CentOS">CentOS</a>
-            
-        </div>
-    
-
-</div>
-<hr>
-
-
-
-<!-- Pager -->
-
-<ul class="pager">
-    
-    
+                <h1 id="centos服务器初始化环境">CentOS服务器初始化环境</h1>
+<h2 id="配置网络">配置网络</h2>
+<p><code>vi /etc/sysconfig/network-scripts/ifcfg-ens33</code></p>
+<p>修改</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">BOOTPROTO=static</span><br><span class="line">ONBOOT=yes</span><br></pre></td></tr></table></figure>
+<p>新增</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">IPADDR=192.168.79.11</span><br><span class="line">GATEWAY=192.168.79.2</span><br><span class="line">DNS1=192.168.1.253</span><br></pre></td></tr></table></figure>
+<p>重启网络<br>
+<code>service network restart</code></p>
+<h2 id="设置火墙">设置火墙</h2>
+<ul>
+<li>
+<p>防火墙启动关闭<br>
+6.x=&gt; service firewalld [start/stop/status/restart]<br>
+7.x=&gt; systemctl [start/stop/status/restart] firewalld.service</p>
+</li>
+<li>
+<p>设置永久开启关闭<br>
+systemctl disable firewalld.service<br>
+systemctl enable firewalld.service</p>
+</li>
 </ul>
+<h2 id="安装常用依赖包">安装常用依赖包</h2>
+<pre><code>`yum update`
+</code></pre>
+<ul>
+<li>
+<p>vim编辑器</p>
+<p><code>yum install vim</code></p>
+</li>
+</ul>
+<ul>
+<li>
+<p>上传下载文件工具</p>
+<p><code>yum install lrzsz</code></p>
+</li>
+</ul>
+<ul>
+<li>
+<p>curl是强大的URL传输工具</p>
+<p><code>yum install crul</code></p>
+</li>
+</ul>
+<ul>
+<li>
+<p>wget下载工具</p>
+<p><code>yum install wget</code></p>
+</li>
+</ul>
+<ul>
+<li>
+<p>网络工具包</p>
+<p><code>yum install net-tools</code></p>
+</li>
+</ul>
+<ul>
+<li>
+<p>gcc (nginx之类由c语言开发的，编译的时候需要用到)</p>
+<p><code>yum -y install gcc-c++</code></p>
+</li>
+<li>
+<p>PCRE (Perl库，包括 perl 兼容的正则表达式库)</p>
+<p><code>yum -y install pcre pcre-devel</code></p>
+</li>
+<li>
+<p>zlib (zlib库提供了很多种压缩和解压缩的方式)</p>
+<p><code>yum -y install zlib zlib-devel ruby</code></p>
+</li>
+<li>
+<p>解压缩和压缩</p>
+<p><code>yum install -y unzip zip</code></p>
+</li>
+</ul>
+<ul>
+<li>
+<p>openssl (OpenSSL 是一个强大的安全套接字层密码库，囊括主要的密码算法、常用的密钥和证书封装管理功能及SSL协议)</p>
+<p><code>yum -y install openssl openssl-devel patch</code></p>
+</li>
+</ul>
+<ul>
+<li>
+<p>使用systemctl自动补全服务名称( 因为CentOS7的默认安装类型是最小安装，所以默认没有自动补全的功能)</p>
+<p><code>yum install -y bash-completion</code></p>
+</li>
+</ul>
+<p>``</p>
+<h2 id="安装各种环境">安装各种环境</h2>
+<h2 id=""></h2>
 
+                
 
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/article/awk/" data-toggle="tooltip" data-placement="top" title="AWK">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                </ul>
 
                 <br>
 
+                <!--打赏-->
+                
+                <!--打赏-->
+
+                <br>
+                <!--分享-->
+                
+                    <div class="social-share"  data-wechat-qrcode-helper="" align="center"></div>
+                    <!--  css & js -->
+                    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/css/share.min.css">
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/js/social-share.min.js"></script>
+                
+                <!--分享-->
+                <br>                       
+                
                 <!-- require APlayer -->
                 
 
-                <!-- 如果开启评论功能 -->
+                <!-- duoshuo Share start -->
+                
+                <!-- 多说 Share end-->
+
+                <!-- 多说评论框 start -->
+                
+                <!-- 多说评论框 end -->
+
+                <!-- disqus comment start -->
+                
+                <!-- disqus comment end -->
+
+                
+
+            </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+  
+    
+      <aside id="sidebar">
+        <div id="toc" class="toc-article">
+        <strong class="toc-title">Contents</strong>
+        
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#centos服务器初始化环境"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">CentOS&#x670D;&#x52A1;&#x5668;&#x521D;&#x59CB;&#x5316;&#x73AF;&#x5883;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#配置网络"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text">&#x914D;&#x7F6E;&#x7F51;&#x7EDC;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#设置火墙"><span class="toc-nav-number">1.2.</span> <span class="toc-nav-text">&#x8BBE;&#x7F6E;&#x706B;&#x5899;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#安装常用依赖包"><span class="toc-nav-number">1.3.</span> <span class="toc-nav-text">&#x5B89;&#x88C5;&#x5E38;&#x7528;&#x4F9D;&#x8D56;&#x5305;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#安装各种环境"><span class="toc-nav-number">1.4.</span> <span class="toc-nav-text">&#x5B89;&#x88C5;&#x5404;&#x79CD;&#x73AF;&#x5883;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#"><span class="toc-nav-number">1.5.</span> <span class="toc-nav-text"></span></a></li></ol></li></ol>
+        
+        </div>
+      </aside>
+    
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#linux" title="linux">linux</a>
+                        
+                          <a class="tag" href="/tags/#运维" title="运维">运维</a>
+                        
+                          <a class="tag" href="/tags/#CentOS" title="CentOS">CentOS</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="http://blog.csdn.net/fooelliot" target="_blank">CSDN Blog leone</a></li>
+                    
+                        <li><a href="http://dockone.io/people/leone" target="_blank">DockOne leone</a></li>
+                    
+                        <li><a href="https://yq.aliyun.com/u/leone" target="_blank">阿里云栖社区 leone</a></li>
+                    
+                </ul>
                 
             </div>
-
-          <!-- Sidebar Container -->
-<div class="
-    col-lg-3 col-lg-offset-0
-    col-md-3 col-md-offset-0
-    col-sm-12
-    col-xs-12
-    sidebar-container
-">
-    
-        <!-- Featured Tags -->
-
-<section>
-    <!-- no hr -->
-    <h5><a href="/tags/">FEATURED TAGS</a></h5>
-    <div class="tags">
-        
-            
-            <a href="/tags/#linux" title="linux" rel="5">linux</a>
-            
-        
-            
-            <a href="/tags/#运维" title="运维" rel="2">运维</a>
-            
-        
-            
-        
-            
-        
-            
-        
-            
-            <a href="/tags/#Docker" title="Docker" rel="2">Docker</a>
-            
-        
-            
-        
-            
-        
+        </div>
     </div>
-</section>
+</article>
 
-        <hr>
-    
-        <!-- Short About -->
-<section class="visible-md visible-lg">
-    <h5><a href="/about/">ABOUT ME</a></h5>
-    <div class="short-about">
 
-        
-            <img id = "avatar_pic" src="/img/avatar/ironman.png" />
-        
 
-        
-            <p>Stay hungry,Stay foolish</p>
-        
 
-        <!-- SNS Link -->
-        <ul class="list-inline">
-            
-            
-            
 
-            
 
-            
 
-            
-                <li>
-                    <a target="_blank"  href="https://github.com/janlle">
-                        <span class="fa-stack fa-lg">
-                            <i class="fa fa-circle fa-stack-2x"></i>
-                            <i class="fa fa-github fa-stack-1x fa-inverse"></i>
-                        </span>
-                    </a>
-                </li>
-            
-            
-            
-            
-        </ul>
-    </div>
-</section>
 
-        <hr>
-    
-        
-  <h5>RECENT POSTS</h3>
-  <div class="widget">
-    <ul>
-      
-        <li>
-          <a href="/article/flume/">flume</a>
-        </li>
-      
-        <li>
-          <a href="/article/Docker/">Docker</a>
-        </li>
-      
-        <li>
-          <a href="/article/Crontab/">crontab</a>
-        </li>
-      
-        <li>
-          <a href="/article/awk/">AWK</a>
-        </li>
-      
-        <li>
-          <a href="/article/CentOS-7.5-init/">ContOS</a>
-        </li>
-      
-    </ul>
-  </div>
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
 
-        <hr>
-    
-        <!-- Friends Blog -->
-
-<h5>FRIENDS</h5>
-<ul class="list-inline">
-
-    
-        <li><a href="http://blog.csdn.net/fooelliot" target="_blank">CSDN Blog leone</a></li>
-    
-        <li><a href="http://dockone.io/people/leone" target="_blank">DockOne leone</a></li>
-    
-        <li><a href="https://yq.aliyun.com/u/leone" target="_blank">阿里云栖社区 leone</a></li>
-    
-</ul>
-
-        <hr>
-    
-        
-    <h5>ARCHIVES</h5>
-    <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a><span class="archive-list-count">1</span></li></ul>
-    </div>
-
-        <hr>
-    
-</div>
-
-        
-    </div>
-</div>
 
 
     <!-- Footer -->
