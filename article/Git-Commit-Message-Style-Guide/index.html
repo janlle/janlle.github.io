@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/ironman-draw.png">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <title>
+        
+          Git Commit - leone | Blog
+        
+    </title>
+
+    <link rel="canonical" href="http://www.wealip.cn/article/Git-Commit-Message-Style-Guide/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS --> 
+    <link rel="stylesheet" href="/css/beantech.min.css">
+
+    <link rel="stylesheet" href="/css/donate.css">
+    
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <link rel="stylesheet" href="/css/widget.css">
+
+    <link rel="stylesheet" href="/css/rocket.css">
+
+    <link rel="stylesheet" href="/css/signature.css">
+
+    <link rel="stylesheet" href="/css/toc.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        
+            background-image: url('/img/article_header/article_header.png')
+            /*post*/
+        
+    }
+    
+</style>
+
+<header class="intro-header" >
+    <!-- Signature -->
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#Git" title="Git">Git</a>
+                            
+                              <a class="tag" href="/tags/#版本控制" title="版本控制">版本控制</a>
+                            
+                        </div>
+                        <h1>Git Commit</h1>
+                        <h2 class="subheading">Git Commit Message StyleGuide</h2>
+                        <span class="meta">
+                            Posted by leone on
+                            2018-01-11
+                        </span>
+                    </div>
+                
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">leone</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archive/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h1><span id="git-commit-message-styleguide">Git Commit Message StyleGuide</span></h1>
+<h5><span id="toc">TOC</span></h5>
+<ul>
+<li><a href="#about">About</a></li>
+<li><a href="#commit-message-format">Commit Message Format</a></li>
+<li><a href="#suggested-emojis">Suggested Emojis</a></li>
+<li><a href="#tools">Tools</a></li>
+<li><a href="#references">References</a></li>
+<li><a href="#fun-emoji-usages">Fun Emoji Usages</a></li>
+<li><a href="#contributing">Contributing</a></li>
+<li><a href="#license">License</a></li>
+</ul>
+<h2><span id="about">About</span></h2>
+<p>This is an attempt to standardize the format of commit messages, for the sake of <strong>uniformity</strong> in git log, <strong>best practices</strong> for writing commit messages &amp; <strong>fun</strong>!</p>
+<p>Using emojis at the beginning of commit messages, other than being fun, provides a simple way to indicate the intention of that commit, an ease for the eyes when browsing/reviewing git log. It’s also a simple measure of the fact that how much that commit is focused on a single purpose, which is a good practice.</p>
+<p>If these rules and/or using emojis is an <a href="/../../issues/21">overkill</a> for your productivity or simply losing its purposes, please tailor them to your needs or don’t use them.</p>
+<h3><span id="summary-of-the-reasons-for-these-conventions">Summary of the reasons for these conventions:</span></h3>
+<ul>
+<li>Fun!</li>
+<li>Simple navigation through git history (e.g. ignoring style changes).</li>
+<li>Automatic generating of the changelog.</li>
+</ul>
+<h2><span id="commit-message-format">Commit Message Format</span></h2>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;type&gt;(&lt;scope&gt;): &lt;subject&gt;</span><br><span class="line"></span><br><span class="line">&lt;body&gt;</span><br><span class="line"></span><br><span class="line">&lt;footer&gt;</span><br></pre></td></tr></table></figure>
+<h3><span id="message-subjectfirst-line">Message Subject(first line)</span></h3>
+<ul>
+<li>Capitalize the <code>&lt;subject&gt;</code>.</li>
+<li>Do not end the first line with a period.</li>
+<li>Total characters of the first line <strong>MUST</strong> be <em>Less</em> than or <em>Equal</em> to <strong>50</strong> characters Long.</li>
+<li>Use the <strong>present tense</strong> (“Add feature” not “Added feature”).</li>
+<li>Use the <strong>imperative mood</strong> (“Move cursor to…” not “Moves cursor to…”).</li>
+<li>Use <code>&lt;type&gt;</code> to identify what type of changes introduced in this commit; Allowed <code>&lt;type&gt;</code> keywords:
+<ul>
+<li>An Emoji(see below for <a href="#suggested-emojis">list of Suggested Emojis</a>)</li>
+<li>Or a Text:
+<ul>
+<li>feat: new feature for the user(or :sparkles: emoji)</li>
+<li>fix: bug fix for the user(or :ambulance: emoji)</li>
+<li>docs: changes to the documentation(or :books: emoji)</li>
+<li>style: formatting, missing semi colons, etc; no production code change(or :art: emoji)</li>
+<li>refactor: refactoring production code, eg. renaming a variable(or :tractor: emoji)</li>
+<li>test: adding missing tests, refactoring tests; no production code change(or :microscope: emoji)</li>
+<li>chore: updating grunt tasks etc; no production code change</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>If you need more than one keyword or emoji to use, you should probably think twice!. This usally means you need to break this commit into more smaller commits; If thats not the case then separate each emoji with a space.</li>
+<li>Use <code>&lt;scope&gt;</code> to identify which component this <code>&lt;type&gt;</code> is related to; Example <code>&lt;scope&gt;</code> values:
+<ul>
+<li>init</li>
+<li>runner</li>
+<li>watcher</li>
+<li>config</li>
+<li>web-server</li>
+<li>proxy</li>
+<li>etc.</li>
+</ul>
+</li>
+<li>The <code>&lt;scope&gt;</code> can also be empty (e.g. if the change is a global or difficult to assign to a single component), in which case the parentheses are omitted.</li>
+</ul>
+<h3><span id="message-body">Message Body</span></h3>
+<ul>
+<li>Includes <strong>motivation</strong> for the change and contrasts with previous behavior.</li>
+<li>Use the body to explain <strong>whats</strong> and <strong>whys</strong> vs. <em>hows</em>.</li>
+<li>Wrap each line of the body at <strong>72</strong> characters.</li>
+</ul>
+<h3><span id="message-footer">Message Footer</span></h3>
+<ul>
+<li>Reference issues this commit is related to with the status of that Issue; Ex. <code>Issue #27</code>, <code>Ref T27</code> or <code>Ref T27, T56</code> or <code>Fixes T8</code>.</li>
+<li>Supported issue tracker status keywords:
+<ul>
+<li>Fixes</li>
+<li>Fixed</li>
+<li>Closes</li>
+<li>Closed</li>
+<li>Resolves</li>
+<li>Resolved</li>
+<li>Ref</li>
+<li>Issue</li>
+<li>Issues</li>
+</ul>
+</li>
+<li>More info on issue tracker status keywords:
+<ul>
+<li><a href="https://help.github.com/articles/closing-issues-using-keywords/" target="_blank" rel="noopener">GitHub Issues</a></li>
+<li><a href="https://docs.gitlab.com/ee/user/project/issues/automatic_issue_closing.html" target="_blank" rel="noopener">GitLab Issues</a></li>
+<li><a href="https://secure.phabricator.com/book/phabricator/article/diffusion_autoclose/" target="_blank" rel="noopener">Phabricator Tasks</a></li>
+</ul>
+</li>
+<li>It’s also <a href="/../../issues/19">recommended</a> to use <em>Full URL to the Issues</em>, instead of just issue ID Number; Doing so will ease browsing issues from terminal.</li>
+<li>In the case of multiple issues separate them with commas, Ex. <code>Closes #27, #56</code>.</li>
+</ul>
+<h3><span id="notes">Notes</span></h3>
+<ul>
+<li>Use valid <a href="https://daringfireball.net/projects/markdown/basics" target="_blank" rel="noopener">MarkDown</a> format in the <code>&lt;body&gt;</code>.</li>
+<li>All <strong>WIP</strong>(Work In Progress) commits <strong>SHOULD</strong> have the :construction: Emoji.</li>
+<li>All <strong>WIP</strong> commits <strong>SHOULD</strong> be avoided!.</li>
+<li>Referencing Issues by using special keywords like <code>Fixes</code> or <code>Resolves</code> will mark them as closed automatically! For more  information about automatic issue closing using ketwords see their documentation(linked above).</li>
+<li>There is <strong>NO</strong> new-line after the <code>&lt;footer&gt;</code>.</li>
+<li>Every emoji text(<code>:emoji:</code>) is counted as one character!.</li>
+<li>See <a href="https://github.com/slashsbin/styleguide-todo-grammar" target="_blank" rel="noopener">ToDo Grammar StyleGuide</a> for more Information on <code>@XXX</code> Comment Tags.</li>
+</ul>
+<h2><span id="suggested-emojis">Suggested Emojis</span></h2>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">Emoji</th>
+<th style="text-align:center">Raw Emoji Code</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">:art:</td>
+<td style="text-align:center"><code>:art:</code></td>
+<td>when improving the <strong>format</strong>/structure of the code</td>
+</tr>
+<tr>
+<td style="text-align:center">:newspaper:</td>
+<td style="text-align:center"><code>:newspaper:</code></td>
+<td>when creating a <strong>new file</strong></td>
+</tr>
+<tr>
+<td style="text-align:center">:pencil:</td>
+<td style="text-align:center"><code>:pencil:</code></td>
+<td>when <strong>performing minor changes/fixing</strong> the code or language</td>
+</tr>
+<tr>
+<td style="text-align:center">:racehorse:</td>
+<td style="text-align:center"><code>:racehorse:</code></td>
+<td>when improving <strong>performance</strong></td>
+</tr>
+<tr>
+<td style="text-align:center">:books:</td>
+<td style="text-align:center"><code>:books:</code></td>
+<td>when writing <strong>docs</strong></td>
+</tr>
+<tr>
+<td style="text-align:center">:bug:</td>
+<td style="text-align:center"><code>:bug:</code></td>
+<td>when reporting a <strong>bug</strong>, with <a href="https://github.com/slashsbin/styleguide-todo-grammar#bug-report" target="_blank" rel="noopener"><code>@FIXME</code></a>Comment Tag</td>
+</tr>
+<tr>
+<td style="text-align:center">:ambulance:</td>
+<td style="text-align:center"><code>:ambulance:</code></td>
+<td>when fixing a <strong>bug</strong></td>
+</tr>
+<tr>
+<td style="text-align:center">:penguin:</td>
+<td style="text-align:center"><code>:penguin:</code></td>
+<td>when fixing something on <strong>Linux</strong></td>
+</tr>
+<tr>
+<td style="text-align:center">:apple:</td>
+<td style="text-align:center"><code>:apple:</code></td>
+<td>when fixing something on <strong>Mac OS</strong></td>
+</tr>
+<tr>
+<td style="text-align:center">:checkered_flag:</td>
+<td style="text-align:center"><code>:checkered_flag:</code></td>
+<td>when fixing something on <strong>Windows</strong></td>
+</tr>
+<tr>
+<td style="text-align:center">:fire:</td>
+<td style="text-align:center"><code>:fire:</code></td>
+<td>when <strong>removing code</strong> or files, <em>maybe</em> with <code>@CHANGED</code> Comment Tag</td>
+</tr>
+<tr>
+<td style="text-align:center">:tractor:</td>
+<td style="text-align:center"><code>:tractor:</code></td>
+<td>when <strong>change file structure</strong>. Usually together with :art:</td>
+</tr>
+<tr>
+<td style="text-align:center">:hammer:</td>
+<td style="text-align:center"><code>:hammer:</code></td>
+<td>when <strong>refactoring</strong> code</td>
+</tr>
+<tr>
+<td style="text-align:center">:umbrella:</td>
+<td style="text-align:center"><code>:umbrella:</code></td>
+<td>when adding <strong>tests</strong></td>
+</tr>
+<tr>
+<td style="text-align:center">:microscope:</td>
+<td style="text-align:center"><code>:microscope:</code></td>
+<td>when adding <strong>code coverage</strong></td>
+</tr>
+<tr>
+<td style="text-align:center">:green_heart:</td>
+<td style="text-align:center"><code>:green_heart:</code></td>
+<td>when fixing the <strong>CI</strong> build</td>
+</tr>
+<tr>
+<td style="text-align:center">:lock:</td>
+<td style="text-align:center"><code>:lock:</code></td>
+<td>when dealing with <strong>security</strong></td>
+</tr>
+<tr>
+<td style="text-align:center">:arrow_up:</td>
+<td style="text-align:center"><code>:arrow_up:</code></td>
+<td>when upgrading <strong>dependencies</strong></td>
+</tr>
+<tr>
+<td style="text-align:center">:arrow_down:</td>
+<td style="text-align:center"><code>:arrow_down:</code></td>
+<td>when downgrading <strong>dependencies</strong></td>
+</tr>
+<tr>
+<td style="text-align:center">:fast_forward:</td>
+<td style="text-align:center"><code>:fast_forward:</code></td>
+<td>when <strong>forward-porting features</strong> from an older version/branch</td>
+</tr>
+<tr>
+<td style="text-align:center">:rewind:</td>
+<td style="text-align:center"><code>:rewind:</code></td>
+<td>when <strong>backporting features</strong> from a newer version/branch</td>
+</tr>
+<tr>
+<td style="text-align:center">:shirt:</td>
+<td style="text-align:center"><code>:shirt:</code></td>
+<td>when removing <strong>linter</strong>/strict/deprecation warnings</td>
+</tr>
+<tr>
+<td style="text-align:center">:lipstick:</td>
+<td style="text-align:center"><code>:lipstick:</code></td>
+<td>when improving <strong>UI</strong>/Cosmetic</td>
+</tr>
+<tr>
+<td style="text-align:center">:wheelchair:</td>
+<td style="text-align:center"><code>:wheelchair:</code></td>
+<td>when improving <strong>accessibility</strong></td>
+</tr>
+<tr>
+<td style="text-align:center">:globe_with_meridians:</td>
+<td style="text-align:center"><code>:globe_with_meridians:</code></td>
+<td>when dealing with <strong>globalization</strong>/internationalization/i18n/g11n</td>
+</tr>
+<tr>
+<td style="text-align:center">:construction:</td>
+<td style="text-align:center"><code>:construction:</code></td>
+<td><strong>WIP</strong>(Work In Progress) Commits, <em>maybe</em> with <code>@REVIEW</code> Comment Tag</td>
+</tr>
+<tr>
+<td style="text-align:center">:gem:</td>
+<td style="text-align:center"><code>:gem:</code></td>
+<td>New <strong>Release</strong></td>
+</tr>
+<tr>
+<td style="text-align:center">:egg:</td>
+<td style="text-align:center"><code>:egg:</code></td>
+<td>New <strong>Release</strong> with Python egg</td>
+</tr>
+<tr>
+<td style="text-align:center">:ferris_wheel:</td>
+<td style="text-align:center"><code>:ferris_wheel:</code></td>
+<td>New <strong>Release</strong> with Python wheel package</td>
+</tr>
+<tr>
+<td style="text-align:center">:bookmark:</td>
+<td style="text-align:center"><code>:bookmark:</code></td>
+<td>Version <strong>Tags</strong></td>
+</tr>
+<tr>
+<td style="text-align:center">:tada:</td>
+<td style="text-align:center"><code>:tada:</code></td>
+<td><strong>Initial</strong> Commit</td>
+</tr>
+<tr>
+<td style="text-align:center">:speaker:</td>
+<td style="text-align:center"><code>:speaker:</code></td>
+<td>when Adding <strong>Logging</strong></td>
+</tr>
+<tr>
+<td style="text-align:center">:mute:</td>
+<td style="text-align:center"><code>:mute:</code></td>
+<td>when Reducing <strong>Logging</strong></td>
+</tr>
+<tr>
+<td style="text-align:center">:sparkles:</td>
+<td style="text-align:center"><code>:sparkles:</code></td>
+<td>when introducing <strong>New</strong> Features</td>
+</tr>
+<tr>
+<td style="text-align:center">:zap:</td>
+<td style="text-align:center"><code>:zap:</code></td>
+<td>when introducing <strong>Backward-InCompatible</strong> Features, <em>maybe</em> with <code>@CHANGED</code> Comment Tag</td>
+</tr>
+<tr>
+<td style="text-align:center">:bulb:</td>
+<td style="text-align:center"><code>:bulb:</code></td>
+<td>New <strong>Idea</strong>, with <code>@IDEA</code> Comment Tag</td>
+</tr>
+<tr>
+<td style="text-align:center">:snowflake:</td>
+<td style="text-align:center"><code>:snowflake:</code></td>
+<td>changing <strong>Configuration</strong>, Usually together with :penguin: or :ribbon: or :rocket:</td>
+</tr>
+<tr>
+<td style="text-align:center">:ribbon:</td>
+<td style="text-align:center"><code>:ribbon:</code></td>
+<td>Customer requested application <strong>Customization</strong>, with <code>@HACK</code> Comment Tag</td>
+</tr>
+<tr>
+<td style="text-align:center">:rocket:</td>
+<td style="text-align:center"><code>:rocket:</code></td>
+<td>Anything related to Deployments/<strong>DevOps</strong></td>
+</tr>
+<tr>
+<td style="text-align:center">:elephant:</td>
+<td style="text-align:center"><code>:elephant:</code></td>
+<td><strong>PostgreSQL</strong> Database specific (Migrations, Scripts, Extensions, …)</td>
+</tr>
+<tr>
+<td style="text-align:center">:dolphin:</td>
+<td style="text-align:center"><code>:dolphin:</code></td>
+<td><strong>MySQL</strong> Database specific (Migrations, Scripts, Extensions, …)</td>
+</tr>
+<tr>
+<td style="text-align:center">:leaves:</td>
+<td style="text-align:center"><code>:leaves:</code></td>
+<td><strong>MongoDB</strong> Database specific (Migrations, Scripts, Extensions, …)</td>
+</tr>
+<tr>
+<td style="text-align:center">:bank:</td>
+<td style="text-align:center"><code>:bank:</code></td>
+<td><strong>Generic Database</strong> specific (Migrations, Scripts, Extensions, …)</td>
+</tr>
+<tr>
+<td style="text-align:center">:whale:</td>
+<td style="text-align:center"><code>:whale:</code></td>
+<td><strong>Docker</strong> Configuration</td>
+</tr>
+<tr>
+<td style="text-align:center">:handshake:</td>
+<td style="text-align:center"><code>:handshake:</code></td>
+<td>when <strong>Merge files</strong></td>
+</tr>
+<tr>
+<td style="text-align:center">:cherries:</td>
+<td style="text-align:center"><code>:cherries:</code></td>
+<td>when Commit Arise from one or more <a href="https://git-scm.com/docs/git-cherry-pick" target="_blank" rel="noopener"><strong>Cherry-Pick</strong></a> Commit(s)</td>
+</tr>
+</tbody>
+</table>
+<h2><span id="tools">Tools</span></h2>
+<ul>
+<li><a href="https://github.com/jakeasmith/commit" target="_blank" rel="noopener">Commit</a>(CLI): This is a nifty CLI tool to aid in standardizing commit messages based on this document, thanks to @jakeasmith.</li>
+<li><a href="https://gitlab.com/louisgrasset/git-moji" target="_blank" rel="noopener">gitMoji</a>(Firefox &amp; Chrome Extension): Enhance your commits with emojis!, thanks to <a href="https://twitter.com/louisgrasset" target="_blank" rel="noopener">@louisgrasset</a>.</li>
+</ul>
+<h2><span id="fun-emoji-usages">Fun Emoji Usages</span></h2>
+<ul>
+<li><a href="https://codemoji.org/" target="_blank" rel="noopener">CodeEmoji</a>: Mozilla’s Codemoji enciphers your messages with emoji for fun and profit</li>
+<li><a href="https://blog.mozilla.org/services/2016/08/23/sending-vapid-identified-webpush-notifications-via-mozillas-push-service/#send_data" target="_blank" rel="noopener">Emoji Based Diagram</a>: Emoji Based Diagram of Data Bearing Subscription Updates(WebPush VAPID)</li>
+</ul>
+<h2><span id="contributing">Contributing</span></h2>
+<p><a href="https://github.com/slashsbin/styleguide-git-commit-message/issues/new" target="_blank" rel="noopener">Ask</a> to Be <a href="https://www.emojicopy.com/" target="_blank" rel="noopener">Creative</a>!</p>
+<p>To add a new Emoji to the list: <a href="https://github.com/slashsbin/styleguide-git-commit-message/issues/new" target="_blank" rel="noopener">Create an Issue</a> &amp; Send a <a href="">PR</a>.</p>
+<h2><span id="license">License</span></h2>
+<p>The Code is licensed under the <a href="http://slashsbin.mit-license.org/" target="_blank" rel="noopener">MIT License</a>.</p>
+
+                
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/article/git-commit-standard/" data-toggle="tooltip" data-placement="top" title="Git 提交规范">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/article/Git/" data-toggle="tooltip" data-placement="top" title="Git">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                <br>
+
+                <!--打赏-->
+                
+                <!--打赏-->
+
+                <br>
+                <!--分享-->
+                
+                    <div class="social-share"  data-wechat-qrcode-helper="" align="center"></div>
+                    <!--  css & js -->
+                    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/css/share.min.css">
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/js/social-share.min.js"></script>
+                
+                <!--分享-->
+                <br>                       
+                
+                <!-- require APlayer -->
+                
+
+                <!-- duoshuo Share start -->
+                
+                <!-- 多说 Share end-->
+
+                <!-- 多说评论框 start -->
+                
+                <!-- 多说评论框 end -->
+
+                <!-- disqus comment start -->
+                
+                <!-- disqus comment end -->
+
+                
+
+            </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+  
+    
+      <aside id="sidebar">
+        <div id="toc" class="toc-article">
+        <strong class="toc-title">Contents</strong>
+        
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.</span> <span class="toc-nav-text"><span id="git-commit-message-styleguide">Git Commit Message StyleGuide</span></span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-5"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.0.0.0.1.</span> <span class="toc-nav-text"><span id="toc">TOC</span></span></a></li></ol></li></ol></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text"><span id="about">About</span></span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.1.1.</span> <span class="toc-nav-text"><span id="summary-of-the-reasons-for-these-conventions">Summary of the reasons for these conventions:</span></span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.2.</span> <span class="toc-nav-text"><span id="commit-message-format">Commit Message Format</span></span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.2.1.</span> <span class="toc-nav-text"><span id="message-subjectfirst-line">Message Subject(first line)</span></span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.2.2.</span> <span class="toc-nav-text"><span id="message-body">Message Body</span></span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.2.3.</span> <span class="toc-nav-text"><span id="message-footer">Message Footer</span></span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.2.4.</span> <span class="toc-nav-text"><span id="notes">Notes</span></span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.3.</span> <span class="toc-nav-text"><span id="suggested-emojis">Suggested Emojis</span></span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.4.</span> <span class="toc-nav-text"><span id="tools">Tools</span></span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.5.</span> <span class="toc-nav-text"><span id="fun-emoji-usages">Fun Emoji Usages</span></span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.6.</span> <span class="toc-nav-text"><span id="contributing">Contributing</span></span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.7.</span> <span class="toc-nav-text"><span id="license">License</span></span></a></li></ol></li></ol>
+        
+        </div>
+      </aside>
+    
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#Git" title="Git">Git</a>
+                        
+                          <a class="tag" href="/tags/#版本控制" title="版本控制">版本控制</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="http://blog.csdn.net/fooelliot" target="_blank">CSDN Blog leone</a></li>
+                    
+                        <li><a href="http://dockone.io/people/leone" target="_blank">DockOne leone</a></li>
+                    
+                        <li><a href="https://yq.aliyun.com/u/leone" target="_blank">阿里云栖社区 leone</a></li>
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/janlle">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; leone 2019 
+                    <br>
+                    Theme by <a href="http://beantech.org">BeanTech</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    re-Ported by <a href="http://wealip.cn">leone</a> | 
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=janlle&repo=blogs&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://www.wealip.cn/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-XXXXXXXX-X';
+    var _gaDomain = 'yoursite';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = 'xxx';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<img src="http://www.wealip.cn/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

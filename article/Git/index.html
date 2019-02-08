@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/ironman-draw.png">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <title>
+        
+          Git - leone | Blog
+        
+    </title>
+
+    <link rel="canonical" href="http://www.wealip.cn/article/Git/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS --> 
+    <link rel="stylesheet" href="/css/beantech.min.css">
+
+    <link rel="stylesheet" href="/css/donate.css">
+    
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <link rel="stylesheet" href="/css/widget.css">
+
+    <link rel="stylesheet" href="/css/rocket.css">
+
+    <link rel="stylesheet" href="/css/signature.css">
+
+    <link rel="stylesheet" href="/css/toc.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        
+            background-image: url('/img/article_header/article_header.png')
+            /*post*/
+        
+    }
+    
+</style>
+
+<header class="intro-header" >
+    <!-- Signature -->
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#Git" title="Git">Git</a>
+                            
+                              <a class="tag" href="/tags/#版本控制" title="版本控制">版本控制</a>
+                            
+                        </div>
+                        <h1>Git</h1>
+                        <h2 class="subheading">Git 核心概念及</h2>
+                        <span class="meta">
+                            Posted by leone on
+                            2018-01-11
+                        </span>
+                    </div>
+                
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">leone</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archive/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h1><span id="git">Git</span></h1>
+<h2><span id="git核心概念及">Git核心概念及</span></h2>
+<h3><span id="什么是git">什么是git</span></h3>
+<p>git是一个分布式版本控制软件，最初由林纳斯·托瓦兹创作，于2005年以GPL发布。最初目的是为更好地管理Linux内核开发而设计。应注意的是，这与GNU Interactive Tools（一个类似Norton Commander界面的文件管理器）有所不同。git最初的开发动力来自于BitKeeper和Monotone。git最初只是作为一个可以被其他前端（比如Cogito或Stgit）包装的后端而开发的，但后来git内核已经成熟到可以独立地用作版本控制。很多著名的软件都使用git进行版本控制，其中包括Linux内核、X.Org服务器和OLPC内核等项目的开发流程。</p>
+<h3><span id="版本控制系统">版本控制系统</span></h3>
+<p>Git 是目前世界上最优秀的分布式版本控制系统。版本控制系统是能够随着时间的推进记录一系列文件的变化以便于你以后想要的退回到某个版本的系统。版本控制系统分为三大类：本地版本控制系统，集中式版本控制系统和分布式版本控制系统</p>
+<p>本地版本控制（Local Version Control Systems）是将文件的各个版本以一定的数据格式存储在本地的磁盘（有的VCS 是保存文件的变化补丁，即在文件内容变化时计算出差量保存起来），这种方式在一定程度上解决了手动复制粘贴的问题，但无法解决多人协作的问题。</p>
+<p>集中式版本控制（Centralized Version Control Systems）相比本地版本控制没有什么本质的变化，只是多了个一个中央服务器，各个版本的数据库存储在中央服务器，管理员可以控制开发人员的权限，而开发人员也可以从中央服务器拉取数据。集中式版本控制虽然解决了团队协作问题，但缺点也很明显：所有数据存储在中央服务器，服务器一旦宕机或者磁盘损坏，会造成不可估量的损失。</p>
+<p>分布式版本控制（ Distributed Version Control System）与前两者均不同。首先，在分布式版本控制系统中，像 Git，Mercurial，Bazaar 以及 Darcs 等，系统保存的的不是文件变化的差量，而是文件的快照，即把文件的整体复制下来保存，而不关心具体的变化内容。其次，最重要的是分布式版本控制系统是分布式的，当你从中央服务器拷贝下来代码时，你拷贝的是一个完整的版本库，包括历史纪录，提交记录等，这样即使某一台机器宕机也能找到文件的完整备份。</p>
+<h3><span id="git-工作区-暂存区-版本库之间的关系">Git 工作区、暂存区、版本库之间的关系</span></h3>
+<p><strong>工作区(WorkingDirectory)</strong></p>
+<p>工作目录是对项目的某个版本独立提取出来的内容。 这些从 Git 仓库的压缩数据库中提取出来的文件，放在磁盘 上供你使用或修改。</p>
+<p><strong>暂存区(StagingArea)</strong></p>
+<p>暂存区域是一个文件，保存了下次将提交的文件列表信息，一般在 Git 仓库目录中。 有时候也被称作`‘索 引’’，不过一般说法还是叫暂存区域。</p>
+<p><strong>版本库(Repository)</strong></p>
+<p>Git 仓库目录是 Git 用来保存项目的元数据和对象数据库的地方。 这是 Git 中最重要的部分，从其它计算机克隆 仓库时，拷贝的就是这里的数据。</p>
+<h3><span id="git-工作流程">Git 工作流程</span></h3>
+<p>1.在工作目录中修改文件。<br>
+2.暂存文件，将文件的快照放入暂存区域。 3.提交更新，找到暂存区域的文件，将快照永久性存储到 Git 仓库目录。</p>
+<p>如果 Git 目录中保存着的特定版本文件，就属于已提交状态。 如果作了修改并已放入暂存区域，就属于已暂存状 态。 如果自上次取出后，作了修改但还没有放到暂存区域，就是已修改状态。 在Git 基础一章，你会进一步了解 这些状态的细节，并学会如何根据文件状态实施后续操作，以及怎样跳过暂存直接提交。</p>
+<h2><span id="git-常用命令详解">Git 常用命令详解</span></h2>
+<h3><span id="1git文件操作">1.Git文件操作</span></h3>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line">$ git help [command]                  # 显示command的help</span><br><span class="line">$ git show [$id]                      # 显示某次提交的内容 </span><br><span class="line">$ git checkout  [file]                # 抛弃工作区修改</span><br><span class="line">$ git checkout .                      # 抛弃工作区修改</span><br><span class="line">$ git add [file]                      # 将工作文件修改提交到本地暂存区</span><br><span class="line">$ git add .                           # 将所有修改过的工作文件提交暂存区</span><br><span class="line">$ git reset [file]                    # 从暂存区恢复到工作文件</span><br><span class="line">$ git reset -- .                      # 从暂存区恢复到工作文件</span><br><span class="line">$ git reset --mixed HEAD~1            # 修改版本库，修改暂存区，保留工作区</span><br><span class="line">$ git reset --soft HEAD~2             # 修改版本库，保留暂存区，保留工作区</span><br><span class="line">$ git reset --hard HEAD~3             # 修改版本库，修改暂存区，修改工作区</span><br><span class="line">$ git commit --amend                  # 修改最后一次提交记录</span><br><span class="line">$ git revert [$id]                    # 恢复某次提交的状态，恢复动作本身也创建次提交对象</span><br><span class="line">$ git revert HEAD                     # 恢复最后一次提交的状态</span><br><span class="line">$ git status                          # 查看当前工作区状态 </span><br><span class="line">$ git config --list                   # 看所有用户</span><br><span class="line">$ git ls-files                        # 查看已经被提交的文件</span><br><span class="line">$ git commit -a                       # 提交当前repos的所有的改变</span><br><span class="line">$ git commit -v                       # 参数-v可以查看看commit的差异</span><br><span class="line">$ git commit -m &quot;message&quot;             # 提交到本地并添加提交信息</span><br><span class="line">$ git commit -am &quot;init&quot;               # 添加并提交 </span><br><span class="line"></span><br><span class="line">$ git log 的常用选项 </span><br><span class="line"></span><br><span class="line">-p 按补丁格式显示每个更新之间的差异。 </span><br><span class="line">--stat 显示每次更新的文件修改统计信息。 </span><br><span class="line">--shortstat 只显示 --stat 中最后的行数修改添加移除统计。 </span><br><span class="line">--name-only 仅在提交信息后显示已修改的文件清单。 </span><br><span class="line">--name-status 显示新增、修改、删除的文件清单。 </span><br><span class="line">--abbrev-commit 仅显示 SHA-1 的前几个字符，而非所有的 40 个字符。 </span><br><span class="line">--relative-date 使用较短的相对时间显示（比如，“2 weeks ago”）。 </span><br><span class="line">--graph 显示 ASCII 图形表示的分支合并历史。 </span><br><span class="line">--pretty 使用其他格式显示历史提交</span><br><span class="line"></span><br><span class="line">$ git rm --cached [file]              # 从暂存区中删除文件</span><br><span class="line">$ git rm -f [file]                    # 强行移除版本控制的文件</span><br><span class="line">$ git rm -r --cached [file]           # 递归删除-r，是文件夹的时候有用</span><br><span class="line"></span><br><span class="line">$ git diff [file]                     # 比较当前文件和暂存区文件差异</span><br><span class="line">$ git diff [$id] [$id]                # 比较两次提交之间的差异</span><br><span class="line">$ git diff [branch1]..[branch2]       # 在两个分支之间比较</span><br><span class="line">$ git diff --staged                   # 比较暂存区和版本库差异</span><br><span class="line">$ git diff --cached                   # 比较暂存区和工作区差异</span><br><span class="line">$ git diff --stat                     # 仅仅比较统计信息</span><br><span class="line"></span><br><span class="line">$ git stash                           # 暂存当前正在进行的工作</span><br><span class="line">$ git stash push                      # 将暂存给push到一个临时空间中</span><br><span class="line">$ git stash list                      # 查看所有缓存的代码</span><br><span class="line">$ git stash clear                     # 清空缓存区内容</span><br><span class="line">$ git stash drop                      # 移除某个贮藏</span><br><span class="line">$ git stash save                      # 指定message</span><br><span class="line">$ git stash show                      # 查看指定stash的diff</span><br><span class="line">$ git stash apply stash@&#123;1&#125;           # 取出指定的缓存代码</span><br><span class="line">$ git stash pop                       # 将文件从临时空间pop下来</span><br><span class="line">$ git fetch origin dev:dev            # 获取最新版本到本地不会自动merge</span><br><span class="line">$ git pull origin master:master       # 获取最新版本到本地会自动merge</span><br></pre></td></tr></table></figure>
+<h3><span id="git分支操作相关命令">Git分支操作相关命令</span></h3>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">$ git branch                          # 查看分支</span><br><span class="line">$ git branch [dev] [master]           # 在master创建dev分支</span><br><span class="line">$ git branch -v                       # 查看各个分支最后提交信息</span><br><span class="line">$ git branch -r                       # 查看远程分支信息</span><br><span class="line">$ git branch -a                       # 查看所有分支信息</span><br><span class="line">$ git branch -m [aaa] [bbb]           # 将aaa 重命名为bbb</span><br><span class="line">$ git branch [name]                   # 从当前分支创建分支</span><br><span class="line">$ git branch -d [branch]              # 删除某个分支</span><br><span class="line">$ git branch -D [branch]              # 强制删除某个分支</span><br><span class="line">$ git branch --set-upstream-to origin/test master # 本地分支和远程分支关联</span><br><span class="line">$ git branch --set-upstream-to=origin/master help #</span><br><span class="line">$ git branch --merged                 # 查看已经被合并到当前分支的分支</span><br><span class="line">$ git branch --no-merged              # 查看尚未被合并到当前分支的分支</span><br><span class="line"></span><br><span class="line">$ git commit [$id] -b [new_branch]    # 从历史提交记录创建分支</span><br><span class="line">$ git commit [$id]                    # 从历史提交记录checkout出来，但无分支信息，切换到其他分支会自动删除</span><br><span class="line">$ git checkout [name]                 # 切换分支</span><br><span class="line">$ git checkout --track origin/dev     # 切换到远程dev分支</span><br><span class="line">$ git checkout -b [name]              # 从当前分支新建并切换到name</span><br><span class="line">$ git checkout -b [new_br] [br]       # 基于branch创建新的new_branch</span><br><span class="line">$ git merge origin/dev                # 将分支dev与当前分支进行合并</span><br><span class="line">$ git merge [branch]                  # 将branch分支合并到当前分支</span><br><span class="line">$ git merge origin/master --no-ff     # 不要Fast-Foward合并，这样可以生成merge提交</span><br><span class="line">$ git rebase master [branch]          # 将master rebase到branch，相当于： git clone [branch] &amp;&amp; git rebase master &amp;&amp; git clone master &amp;&amp; git merge [branch]</span><br></pre></td></tr></table></figure>
+<h3><span id="git远程分支管理">Git远程分支管理</span></h3>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">$ git pull                              # 抓取远程仓库所有分支更新并合并到本地</span><br><span class="line">$ git pull --no-ff                      # 抓取远程仓库所有分支更新并合并到本地，不要快进合并</span><br><span class="line">$ git fetch origin                      # 抓取远程仓库更新</span><br><span class="line">$ git merge origin/master               # 将远程主分支合并到本地当前分支</span><br><span class="line">$ git clone --track origin/branch       # 跟踪某个远程分支创建相应的本地分支</span><br><span class="line">$ git clone -b [l_b] origin/[r_b]       # 基于远程分支创建本地分支，功能同上</span><br><span class="line">$ git push                              # push所有分支</span><br><span class="line">$ git push origin master                # 将本地指定分支推到远程主分支</span><br><span class="line">$ git push -u origin master             # 将本地主分支推到远程(如无远程主分支则创建，用于初始化远程仓库)</span><br><span class="line">$ git clone [git@xxx.git]               # 克隆远程仓库</span><br><span class="line">$ git remote -v                         # 查看远程服务器地址和仓库名称</span><br><span class="line">$ git remote show [name]                # 查看远程服务器仓库状态</span><br><span class="line">$ git remote add [name] [url]           # 添加远程仓库地址</span><br><span class="line">$ git remote rm [repository]            # 删除远程仓库</span><br><span class="line">$ git remote set-url --push [name] [newUrl]# 修改远程仓库</span><br><span class="line">$ git pull [rName] [lName]              # 拉取远程分支</span><br><span class="line">$ git push [rName] [lName]              # 推送远程分支</span><br><span class="line">$ git push origin [lname]:[rname]       # 本地分支push到远程</span><br><span class="line">$ git push origin -d [name]             # 删除远程分支-d也可以用--delete</span><br><span class="line">$ git remote set-head origin master     # 设置远程仓库的HEAD指向master分支</span><br><span class="line">$ git branch --set-upstream master origin/master</span><br></pre></td></tr></table></figure>
+<h3><span id="git版本回退操作相关命令">Git版本回退操作相关命令</span></h3>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">HEAD ：当前版本</span><br><span class="line">HEAD^ ：上一个版本</span><br><span class="line">$ git log                               # 查看commit的信息</span><br><span class="line">$ git log --pretty=oneline              # 单行展示历史记录</span><br><span class="line">$ git log --oneline                     # 单行简单展示</span><br><span class="line">$ git reflog                            # 查看命令历史记录 </span><br><span class="line">$ git checkout .                        # 撤销所有本地改动代码</span><br><span class="line">$ git checkout [file]                   # 撤销所有本地改动代码</span><br><span class="line">$ git reset HEAD .                      # 撤销所有add文件 </span><br><span class="line">$ git reset HEAD [file]                 # 撤销单个add文件</span><br><span class="line">$ git reset --soft HEAD                 # 只回退commit的信息,保留修改代码</span><br><span class="line">$ git reset --hard HEAD^                # 彻底回退到上次commit版本,不保留修改代码</span><br><span class="line">$ git revert                            # 以前commit的id</span><br><span class="line">$ git reset --hard [branch]             # 本地代码回退到与git远程仓库保持一致</span><br><span class="line">--hard 参数会抛弃当前工作区的修改</span><br><span class="line">--soft 参数的话会回退到之前的版本，但是保留当前工作区的修改，可以重新提交</span><br></pre></td></tr></table></figure>
+<h3><span id="git标签操作相关命令">Git标签操作相关命令</span></h3>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">$ git tag                               # 查看标签</span><br><span class="line">$ git tag [name]                        # 创建版本</span><br><span class="line">$ git tag -d [name]                     # 删除版本</span><br><span class="line">$ git tag -r                            # 查看远程版本</span><br><span class="line">$ git push origin [name]                # 创建远程版本(本地版本push到远程)</span><br><span class="line">$ git push origin :refs/tags/[name]     # 删除远程版本</span><br><span class="line">$ git pull origin --tags                # 合并远程仓库的tag到本地</span><br><span class="line">$ git push origin --tags                # 上传本地tag到远程仓库</span><br><span class="line">$ git tag -a [name] -m [message]        # 创建带注释的tag</span><br></pre></td></tr></table></figure>
+<h3><span id="git子模块submodule相关操作命令">Git子模块(submodule)相关操作命令</span></h3>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ git submodule add [url] [path]        # 添加子模块</span><br><span class="line">$ git submodule init                    # 初始化子模块，只在首次检出仓库时运行一次就行</span><br><span class="line">$ git submodule update                  # 更新子模块 每次更新或切换分支后都需要运行一下</span><br><span class="line">删除子模块：分4步</span><br><span class="line">1) $ git rm --cached [path]</span><br><span class="line">2) 编辑“.gitmodules”文件，将子模块的相关配置节点删除掉</span><br><span class="line">3) 编辑“ .git/config”文件，将子模块的相关配置节点删除掉</span><br><span class="line">4) 手动删除子模块残留的目录</span><br></pre></td></tr></table></figure>
+<h3><span id="git补丁管理">Git补丁管理</span></h3>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git diff ] ../sync.patch                # 生成补丁</span><br><span class="line">git apply ../sync.patch                 # 打补丁</span><br><span class="line">git apply --check ../sync.patch         #测试补丁能否成功</span><br></pre></td></tr></table></figure>
+<h3><span id="git忽略一些文件-文件夹不提交">Git忽略一些文件、文件夹不提交</span></h3>
+<p>在仓库根目录下创建名称为“.gitignore”的文件，写入不需要的文件夹名或文件，每个元素占一行即可，如</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">target</span><br><span class="line">*.class</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>在工作中总结的一些常见的命令，今后还会继续补充，如有遗漏欢迎补充。</p>
+</blockquote>
+
+                
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/article/Git-Commit-Message-Style-Guide/" data-toggle="tooltip" data-placement="top" title="Git Commit">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/article/hadoop/" data-toggle="tooltip" data-placement="top" title="Hadoop">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                <br>
+
+                <!--打赏-->
+                
+                <!--打赏-->
+
+                <br>
+                <!--分享-->
+                
+                    <div class="social-share"  data-wechat-qrcode-helper="" align="center"></div>
+                    <!--  css & js -->
+                    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/css/share.min.css">
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/js/social-share.min.js"></script>
+                
+                <!--分享-->
+                <br>                       
+                
+                <!-- require APlayer -->
+                
+
+                <!-- duoshuo Share start -->
+                
+                <!-- 多说 Share end-->
+
+                <!-- 多说评论框 start -->
+                
+                <!-- 多说评论框 end -->
+
+                <!-- disqus comment start -->
+                
+                <!-- disqus comment end -->
+
+                
+
+            </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+  
+    
+      <aside id="sidebar">
+        <div id="toc" class="toc-article">
+        <strong class="toc-title">Contents</strong>
+        
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.</span> <span class="toc-nav-text"><span id="git">Git</span></span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text"><span id="git&#x6838;&#x5FC3;&#x6982;&#x5FF5;&#x53CA;">Git&#x6838;&#x5FC3;&#x6982;&#x5FF5;&#x53CA;</span></span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.1.1.</span> <span class="toc-nav-text"><span id="&#x4EC0;&#x4E48;&#x662F;git">&#x4EC0;&#x4E48;&#x662F;git</span></span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.1.2.</span> <span class="toc-nav-text"><span id="&#x7248;&#x672C;&#x63A7;&#x5236;&#x7CFB;&#x7EDF;">&#x7248;&#x672C;&#x63A7;&#x5236;&#x7CFB;&#x7EDF;</span></span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.1.3.</span> <span class="toc-nav-text"><span id="git-&#x5DE5;&#x4F5C;&#x533A;-&#x6682;&#x5B58;&#x533A;-&#x7248;&#x672C;&#x5E93;&#x4E4B;&#x95F4;&#x7684;&#x5173;&#x7CFB;">Git &#x5DE5;&#x4F5C;&#x533A;&#x3001;&#x6682;&#x5B58;&#x533A;&#x3001;&#x7248;&#x672C;&#x5E93;&#x4E4B;&#x95F4;&#x7684;&#x5173;&#x7CFB;</span></span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.1.4.</span> <span class="toc-nav-text"><span id="git-&#x5DE5;&#x4F5C;&#x6D41;&#x7A0B;">Git &#x5DE5;&#x4F5C;&#x6D41;&#x7A0B;</span></span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.2.</span> <span class="toc-nav-text"><span id="git-&#x5E38;&#x7528;&#x547D;&#x4EE4;&#x8BE6;&#x89E3;">Git &#x5E38;&#x7528;&#x547D;&#x4EE4;&#x8BE6;&#x89E3;</span></span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.2.1.</span> <span class="toc-nav-text"><span id="1git&#x6587;&#x4EF6;&#x64CD;&#x4F5C;">1.Git&#x6587;&#x4EF6;&#x64CD;&#x4F5C;</span></span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.2.2.</span> <span class="toc-nav-text"><span id="git&#x5206;&#x652F;&#x64CD;&#x4F5C;&#x76F8;&#x5173;&#x547D;&#x4EE4;">Git&#x5206;&#x652F;&#x64CD;&#x4F5C;&#x76F8;&#x5173;&#x547D;&#x4EE4;</span></span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.2.3.</span> <span class="toc-nav-text"><span id="git&#x8FDC;&#x7A0B;&#x5206;&#x652F;&#x7BA1;&#x7406;">Git&#x8FDC;&#x7A0B;&#x5206;&#x652F;&#x7BA1;&#x7406;</span></span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.2.4.</span> <span class="toc-nav-text"><span id="git&#x7248;&#x672C;&#x56DE;&#x9000;&#x64CD;&#x4F5C;&#x76F8;&#x5173;&#x547D;&#x4EE4;">Git&#x7248;&#x672C;&#x56DE;&#x9000;&#x64CD;&#x4F5C;&#x76F8;&#x5173;&#x547D;&#x4EE4;</span></span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.2.5.</span> <span class="toc-nav-text"><span id="git&#x6807;&#x7B7E;&#x64CD;&#x4F5C;&#x76F8;&#x5173;&#x547D;&#x4EE4;">Git&#x6807;&#x7B7E;&#x64CD;&#x4F5C;&#x76F8;&#x5173;&#x547D;&#x4EE4;</span></span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.2.6.</span> <span class="toc-nav-text"><span id="git&#x5B50;&#x6A21;&#x5757;submodule&#x76F8;&#x5173;&#x64CD;&#x4F5C;&#x547D;&#x4EE4;">Git&#x5B50;&#x6A21;&#x5757;(submodule)&#x76F8;&#x5173;&#x64CD;&#x4F5C;&#x547D;&#x4EE4;</span></span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.2.7.</span> <span class="toc-nav-text"><span id="git&#x8865;&#x4E01;&#x7BA1;&#x7406;">Git&#x8865;&#x4E01;&#x7BA1;&#x7406;</span></span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.2.8.</span> <span class="toc-nav-text"><span id="git&#x5FFD;&#x7565;&#x4E00;&#x4E9B;&#x6587;&#x4EF6;-&#x6587;&#x4EF6;&#x5939;&#x4E0D;&#x63D0;&#x4EA4;">Git&#x5FFD;&#x7565;&#x4E00;&#x4E9B;&#x6587;&#x4EF6;&#x3001;&#x6587;&#x4EF6;&#x5939;&#x4E0D;&#x63D0;&#x4EA4;</span></span></a></li></ol></li></ol></li></ol>
+        
+        </div>
+      </aside>
+    
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#Git" title="Git">Git</a>
+                        
+                          <a class="tag" href="/tags/#版本控制" title="版本控制">版本控制</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="http://blog.csdn.net/fooelliot" target="_blank">CSDN Blog leone</a></li>
+                    
+                        <li><a href="http://dockone.io/people/leone" target="_blank">DockOne leone</a></li>
+                    
+                        <li><a href="https://yq.aliyun.com/u/leone" target="_blank">阿里云栖社区 leone</a></li>
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/janlle">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; leone 2019 
+                    <br>
+                    Theme by <a href="http://beantech.org">BeanTech</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    re-Ported by <a href="http://wealip.cn">leone</a> | 
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=janlle&repo=blogs&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://www.wealip.cn/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-XXXXXXXX-X';
+    var _gaDomain = 'yoursite';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = 'xxx';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<img src="http://www.wealip.cn/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

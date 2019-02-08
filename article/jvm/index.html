@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/ironman-draw.png">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <title>
+        
+          JVM - leone | Blog
+        
+    </title>
+
+    <link rel="canonical" href="http://www.wealip.cn/article/jvm/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS --> 
+    <link rel="stylesheet" href="/css/beantech.min.css">
+
+    <link rel="stylesheet" href="/css/donate.css">
+    
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <link rel="stylesheet" href="/css/widget.css">
+
+    <link rel="stylesheet" href="/css/rocket.css">
+
+    <link rel="stylesheet" href="/css/signature.css">
+
+    <link rel="stylesheet" href="/css/toc.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        
+            background-image: url('/img/article_header/article_header.png')
+            /*post*/
+        
+    }
+    
+</style>
+
+<header class="intro-header" >
+    <!-- Signature -->
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#JVM" title="JVM">JVM</a>
+                            
+                              <a class="tag" href="/tags/#java" title="java">java</a>
+                            
+                        </div>
+                        <h1>JVM</h1>
+                        <h2 class="subheading">JVM 原理及调优</h2>
+                        <span class="meta">
+                            Posted by leone on
+                            2018-12-18
+                        </span>
+                    </div>
+                
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">leone</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archive/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h1><span id="jvm">JVM</span></h1>
+<h2><span id="jvm-简介">jvm 简介</span></h2>
+<h3><span id="什么是jvm">什么是jvm</span></h3>
+<p>Java虚拟机概貌<br>
+Java虚拟机（英语：Java Virtual Machine，缩写为JVM），一种能够运行Java bytecode的虚拟机，以堆栈结构机器来进行实做。最早由太阳微系统所研发并实现第一个实现版本，是Java平台的一部分，能够运行以Java语言写作的软件程序。</p>
+<p>Java虚拟机有自己完善的硬体架构，如处理器、堆栈、寄存器等，还具有相应的指令系统。JVM屏蔽了与具体操作系统平台相关的信息，使得Java程序只需生成在Java虚拟机上运行的目标代码（字节码），就可以在多种平台上不加修改地运行。通过对中央处理器（CPU）所执行的软件实现，实现能执行编译过的Java程序码（Applet与应用程序）。</p>
+<p>作为一种编程语言的虚拟机，实际上不只是专用于Java语言，只要生成的编译文件匹配JVM对加载编译文件格式要求，任何语言都可以由JVM编译运行。此外，除了甲骨文，也有其他开源或闭源的实现。</p>
+<h3><span id="jvm-种类">jvm 种类</span></h3>
+<p><strong>HotSpot VM</strong></p>
+<p>HotSpot VM是绝对的主流。大家用它的时候很可能就没想过还有别的选择，或者是为了迁就依赖了Oracle/Sun JDK某些具体实现的烂代码而选择用HotSpot VM省点心。</p>
+<p>Oracle / Sun JDK、OpenJDK的各种变种（例如IcedTea、Zulu），用的都是相同核心的HotSpot VM。<br>
+从Java SE 7开始，HotSpot VM就是Java规范的“参考实现”（RI，Reference Implementation）。把它叫做“标准JVM”完全不为过。</p>
+<p>当大家说起“Java性能如何如何”、“Java有多少种GC”、“JVM如何调优”等等，经常默认说的就是特指HotSpot VM。可见其“主流性”。<br>
+（其实这不是件好事；具体到JVM实现才可以讨论的问题还是应该指明讨论是基于哪个实现）</p>
+<p>JDK8的HotSpot VM已经是以前的HotSpot VM与JRockit VM的合并版，也就是传说中的“HotRockit”，只是产品里名字还是叫HotSpot VM。<br>
+这个合并并不是要把JRockit的部分代码插进HotSpot里，而是把前者一些有价值的功能在后者里重新实现一遍。移除PermGen、Java Flight Recorder、jcmd等都属于合并项目的一部分。</p>
+<p>不过要留意的是，这里我说的HotSpot VM特指“正常配置”版，而不包括“Zero / Shark”版。Wikipedia那个页面上把后者称为“Zero Port”。用这个版本的人应该相当少，很多时候它的release版都build不成功…</p>
+<p><strong>J9 VM</strong></p>
+<p>J9是IBM开发的一个高度模块化的JVM。</p>
+<p>在许多平台上，IBM J9 VM都只能跟IBM产品一起使用。这不是技术限制，而是许可证限制。<br>
+例如说在Windows上IBM JDK不是免费公开的，而是要跟IBM其它产品一起捆绑发布的；使用IBM Rational、IBM WebSphere的话都有机会用到J9 VM（也可以自己选择配置使用别的Java SE JVM）。<br>
+根据许可证，这种捆绑在产品里的J9 VM不应该用于运行别的Java程序，但是大家自己“偷偷的”拿来跑别的程序，IBM也没力气管。而在一些IBM的硬件平台上，很少客户是只买硬件不买配套软件的，IBM给一整套解决方案，里面可能就包括了IBM JDK。这样自然而然就用上了J9 VM。所以J9 VM得算在主流里，虽然很少是大家主动选择的首选。</p>
+<p>J9 VM的性能水平大致跟HotSpot VM是一个档次的。有时HotSpot快些，有时J9快些。不过J9 VM有一些HotSpot VM在JDK8还不支持的功能，最显著的一个就是J9支持AOT编译和更强大的class data sharing。</p>
+<p><strong>JRockit</strong></p>
+<p>以前Java SE的主流JVM中还有JRockit，跟HotSpot与J9一起并称三大主流JVM。这三家的性能水平基本都在一个水平上，竞争很激烈。<br>
+自从Oracle把BEA和Sun都收购了之后，Java SE JVM只能二选一，JRockit就炮灰了。JRockit最后发布的大版本是R28，只到JDK6；原本在开发中的R29及JDK7的对应功能都没来得及完成项目就被终止了。</p>
+<p>想在.NET上使用某些流行的Java库，或者干脆在.NET上运行完整的Java程序不？那http://IKVM.NET是不二之选。</p>
+<p>主流就说这么几个吧。其它支持Java SE的JVM还有好多，但是难说是主流。</p>
+<p>要比惨的话，Apache Harmony里的DRLVM可能算是最惨之一。背后有IBM和Intel的强力支持，本来有望成为F/OSS系的主流JVM，奈何被Sun狠狠的捅了一刀，不让它跑JCK；使它不能名正言顺的使用Java™，更不能说自己是符合规范的JVM。然后Sun自己赶紧开源了自己的JDK，一直拖到硬把Harmony项目逼死了。</p>
+<p>Java SE Embedded</p>
+<p>这是Oracle造出来的比较新的概念。硬件发展得很快，现在很多所谓“嵌入式”场景用的机器其实跟普通台式机的配置没差多少，完全足以运行Java SE，侵蚀了以前高端Java ME（例如Java ME CDC Profile）的地盘。</p>
+<p>Oracle Java SE Embedded里带的JVM自然还是HotSpot VM，不过是Java SE Embedded定制版：简化了JVM内的某些部件，尽可能在支持完整的Java SE功能的前提下向着减少内存消耗的方向优化；只留下了Client Compiler（C1）而去掉了Server Compiler（C2）；GC以前好像是只留下了Serial GC但后来有没有支持更多GC种类。</p>
+<p>IBM在这个领域照样可以用J9 VM应对。</p>
+<p>其它还算主流Java SE Embedded JVM的话，可能JamVM可以算进来吧。它是一个小巧的、能支持完全OpenJDK类库和Java SE规范的JVM。</p>
+<h3><span id="jvm-的组成">jvm 的组成</span></h3>
+<p><strong>栈 Stack（线程独占）</strong></p>
+<p>Java虚拟机栈（Java Virtual Machine Stacks）是线程私有的，它的生命周期与线程相同。虚拟机栈描述的是Java方法执行的内存模型：每个方法被执行的时候都会同时创建一个栈帧（Stack Frame）用于存储局部变量表、操作栈、动态链接、方法出口等信息。每一个方法被调用直至执行完成的过程，就对应着一个栈帧在虚拟机栈中从入栈到出栈的过程。</p>
+<p>局部变量表存放了编译期可知的各种基本数据类型（boolean、byte、char、short、int、float、long、double）、对象引用（reference类型，它不等同于对象本身，根据不同的虚拟机实现，它可能是一个指向对象起始地址的引用指针，也可能指向一个代表对象的句柄或者其他与此对象相关的位置）和returnAddress类型（指向了一条字节码指令的地址）。</p>
+<p>其中64位长度的long和double类型的数据会占用2个局部变量空间（Slot），其余的数据类型只占用1个。局部变量表所需的内存空间在编译期间完成分配，当进入一个方法时，这个方法需要在帧中分配多大的局部变量空间是完全确定的，在方法运行期间不会改变局部变量表的大小。</p>
+<p>在Java虚拟机规范中，对这个区域规定了两种异常状况：如果线程请求的栈深度大于虚拟机所允许的深度，将抛出StackOverflowError异常；如果虚拟机栈可以动态扩展（当前大部分的Java虚拟机都可动态扩展，只不过Java虚拟机规范中也允许固定长度的虚拟机栈），当扩展时无法申请到足够的内存时会抛出OutOfMemoryError异常。</p>
+<p><strong>堆 Heap（线程共享）</strong></p>
+<p>java堆是和应用程序关系最为密切的内存空间，几乎所有的对象都存放在堆上。并且java堆是完全自动化管理的，通过垃圾回收机制，垃圾对象会被自动清理，而不需要显示的释放。<br>
+根据java回收机制的不同，java堆有可能拥有不同的结构。最为常见的一种构成是将整个java堆分为新生代和老年代。其中新生代存放新生对象或者年龄不大的对象，老年代则存放老年对象。新生代有可能分为eden区、s0区、s1区，s0区和s1区也被称为from和to区，他们是两块大小相同、可以互换角色的内存空间。</p>
+<p><strong>方法区 Method Area（线程共享）</strong></p>
+<p>主要用于存储Class Data和Meta Data，简单地说，Java类加载器将Java类加载到JVM中后，类的信息会保存在方法区，比如类的静态成员，构造器，方法等。一般情况下，java.lang.OutOfMemoryError: PermGen space异常就是由于该区空间耗尽而引起的，方法区由多个线程共享。</p>
+<p><strong>程序计数器 Program Counter Register（线程独享）</strong></p>
+<p>程序计数器（Program Counter Register）是一块较小的内存空间，它的作用可以看做是当前线程所执行的字节码的行号指示器。在虚拟机的概念模型里（仅是概念模型，各种虚拟机可能会通过一些更高效的方式去实现），字节码解释器工作时就是通过改变这个计数器的值来选取下一条需要执行的字节码指令，分支、循环、跳转、异常处理、线程恢复等基础功能都需要依赖这个计数器来完成。<br>
+由于Java虚拟机的多线程是通过线程轮流切换并分配处理器执行时间的方式来实现的，在任何一个确定的时刻，一个处理器（对于多核处理器来说是一个内核）只会执行一条线程中的指令。因此，为了线程切换后能恢复到正确的执行位置，每条线程都需要有一个独立的程序计数器，各条线程之间的计数器互不影响，独立存储，我们称这类内存区域为“线程私有”的内存。<br>
+如果线程正在执行的是一个Java方法，这个计数器记录的是正在执行的虚拟机字节码指令的地址；如果正在执行的是Natvie方法，这个计数器值则为空（Undefined）。</p>
+<p><strong>本地方法栈 Native Method Stacks（线程独享）</strong></p>
+<p>本地方法栈（Native Method Stacks）与虚拟机栈所发挥的作用是非常相似的，其区别不过是虚拟机栈为虚拟机执行Java方法（也就是字节码）服务，而本地方法栈则是为虚拟机使用到的Native方法服务。虚拟机规范中对本地方法栈中的方法使用的语言、使用方式与数据结构并没有强制规定，因此具体的虚拟机可以自由实现它。甚至有的虚拟机（譬如Sun HotSpot虚拟机）直接就把本地方法栈和虚拟机栈合二为一。与虚拟机栈一样，本地方法栈区域也会抛出StackOverflowError和OutOfMemoryError异常。</p>
+<h2><span id="gc垃圾回收器">GC(垃圾回收器)</span></h2>
+<p>Java的内存分配与回收全部由JVM垃圾回收进程自动完成。与C语言不同，Java开发者不需要自己编写代码实现垃圾回收。这是Java深受大家欢迎的众多特性之一，能够帮助程序员更好地编写Java程序。</p>
+<p><strong>常见的java垃圾回收器</strong></p>
+<ul>
+<li>串行垃圾回收器（Serial Garbage Collector）</li>
+</ul>
+<blockquote>
+<p>串行垃圾回收器通过持有应用程序所有的线程进行工作。它为单线程环境设计，只使用一个单独的线程进行垃圾回收，通过冻结所有应用程序线程进行工作，所以可能不适合服务器环境。它最适合的是简单的命令行程序。d通过JVM参数-XX:+UseSerialGC可以使用串行垃圾回收器。</p>
+</blockquote>
+<ul>
+<li>并行垃圾回收器（Parallel Garbage Collector）</li>
+</ul>
+<blockquote>
+<p>并行垃圾回收器也叫做 throughput collector 。它是JVM的默认垃圾回收器。与串行垃圾回收器不同，它使用多线程进行垃圾回收。相似的是，它也会冻结所有的应用程序线程当执行垃圾回收的时候</p>
+</blockquote>
+<ul>
+<li>并发标记扫描垃圾回收器（CMS Garbage Collector）</li>
+</ul>
+<blockquote>
+<p>并发标记垃圾回收使用多线程扫描堆内存，标记需要清理的实例并且清理被标记过的实例。并发标记垃圾回收器只会在下面两种情况持有应用程序所有线程。<br>
+1.当标记的引用对象在tenured区域；<br>
+2.在进行垃圾回收的时候，堆内存的数据被并发的改变。<br>
+相比并行垃圾回收器，并发标记扫描垃圾回收器使用更多的CPU来确保程序的吞吐量。如果我们可以为了更好的程序性能分配更多的CPU，那么并发标记上扫描垃圾回收器是更好的选择相比并发垃圾回收器。<br>
+通过JVM参数 XX:+USeParNewGC 打开并发标记扫描垃圾回收器。</p>
+</blockquote>
+<ul>
+<li>G1垃圾回收器（G1 Garbage Collector）</li>
+</ul>
+<blockquote>
+<p>G1垃圾回收器适用于堆内存很大的情况，他将堆内存分割成不同的区域，并且并发的对其进行垃圾回收。G1也可以在回收内存之后对剩余的堆内存空间进行压缩。并发扫描标记垃圾回收器在STW情况下压缩内存。G1垃圾回收会优先选择第一块垃圾最多的区域<br>
+通过JVM参数 –XX:+UseG1GC 使用G1垃圾回收器</p>
+</blockquote>
+<p><strong>Java 8 的新特性</strong></p>
+<p>在使用G1垃圾回收器的时候，通过 JVM参数 -XX:+UseStringDeduplication 。 我们可以通过删除重复的字符串，只保留一个char[]来优化堆内存。这个选择在Java 8 u 20被引入。</p>
+<p>我们给出了全部的四种Java垃圾回收器，需要根据应用场景，硬件性能和吞吐量需求来决定使用哪一种。</p>
+<p><strong>垃圾回收的JVM配置</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">配置</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">-XX:+UseSerialGC</td>
+<td style="text-align:left">串行垃圾回收器</td>
+</tr>
+<tr>
+<td style="text-align:left">-XX:+UseParallelGC</td>
+<td style="text-align:left">并行垃圾回收器</td>
+</tr>
+<tr>
+<td style="text-align:left">-XX:+UseConcMarkSweepGC</td>
+<td style="text-align:left">并发标记扫描垃圾回收器</td>
+</tr>
+<tr>
+<td style="text-align:left">-XX:ParallelCMSThreads</td>
+<td style="text-align:left">并发标记扫描垃圾回收器 =为使用的线程数量</td>
+</tr>
+<tr>
+<td style="text-align:left">-XX:+UseG1GC</td>
+<td style="text-align:left">G1垃圾回收器</td>
+</tr>
+</tbody>
+</table>
+<h3><span id="jvm常见参数调优">jvm常见参数调优</span></h3>
+<h1><span id="最大jvm可用内存">最大JVM可用内存</span></h1>
+<p>-Xmx1024m</p>
+<h1><span id="最小jvm可用内存">最小JVM可用内存</span></h1>
+<p>-Xms2g</p>
+<h1><span id="年轻代内存大小">年轻代内存大小</span></h1>
+<p>-Xmn512m</p>
+<h1><span id="设置新生代最小空间大小">设置新生代最小空间大小。</span></h1>
+<p>-XX:NewSize</p>
+<h1><span id="设置新生代最大空间大小">设置新生代最大空间大小。</span></h1>
+<p>-XX:MaxNewSize</p>
+<h1><span id="permsize永久代内存大小该值太大会导致fullgc时间过长太小将增加fullgc频率">PermSize：永久代内存大小，该值太大会导致fullGC时间过长，太小将增加fullGC频率</span></h1>
+<p>-XX:PermSize=128m</p>
+<p>-XX:MaxPermSize设置永久代最大空间大小。</p>
+<h1><span id="线程栈大小太大将导致jvm可建的线程数量减少例-xss256k">线程栈大小，太大将导致JVM可建的线程数量减少，例：-Xss256k</span></h1>
+<p>-Xss256k</p>
+<p>禁止手动fullGC，如果配置，则System.gc()将无效，比如在为DirectByteBuffer分配空间过程中发现直接内存不足时会显式调用System.gc()<br>
+-XX:+DisableExplicitGC</p>
+<h1><span id="一般permgen是不会被gc如果希望permgen永久代也能被gc则需要配置该参数">一般PermGen是不会被GC，如果希望PermGen永久代也能被GC，则需要配置该参数</span></h1>
+<p>-XX:+UseConcMarkSweepGC</p>
+<h1><span id="gc进行时标记可回收对象时可以并行remark-xxusecmscompactatfullcollection-表示在fullgc之后进行压缩cms默认不压缩空间">GC进行时标记可回收对象时可以并行remark-XX:+UseCMSCompactAtFullCollection 表示在fullGC之后进行压缩，CMS默认不压缩空间</span></h1>
+<p>-XX:+CMSParallelRemarkEnabled</p>
+<h1><span id="为java堆内存设置内存页大小">为java堆内存设置内存页大小</span></h1>
+<p>-XX:LargePageSizeInBytes=128m</p>
+<h1><span id="对原始类型进行快速优化">对原始类型进行快速优化</span></h1>
+<p>-XX:+UseFastAccessorMethods</p>
+<h1><span id="关闭预期开始的晋升率的统计">关闭预期开始的晋升率的统计</span></h1>
+<p>-XX:+UseCMSInitiatingOccupancyOnly</p>
+<h1><span id="使用cms作为垃圾回收并设置gc百分比例使用70后开始cms收集">使用cms作为垃圾回收，并设置GC百分比，例（使用70％后开始CMS收集）</span></h1>
+<p>-XX:CMSInitiatingOccupancyFraction=70</p>
+<h1><span id="打印gc的详细信息">打印GC的详细信息</span></h1>
+<p>-XX:+PrintGintGCDateStamp</p>
+<h1><span id="指定gc文件路径">指定GC文件路径</span></h1>
+<p>-Xloggc</p>
+
+                
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/article/scala/" data-toggle="tooltip" data-placement="top" title="scala">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/article/Spark/" data-toggle="tooltip" data-placement="top" title="Spark">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                <br>
+
+                <!--打赏-->
+                
+                <!--打赏-->
+
+                <br>
+                <!--分享-->
+                
+                    <div class="social-share"  data-wechat-qrcode-helper="" align="center"></div>
+                    <!--  css & js -->
+                    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/css/share.min.css">
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/js/social-share.min.js"></script>
+                
+                <!--分享-->
+                <br>                       
+                
+                <!-- require APlayer -->
+                
+
+                <!-- duoshuo Share start -->
+                
+                <!-- 多说 Share end-->
+
+                <!-- 多说评论框 start -->
+                
+                <!-- 多说评论框 end -->
+
+                <!-- disqus comment start -->
+                
+                <!-- disqus comment end -->
+
+                
+
+            </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+  
+    
+      <aside id="sidebar">
+        <div id="toc" class="toc-article">
+        <strong class="toc-title">Contents</strong>
+        
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.</span> <span class="toc-nav-text"><span id="jvm">JVM</span></span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text"><span id="jvm-&#x7B80;&#x4ECB;">jvm &#x7B80;&#x4ECB;</span></span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.1.1.</span> <span class="toc-nav-text"><span id="&#x4EC0;&#x4E48;&#x662F;jvm">&#x4EC0;&#x4E48;&#x662F;jvm</span></span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.1.2.</span> <span class="toc-nav-text"><span id="jvm-&#x79CD;&#x7C7B;">jvm &#x79CD;&#x7C7B;</span></span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.1.3.</span> <span class="toc-nav-text"><span id="jvm-&#x7684;&#x7EC4;&#x6210;">jvm &#x7684;&#x7EC4;&#x6210;</span></span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.2.</span> <span class="toc-nav-text"><span id="gc&#x5783;&#x573E;&#x56DE;&#x6536;&#x5668;">GC(&#x5783;&#x573E;&#x56DE;&#x6536;&#x5668;)</span></span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.2.1.</span> <span class="toc-nav-text"><span id="jvm&#x5E38;&#x89C1;&#x53C2;&#x6570;&#x8C03;&#x4F18;">jvm&#x5E38;&#x89C1;&#x53C2;&#x6570;&#x8C03;&#x4F18;</span></span></a></li></ol></li></ol></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">2.</span> <span class="toc-nav-text"><span id="&#x6700;&#x5927;jvm&#x53EF;&#x7528;&#x5185;&#x5B58;">&#x6700;&#x5927;JVM&#x53EF;&#x7528;&#x5185;&#x5B58;</span></span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">3.</span> <span class="toc-nav-text"><span id="&#x6700;&#x5C0F;jvm&#x53EF;&#x7528;&#x5185;&#x5B58;">&#x6700;&#x5C0F;JVM&#x53EF;&#x7528;&#x5185;&#x5B58;</span></span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">4.</span> <span class="toc-nav-text"><span id="&#x5E74;&#x8F7B;&#x4EE3;&#x5185;&#x5B58;&#x5927;&#x5C0F;">&#x5E74;&#x8F7B;&#x4EE3;&#x5185;&#x5B58;&#x5927;&#x5C0F;</span></span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">5.</span> <span class="toc-nav-text"><span id="&#x8BBE;&#x7F6E;&#x65B0;&#x751F;&#x4EE3;&#x6700;&#x5C0F;&#x7A7A;&#x95F4;&#x5927;&#x5C0F;">&#x8BBE;&#x7F6E;&#x65B0;&#x751F;&#x4EE3;&#x6700;&#x5C0F;&#x7A7A;&#x95F4;&#x5927;&#x5C0F;&#x3002;</span></span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">6.</span> <span class="toc-nav-text"><span id="&#x8BBE;&#x7F6E;&#x65B0;&#x751F;&#x4EE3;&#x6700;&#x5927;&#x7A7A;&#x95F4;&#x5927;&#x5C0F;">&#x8BBE;&#x7F6E;&#x65B0;&#x751F;&#x4EE3;&#x6700;&#x5927;&#x7A7A;&#x95F4;&#x5927;&#x5C0F;&#x3002;</span></span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">7.</span> <span class="toc-nav-text"><span id="permsize&#x6C38;&#x4E45;&#x4EE3;&#x5185;&#x5B58;&#x5927;&#x5C0F;&#x8BE5;&#x503C;&#x592A;&#x5927;&#x4F1A;&#x5BFC;&#x81F4;fullgc&#x65F6;&#x95F4;&#x8FC7;&#x957F;&#x592A;&#x5C0F;&#x5C06;&#x589E;&#x52A0;fullgc&#x9891;&#x7387;">PermSize&#xFF1A;&#x6C38;&#x4E45;&#x4EE3;&#x5185;&#x5B58;&#x5927;&#x5C0F;&#xFF0C;&#x8BE5;&#x503C;&#x592A;&#x5927;&#x4F1A;&#x5BFC;&#x81F4;fullGC&#x65F6;&#x95F4;&#x8FC7;&#x957F;&#xFF0C;&#x592A;&#x5C0F;&#x5C06;&#x589E;&#x52A0;fullGC&#x9891;&#x7387;</span></span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">8.</span> <span class="toc-nav-text"><span id="&#x7EBF;&#x7A0B;&#x6808;&#x5927;&#x5C0F;&#x592A;&#x5927;&#x5C06;&#x5BFC;&#x81F4;jvm&#x53EF;&#x5EFA;&#x7684;&#x7EBF;&#x7A0B;&#x6570;&#x91CF;&#x51CF;&#x5C11;&#x4F8B;-xss256k">&#x7EBF;&#x7A0B;&#x6808;&#x5927;&#x5C0F;&#xFF0C;&#x592A;&#x5927;&#x5C06;&#x5BFC;&#x81F4;JVM&#x53EF;&#x5EFA;&#x7684;&#x7EBF;&#x7A0B;&#x6570;&#x91CF;&#x51CF;&#x5C11;&#xFF0C;&#x4F8B;&#xFF1A;-Xss256k</span></span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">9.</span> <span class="toc-nav-text"><span id="&#x4E00;&#x822C;permgen&#x662F;&#x4E0D;&#x4F1A;&#x88AB;gc&#x5982;&#x679C;&#x5E0C;&#x671B;permgen&#x6C38;&#x4E45;&#x4EE3;&#x4E5F;&#x80FD;&#x88AB;gc&#x5219;&#x9700;&#x8981;&#x914D;&#x7F6E;&#x8BE5;&#x53C2;&#x6570;">&#x4E00;&#x822C;PermGen&#x662F;&#x4E0D;&#x4F1A;&#x88AB;GC&#xFF0C;&#x5982;&#x679C;&#x5E0C;&#x671B;PermGen&#x6C38;&#x4E45;&#x4EE3;&#x4E5F;&#x80FD;&#x88AB;GC&#xFF0C;&#x5219;&#x9700;&#x8981;&#x914D;&#x7F6E;&#x8BE5;&#x53C2;&#x6570;</span></span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">10.</span> <span class="toc-nav-text"><span id="gc&#x8FDB;&#x884C;&#x65F6;&#x6807;&#x8BB0;&#x53EF;&#x56DE;&#x6536;&#x5BF9;&#x8C61;&#x65F6;&#x53EF;&#x4EE5;&#x5E76;&#x884C;remark-xxusecmscompactatfullcollection-&#x8868;&#x793A;&#x5728;fullgc&#x4E4B;&#x540E;&#x8FDB;&#x884C;&#x538B;&#x7F29;cms&#x9ED8;&#x8BA4;&#x4E0D;&#x538B;&#x7F29;&#x7A7A;&#x95F4;">GC&#x8FDB;&#x884C;&#x65F6;&#x6807;&#x8BB0;&#x53EF;&#x56DE;&#x6536;&#x5BF9;&#x8C61;&#x65F6;&#x53EF;&#x4EE5;&#x5E76;&#x884C;remark-XX:+UseCMSCompactAtFullCollection &#x8868;&#x793A;&#x5728;fullGC&#x4E4B;&#x540E;&#x8FDB;&#x884C;&#x538B;&#x7F29;&#xFF0C;CMS&#x9ED8;&#x8BA4;&#x4E0D;&#x538B;&#x7F29;&#x7A7A;&#x95F4;</span></span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">11.</span> <span class="toc-nav-text"><span id="&#x4E3A;java&#x5806;&#x5185;&#x5B58;&#x8BBE;&#x7F6E;&#x5185;&#x5B58;&#x9875;&#x5927;&#x5C0F;">&#x4E3A;java&#x5806;&#x5185;&#x5B58;&#x8BBE;&#x7F6E;&#x5185;&#x5B58;&#x9875;&#x5927;&#x5C0F;</span></span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">12.</span> <span class="toc-nav-text"><span id="&#x5BF9;&#x539F;&#x59CB;&#x7C7B;&#x578B;&#x8FDB;&#x884C;&#x5FEB;&#x901F;&#x4F18;&#x5316;">&#x5BF9;&#x539F;&#x59CB;&#x7C7B;&#x578B;&#x8FDB;&#x884C;&#x5FEB;&#x901F;&#x4F18;&#x5316;</span></span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">13.</span> <span class="toc-nav-text"><span id="&#x5173;&#x95ED;&#x9884;&#x671F;&#x5F00;&#x59CB;&#x7684;&#x664B;&#x5347;&#x7387;&#x7684;&#x7EDF;&#x8BA1;">&#x5173;&#x95ED;&#x9884;&#x671F;&#x5F00;&#x59CB;&#x7684;&#x664B;&#x5347;&#x7387;&#x7684;&#x7EDF;&#x8BA1;</span></span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">14.</span> <span class="toc-nav-text"><span id="&#x4F7F;&#x7528;cms&#x4F5C;&#x4E3A;&#x5783;&#x573E;&#x56DE;&#x6536;&#x5E76;&#x8BBE;&#x7F6E;gc&#x767E;&#x5206;&#x6BD4;&#x4F8B;&#x4F7F;&#x7528;70&#x540E;&#x5F00;&#x59CB;cms&#x6536;&#x96C6;">&#x4F7F;&#x7528;cms&#x4F5C;&#x4E3A;&#x5783;&#x573E;&#x56DE;&#x6536;&#xFF0C;&#x5E76;&#x8BBE;&#x7F6E;GC&#x767E;&#x5206;&#x6BD4;&#xFF0C;&#x4F8B;&#xFF08;&#x4F7F;&#x7528;70&#xFF05;&#x540E;&#x5F00;&#x59CB;CMS&#x6536;&#x96C6;&#xFF09;</span></span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">15.</span> <span class="toc-nav-text"><span id="&#x6253;&#x5370;gc&#x7684;&#x8BE6;&#x7EC6;&#x4FE1;&#x606F;">&#x6253;&#x5370;GC&#x7684;&#x8BE6;&#x7EC6;&#x4FE1;&#x606F;</span></span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">16.</span> <span class="toc-nav-text"><span id="&#x6307;&#x5B9A;gc&#x6587;&#x4EF6;&#x8DEF;&#x5F84;">&#x6307;&#x5B9A;GC&#x6587;&#x4EF6;&#x8DEF;&#x5F84;</span></span></a></li></ol>
+        
+        </div>
+      </aside>
+    
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#JVM" title="JVM">JVM</a>
+                        
+                          <a class="tag" href="/tags/#java" title="java">java</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="http://blog.csdn.net/fooelliot" target="_blank">CSDN Blog leone</a></li>
+                    
+                        <li><a href="http://dockone.io/people/leone" target="_blank">DockOne leone</a></li>
+                    
+                        <li><a href="https://yq.aliyun.com/u/leone" target="_blank">阿里云栖社区 leone</a></li>
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/janlle">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; leone 2019 
+                    <br>
+                    Theme by <a href="http://beantech.org">BeanTech</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    re-Ported by <a href="http://wealip.cn">leone</a> | 
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=janlle&repo=blogs&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://www.wealip.cn/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-XXXXXXXX-X';
+    var _gaDomain = 'yoursite';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = 'xxx';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<img src="http://www.wealip.cn/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>
