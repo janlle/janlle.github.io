@@ -14,7 +14,7 @@
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     <title>
         
-          ContOS - leone | Blog
+          CentOS - leone | Blog
         
     </title>
 
@@ -95,8 +95,8 @@
                               <a class="tag" href="/tags/#CentOS" title="CentOS">CentOS</a>
                             
                         </div>
-                        <h1>ContOS</h1>
-                        <h2 class="subheading">ContOS 简介及入门</h2>
+                        <h1>CentOS</h1>
+                        <h2 class="subheading">CentOS 初始化环境</h2>
                         <span class="meta">
                             Posted by leone on
                             2018-05-18
@@ -218,92 +218,20 @@
 
                 <h1><span id="centos服务器初始化环境">CentOS服务器初始化环境</span></h1>
 <h2><span id="配置网络">配置网络</span></h2>
-<p><code>vi /etc/sysconfig/network-scripts/ifcfg-ens33</code></p>
-<p>修改</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">BOOTPROTO=static</span><br><span class="line">ONBOOT=yes</span><br></pre></td></tr></table></figure>
-<p>新增</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">IPADDR=192.168.79.11</span><br><span class="line">GATEWAY=192.168.79.2</span><br><span class="line">DNS1=192.168.1.253</span><br></pre></td></tr></table></figure>
-<p>重启网络<br>
-<code>service network restart</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">$ vi /etc/sysconfig/network-scripts/ifcfg-ens33 </span><br><span class="line"></span><br><span class="line"># 修改如下配置项</span><br><span class="line">BOOTPROTO=static</span><br><span class="line">ONBOOT=yes</span><br><span class="line"></span><br><span class="line"># 新增如下配置项</span><br><span class="line">IPADDR=192.168.79.11</span><br><span class="line"># gateway要和ip地址在同一个网段</span><br><span class="line">GATEWAY=192.168.79.2</span><br><span class="line"># DSN配置为宿主机的默认网关</span><br><span class="line">DNS1=192.168.0.1</span><br><span class="line"></span><br><span class="line"># 重启网络</span><br><span class="line">service network restart</span><br></pre></td></tr></table></figure>
 <h2><span id="设置火墙">设置火墙</span></h2>
-<ul>
-<li>
-<p>防火墙启动关闭<br>
-6.x=&gt; service firewalld [start/stop/status/restart]<br>
-7.x=&gt; systemctl [start/stop/status/restart] firewalld.service</p>
-</li>
-<li>
-<p>设置永久开启关闭<br>
-systemctl disable firewalld.service<br>
-systemctl enable firewalld.service</p>
-</li>
-</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"># 防火墙启动关闭</span><br><span class="line"></span><br><span class="line"># CentOS6.x</span><br><span class="line">$ service firewalld [start/stop/status/restart]</span><br><span class="line"></span><br><span class="line"># CentOS7.x</span><br><span class="line">$ systemctl [start/stop/status/restart] firewalld.service</span><br><span class="line"></span><br><span class="line"># 设置永久开启关闭</span><br><span class="line">$ systemctl disable firewalld.service</span><br><span class="line">$ systemctl enable firewalld.service</span><br><span class="line"></span><br><span class="line"># 查看防火墙启用禁用状态</span><br><span class="line">$ systemctl is-enabled firewalld.service</span><br></pre></td></tr></table></figure>
+<h2><span id="配置yum">配置yum</span></h2>
+<h3><span id="什么是yum">什么是yum</span></h3>
+<p>Yum（全称为 Yellow dog Updater, Modified）是一个在Fedora和RedHat以及CentOS中的Shell前端软件包管理器。基于RPM包管理，能够从指定的服务器自动下载RPM包并且安装，可以自动处理依赖性关系，并且一次安装所有依赖的软件包，无须繁琐地一次次下载、安装。</p>
+<h3><span id="yum常用命令">yum常用命令</span></h3>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"># 安装httpd并确认安装</span><br><span class="line">$ yum instll -y httpd</span><br><span class="line"></span><br><span class="line"># 列出所有可用的package和package组</span><br><span class="line"></span><br><span class="line"># 清除所有缓冲数据</span><br><span class="line">$ yum clean all</span><br><span class="line"></span><br><span class="line"># 列出一个包所有依赖的包</span><br><span class="line">$ yum deplist httpd</span><br><span class="line"></span><br><span class="line"># 删除httpd</span><br><span class="line">$ yum remove httpd</span><br></pre></td></tr></table></figure>
+<h3><span id="配置国内的yum源">配置国内的yum源</span></h3>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"># 这里配置的是CentOS7.x 163yum镜像</span><br><span class="line"></span><br><span class="line"># 备份以前的yum源</span><br><span class="line">$ mv /etc/yum.repos.d/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo.bak</span><br><span class="line"></span><br><span class="line"># 下载新的yum源</span><br><span class="line">$ wget -O /etc/yum.repos.d/CentOS-Base.repo http://mirrors.163.com/.help/CentOS7-Base-163.repo</span><br><span class="line"></span><br><span class="line"># 清除yum缓存</span><br><span class="line">$ yum clean all</span><br><span class="line"></span><br><span class="line"># 生成yum缓存</span><br><span class="line">$ yum makecache</span><br></pre></td></tr></table></figure>
 <h2><span id="安装常用依赖包">安装常用依赖包</span></h2>
-<pre><code>`yum update`
-</code></pre>
-<ul>
-<li>
-<p>vim编辑器</p>
-<p><code>yum install vim</code></p>
-</li>
-</ul>
-<ul>
-<li>
-<p>上传下载文件工具</p>
-<p><code>yum install lrzsz</code></p>
-</li>
-</ul>
-<ul>
-<li>
-<p>curl是强大的URL传输工具</p>
-<p><code>yum install crul</code></p>
-</li>
-</ul>
-<ul>
-<li>
-<p>wget下载工具</p>
-<p><code>yum install wget</code></p>
-</li>
-</ul>
-<ul>
-<li>
-<p>网络工具包</p>
-<p><code>yum install net-tools</code></p>
-</li>
-</ul>
-<ul>
-<li>
-<p>gcc (nginx之类由c语言开发的，编译的时候需要用到)</p>
-<p><code>yum -y install gcc-c++</code></p>
-</li>
-<li>
-<p>PCRE (Perl库，包括 perl 兼容的正则表达式库)</p>
-<p><code>yum -y install pcre pcre-devel</code></p>
-</li>
-<li>
-<p>zlib (zlib库提供了很多种压缩和解压缩的方式)</p>
-<p><code>yum -y install zlib zlib-devel ruby</code></p>
-</li>
-<li>
-<p>解压缩和压缩</p>
-<p><code>yum install -y unzip zip</code></p>
-</li>
-</ul>
-<ul>
-<li>
-<p>openssl (OpenSSL 是一个强大的安全套接字层密码库，囊括主要的密码算法、常用的密钥和证书封装管理功能及SSL协议)</p>
-<p><code>yum -y install openssl openssl-devel patch</code></p>
-</li>
-</ul>
-<ul>
-<li>
-<p>使用systemctl自动补全服务名称( 因为CentOS7的默认安装类型是最小安装，所以默认没有自动补全的功能)</p>
-<p><code>yum install -y bash-completion</code></p>
-</li>
-</ul>
-<p>``</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"># 升级所有的包和系统内核</span><br><span class="line">$ yum update</span><br><span class="line"></span><br><span class="line"># 升级所有的包</span><br><span class="line">$ yum upgrade</span><br><span class="line">    </span><br><span class="line"># vim编辑器</span><br><span class="line">$ yum install vim</span><br><span class="line">    </span><br><span class="line"># 上传下载文件工具</span><br><span class="line">$ yum install lrzs</span><br><span class="line">    </span><br><span class="line"># curl是强大的URL传输工具</span><br><span class="line">$ yum install crul</span><br><span class="line">    </span><br><span class="line"># wget下载工具</span><br><span class="line">$ yum install wget</span><br><span class="line">    </span><br><span class="line"># 网络工具包</span><br><span class="line">$ yum install net-tools</span><br><span class="line"></span><br><span class="line"># gcc (nginx之类由c语言开发的，编译的时候需要用到)</span><br><span class="line">$ yum install gcc-c++</span><br><span class="line">    </span><br><span class="line"># PCRE (Perl库，包括 perl 兼容的正则表达式库)</span><br><span class="line">$ yum install pcre pcre-devel</span><br><span class="line"></span><br><span class="line"># zlib (zlib库提供了很多种压缩和解压缩的方式)</span><br><span class="line">$ yum install zlib zlib-devel ruby</span><br><span class="line"></span><br><span class="line"># 解压缩和压缩</span><br><span class="line">$ yum install unzip zip</span><br><span class="line"></span><br><span class="line"># openssl (OpenSSL 是一个强大的安全套接字层密码库，囊括主要的密码算法、常用的密钥和证书封装管理功能及SSL协议)</span><br><span class="line">$ yum install openssl openssl-devel patch</span><br><span class="line"></span><br><span class="line"># 使用systemctl自动补全服务名称( 因为CentOS7的默认安装类型是最小安装，所以默认没有自动补全的功能)</span><br><span class="line">$ yum install bash-completion</span><br></pre></td></tr></table></figure>
 <h2><span id="安装各种环境">安装各种环境</span></h2>
-<h2><span id=""></span></h2>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
                 
 
@@ -312,12 +240,12 @@ systemctl enable firewalld.service</p>
                 <ul class="pager">
                     
                         <li class="previous">
-                            <a href="/article/Shadowsocks/" data-toggle="tooltip" data-placement="top" title="Shadowsocks">&larr; Previous Post</a>
+                            <a href="/article/Shadowsocks/" data-toggle="tooltip" data-placement="top" title="Shadowsocks 搭建教程">&larr; Previous Post</a>
                         </li>
                     
                     
                         <li class="next">
-                            <a href="/article/SpringBoot-2.x升级指南/" data-toggle="tooltip" data-placement="top" title="spring-boot2.x">Next Post &rarr;</a>
+                            <a href="/article/Lucene/" data-toggle="tooltip" data-placement="top" title="Lucene">Next Post &rarr;</a>
                         </li>
                     
                 </ul>
@@ -367,7 +295,7 @@ systemctl enable firewalld.service</p>
         <div id="toc" class="toc-article">
         <strong class="toc-title">Contents</strong>
         
-          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.</span> <span class="toc-nav-text"><span id="centos&#x670D;&#x52A1;&#x5668;&#x521D;&#x59CB;&#x5316;&#x73AF;&#x5883;">CentOS&#x670D;&#x52A1;&#x5668;&#x521D;&#x59CB;&#x5316;&#x73AF;&#x5883;</span></span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text"><span id="&#x914D;&#x7F6E;&#x7F51;&#x7EDC;">&#x914D;&#x7F6E;&#x7F51;&#x7EDC;</span></span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.2.</span> <span class="toc-nav-text"><span id="&#x8BBE;&#x7F6E;&#x706B;&#x5899;">&#x8BBE;&#x7F6E;&#x706B;&#x5899;</span></span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.3.</span> <span class="toc-nav-text"><span id="&#x5B89;&#x88C5;&#x5E38;&#x7528;&#x4F9D;&#x8D56;&#x5305;">&#x5B89;&#x88C5;&#x5E38;&#x7528;&#x4F9D;&#x8D56;&#x5305;</span></span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.4.</span> <span class="toc-nav-text"><span id="&#x5B89;&#x88C5;&#x5404;&#x79CD;&#x73AF;&#x5883;">&#x5B89;&#x88C5;&#x5404;&#x79CD;&#x73AF;&#x5883;</span></span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.5.</span> <span class="toc-nav-text"><span id=""></span></span></a></li></ol></li></ol>
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.</span> <span class="toc-nav-text"><span id="centos&#x670D;&#x52A1;&#x5668;&#x521D;&#x59CB;&#x5316;&#x73AF;&#x5883;">CentOS&#x670D;&#x52A1;&#x5668;&#x521D;&#x59CB;&#x5316;&#x73AF;&#x5883;</span></span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text"><span id="&#x914D;&#x7F6E;&#x7F51;&#x7EDC;">&#x914D;&#x7F6E;&#x7F51;&#x7EDC;</span></span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.2.</span> <span class="toc-nav-text"><span id="&#x8BBE;&#x7F6E;&#x706B;&#x5899;">&#x8BBE;&#x7F6E;&#x706B;&#x5899;</span></span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.3.</span> <span class="toc-nav-text"><span id="&#x914D;&#x7F6E;yum">&#x914D;&#x7F6E;yum</span></span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.3.1.</span> <span class="toc-nav-text"><span id="&#x4EC0;&#x4E48;&#x662F;yum">&#x4EC0;&#x4E48;&#x662F;yum</span></span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.3.2.</span> <span class="toc-nav-text"><span id="yum&#x5E38;&#x7528;&#x547D;&#x4EE4;">yum&#x5E38;&#x7528;&#x547D;&#x4EE4;</span></span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.3.3.</span> <span class="toc-nav-text"><span id="&#x914D;&#x7F6E;&#x56FD;&#x5185;&#x7684;yum&#x6E90;">&#x914D;&#x7F6E;&#x56FD;&#x5185;&#x7684;yum&#x6E90;</span></span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.4.</span> <span class="toc-nav-text"><span id="&#x5B89;&#x88C5;&#x5E38;&#x7528;&#x4F9D;&#x8D56;&#x5305;">&#x5B89;&#x88C5;&#x5E38;&#x7528;&#x4F9D;&#x8D56;&#x5305;</span></span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.5.</span> <span class="toc-nav-text"><span id="&#x5B89;&#x88C5;&#x5404;&#x79CD;&#x73AF;&#x5883;">&#x5B89;&#x88C5;&#x5404;&#x79CD;&#x73AF;&#x5883;</span></span></a></li></ol></li></ol>
         
         </div>
       </aside>
@@ -404,11 +332,13 @@ systemctl enable firewalld.service</p>
                 <ul class="list-inline">
 
                     
-                        <li><a href="http://blog.csdn.net/fooelliot" target="_blank">CSDN Blog fooelliot</a></li>
+                        <li><a href="http://blog.csdn.net/fooelliot" target="_blank">CSDN fooelliot</a></li>
                     
                         <li><a href="http://github.com/janlle" target="_blank">GitHub janlle</a></li>
                     
                         <li><a href="https://www.cnblogs.com/ruolin/" target="_blank">博客园 janlle</a></li>
+                    
+                        <li><a href="https://www.jianshu.com/u/2c8b6b4a6523" target="_blank">简书 janlle</a></li>
                     
                 </ul>
                 

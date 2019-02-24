@@ -14,7 +14,7 @@
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     <title>
         
-          Shadowsocks - leone | Blog
+          Shadowsocks 搭建教程 - leone | Blog
         
     </title>
 
@@ -88,11 +88,11 @@
                     <div class="post-heading">
                         <div class="tags">
                             
-                              <a class="tag" href="/tags/#Shadowsocks" title="Shadowsocks">Shadowsocks</a>
+                              <a class="tag" href="/tags/#shadowsocks" title="shadowsocks">shadowsocks</a>
                             
                         </div>
-                        <h1>Shadowsocks</h1>
-                        <h2 class="subheading">搭建 Shadowsocks &amp; bbr 加速</h2>
+                        <h1>Shadowsocks 搭建教程</h1>
+                        <h2 class="subheading">搭建 Shadowsocks 服务 &amp; google bbr 加速</h2>
                         <span class="meta">
                             Posted by leone on
                             2018-05-27
@@ -218,6 +218,7 @@
 运行原理：<br>
 Shadowsocks的运行原理与其他代理工具基本相同，使用特定的中转服务器完成数据传输。在服务器端部署完成后，用户需要按照指定的密码、加密方式和端口使用客户端软件与其连接。在成功连接到服务器后，客户端会在用户的电脑上构建一个本地Socks5代理。浏览网络时，网络流量会被分到本地socks5代理，客户端将其加密之后发送到服务器，服务器以同样的加密方式将流量回传给客户端，以此实现代理上网。</p>
 <h2><span id="搭建教程">搭建教程</span></h2>
+<h3><span id="系统环境">系统环境</span></h3>
 <ul>
 <li>服务器：阿里云共享型ECS</li>
 <li>CPU: 1核</li>
@@ -225,7 +226,10 @@ Shadowsocks的运行原理与其他代理工具基本相同，使用特定的中
 <li>带宽：100Mbps（按量计费）</li>
 <li>系统：CentOS7.5_x64</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"># 获取一键安装脚本</span><br><span class="line">$ wget --no-check-certificate https://raw.githubusercontent.com/teddysun/shadowsocks_install/master/shadowsocks-all.sh</span><br><span class="line"></span><br><span class="line"># 修改脚本的权限</span><br><span class="line">$ chmod +x shadowsocks-all.sh</span><br><span class="line"></span><br><span class="line"># 执行脚本</span><br><span class="line">$ ./shadowsocks-all.sh</span><br><span class="line"></span><br><span class="line"># 执行后，会提示输入源码语言，密码、端口、及加密方式等。（语言我选的python，端口是12217，加密方式我这里选择aes-256-cfb）</span><br><span class="line"></span><br><span class="line"># 执行成功后的日志(大概需要等一到三分钟左右)</span><br><span class="line">INFO: loading config from /etc/shadowsocks-python/config.json</span><br><span class="line">2019-01-22 00:30:27 INFO     loading libcrypto from libcrypto.so.10</span><br><span class="line">Starting Shadowsocks success</span><br><span class="line"></span><br><span class="line">Congratulations, Shadowsocks-Python server install completed!</span><br><span class="line">Your Server IP        :  57.90.221.76 </span><br><span class="line">Your Server Port      :  12217</span><br><span class="line">Your Password         :  123456 </span><br><span class="line">Your Encryption Method:  aes-256-cfb </span><br><span class="line"></span><br><span class="line">Your QR Code: (For Shadowsocks Windows, OSX, Android and iOS clients)</span><br><span class="line"> ss://YWVzLTI1Ni1jZmI6MDYyMDE1QDQ3LjkwLjI1MS43NjoxMDIxNQ== </span><br><span class="line">Your QR Code has been saved as a PNG file path:</span><br><span class="line"> /root/shadowsocks_python_qr.png </span><br><span class="line"></span><br><span class="line">Welcome to visit: https://teddysun.com/486.html</span><br><span class="line">Enjoy it!</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># 关闭系统的防火墙</span><br><span class="line">$ service stop firewalld.service</span><br><span class="line"></span><br><span class="line"># 修改阿里云安全组配置开放刚才暴露的端口后重启服务器即可</span><br><span class="line"></span><br><span class="line"># 安装谷歌BBR加速</span><br><span class="line">$ wget --no-check-certificate https://github.com/teddysun/across/raw/master/bbr.sh</span><br><span class="line"></span><br><span class="line"># 修改脚本的权限</span><br><span class="line">$ chmod u+x bbr.sh</span><br><span class="line"></span><br><span class="line"># 执行脚本</span><br><span class="line">$ ./bbr.sh</span><br><span class="line"></span><br><span class="line"># 安装完成之后重启服务器</span><br><span class="line">$ reboot</span><br><span class="line"></span><br><span class="line"># 查看bbr是否安装并启动成功</span><br><span class="line">$ lsmod | grep bbr</span><br></pre></td></tr></table></figure>
+<h3><span id="安装步骤">安装步骤</span></h3>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"># 获取一键安装脚本</span><br><span class="line">$ wget --no-check-certificate https://raw.githubusercontent.com/teddysun/shadowsocks_install/master/shadowsocks-all.sh</span><br><span class="line"></span><br><span class="line"># 修改脚本的权限</span><br><span class="line">$ chmod +x shadowsocks-all.sh</span><br><span class="line"></span><br><span class="line"># 执行脚本</span><br><span class="line">$ ./shadowsocks-all.sh</span><br><span class="line"></span><br><span class="line"># 执行后，会提示输入源码语言，密码、端口、及加密方式等。（语言我选的python，端口是12217，加密方式我这里选择aes-256-cfb）</span><br><span class="line"></span><br><span class="line"># 执行成功后的日志(大概需要等一到三分钟左右)</span><br><span class="line">INFO: loading config from /etc/shadowsocks-python/config.json</span><br><span class="line">2019-01-22 00:30:27 INFO     loading libcrypto from libcrypto.so.10</span><br><span class="line">Starting Shadowsocks success</span><br><span class="line"></span><br><span class="line">Congratulations, Shadowsocks-Python server install completed!</span><br><span class="line">Your Server IP        :  57.90.221.76 </span><br><span class="line">Your Server Port      :  12217</span><br><span class="line">Your Password         :  123456 </span><br><span class="line">Your Encryption Method:  aes-256-cfb </span><br><span class="line"></span><br><span class="line">Your QR Code: (For Shadowsocks Windows, OSX, Android and iOS clients)</span><br><span class="line"> ss://YWVzLTI1Ni1jZmI6MDYyMDE1QDQ3LjkwLjI1MS43NjoxMDIxNQ== </span><br><span class="line">Your QR Code has been saved as a PNG file path:</span><br><span class="line"> /root/shadowsocks_python_qr.png </span><br><span class="line"></span><br><span class="line">Welcome to visit: https://teddysun.com/486.html</span><br><span class="line">Enjoy it!</span><br></pre></td></tr></table></figure>
+<h2><span id="安装google的bbr加速">安装google的bbr加速</span></h2>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"># 关闭系统的防火墙</span><br><span class="line">$ service stop firewalld.service</span><br><span class="line"></span><br><span class="line"># 修改阿里云安全组配置开放刚才暴露的端口后重启服务器即可</span><br><span class="line"></span><br><span class="line"># 下载安装脚本</span><br><span class="line">$ wget --no-check-certificate https://github.com/teddysun/across/raw/master/bbr.sh</span><br><span class="line"></span><br><span class="line"># 修改脚本的权限</span><br><span class="line">$ chmod u+x bbr.sh</span><br><span class="line"></span><br><span class="line"># 执行脚本安装谷歌BBR加速</span><br><span class="line">$ ./bbr.sh</span><br><span class="line"></span><br><span class="line"># 安装完成之后重启服务器</span><br><span class="line">$ reboot</span><br><span class="line"></span><br><span class="line"># 查看bbr是否安装并启动成功</span><br><span class="line">$ lsmod | grep bbr</span><br></pre></td></tr></table></figure>
                 
 
                 <hr>
@@ -233,12 +237,12 @@ Shadowsocks的运行原理与其他代理工具基本相同，使用特定的中
                 <ul class="pager">
                     
                         <li class="previous">
-                            <a href="/article/sed/" data-toggle="tooltip" data-placement="top" title="Sed">&larr; Previous Post</a>
+                            <a href="/article/java-pay/" data-toggle="tooltip" data-placement="top" title="java 第三方支付">&larr; Previous Post</a>
                         </li>
                     
                     
                         <li class="next">
-                            <a href="/article/CentOS-7.5-init/" data-toggle="tooltip" data-placement="top" title="ContOS">Next Post &rarr;</a>
+                            <a href="/article/CentOS-7.5-init/" data-toggle="tooltip" data-placement="top" title="CentOS">Next Post &rarr;</a>
                         </li>
                     
                 </ul>
@@ -288,7 +292,7 @@ Shadowsocks的运行原理与其他代理工具基本相同，使用特定的中
         <div id="toc" class="toc-article">
         <strong class="toc-title">Contents</strong>
         
-          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.</span> <span class="toc-nav-text"><span id="&#x642D;&#x5EFA;shadowsocks-server">&#x642D;&#x5EFA;shadowsocks server</span></span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text"><span id="&#x4EC0;&#x4E48;&#x662F;shadowsocks">&#x4EC0;&#x4E48;&#x662F;shadowsocks</span></span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.2.</span> <span class="toc-nav-text"><span id="&#x642D;&#x5EFA;&#x6559;&#x7A0B;">&#x642D;&#x5EFA;&#x6559;&#x7A0B;</span></span></a></li></ol></li></ol>
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.</span> <span class="toc-nav-text"><span id="&#x642D;&#x5EFA;shadowsocks-server">&#x642D;&#x5EFA;shadowsocks server</span></span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text"><span id="&#x4EC0;&#x4E48;&#x662F;shadowsocks">&#x4EC0;&#x4E48;&#x662F;shadowsocks</span></span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.2.</span> <span class="toc-nav-text"><span id="&#x642D;&#x5EFA;&#x6559;&#x7A0B;">&#x642D;&#x5EFA;&#x6559;&#x7A0B;</span></span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.2.1.</span> <span class="toc-nav-text"><span id="&#x7CFB;&#x7EDF;&#x73AF;&#x5883;">&#x7CFB;&#x7EDF;&#x73AF;&#x5883;</span></span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.2.2.</span> <span class="toc-nav-text"><span id="&#x5B89;&#x88C5;&#x6B65;&#x9AA4;">&#x5B89;&#x88C5;&#x6B65;&#x9AA4;</span></span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.3.</span> <span class="toc-nav-text"><span id="&#x5B89;&#x88C5;google&#x7684;bbr&#x52A0;&#x901F;">&#x5B89;&#x88C5;google&#x7684;bbr&#x52A0;&#x901F;</span></span></a></li></ol></li></ol>
         
         </div>
       </aside>
@@ -308,7 +312,7 @@ Shadowsocks的运行原理与其他代理工具基本相同，使用特定的中
                     <h5><a href="/tags/">FEATURED TAGS</a></h5>
                     <div class="tags">
                        
-                          <a class="tag" href="/tags/#Shadowsocks" title="Shadowsocks">Shadowsocks</a>
+                          <a class="tag" href="/tags/#shadowsocks" title="shadowsocks">shadowsocks</a>
                         
                     </div>
                 </section>
@@ -321,11 +325,13 @@ Shadowsocks的运行原理与其他代理工具基本相同，使用特定的中
                 <ul class="list-inline">
 
                     
-                        <li><a href="http://blog.csdn.net/fooelliot" target="_blank">CSDN Blog fooelliot</a></li>
+                        <li><a href="http://blog.csdn.net/fooelliot" target="_blank">CSDN fooelliot</a></li>
                     
                         <li><a href="http://github.com/janlle" target="_blank">GitHub janlle</a></li>
                     
                         <li><a href="https://www.cnblogs.com/ruolin/" target="_blank">博客园 janlle</a></li>
+                    
+                        <li><a href="https://www.jianshu.com/u/2c8b6b4a6523" target="_blank">简书 janlle</a></li>
                     
                 </ul>
                 

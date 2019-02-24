@@ -14,7 +14,7 @@
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     <title>
         
-          crontab - leone | Blog
+          Crontab - leone | Blog
         
     </title>
 
@@ -92,14 +92,14 @@
                             
                               <a class="tag" href="/tags/#运维" title="运维">运维</a>
                             
-                              <a class="tag" href="/tags/#Docker" title="Docker">Docker</a>
+                              <a class="tag" href="/tags/#crontab" title="crontab">crontab</a>
                             
                         </div>
-                        <h1>crontab</h1>
-                        <h2 class="subheading">crontab 简介及入门</h2>
+                        <h1>Crontab</h1>
+                        <h2 class="subheading">Crontab 简介及入门</h2>
                         <span class="meta">
                             Posted by leone on
-                            2018-09-18
+                            2018-08-18
                         </span>
                     </div>
                 
@@ -216,9 +216,9 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-                <h1><span id="crontab">crontab</span></h1>
-<h2><span id="crontab简介">crontab简介</span></h2>
-<p>crond是linux下用来周期性的执行某种任务或等待处理某些事件的一个守护进程，与windows下的计划任务类似，当安装完成操作系统后，默认会安装此服务工具，并且会自动启动crond进程，crond进程每分钟会定期检查是否有要执行的任务，如果有要执行的任务，则自动执行该任务。Linux下的任务调度分为两类，系统任务调度和用户任务调度。</p>
+                <h1><span id="crontab">Crontab</span></h1>
+<h2><span id="crontab简介">Crontab简介</span></h2>
+<p>Crond是linux下用来周期性的执行某种任务或等待处理某些事件的一个守护进程，与windows下的计划任务类似，当安装完成操作系统后，默认会安装此服务工具，并且会自动启动crond进程，crond进程每分钟会定期检查是否有要执行的任务，如果有要执行的任务，则自动执行该任务。Linux下的任务调度分为两类，系统任务调度和用户任务调度。</p>
 <p>系统任务调度：系统周期性所要执行的工作，比如写缓存数据到硬盘、日志清理等。在/etc目录下有一个crontab文件，这个就是系统任务调度的配置文件。</p>
 <p>/etc/crontab文件包括下面几行：</p>
 <p>[root@localhost ~]# cat /etc/crontab</p>
@@ -417,12 +417,12 @@
                 <ul class="pager">
                     
                         <li class="previous">
-                            <a href="/article/Docker/" data-toggle="tooltip" data-placement="top" title="Docker">&larr; Previous Post</a>
+                            <a href="/article/Awk/" data-toggle="tooltip" data-placement="top" title="AWK">&larr; Previous Post</a>
                         </li>
                     
                     
                         <li class="next">
-                            <a href="/article/Lucene/" data-toggle="tooltip" data-placement="top" title="Lucene">Next Post &rarr;</a>
+                            <a href="/article/Spark-Core/" data-toggle="tooltip" data-placement="top" title="Spark Core">Next Post &rarr;</a>
                         </li>
                     
                 </ul>
@@ -472,7 +472,7 @@
         <div id="toc" class="toc-article">
         <strong class="toc-title">Contents</strong>
         
-          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.</span> <span class="toc-nav-text"><span id="crontab">crontab</span></span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text"><span id="crontab&#x7B80;&#x4ECB;">crontab&#x7B80;&#x4ECB;</span></span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.2.</span> <span class="toc-nav-text"><span id="crontab-&#x6587;&#x4EF6;&#x7684;&#x542B;&#x4E49;">crontab &#x6587;&#x4EF6;&#x7684;&#x542B;&#x4E49;</span></span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.3.</span> <span class="toc-nav-text"><span id="crond&#x670D;&#x52A1;">crond&#x670D;&#x52A1;</span></span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.4.</span> <span class="toc-nav-text"><span id="crontab&#x547D;&#x4EE4;&#x8BE6;&#x89E3;">crontab&#x547D;&#x4EE4;&#x8BE6;&#x89E3;</span></span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.5.</span> <span class="toc-nav-text"><span id="&#x521B;&#x5EFA;&#x4E00;&#x4E2A;&#x65B0;&#x7684;crontab&#x6587;&#x4EF6;">&#x521B;&#x5EFA;&#x4E00;&#x4E2A;&#x65B0;&#x7684;crontab&#x6587;&#x4EF6;</span></span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.6.</span> <span class="toc-nav-text"><span id="&#x7F16;&#x8F91;crontab&#x6587;&#x4EF6;">&#x7F16;&#x8F91;crontab&#x6587;&#x4EF6;</span></span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.7.</span> <span class="toc-nav-text"><span id="&#x5220;&#x9664;crontab&#x6587;&#x4EF6;">&#x5220;&#x9664;crontab&#x6587;&#x4EF6;</span></span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.8.</span> <span class="toc-nav-text"><span id="&#x6062;&#x590D;&#x4E22;&#x5931;&#x7684;crontab&#x6587;&#x4EF6;">&#x6062;&#x590D;&#x4E22;&#x5931;&#x7684;crontab&#x6587;&#x4EF6;</span></span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.9.</span> <span class="toc-nav-text"><span id="&#x4F7F;&#x7528;&#x5B9E;&#x4F8B;">&#x4F7F;&#x7528;&#x5B9E;&#x4F8B;</span></span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.10.</span> <span class="toc-nav-text"><span id="&#x4F7F;&#x7528;&#x6CE8;&#x610F;&#x4E8B;&#x9879;">&#x4F7F;&#x7528;&#x6CE8;&#x610F;&#x4E8B;&#x9879;</span></span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.10.1.</span> <span class="toc-nav-text"><span id="&#x6CE8;&#x610F;&#x73AF;&#x5883;&#x53D8;&#x91CF;&#x95EE;&#x9898;">&#x6CE8;&#x610F;&#x73AF;&#x5883;&#x53D8;&#x91CF;&#x95EE;&#x9898;</span></span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.11.</span> <span class="toc-nav-text"><span id="&#x6CE8;&#x610F;&#x6E05;&#x7406;&#x7CFB;&#x7EDF;&#x7528;&#x6237;&#x7684;&#x90AE;&#x4EF6;&#x65E5;&#x5FD7;">&#x6CE8;&#x610F;&#x6E05;&#x7406;&#x7CFB;&#x7EDF;&#x7528;&#x6237;&#x7684;&#x90AE;&#x4EF6;&#x65E5;&#x5FD7;</span></span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.12.</span> <span class="toc-nav-text"><span id="&#x7CFB;&#x7EDF;&#x7EA7;&#x4EFB;&#x52A1;&#x8C03;&#x5EA6;&#x4E0E;&#x7528;&#x6237;&#x7EA7;&#x4EFB;&#x52A1;&#x8C03;&#x5EA6;">&#x7CFB;&#x7EDF;&#x7EA7;&#x4EFB;&#x52A1;&#x8C03;&#x5EA6;&#x4E0E;&#x7528;&#x6237;&#x7EA7;&#x4EFB;&#x52A1;&#x8C03;&#x5EA6;</span></span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.13.</span> <span class="toc-nav-text"><span id="&#x5176;&#x4ED6;&#x6CE8;&#x610F;&#x4E8B;&#x9879;">&#x5176;&#x4ED6;&#x6CE8;&#x610F;&#x4E8B;&#x9879;</span></span></a></li></ol></li></ol>
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.</span> <span class="toc-nav-text"><span id="crontab">Crontab</span></span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text"><span id="crontab&#x7B80;&#x4ECB;">Crontab&#x7B80;&#x4ECB;</span></span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.2.</span> <span class="toc-nav-text"><span id="crontab-&#x6587;&#x4EF6;&#x7684;&#x542B;&#x4E49;">crontab &#x6587;&#x4EF6;&#x7684;&#x542B;&#x4E49;</span></span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.3.</span> <span class="toc-nav-text"><span id="crond&#x670D;&#x52A1;">crond&#x670D;&#x52A1;</span></span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.4.</span> <span class="toc-nav-text"><span id="crontab&#x547D;&#x4EE4;&#x8BE6;&#x89E3;">crontab&#x547D;&#x4EE4;&#x8BE6;&#x89E3;</span></span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.5.</span> <span class="toc-nav-text"><span id="&#x521B;&#x5EFA;&#x4E00;&#x4E2A;&#x65B0;&#x7684;crontab&#x6587;&#x4EF6;">&#x521B;&#x5EFA;&#x4E00;&#x4E2A;&#x65B0;&#x7684;crontab&#x6587;&#x4EF6;</span></span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.6.</span> <span class="toc-nav-text"><span id="&#x7F16;&#x8F91;crontab&#x6587;&#x4EF6;">&#x7F16;&#x8F91;crontab&#x6587;&#x4EF6;</span></span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.7.</span> <span class="toc-nav-text"><span id="&#x5220;&#x9664;crontab&#x6587;&#x4EF6;">&#x5220;&#x9664;crontab&#x6587;&#x4EF6;</span></span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.8.</span> <span class="toc-nav-text"><span id="&#x6062;&#x590D;&#x4E22;&#x5931;&#x7684;crontab&#x6587;&#x4EF6;">&#x6062;&#x590D;&#x4E22;&#x5931;&#x7684;crontab&#x6587;&#x4EF6;</span></span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.9.</span> <span class="toc-nav-text"><span id="&#x4F7F;&#x7528;&#x5B9E;&#x4F8B;">&#x4F7F;&#x7528;&#x5B9E;&#x4F8B;</span></span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.10.</span> <span class="toc-nav-text"><span id="&#x4F7F;&#x7528;&#x6CE8;&#x610F;&#x4E8B;&#x9879;">&#x4F7F;&#x7528;&#x6CE8;&#x610F;&#x4E8B;&#x9879;</span></span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.10.1.</span> <span class="toc-nav-text"><span id="&#x6CE8;&#x610F;&#x73AF;&#x5883;&#x53D8;&#x91CF;&#x95EE;&#x9898;">&#x6CE8;&#x610F;&#x73AF;&#x5883;&#x53D8;&#x91CF;&#x95EE;&#x9898;</span></span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.11.</span> <span class="toc-nav-text"><span id="&#x6CE8;&#x610F;&#x6E05;&#x7406;&#x7CFB;&#x7EDF;&#x7528;&#x6237;&#x7684;&#x90AE;&#x4EF6;&#x65E5;&#x5FD7;">&#x6CE8;&#x610F;&#x6E05;&#x7406;&#x7CFB;&#x7EDF;&#x7528;&#x6237;&#x7684;&#x90AE;&#x4EF6;&#x65E5;&#x5FD7;</span></span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.12.</span> <span class="toc-nav-text"><span id="&#x7CFB;&#x7EDF;&#x7EA7;&#x4EFB;&#x52A1;&#x8C03;&#x5EA6;&#x4E0E;&#x7528;&#x6237;&#x7EA7;&#x4EFB;&#x52A1;&#x8C03;&#x5EA6;">&#x7CFB;&#x7EDF;&#x7EA7;&#x4EFB;&#x52A1;&#x8C03;&#x5EA6;&#x4E0E;&#x7528;&#x6237;&#x7EA7;&#x4EFB;&#x52A1;&#x8C03;&#x5EA6;</span></span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.13.</span> <span class="toc-nav-text"><span id="&#x5176;&#x4ED6;&#x6CE8;&#x610F;&#x4E8B;&#x9879;">&#x5176;&#x4ED6;&#x6CE8;&#x610F;&#x4E8B;&#x9879;</span></span></a></li></ol></li></ol>
         
         </div>
       </aside>
@@ -496,7 +496,7 @@
                         
                           <a class="tag" href="/tags/#运维" title="运维">运维</a>
                         
-                          <a class="tag" href="/tags/#Docker" title="Docker">Docker</a>
+                          <a class="tag" href="/tags/#crontab" title="crontab">crontab</a>
                         
                     </div>
                 </section>
@@ -509,11 +509,13 @@
                 <ul class="list-inline">
 
                     
-                        <li><a href="http://blog.csdn.net/fooelliot" target="_blank">CSDN Blog fooelliot</a></li>
+                        <li><a href="http://blog.csdn.net/fooelliot" target="_blank">CSDN fooelliot</a></li>
                     
                         <li><a href="http://github.com/janlle" target="_blank">GitHub janlle</a></li>
                     
                         <li><a href="https://www.cnblogs.com/ruolin/" target="_blank">博客园 janlle</a></li>
+                    
+                        <li><a href="https://www.jianshu.com/u/2c8b6b4a6523" target="_blank">简书 janlle</a></li>
                     
                 </ul>
                 

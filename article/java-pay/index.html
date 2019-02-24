@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/ironman-draw.png">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <title>
+        
+          java 第三方支付 - leone | Blog
+        
+    </title>
+
+    <link rel="canonical" href="http://www.wealip.cn/article/java-pay/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS --> 
+    <link rel="stylesheet" href="/css/beantech.min.css">
+
+    <link rel="stylesheet" href="/css/donate.css">
+    
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <link rel="stylesheet" href="/css/widget.css">
+
+    <link rel="stylesheet" href="/css/rocket.css">
+
+    <link rel="stylesheet" href="/css/signature.css">
+
+    <link rel="stylesheet" href="/css/toc.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        
+            background-image: url('/img/article_header/article_header.png')
+            /*post*/
+        
+    }
+    
+</style>
+
+<header class="intro-header" >
+    <!-- Signature -->
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#java" title="java">java</a>
+                            
+                              <a class="tag" href="/tags/#支付" title="支付">支付</a>
+                            
+                        </div>
+                        <h1>java 第三方支付</h1>
+                        <h2 class="subheading">微信、支付宝各种支付退款</h2>
+                        <span class="meta">
+                            Posted by leone on
+                            2018-06-29
+                        </span>
+                    </div>
+                
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">leone</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archive/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h1><span id="java-版微信-支付宝各种支付退款">java 版微信、支付宝各种支付退款</span></h1>
+<p><strong>前言</strong></p>
+<p>最近整理了一下自己做过的各种支付退款的业务，并整理如下，只是大致思路代码不保证百分百没有问题但是都是经过我以前实际验证过并投入生产环境的，省略了一些和支付无关的业务流程。</p>
+<h4><span id="java-微信app支付">java 微信App支付</span></h4>
+<ul>
+<li>参考时序图了解大致流程。</li>
+</ul>
+<p>微信<a href="https://pay.weixin.qq.com/wiki/doc/api/app/app.php?chapter=8_1" target="_blank" rel="noopener">App支付文档</a></p>
+<ul>
+<li>
+<p>大致步骤：</p>
+<ul>
+<li>
+<p>步骤1：用户在商户APP中选择商品，提交订单，选择微信支付。</p>
+</li>
+<li>
+<p>步骤2：商户后台收到用户支付单，调用微信支付统一下单接口。参见<a href="https://pay.weixin.qq.com/wiki/doc/api/app/app.php?chapter=9_1" target="_blank" rel="noopener">统一下单API</a>。</p>
+</li>
+<li>
+<p>步骤3：统一下单接口返回正常的prepay_id，再按签名规范重新生成签名后，将数据传输给APP。参与签名的字段名为appid，partnerid，prepayid，noncestr，timestamp，package。注意：package的值格式为Sign=WXPay</p>
+</li>
+<li>
+<p>步骤4：商户APP调起微信支付。api参见本章节<a href="https://pay.weixin.qq.com/wiki/doc/api/app/app.php?chapter=8_5" target="_blank" rel="noopener">app端开发步骤说明</a></p>
+</li>
+<li>
+<p>步骤5：商户后台接收支付通知。api参见<a href="https://pay.weixin.qq.com/wiki/doc/api/app/app.php?chapter=9_7" target="_blank" rel="noopener">支付结果通知API</a></p>
+</li>
+<li>
+<p>步骤6：商户后台查询支付结果。，api参见<a href="https://pay.weixin.qq.com/wiki/doc/api/app/app.php?chapter=9_2" target="_blank" rel="noopener">查询订单API</a></p>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>
+<p>java 服务端预下单代码如下</p>
+<ul>
+<li>预下单业务逻辑</li>
+</ul>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * 微信App支付</span><br><span class="line"> *</span><br><span class="line"> * @param request</span><br><span class="line"> * @param orderId</span><br><span class="line"> */</span><br><span class="line">public Map&lt;String, String&gt; appPay(HttpServletRequest request, Long orderId) &#123;</span><br><span class="line">    Order order = orderService.findOne(orderId);</span><br><span class="line">    if (order.getStatus() != OrderStatusEnum.CREATE.getStatus()) &#123;</span><br><span class="line">        log.error(&quot;order status error orderId:&#123;&#125;&quot;, orderId);</span><br><span class="line">        return null;</span><br><span class="line">    &#125;</span><br><span class="line">    String spbill_create_ip = AppUtil.getIpAddress(request);</span><br><span class="line">    if (!AppUtil.isIp(spbill_create_ip)) &#123;</span><br><span class="line">        spbill_create_ip = &quot;127.0.0.1&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">    String nonce_str = 1 + RandomUtil.getStr(12);</span><br><span class="line">    // 微信app支付十个必须要传入的参数</span><br><span class="line">    Map&lt;String, String&gt; params = new HashMap&lt;&gt;();</span><br><span class="line">    // appId</span><br><span class="line">    params.put(&quot;appid&quot;, appProperties.getWx().getApp_id());</span><br><span class="line">    // 微信支付商户号</span><br><span class="line">    params.put(&quot;mch_id&quot;, appProperties.getWx().getMch_id());</span><br><span class="line">    // 随机字符串</span><br><span class="line">    params.put(&quot;nonce_str&quot;, nonce_str);</span><br><span class="line">    // 商品描述</span><br><span class="line">    params.put(&quot;body&quot;, &quot;App weChat pay!&quot;);</span><br><span class="line">    // 商户订单号</span><br><span class="line">    params.put(&quot;out_trade_no&quot;, order.getOutTradeNo());</span><br><span class="line">    // 总金额(分)</span><br><span class="line">    params.put(&quot;total_fee&quot;, order.getTotalFee().toString());</span><br><span class="line">    // 订单生成的机器IP，指用户浏览器端IP</span><br><span class="line">    params.put(&quot;spbill_create_ip&quot;, spbill_create_ip);</span><br><span class="line">    // 回调url</span><br><span class="line">    params.put(&quot;notify_url&quot;, appProperties.getWx().getNotify_url());</span><br><span class="line">    // 交易类型:JS_API=公众号支付、NATIVE=扫码支付、APP=app支付</span><br><span class="line">    params.put(&quot;trade_type&quot;, &quot;APP&quot;);</span><br><span class="line">    // 签名</span><br><span class="line">    String sign = AppUtil.createSign(params, appProperties.getWx().getApi_key());</span><br><span class="line">    params.put(&quot;sign&quot;, &quot;sign&quot;);</span><br><span class="line">    String xmlData = AppUtil.mapToXml(params);</span><br><span class="line">    String wxRetXmlData = HttpUtil.sendPostXml(appProperties.getWx().getCreate_order(), xmlData, null);</span><br><span class="line">    Map retData = AppUtil.xmlToMap(wxRetXmlData);</span><br><span class="line">    log.info(&quot;微信返回信息:&#123;&#125;&quot;, retData);</span><br><span class="line"></span><br><span class="line">    // 封装参数返回App端</span><br><span class="line">    Map&lt;String, String&gt; result = new HashMap&lt;&gt;();</span><br><span class="line">    result.put(&quot;appid&quot;, appProperties.getWx().getApp_id());</span><br><span class="line">    result.put(&quot;partnerid&quot;, appProperties.getWx().getMch_id());</span><br><span class="line">    result.put(&quot;prepayid&quot;, retData.get(&quot;prepay_id&quot;).toString());</span><br><span class="line">    result.put(&quot;noncestr&quot;, nonce_str);</span><br><span class="line">    result.put(&quot;timestamp&quot;, RandomUtil.getDateStr(13));</span><br><span class="line">    result.put(&quot;package&quot;, &quot;Sign=WXPay&quot;);</span><br><span class="line">    result.put(&quot;sign&quot;, AppUtil.createSign(result, appProperties.getWx().getApi_key()));</span><br><span class="line">    return result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<pre><code>- AppUtil.java
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br><span class="line">282</span><br><span class="line">283</span><br><span class="line">284</span><br><span class="line">285</span><br><span class="line">286</span><br><span class="line">287</span><br><span class="line">288</span><br><span class="line">289</span><br><span class="line">290</span><br><span class="line">291</span><br><span class="line">292</span><br><span class="line">293</span><br><span class="line">294</span><br><span class="line">295</span><br><span class="line">296</span><br><span class="line">297</span><br><span class="line">298</span><br><span class="line">299</span><br><span class="line">300</span><br><span class="line">301</span><br><span class="line">302</span><br><span class="line">303</span><br><span class="line">304</span><br></pre></td><td class="code"><pre><span class="line">import lombok.extern.slf4j.Slf4j;</span><br><span class="line">import org.w3c.dom.Document;</span><br><span class="line">import org.w3c.dom.Element;</span><br><span class="line">import org.w3c.dom.Node;</span><br><span class="line">import org.w3c.dom.NodeList;</span><br><span class="line"></span><br><span class="line">import javax.crypto.KeyGenerator;</span><br><span class="line">import javax.crypto.Mac;</span><br><span class="line">import javax.crypto.SecretKey;</span><br><span class="line">import javax.crypto.spec.SecretKeySpec;</span><br><span class="line">import javax.servlet.http.HttpServletRequest;</span><br><span class="line">import javax.xml.bind.JAXBContext;</span><br><span class="line">import javax.xml.bind.JAXBException;</span><br><span class="line">import javax.xml.bind.Unmarshaller;</span><br><span class="line">import javax.xml.bind.annotation.adapters.HexBinaryAdapter;</span><br><span class="line">import javax.xml.parsers.DocumentBuilder;</span><br><span class="line">import javax.xml.parsers.DocumentBuilderFactory;</span><br><span class="line">import java.io.*;</span><br><span class="line">import java.net.URLDecoder;</span><br><span class="line">import java.net.URLEncoder;</span><br><span class="line">import java.nio.charset.StandardCharsets;</span><br><span class="line">import java.security.MessageDigest;</span><br><span class="line">import java.util.*;</span><br><span class="line">import java.util.regex.Matcher;</span><br><span class="line">import java.util.regex.Pattern;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> - 项目常用工具</span><br><span class="line"> *</span><br><span class="line"> - @author Leone</span><br><span class="line"> - @since 2018-05-10</span><br><span class="line"> **/</span><br><span class="line">@Slf4j</span><br><span class="line">public class AppUtil &#123;</span><br><span class="line"></span><br><span class="line">    public static String urlEncoder(String value) &#123;</span><br><span class="line">        try &#123;</span><br><span class="line">            return URLEncoder.encode(value, StandardCharsets.UTF_8.displayName());</span><br><span class="line">        &#125; catch (UnsupportedEncodingException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        return null;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static String urlDecoder(String value) &#123;</span><br><span class="line">        try &#123;</span><br><span class="line">            return URLDecoder.decode(value, StandardCharsets.UTF_8.displayName());</span><br><span class="line">        &#125; catch (UnsupportedEncodingException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        return null;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     - 校验手机号</span><br><span class="line">     *</span><br><span class="line">     - @param phone</span><br><span class="line">     - @return</span><br><span class="line">     */</span><br><span class="line">    public static boolean isMobile(String phone) &#123;</span><br><span class="line">        Pattern pattern = Pattern.compile(&quot;^[1][3,4,5,7,8,9][0-9]&#123;9&#125;$&quot;);</span><br><span class="line">        Matcher matcher = pattern.matcher(phone);</span><br><span class="line">        return matcher.matches();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     - 匹配ip是否合法</span><br><span class="line">     *</span><br><span class="line">     - @param ip</span><br><span class="line">     - @return</span><br><span class="line">     */</span><br><span class="line">    public static Boolean isIp(String ip) &#123;</span><br><span class="line">        String re = &quot;([1-9]|[1-9]\\d|1\\d&#123;2&#125;|2[0-4]\\d|25[0-5])(\\.(\\d|[1-9]\\d|1\\d&#123;2&#125;|2[0-4]\\d|25[0-5]))&#123;3&#125;&quot;;</span><br><span class="line">        Pattern pattern = Pattern.compile(re);</span><br><span class="line">        Matcher matcher = pattern.matcher(ip);</span><br><span class="line">        return matcher.matches();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     - 支付参数生成签名</span><br><span class="line">     *</span><br><span class="line">     - @param params</span><br><span class="line">     - @param apiKey</span><br><span class="line">     - @return</span><br><span class="line">     */</span><br><span class="line">    public static String createSign(Map&lt;String, String&gt; params, String apiKey) &#123;</span><br><span class="line">        StringBuilder sb = new StringBuilder();</span><br><span class="line">        Set&lt;Map.Entry&lt;String, String&gt;&gt; set = params.entrySet();</span><br><span class="line">        for (Map.Entry&lt;String, String&gt; entry : set) &#123;</span><br><span class="line">            String k = entry.getKey();</span><br><span class="line">            Object v = entry.getValue();</span><br><span class="line">            if (null != v &amp;&amp; !&quot;&quot;.equals(v) &amp;&amp; !&quot;sign&quot;.equals(k) &amp;&amp; !&quot;key&quot;.equals(k)) &#123;</span><br><span class="line">                sb.append(k).append(&quot;=&quot;).append(v).append(&quot;&amp;&quot;);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        sb.append(&quot;key=&quot;).append(apiKey);</span><br><span class="line">        return MD5(sb.toString()).toUpperCase();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     - 支付参数生成签名</span><br><span class="line">     *</span><br><span class="line">     - @param params</span><br><span class="line">     - @return</span><br><span class="line">     */</span><br><span class="line">    public static String createSign(Map&lt;String, String&gt; params) &#123;</span><br><span class="line">        StringBuilder sb = new StringBuilder();</span><br><span class="line">        Set&lt;Map.Entry&lt;String, String&gt;&gt; set = params.entrySet();</span><br><span class="line">        for (Map.Entry&lt;String, String&gt; entry : set) &#123;</span><br><span class="line">            String k = entry.getKey();</span><br><span class="line">            Object v = entry.getValue();</span><br><span class="line">        &#125;</span><br><span class="line">        return MD5(sb.toString()).toUpperCase();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     - 生成md5摘要</span><br><span class="line">     *</span><br><span class="line">     - @param content</span><br><span class="line">     - @return</span><br><span class="line">     */</span><br><span class="line">    public static String MD5(String content) &#123;</span><br><span class="line">        try &#123;</span><br><span class="line">            MessageDigest messageDigest = MessageDigest.getInstance(&quot;MD5&quot;);</span><br><span class="line">            messageDigest.update(content.getBytes(StandardCharsets.UTF_8));</span><br><span class="line">            byte[] hashCode = messageDigest.digest();</span><br><span class="line">            return new HexBinaryAdapter().marshal(hashCode).toLowerCase();</span><br><span class="line">        &#125; catch (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        return null;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     - 生成 HMAC_SHA256</span><br><span class="line">     *</span><br><span class="line">     - @param content</span><br><span class="line">     - @param api_key</span><br><span class="line">     - @return</span><br><span class="line">     - @throws Exception</span><br><span class="line">     */</span><br><span class="line">    public static String HMAC_SHA256(String content, String api_key) &#123;</span><br><span class="line">        try &#123;</span><br><span class="line">            KeyGenerator generator = KeyGenerator.getInstance(&quot;HmacSHA256&quot;);</span><br><span class="line">            SecretKey secretKey = generator.generateKey();</span><br><span class="line">            byte[] key = secretKey.getEncoded();</span><br><span class="line">            SecretKey secretKeySpec = new SecretKeySpec(api_key.getBytes(), &quot;HmacSHA256&quot;);</span><br><span class="line">            Mac mac = Mac.getInstance(secretKeySpec.getAlgorithm());</span><br><span class="line">            mac.init(secretKeySpec);</span><br><span class="line">            byte[] digest = mac.doFinal(content.getBytes());</span><br><span class="line">            return new HexBinaryAdapter().marshal(digest).toLowerCase();</span><br><span class="line">        &#125; catch (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        return null;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     - XML格式字符串转换为Map</span><br><span class="line">     *</span><br><span class="line">     - @param xmlStr</span><br><span class="line">     - @return</span><br><span class="line">     */</span><br><span class="line">    public static Map&lt;String, String&gt; xmlToMap(String xmlStr) &#123;</span><br><span class="line">        try (InputStream inputStream = new ByteArrayInputStream(xmlStr.getBytes(StandardCharsets.UTF_8))) &#123;</span><br><span class="line">            Map&lt;String, String&gt; data = new HashMap&lt;&gt;();</span><br><span class="line">            DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();</span><br><span class="line">            DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();</span><br><span class="line">            Document doc = documentBuilder.parse(inputStream);</span><br><span class="line">            doc.getDocumentElement().normalize();</span><br><span class="line">            NodeList nodeList = doc.getDocumentElement().getChildNodes();</span><br><span class="line">            for (int idx = 0; idx &lt; nodeList.getLength(); ++idx) &#123;</span><br><span class="line">                Node node = nodeList.item(idx);</span><br><span class="line">                if (node.getNodeType() == Node.ELEMENT_NODE) &#123;</span><br><span class="line">                    Element element = (Element) node;</span><br><span class="line">                    data.put(element.getNodeName(), element.getTextContent());</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            return data;</span><br><span class="line">        &#125; catch (Exception ex) &#123;</span><br><span class="line">            log.warn(&quot;xml convert to map failed message: &#123;&#125;&quot;, ex.getMessage());</span><br><span class="line">            return null;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     - map转换为xml格式</span><br><span class="line">     *</span><br><span class="line">     - @param params</span><br><span class="line">     - @return</span><br><span class="line">     */</span><br><span class="line">    public static String mapToXml(Map&lt;String, String&gt; params) &#123;</span><br><span class="line">        StringBuilder sb = new StringBuilder();</span><br><span class="line">        Set&lt;Map.Entry&lt;String, String&gt;&gt; es = params.entrySet();</span><br><span class="line">        Iterator&lt;Map.Entry&lt;String, String&gt;&gt; it = es.iterator();</span><br><span class="line">        sb.append(&quot;&lt;xml&gt;&quot;);</span><br><span class="line">        while (it.hasNext()) &#123;</span><br><span class="line">            Map.Entry&lt;String, String&gt; entry = it.next();</span><br><span class="line">            String k = entry.getKey();</span><br><span class="line">            Object v = entry.getValue();</span><br><span class="line">            sb.append(&quot;&lt;&quot;).append(k).append(&quot;&gt;&quot;).append(v).append(&quot;&lt;/&quot;).append(k).append(&quot;&gt;&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">        sb.append(&quot;&lt;/xml&gt;&quot;);</span><br><span class="line">        return sb.toString();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    public static void main(String[] args) throws Exception &#123;</span><br><span class="line">        System.out.println(MD5(&quot;hello&quot;));</span><br><span class="line">        String s = null;</span><br><span class="line">        System.out.println(Objects.nonNull(s));</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     - 获得request的ip</span><br><span class="line">     *</span><br><span class="line">     - @param request</span><br><span class="line">     - @return</span><br><span class="line">     */</span><br><span class="line">    public static String getIpAddress(HttpServletRequest request) &#123;</span><br><span class="line">        String ip = request.getHeader(&quot;X-Forwarded-For&quot;);</span><br><span class="line">        if (Objects.nonNull(ip) &amp;&amp; !&quot;unKnown&quot;.equalsIgnoreCase(ip)) &#123;</span><br><span class="line">            //多次反向代理后会有多个ip值，第一个ip才是真实ip</span><br><span class="line">            int index = ip.indexOf(&quot;,&quot;);</span><br><span class="line">            if (index != -1) &#123;</span><br><span class="line">                return ip.substring(0, index);</span><br><span class="line">            &#125; else &#123;</span><br><span class="line">                return ip;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        ip = request.getHeader(&quot;X-Real-IP&quot;);</span><br><span class="line">        if (Objects.nonNull(ip) &amp;&amp; !&quot;unKnown&quot;.equalsIgnoreCase(ip)) &#123;</span><br><span class="line">            return ip;</span><br><span class="line">        &#125;</span><br><span class="line">        return request.getRemoteAddr();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     - 过滤掉关键参数</span><br><span class="line">     *</span><br><span class="line">     - @param param</span><br><span class="line">     - @return</span><br><span class="line">     */</span><br><span class="line">    public static HashMap&lt;String, String&gt; paramFilter(Map&lt;String, String&gt; param) &#123;</span><br><span class="line">        HashMap&lt;String, String&gt; result = new HashMap&lt;&gt;();</span><br><span class="line">        if (param == null || param.size() &lt;= 0) &#123;</span><br><span class="line">            return result;</span><br><span class="line">        &#125;</span><br><span class="line">        for (String key : param.keySet()) &#123;</span><br><span class="line">            String value = param.get(key);</span><br><span class="line">            if (value == null || value.equals(&quot;&quot;) || key.equalsIgnoreCase(&quot;sign&quot;) || key.equalsIgnoreCase(&quot;sign_type&quot;)) &#123;</span><br><span class="line">                continue;</span><br><span class="line">            &#125;</span><br><span class="line">            result.put(key, value);</span><br><span class="line">        &#125;</span><br><span class="line">        return result;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     - 把Request中的数据解析为xml</span><br><span class="line">     *</span><br><span class="line">     - @param request</span><br><span class="line">     - @return</span><br><span class="line">     */</span><br><span class="line">    public static String requestDataToXml(HttpServletRequest request) &#123;</span><br><span class="line">        try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(request.getInputStream()))) &#123;</span><br><span class="line">            String line;</span><br><span class="line">            StringBuilder sb = new StringBuilder();</span><br><span class="line">            while ((line = bufferedReader.readLine()) != null) &#123;</span><br><span class="line">                sb.append(line);</span><br><span class="line">            &#125;</span><br><span class="line">            return sb.toString();</span><br><span class="line">        &#125; catch (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        return null;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     - xml 转换 bean</span><br><span class="line">     *</span><br><span class="line">     - @param clazz</span><br><span class="line">     - @param xml</span><br><span class="line">     - @param &lt;T&gt;</span><br><span class="line">     - @return</span><br><span class="line">     */</span><br><span class="line">    public static &lt;T&gt; T xmlToBean(Class&lt;T&gt; clazz, String xml) &#123;</span><br><span class="line">        try &#123;</span><br><span class="line">            JAXBContext context = JAXBContext.newInstance(clazz);</span><br><span class="line">            Unmarshaller unmarshaller = context.createUnmarshaller();</span><br><span class="line">            return (T) unmarshaller.unmarshal(new StringReader(xml));</span><br><span class="line">        &#125; catch (JAXBException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        return null;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+- App端的到json格式的数据调用本地微信App，json格式如下
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line"> &quot;appId&quot;:&quot;wxxxx&quot;,</span><br><span class="line"> &quot;partnerid&quot;:&quot;xxxx&quot;,</span><br><span class="line"> &quot;noncestr&quot;:&quot;f7382ae04f15cf4e5fd5fbecf342&quot;,</span><br><span class="line"> &quot;prepayid&quot;:&quot;xxxx&quot;,</span><br><span class="line"> &quot;timeStamp&quot;:&quot;20180906095441&quot;</span><br><span class="line"> &quot;package&quot;:&quot;Sign=WXPay&quot;,</span><br><span class="line"> &quot;sign&quot;:&quot;AE3E21CCB1DF50B65A0531000E9EF788&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</code></pre>
+<blockquote>
+<p>App端用户支付成功后微信会发起异步回调，回调url是我们发起支付时设置的url我们在回调业务中做对应的保存流水等业务并向微信响应收到异步通知不然微信会一直调用异步通知方法会使流水信息保存多次等情况。</p>
+</blockquote>
+<ul>
+<li>支付回调</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * 微信支付回调</span><br><span class="line"> *</span><br><span class="line"> * @param request</span><br><span class="line"> * @param response</span><br><span class="line"> * @throws IOException</span><br><span class="line"> */</span><br><span class="line">public void notifyOrder(HttpServletRequest request, HttpServletResponse response) throws IOException &#123;</span><br><span class="line">    String resXml = &quot;&lt;xml&gt;&lt;return_code&gt;&lt;![CDATA[SUCCESS]]&gt;&quot; +</span><br><span class="line">            &quot;&lt;/return_code&gt;&lt;return_msg&gt;&lt;![CDATA[OK]]&gt;&lt;/return_msg&gt;&lt;/xml&gt;&quot;;</span><br><span class="line">    BufferedOutputStream out = new BufferedOutputStream(response.getOutputStream());</span><br><span class="line">    out.write(resXml.getBytes());</span><br><span class="line">    out.flush();</span><br><span class="line">    out.close();</span><br><span class="line">    log.info(&quot;wx notify success&quot;);</span><br><span class="line">    // 保存流水信息</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>待完善。。。</p>
+<h4><span id="java-微信小程序支付">java 微信小程序支付</span></h4>
+<ul>
+<li>
+<p>小程序支付开发步骤参见<a href="https://pay.weixin.qq.com/wiki/doc/api/wxa/wxa_api.php?chapter=7_3&amp;index=1" target="_blank" rel="noopener">官方文档</a></p>
+</li>
+<li>
+<p>开发前你需要有微信公众平台的账号、已注册好的小程序、微信商户平台等信息</p>
+</li>
+<li>
+<p>大致步骤<br>
+和App支付差不多，后台向微信发起预下单，需要appid、商户号、api_key、等一些必要的参数调用微信的统一下单接口返回对应的信息，然后我们需要自己从微信那边返回的信息中拿到prepay_id这个字段然后封装一些其他的信息如appid、时间戳、随机字符串、paySign等返回到前端，前端拿到这些参数调用微信App的支付，当用户支付成功后微信会发起异步回调，然后后台收到回调向微信响应回调成功。</p>
+</li>
+<li>
+<p>java服务端业务逻辑</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * 微信小程序支付</span><br><span class="line"> *</span><br><span class="line"> * @param orderId</span><br><span class="line"> * @param request</span><br><span class="line"> */</span><br><span class="line">public Map xcxPay(Long orderId, HttpServletRequest request) &#123;</span><br><span class="line">    Order order = orderService.findOne(orderId);</span><br><span class="line">    User user = userService.findOne(order.getUserId());</span><br><span class="line">    String nonce_str = RandomUtil.getNum(12);</span><br><span class="line">    String outTradeNo = 1 + RandomUtil.getNum(11);</span><br><span class="line">    String spbill_create_ip = AppUtil.getIpAddress(request);</span><br><span class="line">    if (!AppUtil.isIp(spbill_create_ip)) &#123;</span><br><span class="line">        spbill_create_ip = &quot;127.0.0.1&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">    // 小程序支付需要参数</span><br><span class="line">    SortedMap&lt;String, String&gt; reqMap = new TreeMap&lt;&gt;();</span><br><span class="line">    reqMap.put(&quot;appid&quot;, appProperties.getWx().getApp_id());</span><br><span class="line">    reqMap.put(&quot;mch_id&quot;, appProperties.getWx().getMch_id());</span><br><span class="line">    reqMap.put(&quot;nonce_str&quot;, nonce_str);</span><br><span class="line">    reqMap.put(&quot;body&quot;, &quot;小程序支付&quot;);</span><br><span class="line">    reqMap.put(&quot;out_trade_no&quot;, outTradeNo);</span><br><span class="line">    reqMap.put(&quot;total_fee&quot;, order.getTotalFee().toString());</span><br><span class="line">    reqMap.put(&quot;spbill_create_ip&quot;, spbill_create_ip);</span><br><span class="line">    reqMap.put(&quot;notify_url&quot;, appProperties.getWx().getNotify_url());</span><br><span class="line">    reqMap.put(&quot;trade_type&quot;, appProperties.getWx().getTrade_type());</span><br><span class="line">    reqMap.put(&quot;openid&quot;, user.getOpenid());</span><br><span class="line">    String sign = AppUtil.createSign(reqMap, appProperties.getWx().getApi_key());</span><br><span class="line">    reqMap.put(&quot;sign&quot;, sign);</span><br><span class="line">    String xml = AppUtil.mapToXml(reqMap);</span><br><span class="line">    String result = HttpUtil.sendPostXml(appProperties.getWx().getCreate_order(), xml, null);</span><br><span class="line">    Map&lt;String, String&gt; resData = AppUtil.xmlToMap(result);</span><br><span class="line">    log.info(&quot;resData:&#123;&#125;&quot;, resData);</span><br><span class="line">    if (&quot;SUCCESS&quot;.equals(resData.get(&quot;return_code&quot;))) &#123;</span><br><span class="line">        Map&lt;String, String&gt; resultMap = new LinkedHashMap&lt;&gt;();</span><br><span class="line">        //返回的预付单信息</span><br><span class="line">        String prepay_id = resData.get(&quot;prepay_id&quot;);</span><br><span class="line">        resultMap.put(&quot;appId&quot;, appProperties.getWx().getApp_id());</span><br><span class="line">        resultMap.put(&quot;nonceStr&quot;, nonce_str);</span><br><span class="line">        resultMap.put(&quot;package&quot;, &quot;prepay_id=&quot; + prepay_id);</span><br><span class="line">        resultMap.put(&quot;signType&quot;, &quot;MD5&quot;);</span><br><span class="line">        resultMap.put(&quot;timeStamp&quot;, RandomUtil.getDateStr(14));</span><br><span class="line">        String paySign = AppUtil.createSign(resultMap, appProperties.getWx().getApi_key());</span><br><span class="line">        resultMap.put(&quot;paySign&quot;, paySign);</span><br><span class="line">        log.info(&quot;return data:&#123;&#125;&quot;, resultMap);</span><br><span class="line">        return resultMap;</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        throw new ValidateException(ExceptionMessage.WEI_XIN_PAY_FAIL);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>小程序端用户支付成功后微信会发起异步回调，回调url是我们发起支付时设置的url我们在回调业务中做对应的保存流水等业务并向微信响应收到异步通知不然微信会一直调用异步通知方法会使流水信息保存多次等情况。</p>
+</blockquote>
+<ul>
+<li>支付回调</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * 微信支付回调</span><br><span class="line"> *</span><br><span class="line"> * @param request</span><br><span class="line"> * @param response</span><br><span class="line"> * @throws IOException</span><br><span class="line"> */</span><br><span class="line">public void notifyOrder(HttpServletRequest request, HttpServletResponse response) throws IOException &#123;</span><br><span class="line">    String resXml = &quot;&lt;xml&gt;&lt;return_code&gt;&lt;![CDATA[SUCCESS]]&gt;&quot; +</span><br><span class="line">            &quot;&lt;/return_code&gt;&lt;return_msg&gt;&lt;![CDATA[OK]]&gt;&lt;/return_msg&gt;&lt;/xml&gt;&quot;;</span><br><span class="line">    BufferedOutputStream out = new BufferedOutputStream(response.getOutputStream());</span><br><span class="line">    out.write(resXml.getBytes());</span><br><span class="line">    out.flush();</span><br><span class="line">    out.close();</span><br><span class="line">    log.info(&quot;wx notify success&quot;);</span><br><span class="line">    // 保存流水信息</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4><span id="java-微信扫码支付">java 微信扫码支付</span></h4>
+<ul>
+<li><a href="https://pay.weixin.qq.com/wiki/doc/api/native.php?chapter=6_1" target="_blank" rel="noopener">场景介绍</a>参考微信官方文档。</li>
+</ul>
+<p>这里我们参考模式二，模式二与模式一相比，流程更为简单，不依赖设置的回调支付URL。商户后台系统先调用微信支付的统一下单接口，微信后台系统返回链接参数code_url，商户后台系统将code_url值生成二维码图片，用户使用微信客户端扫码后发起支付。注意：code_url有效期为2小时，过期后扫码不能再发起支付。</p>
+<ul>
+<li>
+<p>大致流程</p>
+<ul>
+<li>
+<p>（1）商户后台系统根据用户选购的商品生成订单。</p>
+</li>
+<li>
+<p>（2）用户确认支付后调用微信支付<a href="https://pay.weixin.qq.com/wiki/doc/api/native.php?chapter=9_1" target="_blank" rel="noopener">统一下单API</a>生成预支付交易；</p>
+</li>
+<li>
+<p>（3）微信支付系统收到请求后生成预支付交易单，并返回交易会话的二维码链接code_url。</p>
+</li>
+<li>
+<p>（4）商户后台系统根据返回的code_url生成二维码。</p>
+</li>
+<li>
+<p>（5）用户打开微信“扫一扫”扫描二维码，微信客户端将扫码内容发送到微信支付系统。</p>
+</li>
+<li>
+<p>（6）微信支付系统收到客户端请求，验证链接有效性后发起用户支付，要求用户授权。</p>
+</li>
+<li>
+<p>（7）用户在微信客户端输入密码，确认支付后，微信客户端提交授权。</p>
+</li>
+<li>
+<p>（8）微信支付系统根据用户授权完成支付交易。</p>
+</li>
+<li>
+<p>（9）微信支付系统完成支付交易后给微信客户端返回交易结果，并将交易结果通过短信、微信消息提示用户。微信客户端展示支付交易结果页面。</p>
+</li>
+<li>
+<p>（10）微信支付系统通过发送异步消息通知商户后台系统支付结果。商户后台系统需回复接收情况，通知微信后台系统不再发送该单的支付通知。</p>
+</li>
+<li>
+<p>（11）未收到支付通知的情况，商户后台系统调用<a href="https://pay.weixin.qq.com/wiki/doc/api/native.php?chapter=9_1" target="_blank" rel="noopener">查询订单API</a>。</p>
+</li>
+<li>
+<p>（12）商户确认订单已支付后给用户发货。</p>
+</li>
+</ul>
+</li>
+<li>
+<p>后台发起支付业务方法</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * 微信扫码支付传入金额为分</span><br><span class="line"> *</span><br><span class="line"> * @param totalFee</span><br><span class="line"> * @param response</span><br><span class="line"> * @param request</span><br><span class="line"> * @return</span><br><span class="line"> * @throws Exception</span><br><span class="line"> */</span><br><span class="line">public boolean qrCodePay(String totalFee, HttpServletResponse response,</span><br><span class="line">                         HttpServletRequest request) &#123;</span><br><span class="line">    String nonce_str = RandomUtil.getStr(12);</span><br><span class="line">    String outTradeNo = 1 + RandomUtil.getNum(11);</span><br><span class="line">    String spbill_create_ip = AppUtil.getIpAddress(request);</span><br><span class="line">    if (!AppUtil.isIp(spbill_create_ip)) &#123;</span><br><span class="line">        spbill_create_ip = &quot;127.0.0.1&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">    Map&lt;String, String&gt; params = new TreeMap&lt;&gt;();</span><br><span class="line">    params.put(&quot;appid&quot;, appProperties.getWx().getApp_id());</span><br><span class="line">    params.put(&quot;mch_id&quot;, appProperties.getWx().getMch_id());</span><br><span class="line">    params.put(&quot;nonce_str&quot;, nonce_str);</span><br><span class="line">    params.put(&quot;body&quot;, &quot;微信扫码支付&quot;);</span><br><span class="line">    params.put(&quot;out_trade_no&quot;, outTradeNo);</span><br><span class="line">    params.put(&quot;total_fee&quot;, totalFee);</span><br><span class="line">    params.put(&quot;spbill_create_ip&quot;, spbill_create_ip);</span><br><span class="line">    params.put(&quot;notify_url&quot;, appProperties.getWx().getRefund_url());</span><br><span class="line">    params.put(&quot;trade_type&quot;, &quot;NATIVE&quot;);</span><br><span class="line">    String sign = AppUtil.createSign(params, appProperties.getWx().getApi_key());</span><br><span class="line">    params.put(&quot;sign&quot;, sign);</span><br><span class="line">    String requestXml = AppUtil.mapToXml(params);</span><br><span class="line">    String responseXml = HttpUtil.sendPostXml(appProperties.getWx().getCreate_order(), requestXml, null);</span><br><span class="line">    Map&lt;String, String&gt; respMap = AppUtil.xmlToMap(responseXml);</span><br><span class="line">    //return_code为微信返回的状态码，SUCCESS表示成功，return_msg 如非空，为错误原因 签名失败 参数格式校验错误</span><br><span class="line">    if (&quot;SUCCESS&quot;.equals(respMap.get(&quot;return_code&quot;)) &amp;&amp; &quot;SUCCESS&quot;.equals(respMap.get(&quot;result_code&quot;))) &#123;</span><br><span class="line">        log.info(&quot;wx pre pay success response:&#123;&#125;&quot;, respMap);</span><br><span class="line">        // 二维码中需要包含微信返回的信息</span><br><span class="line">        ImageCodeUtil.createQRCode(respMap.get(&quot;code_url&quot;), response);</span><br><span class="line">        // 保存订单信息</span><br><span class="line">        return true;</span><br><span class="line">    &#125;</span><br><span class="line">    log.error(&quot;wx pre pay error response:&#123;&#125;&quot;, respMap);</span><br><span class="line">    return false;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>创建二维码方法</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * 生成二维码并响应到浏览器</span><br><span class="line"> *</span><br><span class="line"> * @param content</span><br><span class="line"> * @param response</span><br><span class="line"> */</span><br><span class="line">public static void createQRCode(String content, HttpServletResponse response) &#123;</span><br><span class="line">    int width = 300, height = 300;</span><br><span class="line">    String format = &quot;png&quot;;</span><br><span class="line">    Map&lt;EncodeHintType, Object&gt; hashMap = new HashMap&lt;&gt;();</span><br><span class="line">    hashMap.put(EncodeHintType.CHARACTER_SET, StandardCharsets.UTF_8);</span><br><span class="line">    hashMap.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.M);</span><br><span class="line">    hashMap.put(EncodeHintType.MARGIN, 1);</span><br><span class="line">    try &#123;</span><br><span class="line">        response.setHeader(&quot;Cache-control&quot;, &quot;no-cache&quot;);</span><br><span class="line">        response.setHeader(&quot;Pragma&quot;, &quot;no-cache&quot;);</span><br><span class="line">        response.setHeader(&quot;content-type&quot;, &quot;image/png&quot;);</span><br><span class="line">        response.setCharacterEncoding(StandardCharsets.UTF_8.displayName());</span><br><span class="line">        response.setDateHeader(&quot;Expires&quot;, 0);</span><br><span class="line">        BitMatrix bitMatrix = new MultiFormatWriter()</span><br><span class="line">                .encode(content, BarcodeFormat.QR_CODE, width, height, hashMap);</span><br><span class="line">        BufferedImage img = MatrixToImageWriter.toBufferedImage(bitMatrix);</span><br><span class="line">        ImageIO.write(img, format, response.getOutputStream());</span><br><span class="line">    &#125; catch (Exception e) &#123;</span><br><span class="line">        log.warn(&quot;create QRCode error message:&#123;&#125;&quot;, e.getMessage());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>生成二维码用户扫码支付成功后微信会发起异步调用我们发起支付时设置的回调url我们在回调业务中做对应的保存流水等业务并向微信响应收到异步通知不然微信会一直调用异步通知方法会使流水信息保存多次等情况</p>
+</blockquote>
+<ul>
+<li>支付回调</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * 微信支付回调</span><br><span class="line"> *</span><br><span class="line"> * @param request</span><br><span class="line"> * @param response</span><br><span class="line"> * @throws IOException</span><br><span class="line"> */</span><br><span class="line">public void notifyOrder(HttpServletRequest request, HttpServletResponse response) throws IOException &#123;</span><br><span class="line">    String resXml = &quot;&lt;xml&gt;&lt;return_code&gt;&lt;![CDATA[SUCCESS]]&gt;&quot; +</span><br><span class="line">            &quot;&lt;/return_code&gt;&lt;return_msg&gt;&lt;![CDATA[OK]]&gt;&lt;/return_msg&gt;&lt;/xml&gt;&quot;;</span><br><span class="line">    BufferedOutputStream out = new BufferedOutputStream(response.getOutputStream());</span><br><span class="line">    out.write(resXml.getBytes());</span><br><span class="line">    out.flush();</span><br><span class="line">    out.close();</span><br><span class="line">    log.info(&quot;wx notify success&quot;);</span><br><span class="line">    // 保存流水信息</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4><span id="java-微信退款">java 微信退款</span></h4>
+<ul>
+<li>场景介绍</li>
+</ul>
+<p>当交易发生之后一段时间内，由于买家或者卖家的原因需要退款时，卖家可以通过退款接口将支付款退还给买家，微信支付将在收到退款请求并且验证成功之后，按照退款规则将支付款按原路退到买家帐号上。</p>
+<ul>
+<li>
+<p>注意：</p>
+<ul>
+<li>
+<p>1、交易时间超过一年的订单无法提交退款；</p>
+</li>
+<li>
+<p>2、微信支付退款支持单笔交易分多次退款，多次退款需要提交原支付订单的商户订单号和设置不同的退款单号。申请退款总金额不能超过订单金额。 一笔退款失败后重新提交，请不要更换退款单号，请使用原商户退款单号。</p>
+</li>
+<li>
+<p>3、请求频率限制：150qps，即每秒钟正常的申请退款请求次数不超过150次错误或无效请求频率限制：6qps，即每秒钟异常或错误的退款申请请求不超过6次</p>
+</li>
+<li>
+<p>4、每个支付订单的部分退款次数不能超过50次</p>
+</li>
+<li>
+<p>5、微信退款需要到微信商户平台下载证书，并配合证书一起使用。</p>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>java服务端代码</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line">     * 微信退款</span><br><span class="line">     *</span><br><span class="line">     * @param orderId</span><br><span class="line">     * @return</span><br><span class="line">     * @throws Exception</span><br><span class="line">     */</span><br><span class="line">    public boolean wxRefund(Long orderId) throws Exception &#123;</span><br><span class="line">        String nonceStr = RandomUtil.getStr(12);</span><br><span class="line">        String out_refund_no = RandomUtil.getStr(12);</span><br><span class="line">        Order order = orderService.findOne(orderId);</span><br><span class="line"></span><br><span class="line">        SortedMap&lt;String, String&gt; params = new TreeMap&lt;&gt;();</span><br><span class="line">        // 公众账号ID</span><br><span class="line">        params.put(&quot;appid&quot;, appProperties.getWx().getApp_id());</span><br><span class="line">        // 商户号</span><br><span class="line">        params.put(&quot;mch_id&quot;, appProperties.getWx().getMch_id());</span><br><span class="line">        // 随机字符串</span><br><span class="line">        params.put(&quot;nonce_str&quot;, nonceStr);</span><br><span class="line">        // 商户订单号</span><br><span class="line">        params.put(&quot;out_trade_no&quot;, order.getOutTradeNo());</span><br><span class="line">        // 订单金额</span><br><span class="line">        params.put(&quot;total_fee&quot;, order.getTotalFee().toString());</span><br><span class="line">        // 商户退款单号</span><br><span class="line">        params.put(&quot;out_refund_no&quot;, out_refund_no);</span><br><span class="line">        // 退款原因</span><br><span class="line">        params.put(&quot;refund_fee&quot;, order.getTotalFee().toString());</span><br><span class="line">        // 退款结果通知url</span><br><span class="line">        params.put(&quot;notify_url&quot;, appProperties.getWx().getRefund_notify_url());</span><br><span class="line">        // 签名</span><br><span class="line">        params.put(&quot;sign&quot;, AppUtil.createSign(params, appProperties.getWx().getApi_key()));</span><br><span class="line">        String data = AppUtil.mapToXml(params);</span><br><span class="line"></span><br><span class="line">        CloseableHttpClient httpClient = HttpUtil.sslHttpsClient(appProperties.getWx().getCertificate_path(), appProperties.getWx().getApi_key());</span><br><span class="line">        String xmlResponse = HttpUtil.sendSslXmlPost(appProperties.getWx().getRefund_url(), data, null, httpClient);</span><br><span class="line">        Map&lt;String, String&gt; mapData = AppUtil.xmlToMap(xmlResponse);</span><br><span class="line">        // return_code为微信返回的状态码，SUCCESS表示申请退款成功，return_msg 如非空，为错误原因 签名失败 参数格式校验错误</span><br><span class="line">        if (&quot;SUCCESS&quot;.equalsIgnoreCase(mapData.get(&quot;return_code&quot;))) &#123;</span><br><span class="line">            log.info(&quot;wx refund success response:&#123;&#125;&quot;, mapData);</span><br><span class="line">            // 修改订单状态为退款保存退款订单等操作</span><br><span class="line">            </span><br><span class="line">            return true;</span><br><span class="line">        &#125;</span><br><span class="line">        log.error(&quot;wx refund error response:&#123;&#125;&quot;, mapData);</span><br><span class="line">        return false;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>最终封装好的参数如下</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;xml&gt;</span><br><span class="line">   &lt;appid&gt;wx2421b1c4370ec43b&lt;/appid&gt;</span><br><span class="line">   &lt;mch_id&gt;10000100&lt;/mch_id&gt;</span><br><span class="line">   &lt;nonce_str&gt;6cefdb308e1e2e8aabd48cf79e546a02&lt;/nonce_str&gt; </span><br><span class="line">   &lt;out_refund_no&gt;1415701182&lt;/out_refund_no&gt;</span><br><span class="line">   &lt;out_trade_no&gt;1415757673&lt;/out_trade_no&gt;</span><br><span class="line">   &lt;refund_fee&gt;1&lt;/refund_fee&gt;</span><br><span class="line">   &lt;total_fee&gt;1&lt;/total_fee&gt;</span><br><span class="line">   &lt;transaction_id&gt;4006252001201705123297353072&lt;/transaction_id&gt;</span><br><span class="line">   &lt;sign&gt;FE56DD4AA85C0EECA82C35595A69E153&lt;/sign&gt;</span><br><span class="line">&lt;/xml&gt;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>HttpUtil.java</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">import lombok.extern.slf4j.Slf4j;</span><br><span class="line">import org.apache.http.*;</span><br><span class="line">import org.apache.http.client.HttpRequestRetryHandler;</span><br><span class="line">import org.apache.http.client.config.RequestConfig;</span><br><span class="line">import org.apache.http.client.methods.HttpGet;</span><br><span class="line">import org.apache.http.client.methods.HttpPost;</span><br><span class="line">import org.apache.http.client.utils.URIBuilder;</span><br><span class="line">import org.apache.http.conn.ssl.SSLConnectionSocketFactory;</span><br><span class="line">import org.apache.http.entity.StringEntity;</span><br><span class="line">import org.apache.http.impl.client.CloseableHttpClient;</span><br><span class="line">import org.apache.http.impl.client.HttpClients;</span><br><span class="line">import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;</span><br><span class="line">import org.apache.http.message.BasicNameValuePair;</span><br><span class="line">import org.apache.http.protocol.HttpContext;</span><br><span class="line">import org.apache.http.ssl.SSLContexts;</span><br><span class="line">import org.apache.http.util.EntityUtils;</span><br><span class="line"></span><br><span class="line">import javax.net.ssl.SSLContext;</span><br><span class="line">import java.io.File;</span><br><span class="line">import java.io.FileInputStream;</span><br><span class="line">import java.io.IOException;</span><br><span class="line">import java.io.InputStream;</span><br><span class="line">import java.net.SocketException;</span><br><span class="line">import java.nio.charset.StandardCharsets;</span><br><span class="line">import java.security.KeyStore;</span><br><span class="line">import java.util.ArrayList;</span><br><span class="line">import java.util.HashMap;</span><br><span class="line">import java.util.List;</span><br><span class="line">import java.util.Map;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * http请求工具类</span><br><span class="line"> *</span><br><span class="line"> * @author Leone</span><br><span class="line"> **/</span><br><span class="line">@Slf4j</span><br><span class="line">public class HttpUtil &#123;</span><br><span class="line"></span><br><span class="line">    private HttpUtil() &#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private final static String UTF8 = StandardCharsets.UTF_8.displayName();</span><br><span class="line"></span><br><span class="line">    private static CloseableHttpClient httpClient;</span><br><span class="line"></span><br><span class="line">    static &#123;</span><br><span class="line">        RequestConfig requestConfig = RequestConfig.custom().setConnectTimeout(3000).setConnectionRequestTimeout(1000).setSocketTimeout(4000).setExpectContinueEnabled(true).build();</span><br><span class="line">        PoolingHttpClientConnectionManager pool = new PoolingHttpClientConnectionManager();</span><br><span class="line">        pool.setMaxTotal(300);</span><br><span class="line">        pool.setDefaultMaxPerRoute(50);</span><br><span class="line">        HttpRequestRetryHandler retryHandler = (IOException exception, int executionCount, HttpContext context) -&gt; &#123;</span><br><span class="line">            if (executionCount &gt; 1) &#123;</span><br><span class="line">                return false;</span><br><span class="line">            &#125;</span><br><span class="line">            if (exception instanceof NoHttpResponseException) &#123;</span><br><span class="line">                log.info(&quot;[NoHttpResponseException has retry request:&quot; + context.toString() + &quot;][executionCount:&quot; + executionCount + &quot;]&quot;);</span><br><span class="line">                return true;</span><br><span class="line">            &#125; else if (exception instanceof SocketException) &#123;</span><br><span class="line">                log.info(&quot;[SocketException has retry request:&quot; + context.toString() + &quot;][executionCount:&quot; + executionCount + &quot;]&quot;);</span><br><span class="line">                return true;</span><br><span class="line">            &#125;</span><br><span class="line">            return false;</span><br><span class="line">        &#125;;</span><br><span class="line">        httpClient = HttpClients.custom().setConnectionManager(pool).setDefaultRequestConfig(requestConfig).setRetryHandler(retryHandler).build();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * @param certPath</span><br><span class="line">     * @param password</span><br><span class="line">     * @return</span><br><span class="line">     * @throws Exception</span><br><span class="line">     */</span><br><span class="line">    public static CloseableHttpClient sslHttpsClient(String certPath, String password) throws Exception &#123;</span><br><span class="line">        KeyStore keyStore = KeyStore.getInstance(&quot;PKCS12&quot;);</span><br><span class="line">        try (InputStream inputStream = new FileInputStream(new File(certPath))) &#123;</span><br><span class="line">            keyStore.load(inputStream, password.toCharArray());</span><br><span class="line">        &#125;</span><br><span class="line">        SSLContext sslContext = SSLContexts.custom().loadKeyMaterial(keyStore, password.toCharArray()).build();</span><br><span class="line">        SSLConnectionSocketFactory sslConnectionSocketFactory = new SSLConnectionSocketFactory(sslContext, new String[]&#123;&quot;TLSv1&quot;&#125;, null, SSLConnectionSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);</span><br><span class="line">        return HttpClients.custom().setSSLSocketFactory(sslConnectionSocketFactory).build();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 设置请求头信息</span><br><span class="line">     *</span><br><span class="line">     * @param headers</span><br><span class="line">     * @param request</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    private static void setHeaders(Map&lt;String, Object&gt; headers, HttpRequest request) &#123;</span><br><span class="line">        if (null != headers &amp;&amp; headers.size() &gt; 0) &#123;</span><br><span class="line">            for (Map.Entry&lt;String, Object&gt; entry : headers.entrySet()) &#123;</span><br><span class="line">                request.addHeader(entry.getKey(), entry.getValue().toString());</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 发送post请求请求体为xml</span><br><span class="line">     *</span><br><span class="line">     * @param url</span><br><span class="line">     * @param xml</span><br><span class="line">     * @param headers</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    public static String sendPostXml(String url, String xml, Map&lt;String, Object&gt; headers) &#123;</span><br><span class="line">        String result = null;</span><br><span class="line">        try &#123;</span><br><span class="line">            HttpPost httpPost = new HttpPost(url);</span><br><span class="line">            setHeaders(headers, httpPost);</span><br><span class="line">            StringEntity entity = new StringEntity(xml, StandardCharsets.UTF_8);</span><br><span class="line">            httpPost.addHeader(&quot;Content-Type&quot;, &quot;text/xml&quot;);</span><br><span class="line">            httpPost.setEntity(entity);</span><br><span class="line">            HttpResponse response = httpClient.execute(httpPost);</span><br><span class="line">            HttpEntity responseData = response.getEntity();</span><br><span class="line">            result = EntityUtils.toString(responseData, StandardCharsets.UTF_8);</span><br><span class="line">        &#125; catch (IOException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        return result;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 发送json请求</span><br><span class="line">     *</span><br><span class="line">     * @param url</span><br><span class="line">     * @param json</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    public static String sendPostJson(String url, String json, Map&lt;String, Object&gt; headers) &#123;</span><br><span class="line">        String result = null;</span><br><span class="line">        try &#123;</span><br><span class="line">            HttpPost httpPost = new HttpPost(url);</span><br><span class="line">            setHeaders(headers, httpPost);</span><br><span class="line">            StringEntity stringEntity = new StringEntity(json, StandardCharsets.UTF_8);</span><br><span class="line">            stringEntity.setContentType(&quot;application/json&quot;);</span><br><span class="line">            httpPost.setEntity(stringEntity);</span><br><span class="line">            HttpResponse response = httpClient.execute(httpPost);</span><br><span class="line">            HttpEntity responseData = response.getEntity();</span><br><span class="line">            result = EntityUtils.toString(responseData, StandardCharsets.UTF_8);</span><br><span class="line">        &#125; catch (IOException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        return result;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 发送get请求</span><br><span class="line">     *</span><br><span class="line">     * @param url</span><br><span class="line">     * @param params</span><br><span class="line">     * @param header</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    public static String sendGet(String url, Map&lt;String, Object&gt; params, Map&lt;String, Object&gt; header) &#123;</span><br><span class="line">        String result = null;</span><br><span class="line">        try &#123;</span><br><span class="line">            URIBuilder builder = new URIBuilder(url);</span><br><span class="line">            if (params != null &amp;&amp; params.size() &gt; 0) &#123;</span><br><span class="line">                List&lt;NameValuePair&gt; pairs = new ArrayList&lt;&gt;();</span><br><span class="line">                for (Map.Entry&lt;String, Object&gt; entry : params.entrySet()) &#123;</span><br><span class="line">                    pairs.add(new BasicNameValuePair(entry.getKey(), entry.getValue().toString()));</span><br><span class="line">                &#125;</span><br><span class="line">                builder.setParameters(pairs);</span><br><span class="line">            &#125;</span><br><span class="line">            HttpGet httpGet = new HttpGet(builder.build());</span><br><span class="line">            setHeaders(header, httpGet);</span><br><span class="line">            HttpResponse response = httpClient.execute(httpGet);</span><br><span class="line">            result = EntityUtils.toString(response.getEntity(), StandardCharsets.UTF_8);</span><br><span class="line">        &#125; catch (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        return result;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 发送get请求</span><br><span class="line">     *</span><br><span class="line">     * @param url</span><br><span class="line">     * @param xml</span><br><span class="line">     * @param headers</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    public static String sendSslXmlPost(String url, String xml, Map&lt;String, Object&gt; headers, CloseableHttpClient httpClient) &#123;</span><br><span class="line">        String result = null;</span><br><span class="line">        try &#123;</span><br><span class="line">            HttpPost httpPost = new HttpPost(url);</span><br><span class="line">            setHeaders(headers, httpPost);</span><br><span class="line">            StringEntity entity = new StringEntity(xml, StandardCharsets.UTF_8);</span><br><span class="line">            httpPost.addHeader(&quot;Content-Type&quot;, &quot;text/xml&quot;);</span><br><span class="line">            httpPost.setEntity(entity);</span><br><span class="line">            HttpResponse response = httpClient.execute(httpPost);</span><br><span class="line">            HttpEntity responseData = response.getEntity();</span><br><span class="line">            result = EntityUtils.toString(responseData, StandardCharsets.UTF_8);</span><br><span class="line">        &#125; catch (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        return result;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4><span id="java-支付宝app支付">java 支付宝App支付</span></h4>
+<p>// 待完善</p>
+<p>github:<a href="https://github.com/janlle/java-pay" target="_blank" rel="noopener">https://github.com/janlle/java-pay</a></p>
+
+                
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/article/Spark/" data-toggle="tooltip" data-placement="top" title="Spark">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/article/Shadowsocks/" data-toggle="tooltip" data-placement="top" title="Shadowsocks 搭建教程">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                <br>
+
+                <!--打赏-->
+                
+                <!--打赏-->
+
+                <br>
+                <!--分享-->
+                
+                    <div class="social-share"  data-wechat-qrcode-helper="" align="center"></div>
+                    <!--  css & js -->
+                    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/css/share.min.css">
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/js/social-share.min.js"></script>
+                
+                <!--分享-->
+                <br>                       
+                
+                <!-- require APlayer -->
+                
+
+                <!-- duoshuo Share start -->
+                
+                <!-- 多说 Share end-->
+
+                <!-- 多说评论框 start -->
+                
+                <!-- 多说评论框 end -->
+
+                <!-- disqus comment start -->
+                
+                <!-- disqus comment end -->
+
+                
+
+            </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+  
+    
+      <aside id="sidebar">
+        <div id="toc" class="toc-article">
+        <strong class="toc-title">Contents</strong>
+        
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.</span> <span class="toc-nav-text"><span id="java-&#x7248;&#x5FAE;&#x4FE1;-&#x652F;&#x4ED8;&#x5B9D;&#x5404;&#x79CD;&#x652F;&#x4ED8;&#x9000;&#x6B3E;">java &#x7248;&#x5FAE;&#x4FE1;&#x3001;&#x652F;&#x4ED8;&#x5B9D;&#x5404;&#x79CD;&#x652F;&#x4ED8;&#x9000;&#x6B3E;</span></span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.0.0.1.</span> <span class="toc-nav-text"><span id="java-&#x5FAE;&#x4FE1;app&#x652F;&#x4ED8;">java &#x5FAE;&#x4FE1;App&#x652F;&#x4ED8;</span></span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.0.0.2.</span> <span class="toc-nav-text"><span id="java-&#x5FAE;&#x4FE1;&#x5C0F;&#x7A0B;&#x5E8F;&#x652F;&#x4ED8;">java &#x5FAE;&#x4FE1;&#x5C0F;&#x7A0B;&#x5E8F;&#x652F;&#x4ED8;</span></span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.0.0.3.</span> <span class="toc-nav-text"><span id="java-&#x5FAE;&#x4FE1;&#x626B;&#x7801;&#x652F;&#x4ED8;">java &#x5FAE;&#x4FE1;&#x626B;&#x7801;&#x652F;&#x4ED8;</span></span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.0.0.4.</span> <span class="toc-nav-text"><span id="java-&#x5FAE;&#x4FE1;&#x9000;&#x6B3E;">java &#x5FAE;&#x4FE1;&#x9000;&#x6B3E;</span></span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.0.0.5.</span> <span class="toc-nav-text"><span id="java-&#x652F;&#x4ED8;&#x5B9D;app&#x652F;&#x4ED8;">java &#x652F;&#x4ED8;&#x5B9D;App&#x652F;&#x4ED8;</span></span></a></li></ol></li></ol></li></ol></li></ol>
+        
+        </div>
+      </aside>
+    
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#java" title="java">java</a>
+                        
+                          <a class="tag" href="/tags/#支付" title="支付">支付</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="http://blog.csdn.net/fooelliot" target="_blank">CSDN fooelliot</a></li>
+                    
+                        <li><a href="http://github.com/janlle" target="_blank">GitHub janlle</a></li>
+                    
+                        <li><a href="https://www.cnblogs.com/ruolin/" target="_blank">博客园 janlle</a></li>
+                    
+                        <li><a href="https://www.jianshu.com/u/2c8b6b4a6523" target="_blank">简书 janlle</a></li>
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/janlle">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; leone 2019 
+                    <br>
+                    Theme by <a href="http://beantech.org">BeanTech</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    re-Ported by <a href="http://wealip.cn">leone</a> | 
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=janlle&repo=blogs&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://www.wealip.cn/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-XXXXXXXX-X';
+    var _gaDomain = 'yoursite';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = 'xxx';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<img src="http://www.wealip.cn/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>
