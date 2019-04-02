@@ -30,6 +30,13 @@
     </url>
 
     <url>
+        <loc>http://www.wealip.cn/tags/elasticsearch/</loc>
+        <lastmod>2019-04-02T07:24:23.930Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
         <loc>http://www.wealip.cn/tags/flink/</loc>
         <lastmod>2019-04-02T07:24:23.930Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -107,13 +114,6 @@
     </url>
 
     <url>
-        <loc>http://www.wealip.cn/tags/nginx/</loc>
-        <lastmod>2019-04-02T07:24:23.934Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
         <loc>http://www.wealip.cn/tags/openCV/</loc>
         <lastmod>2019-04-02T07:24:23.934Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -122,6 +122,13 @@
 
     <url>
         <loc>http://www.wealip.cn/tags/%E6%91%84%E5%83%8F%E5%A4%B4/</loc>
+        <lastmod>2019-04-02T07:24:23.934Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>http://www.wealip.cn/tags/nginx/</loc>
         <lastmod>2019-04-02T07:24:23.934Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
@@ -170,14 +177,14 @@
     </url>
 
     <url>
-        <loc>http://www.wealip.cn/tags/batch/</loc>
+        <loc>http://www.wealip.cn/tags/mail/</loc>
         <lastmod>2019-04-02T07:24:23.938Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
-        <loc>http://www.wealip.cn/tags/mail/</loc>
+        <loc>http://www.wealip.cn/tags/batch/</loc>
         <lastmod>2019-04-02T07:24:23.938Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
@@ -296,14 +303,14 @@
     </url>
 
     <url>
-        <loc>http://www.wealip.cn/tags/AWK/</loc>
+        <loc>http://www.wealip.cn/tags/zookeeper/</loc>
         <lastmod>2019-04-02T07:24:23.942Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
-        <loc>http://www.wealip.cn/tags/zookeeper/</loc>
+        <loc>http://www.wealip.cn/tags/AWK/</loc>
         <lastmod>2019-04-02T07:24:23.942Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
@@ -324,20 +331,6 @@
     </url>
 
     <url>
-        <loc>http://www.wealip.cn/tags/idea/</loc>
-        <lastmod>2019-04-02T07:24:23.943Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>http://www.wealip.cn/tags/%E5%B7%A5%E5%85%B7/</loc>
-        <lastmod>2019-04-02T07:24:23.943Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
         <loc>http://www.wealip.cn/tags/Git/</loc>
         <lastmod>2019-04-02T07:24:23.943Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -346,6 +339,20 @@
 
     <url>
         <loc>http://www.wealip.cn/tags/%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6/</loc>
+        <lastmod>2019-04-02T07:24:23.943Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>http://www.wealip.cn/tags/idea/</loc>
+        <lastmod>2019-04-02T07:24:23.943Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>http://www.wealip.cn/tags/%E5%B7%A5%E5%85%B7/</loc>
         <lastmod>2019-04-02T07:24:23.943Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
