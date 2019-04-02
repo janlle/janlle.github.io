@@ -2,19 +2,19 @@
 <html lang="en">
 
 <!-- Head tag -->
-<head>
+<head><meta name="generator" content="Hexo 3.8.0">
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
-    <meta name="keyword"  content="">
+    <meta name="keyword" content="">
     <link rel="shortcut icon" href="/img/ironman-draw.png">
     <!-- Place this tag in your head or just before your close body tag. -->
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     <title>
         
-          JVM - leone | Blog
+          JVM从入门到精通 - leone | Blog
         
     </title>
 
@@ -78,7 +78,7 @@
     
 </style>
 
-<header class="intro-header" >
+<header class="intro-header">
     <!-- Signature -->
     <div id="signature">
         <div class="container">
@@ -93,7 +93,7 @@
                               <a class="tag" href="/tags/#jvm" title="jvm">jvm</a>
                             
                         </div>
-                        <h1>JVM</h1>
+                        <h1>JVM从入门到精通</h1>
                         <h2 class="subheading">JVM 原理及调优</h2>
                         <span class="meta">
                             Posted by leone on
@@ -139,6 +139,13 @@
 
                     
 
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/Elasticsearch集群搭建.html">Elasticsearch</a>
+                        </li>
                         
                     
 
@@ -373,7 +380,7 @@ Java虚拟机（英语：Java Virtual Machine，缩写为JVM），一种能够�
                 <ul class="pager">
                     
                         <li class="previous">
-                            <a href="/article/OpenCV/" data-toggle="tooltip" data-placement="top" title="OpenCV">&larr; Previous Post</a>
+                            <a href="/article/OpenVC/" data-toggle="tooltip" data-placement="top" title="OpenCV">&larr; Previous Post</a>
                         </li>
                     
                     
@@ -392,7 +399,7 @@ Java虚拟机（英语：Java Virtual Machine，缩写为JVM），一种能够�
                 <br>
                 <!--分享-->
                 
-                    <div class="social-share"  data-wechat-qrcode-helper="" align="center"></div>
+                    <div class="social-share" data-wechat-qrcode-helper="" align="center"></div>
                     <!--  css & js -->
                     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/css/share.min.css">
                     <script src="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/js/social-share.min.js"></script>
@@ -428,7 +435,7 @@ Java虚拟机（英语：Java Virtual Machine，缩写为JVM），一种能够�
         <div id="toc" class="toc-article">
         <strong class="toc-title">Contents</strong>
         
-          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.</span> <span class="toc-nav-text"><span id="jvm">JVM</span></span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text"><span id="jvm-&#x7B80;&#x4ECB;">jvm &#x7B80;&#x4ECB;</span></span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.1.1.</span> <span class="toc-nav-text"><span id="&#x4EC0;&#x4E48;&#x662F;jvm">&#x4EC0;&#x4E48;&#x662F;jvm</span></span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.1.2.</span> <span class="toc-nav-text"><span id="jvm-&#x79CD;&#x7C7B;">jvm &#x79CD;&#x7C7B;</span></span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.1.3.</span> <span class="toc-nav-text"><span id="jvm-&#x7684;&#x7EC4;&#x6210;">jvm &#x7684;&#x7EC4;&#x6210;</span></span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.2.</span> <span class="toc-nav-text"><span id="gc&#x5783;&#x573E;&#x56DE;&#x6536;&#x5668;">GC(&#x5783;&#x573E;&#x56DE;&#x6536;&#x5668;)</span></span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.2.1.</span> <span class="toc-nav-text"><span id="jvm&#x5E38;&#x89C1;&#x53C2;&#x6570;&#x8C03;&#x4F18;">jvm&#x5E38;&#x89C1;&#x53C2;&#x6570;&#x8C03;&#x4F18;</span></span></a></li></ol></li></ol></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">2.</span> <span class="toc-nav-text"><span id="&#x6700;&#x5927;jvm&#x53EF;&#x7528;&#x5185;&#x5B58;">&#x6700;&#x5927;JVM&#x53EF;&#x7528;&#x5185;&#x5B58;</span></span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">3.</span> <span class="toc-nav-text"><span id="&#x6700;&#x5C0F;jvm&#x53EF;&#x7528;&#x5185;&#x5B58;">&#x6700;&#x5C0F;JVM&#x53EF;&#x7528;&#x5185;&#x5B58;</span></span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">4.</span> <span class="toc-nav-text"><span id="&#x5E74;&#x8F7B;&#x4EE3;&#x5185;&#x5B58;&#x5927;&#x5C0F;">&#x5E74;&#x8F7B;&#x4EE3;&#x5185;&#x5B58;&#x5927;&#x5C0F;</span></span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">5.</span> <span class="toc-nav-text"><span id="&#x8BBE;&#x7F6E;&#x65B0;&#x751F;&#x4EE3;&#x6700;&#x5C0F;&#x7A7A;&#x95F4;&#x5927;&#x5C0F;">&#x8BBE;&#x7F6E;&#x65B0;&#x751F;&#x4EE3;&#x6700;&#x5C0F;&#x7A7A;&#x95F4;&#x5927;&#x5C0F;&#x3002;</span></span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">6.</span> <span class="toc-nav-text"><span id="&#x8BBE;&#x7F6E;&#x65B0;&#x751F;&#x4EE3;&#x6700;&#x5927;&#x7A7A;&#x95F4;&#x5927;&#x5C0F;">&#x8BBE;&#x7F6E;&#x65B0;&#x751F;&#x4EE3;&#x6700;&#x5927;&#x7A7A;&#x95F4;&#x5927;&#x5C0F;&#x3002;</span></span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">7.</span> <span class="toc-nav-text"><span id="permsize&#x6C38;&#x4E45;&#x4EE3;&#x5185;&#x5B58;&#x5927;&#x5C0F;&#x8BE5;&#x503C;&#x592A;&#x5927;&#x4F1A;&#x5BFC;&#x81F4;fullgc&#x65F6;&#x95F4;&#x8FC7;&#x957F;&#x592A;&#x5C0F;&#x5C06;&#x589E;&#x52A0;fullgc&#x9891;&#x7387;">PermSize&#xFF1A;&#x6C38;&#x4E45;&#x4EE3;&#x5185;&#x5B58;&#x5927;&#x5C0F;&#xFF0C;&#x8BE5;&#x503C;&#x592A;&#x5927;&#x4F1A;&#x5BFC;&#x81F4;fullGC&#x65F6;&#x95F4;&#x8FC7;&#x957F;&#xFF0C;&#x592A;&#x5C0F;&#x5C06;&#x589E;&#x52A0;fullGC&#x9891;&#x7387;</span></span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">8.</span> <span class="toc-nav-text"><span id="&#x7EBF;&#x7A0B;&#x6808;&#x5927;&#x5C0F;&#x592A;&#x5927;&#x5C06;&#x5BFC;&#x81F4;jvm&#x53EF;&#x5EFA;&#x7684;&#x7EBF;&#x7A0B;&#x6570;&#x91CF;&#x51CF;&#x5C11;&#x4F8B;-xss256k">&#x7EBF;&#x7A0B;&#x6808;&#x5927;&#x5C0F;&#xFF0C;&#x592A;&#x5927;&#x5C06;&#x5BFC;&#x81F4;JVM&#x53EF;&#x5EFA;&#x7684;&#x7EBF;&#x7A0B;&#x6570;&#x91CF;&#x51CF;&#x5C11;&#xFF0C;&#x4F8B;&#xFF1A;-Xss256k</span></span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">9.</span> <span class="toc-nav-text"><span id="&#x4E00;&#x822C;permgen&#x662F;&#x4E0D;&#x4F1A;&#x88AB;gc&#x5982;&#x679C;&#x5E0C;&#x671B;permgen&#x6C38;&#x4E45;&#x4EE3;&#x4E5F;&#x80FD;&#x88AB;gc&#x5219;&#x9700;&#x8981;&#x914D;&#x7F6E;&#x8BE5;&#x53C2;&#x6570;">&#x4E00;&#x822C;PermGen&#x662F;&#x4E0D;&#x4F1A;&#x88AB;GC&#xFF0C;&#x5982;&#x679C;&#x5E0C;&#x671B;PermGen&#x6C38;&#x4E45;&#x4EE3;&#x4E5F;&#x80FD;&#x88AB;GC&#xFF0C;&#x5219;&#x9700;&#x8981;&#x914D;&#x7F6E;&#x8BE5;&#x53C2;&#x6570;</span></span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">10.</span> <span class="toc-nav-text"><span id="gc&#x8FDB;&#x884C;&#x65F6;&#x6807;&#x8BB0;&#x53EF;&#x56DE;&#x6536;&#x5BF9;&#x8C61;&#x65F6;&#x53EF;&#x4EE5;&#x5E76;&#x884C;remark-xxusecmscompactatfullcollection-&#x8868;&#x793A;&#x5728;fullgc&#x4E4B;&#x540E;&#x8FDB;&#x884C;&#x538B;&#x7F29;cms&#x9ED8;&#x8BA4;&#x4E0D;&#x538B;&#x7F29;&#x7A7A;&#x95F4;">GC&#x8FDB;&#x884C;&#x65F6;&#x6807;&#x8BB0;&#x53EF;&#x56DE;&#x6536;&#x5BF9;&#x8C61;&#x65F6;&#x53EF;&#x4EE5;&#x5E76;&#x884C;remark-XX:+UseCMSCompactAtFullCollection &#x8868;&#x793A;&#x5728;fullGC&#x4E4B;&#x540E;&#x8FDB;&#x884C;&#x538B;&#x7F29;&#xFF0C;CMS&#x9ED8;&#x8BA4;&#x4E0D;&#x538B;&#x7F29;&#x7A7A;&#x95F4;</span></span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">11.</span> <span class="toc-nav-text"><span id="&#x4E3A;java&#x5806;&#x5185;&#x5B58;&#x8BBE;&#x7F6E;&#x5185;&#x5B58;&#x9875;&#x5927;&#x5C0F;">&#x4E3A;java&#x5806;&#x5185;&#x5B58;&#x8BBE;&#x7F6E;&#x5185;&#x5B58;&#x9875;&#x5927;&#x5C0F;</span></span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">12.</span> <span class="toc-nav-text"><span id="&#x5BF9;&#x539F;&#x59CB;&#x7C7B;&#x578B;&#x8FDB;&#x884C;&#x5FEB;&#x901F;&#x4F18;&#x5316;">&#x5BF9;&#x539F;&#x59CB;&#x7C7B;&#x578B;&#x8FDB;&#x884C;&#x5FEB;&#x901F;&#x4F18;&#x5316;</span></span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">13.</span> <span class="toc-nav-text"><span id="&#x5173;&#x95ED;&#x9884;&#x671F;&#x5F00;&#x59CB;&#x7684;&#x664B;&#x5347;&#x7387;&#x7684;&#x7EDF;&#x8BA1;">&#x5173;&#x95ED;&#x9884;&#x671F;&#x5F00;&#x59CB;&#x7684;&#x664B;&#x5347;&#x7387;&#x7684;&#x7EDF;&#x8BA1;</span></span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">14.</span> <span class="toc-nav-text"><span id="&#x4F7F;&#x7528;cms&#x4F5C;&#x4E3A;&#x5783;&#x573E;&#x56DE;&#x6536;&#x5E76;&#x8BBE;&#x7F6E;gc&#x767E;&#x5206;&#x6BD4;&#x4F8B;&#x4F7F;&#x7528;70&#x540E;&#x5F00;&#x59CB;cms&#x6536;&#x96C6;">&#x4F7F;&#x7528;cms&#x4F5C;&#x4E3A;&#x5783;&#x573E;&#x56DE;&#x6536;&#xFF0C;&#x5E76;&#x8BBE;&#x7F6E;GC&#x767E;&#x5206;&#x6BD4;&#xFF0C;&#x4F8B;&#xFF08;&#x4F7F;&#x7528;70&#xFF05;&#x540E;&#x5F00;&#x59CB;CMS&#x6536;&#x96C6;&#xFF09;</span></span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">15.</span> <span class="toc-nav-text"><span id="&#x6253;&#x5370;gc&#x7684;&#x8BE6;&#x7EC6;&#x4FE1;&#x606F;">&#x6253;&#x5370;GC&#x7684;&#x8BE6;&#x7EC6;&#x4FE1;&#x606F;</span></span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">16.</span> <span class="toc-nav-text"><span id="&#x6307;&#x5B9A;gc&#x6587;&#x4EF6;&#x8DEF;&#x5F84;">&#x6307;&#x5B9A;GC&#x6587;&#x4EF6;&#x8DEF;&#x5F84;</span></span></a></li></ol>
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">JVM</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text">jvm 简介</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.1.1.</span> <span class="toc-nav-text">什么是jvm</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.1.2.</span> <span class="toc-nav-text">jvm 种类</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.1.3.</span> <span class="toc-nav-text">jvm 的组成</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.2.</span> <span class="toc-nav-text">GC(垃圾回收器)</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.2.1.</span> <span class="toc-nav-text">jvm常见参数调优</span></a></li></ol></li></ol></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">最大JVM可用内存</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">最小JVM可用内存</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">4.</span> <span class="toc-nav-text">年轻代内存大小</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">5.</span> <span class="toc-nav-text">设置新生代最小空间大小。</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">6.</span> <span class="toc-nav-text">设置新生代最大空间大小。</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">7.</span> <span class="toc-nav-text">PermSize：永久代内存大小，该值太大会导致fullGC时间过长，太小将增加fullGC频率</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">8.</span> <span class="toc-nav-text">线程栈大小，太大将导致JVM可建的线程数量减少，例：-Xss256k</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">9.</span> <span class="toc-nav-text">一般PermGen是不会被GC，如果希望PermGen永久代也能被GC，则需要配置该参数</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">10.</span> <span class="toc-nav-text">GC进行时标记可回收对象时可以并行remark-XX:+UseCMSCompactAtFullCollection 表示在fullGC之后进行压缩，CMS默认不压缩空间</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">11.</span> <span class="toc-nav-text">为java堆内存设置内存页大小</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">12.</span> <span class="toc-nav-text">对原始类型进行快速优化</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">13.</span> <span class="toc-nav-text">关闭预期开始的晋升率的统计</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">14.</span> <span class="toc-nav-text">使用cms作为垃圾回收，并设置GC百分比，例（使用70％后开始CMS收集）</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">15.</span> <span class="toc-nav-text">打印GC的详细信息</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">16.</span> <span class="toc-nav-text">指定GC文件路径</span></a></li></ol>
         
         </div>
       </aside>
@@ -538,7 +545,7 @@ Java虚拟机（英语：Java Virtual Machine，缩写为JVM），一种能够�
 
                 
                     <li>
-                        <a target="_blank"  href="https://github.com/janlle">
+                        <a target="_blank" href="https://github.com/janlle">
                             <span class="fa-stack fa-lg">
                                 <i class="fa fa-circle fa-stack-2x"></i>
                                 <i class="fa fa-github fa-stack-1x fa-inverse"></i>
@@ -558,10 +565,7 @@ Java虚拟机（英语：Java Virtual Machine，缩写为JVM），一种能够�
                         <i class="fa fa-heart"></i>
                     </span> 
                     re-Ported by <a href="http://wealip.cn">leone</a> | 
-                    <iframe
-                        style="margin-left: 2px; margin-bottom:-5px;"
-                        frameborder="0" scrolling="0" width="91px" height="20px"
-                        src="https://ghbtns.com/github-btn.html?user=janlle&repo=blogs&type=star&count=true" >
+                    <iframe style="margin-left: 2px; margin-bottom:-5px;" frameborder="0" scrolling="0" width="91px" height="20px" src="https://ghbtns.com/github-btn.html?user=janlle&repo=blogs&type=star&count=true">
                     </iframe>
                 </p>
             </div>

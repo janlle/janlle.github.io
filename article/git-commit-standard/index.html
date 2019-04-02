@@ -2,13 +2,13 @@
 <html lang="en">
 
 <!-- Head tag -->
-<head>
+<head><meta name="generator" content="Hexo 3.8.0">
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
-    <meta name="keyword"  content="">
+    <meta name="keyword" content="">
     <link rel="shortcut icon" href="/img/ironman-draw.png">
     <!-- Place this tag in your head or just before your close body tag. -->
     <script async defer src="https://buttons.github.io/buttons.js"></script>
@@ -18,7 +18,7 @@
         
     </title>
 
-    <link rel="canonical" href="http://www.wealip.cn/article/Git-commit-standard/">
+    <link rel="canonical" href="http://www.wealip.cn/article/git-commit-standard/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -78,7 +78,7 @@
     
 </style>
 
-<header class="intro-header" >
+<header class="intro-header">
     <!-- Signature -->
     <div id="signature">
         <div class="container">
@@ -139,6 +139,13 @@
 
                     
 
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/Elasticsearch集群搭建.html">Elasticsearch</a>
+                        </li>
                         
                     
 
@@ -318,7 +325,7 @@ declare num001 , num002 int;</p>
                     
                     
                         <li class="next">
-                            <a href="/article/Spark/" data-toggle="tooltip" data-placement="top" title="Spark">Next Post &rarr;</a>
+                            <a href="/article/java-pay/" data-toggle="tooltip" data-placement="top" title="java 第三方支付">Next Post &rarr;</a>
                         </li>
                     
                 </ul>
@@ -332,7 +339,7 @@ declare num001 , num002 int;</p>
                 <br>
                 <!--分享-->
                 
-                    <div class="social-share"  data-wechat-qrcode-helper="" align="center"></div>
+                    <div class="social-share" data-wechat-qrcode-helper="" align="center"></div>
                     <!--  css & js -->
                     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/css/share.min.css">
                     <script src="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/js/social-share.min.js"></script>
@@ -368,7 +375,7 @@ declare num001 , num002 int;</p>
         <div id="toc" class="toc-article">
         <strong class="toc-title">Contents</strong>
         
-          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.</span> <span class="toc-nav-text"><span id="git-&#x63D0;&#x4EA4;&#x89C4;&#x8303;">Git &#x63D0;&#x4EA4;&#x89C4;&#x8303;</span></span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.0.1.</span> <span class="toc-nav-text"><span id="&#x524D;&#x8A00;">&#x524D;&#x8A00;</span></span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.0.2.</span> <span class="toc-nav-text"><span id="&#x63D0;&#x4EA4;&#x89C4;&#x5219;">&#x63D0;&#x4EA4;&#x89C4;&#x5219;</span></span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.0.3.</span> <span class="toc-nav-text"><span id="&#x5185;&#x5BB9;&#x8981;&#x6C42;">&#x5185;&#x5BB9;&#x8981;&#x6C42;</span></span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.0.4.</span> <span class="toc-nav-text"><span id="&#x63D0;&#x4EA4;&#x683C;&#x5F0F;">&#x63D0;&#x4EA4;&#x683C;&#x5F0F;</span></span></a></li></ol></li></ol></li></ol>
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">Git 提交规范</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.0.1.</span> <span class="toc-nav-text">前言</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.0.2.</span> <span class="toc-nav-text">提交规则</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.0.3.</span> <span class="toc-nav-text">内容要求</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.0.4.</span> <span class="toc-nav-text">提交格式</span></a></li></ol></li></ol>
         
         </div>
       </aside>
@@ -478,7 +485,7 @@ declare num001 , num002 int;</p>
 
                 
                     <li>
-                        <a target="_blank"  href="https://github.com/janlle">
+                        <a target="_blank" href="https://github.com/janlle">
                             <span class="fa-stack fa-lg">
                                 <i class="fa fa-circle fa-stack-2x"></i>
                                 <i class="fa fa-github fa-stack-1x fa-inverse"></i>
@@ -498,10 +505,7 @@ declare num001 , num002 int;</p>
                         <i class="fa fa-heart"></i>
                     </span> 
                     re-Ported by <a href="http://wealip.cn">leone</a> | 
-                    <iframe
-                        style="margin-left: 2px; margin-bottom:-5px;"
-                        frameborder="0" scrolling="0" width="91px" height="20px"
-                        src="https://ghbtns.com/github-btn.html?user=janlle&repo=blogs&type=star&count=true" >
+                    <iframe style="margin-left: 2px; margin-bottom:-5px;" frameborder="0" scrolling="0" width="91px" height="20px" src="https://ghbtns.com/github-btn.html?user=janlle&repo=blogs&type=star&count=true">
                     </iframe>
                 </p>
             </div>

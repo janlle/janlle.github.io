@@ -2,13 +2,13 @@
 <html lang="en">
 
 <!-- Head tag -->
-<head>
+<head><meta name="generator" content="Hexo 3.8.0">
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
-    <meta name="keyword"  content="">
+    <meta name="keyword" content="">
     <link rel="shortcut icon" href="/img/ironman-draw.png">
     <!-- Place this tag in your head or just before your close body tag. -->
     <script async defer src="https://buttons.github.io/buttons.js"></script>
@@ -78,7 +78,7 @@
     
 </style>
 
-<header class="intro-header" >
+<header class="intro-header">
     <!-- Signature -->
     <div id="signature">
         <div class="container">
@@ -90,11 +90,11 @@
                             
                               <a class="tag" href="/tags/#后端" title="后端">后端</a>
                             
+                              <a class="tag" href="/tags/#springCloud" title="springCloud">springCloud</a>
+                            
                               <a class="tag" href="/tags/#微服务" title="微服务">微服务</a>
                             
                               <a class="tag" href="/tags/#Zookeeper" title="Zookeeper">Zookeeper</a>
-                            
-                              <a class="tag" href="/tags/#springCloud" title="springCloud">springCloud</a>
                             
                         </div>
                         <h1>Spring Cloud Zookeeper</h1>
@@ -143,6 +143,13 @@
 
                     
 
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/Elasticsearch集群搭建.html">Elasticsearch</a>
+                        </li>
                         
                     
 
@@ -263,12 +270,12 @@
                 <ul class="pager">
                     
                         <li class="previous">
-                            <a href="/article/SpringCloud-03-Zuul/" data-toggle="tooltip" data-placement="top" title="Spring Cloud Zuul">&larr; Previous Post</a>
+                            <a href="/article/SpringBoot-10-rabbitmq/" data-toggle="tooltip" data-placement="top" title="Spring Boot RabbitMQ">&larr; Previous Post</a>
                         </li>
                     
                     
                         <li class="next">
-                            <a href="/article/SpringCloud-01-Microservice/" data-toggle="tooltip" data-placement="top" title="Spring Cloud">Next Post &rarr;</a>
+                            <a href="/article/SpringCloud-02-Eureka/" data-toggle="tooltip" data-placement="top" title="Spring Cloud Eureka">Next Post &rarr;</a>
                         </li>
                     
                 </ul>
@@ -282,7 +289,7 @@
                 <br>
                 <!--分享-->
                 
-                    <div class="social-share"  data-wechat-qrcode-helper="" align="center"></div>
+                    <div class="social-share" data-wechat-qrcode-helper="" align="center"></div>
                     <!--  css & js -->
                     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/css/share.min.css">
                     <script src="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/js/social-share.min.js"></script>
@@ -318,7 +325,7 @@
         <div id="toc" class="toc-article">
         <strong class="toc-title">Contents</strong>
         
-          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.</span> <span class="toc-nav-text"><span id="spring-cloud-zookeeper">Spring Cloud Zookeeper</span></span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text"><span id="&#x5F00;&#x53D1;&#x73AF;&#x5883;">&#x5F00;&#x53D1;&#x73AF;&#x5883;</span></span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.2.</span> <span class="toc-nav-text"><span id="spring-boot-aop">spring-boot-aop</span></span></a></li></ol></li></ol>
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">Spring Cloud Zookeeper</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text">开发环境</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.2.</span> <span class="toc-nav-text">spring-boot-aop</span></a></li></ol></li></ol>
         
         </div>
       </aside>
@@ -340,11 +347,11 @@
                        
                           <a class="tag" href="/tags/#后端" title="后端">后端</a>
                         
+                          <a class="tag" href="/tags/#springCloud" title="springCloud">springCloud</a>
+                        
                           <a class="tag" href="/tags/#微服务" title="微服务">微服务</a>
                         
                           <a class="tag" href="/tags/#Zookeeper" title="Zookeeper">Zookeeper</a>
-                        
-                          <a class="tag" href="/tags/#springCloud" title="springCloud">springCloud</a>
                         
                     </div>
                 </section>
@@ -432,7 +439,7 @@
 
                 
                     <li>
-                        <a target="_blank"  href="https://github.com/janlle">
+                        <a target="_blank" href="https://github.com/janlle">
                             <span class="fa-stack fa-lg">
                                 <i class="fa fa-circle fa-stack-2x"></i>
                                 <i class="fa fa-github fa-stack-1x fa-inverse"></i>
@@ -452,10 +459,7 @@
                         <i class="fa fa-heart"></i>
                     </span> 
                     re-Ported by <a href="http://wealip.cn">leone</a> | 
-                    <iframe
-                        style="margin-left: 2px; margin-bottom:-5px;"
-                        frameborder="0" scrolling="0" width="91px" height="20px"
-                        src="https://ghbtns.com/github-btn.html?user=janlle&repo=blogs&type=star&count=true" >
+                    <iframe style="margin-left: 2px; margin-bottom:-5px;" frameborder="0" scrolling="0" width="91px" height="20px" src="https://ghbtns.com/github-btn.html?user=janlle&repo=blogs&type=star&count=true">
                     </iframe>
                 </p>
             </div>

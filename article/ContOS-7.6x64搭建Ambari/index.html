@@ -2,13 +2,13 @@
 <html lang="en">
 
 <!-- Head tag -->
-<head>
+<head><meta name="generator" content="Hexo 3.8.0">
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
-    <meta name="keyword"  content="">
+    <meta name="keyword" content="">
     <link rel="shortcut icon" href="/img/ironman-draw.png">
     <!-- Place this tag in your head or just before your close body tag. -->
     <script async defer src="https://buttons.github.io/buttons.js"></script>
@@ -78,7 +78,7 @@
     
 </style>
 
-<header class="intro-header" >
+<header class="intro-header">
     <!-- Signature -->
     <div id="signature">
         <div class="container">
@@ -143,6 +143,13 @@
 
                     
 
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/Elasticsearch集群搭建.html">Elasticsearch</a>
+                        </li>
                         
                     
 
@@ -218,7 +225,7 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-                <h1><span id="centos-75x64搭建ambari">CentOS-7.5x64搭建Ambari</span></h1>
+                <h1><span id="centos-75_x64搭建ambari">CentOS-7.5_x64搭建Ambari</span></h1>
 <h2><span id="ambari简介">Ambari简介</span></h2>
 <p>Apache Ambari是一种基于Web的工具，支持Apache Hadoop集群的供应、管理和监控。Ambari已支持大多数Hadoop组件，包括HDFS、MapReduce、Hive、Pig、 Hbase、Zookeeper、Sqoop和Hcatalog等。<br>
 Apache Ambari 支持HDFS、MapReduce、Hive、Pig、Hbase、Zookeepr、Sqoop和Hcatalog等的集中管理。也是5个顶级hadoop管理工具之一。</p>
@@ -226,20 +233,23 @@ Apache Ambari 支持HDFS、MapReduce、Hive、Pig、Hbase、Zookeepr、Sqoop和H
 <h2><span id="系统环境">系统环境</span></h2>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">CentOS-7.5_x64</span><br><span class="line">mysql-5.7.23_x64</span><br><span class="line">1.8.0_131</span><br></pre></td></tr></table></figure>
 <h2><span id="平台搭建">平台搭建</span></h2>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"># 安装httpd服务</span><br><span class="line">$ yum install httpd</span><br><span class="line"></span><br><span class="line"># 设置为开机启动</span><br><span class="line">$ systemctl enable httpd</span><br><span class="line"></span><br><span class="line"># 创建hdp文件存放目录</span><br><span class="line">$ mkdir /var/www/html</span><br><span class="line"></span><br><span class="line"># 安装时间同步服务</span><br><span class="line">$ yum install ntp</span><br><span class="line"></span><br><span class="line"># 查看是否为开机启动</span><br><span class="line">$ systemctl is-enabled ntpd</span><br><span class="line"></span><br><span class="line"># 设置为开机启动</span><br><span class="line">$ systemctl enable ntpd</span><br><span class="line"></span><br><span class="line"># 开启ntpd服务</span><br><span class="line">$ systemctl start ntpd</span><br><span class="line"></span><br><span class="line"># 关闭防火墙</span><br><span class="line">$ systemctl disable firewalld</span><br><span class="line"></span><br><span class="line"># 查看SElinux</span><br><span class="line">$ sestatus</span><br><span class="line"></span><br><span class="line"># SELINUX=enforcing 改为 SELINUX=disabled</span><br><span class="line">$ vi /etc/sysconfig/selinux</span><br><span class="line"></span><br><span class="line"># 下载Ambariyum源文件</span><br><span class="line">$ wget http://public-repo-1.hortonworks.com/ambari/centos7/2.x/updates/2.7.1.0/ambari.repo -O /etc/yum.repos.d/ambari.repo</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># 下载 Ambari 2.7.1</span><br><span class="line">$ wget http://public-repo-1.hortonworks.com/ambari/centos7/2.x/updates/2.7.1.0/ambari-2.7.1.0-centos7.tar.gz</span><br><span class="line"></span><br><span class="line"># 下载 HDP 3.0.1</span><br><span class="line">$ wget http://public-repo-1.hortonworks.com/HDP/centos7/3.x/updates/3.0.1.0/HDP-3.0.1.0-centos7-rpm.tar.gz</span><br><span class="line"></span><br><span class="line"># 下载 HDP-UTILS 1.1.0.22</span><br><span class="line">$ wget http://public-repo-1.hortonworks.com/HDP-UTILS-1.1.0.21/repos/centos7/HDP-UTILS-1.1.0.22-centos7.tar.gz</span><br></pre></td></tr></table></figure>
-<p>hdp.repo</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"># VERSION_NUMBER=2.4.2.0-258</span><br><span class="line">[HDP-2.4.2.0]</span><br><span class="line">name=HDP Version - HDP-2.4.2.0</span><br><span class="line">baseurl=http://192.168.91.17/ambari/HDP/centos7/2.x/updates/2.4.0.0</span><br><span class="line">gpgcheck=1</span><br><span class="line">gpgkey=http://192.168.91.17/ambari/HDP/centos7/2.x/updates/2.4.0.0/RPM-GPG-KEY/RPM-GPG-KEY-Jenkins</span><br><span class="line">enabled=1</span><br><span class="line">priority=1</span><br><span class="line"> </span><br><span class="line">[HDP-UTILS-1.1.0.20]</span><br><span class="line">name=HDP Utils Version - HDP-UTILS-1.1.0.20</span><br><span class="line">baseurl=http://192.168.91.17/ambari/HDP-UTILS-1.1.0.20/repos/centos7</span><br><span class="line">gpgcheck=1</span><br><span class="line">gpgkey=http://192.168.91.17/ambari/HDP/centos7/2.x/updates/2.4.0.0/RPM-GPG-KEY/RPM-GPG-KEY-Jenkins</span><br><span class="line">enabled=1</span><br><span class="line">priority=1</span><br></pre></td></tr></table></figure>
-<p>ambari.repo</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># VERSION_NUMBER=2.2.2.0-460</span><br><span class="line">[Updates-ambari-2.2.2.0]</span><br><span class="line">name=ambari-2.2.2.0 - Updates</span><br><span class="line">baseurl=http://192.168.91.17/ambari/AMBARI-2.2.2.0/centos7/2.2.2.0-460</span><br><span class="line">gpgcheck=1</span><br><span class="line">gpgkey=http://192.168.91.17/ambari/AMBARI-2.2.2.0/centos7/2.2.2.0-460/RPM-GPG-KEY/RPM-GPG-KEY-Jenkins</span><br><span class="line">enabled=1</span><br><span class="line">priority=1</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"># 安装httpd服务</span><br><span class="line">$ yum install httpd</span><br><span class="line"></span><br><span class="line"># 设置为开机启动</span><br><span class="line">$ systemctl enable httpd</span><br><span class="line"></span><br><span class="line"># 创建hdp文件存放目录</span><br><span class="line">$ mkdir /var/www/html</span><br><span class="line"></span><br><span class="line"># 安装时间同步服务</span><br><span class="line">$ yum install ntp</span><br><span class="line"></span><br><span class="line"># 查看是否为开机启动</span><br><span class="line">$ systemctl is-enabled ntpd</span><br><span class="line"></span><br><span class="line"># 设置为开机启动</span><br><span class="line">$ systemctl enable ntpd</span><br><span class="line"></span><br><span class="line"># 开启ntpd服务</span><br><span class="line">$ systemctl start ntpd</span><br><span class="line"></span><br><span class="line"># 关闭防火墙</span><br><span class="line">$ systemctl disable firewalld</span><br><span class="line"></span><br><span class="line"># 查看SElinux</span><br><span class="line">$ sestatus</span><br><span class="line"></span><br><span class="line"># SELINUX=enforcing 改为 SELINUX=disabled</span><br><span class="line">$ vi /etc/sysconfig/selinux</span><br><span class="line"></span><br><span class="line"># 下载Ambariyum源文件</span><br><span class="line">$ wget http://public-repo-1.hortonworks.com/ambari/centos7/2.x/updates/2.7.1.0/ambari.repo -O /etc/yum.repos.d/ambari.repo</span><br><span class="line"></span><br><span class="line"># 下载 Ambari 2.7.1</span><br><span class="line">$ wget http://public-repo-1.hortonworks.com/ambari/centos7/2.x/updates/2.7.1.0/ambari-2.7.1.0-centos7.tar.gz</span><br><span class="line"></span><br><span class="line"># 下载 HDP 3.0.1</span><br><span class="line">$ wget http://public-repo-1.hortonworks.com/HDP/centos7/3.x/updates/3.0.1.0/HDP-3.0.1.0-centos7-rpm.tar.gz</span><br><span class="line"></span><br><span class="line"># 下载 HDP-UTILS 1.1.0.22</span><br><span class="line">$ wget http://public-repo-1.hortonworks.com/HDP-UTILS-1.1.0.21/repos/centos7/HDP-UTILS-1.1.0.22-centos7.tar.gz</span><br></pre></td></tr></table></figure>
+<h3><span id="修改本地yum源配置">修改本地yum源配置</span></h3>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"># 新增hdp.repo</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># VERSION_NUMBER=2.4.2.0-258</span><br><span class="line">[HDP-2.4.2.0]</span><br><span class="line">name=HDP Version - HDP-2.4.2.0</span><br><span class="line">baseurl=http://192.168.91.17/ambari/HDP/centos7/2.x/updates/2.4.0.0</span><br><span class="line">gpgcheck=1</span><br><span class="line">gpgkey=http://192.168.91.17/ambari/HDP/centos7/2.x/updates/2.4.0.0/RPM-GPG-KEY/RPM-GPG-KEY-Jenkins</span><br><span class="line">enabled=1</span><br><span class="line">priority=1</span><br><span class="line"> </span><br><span class="line">[HDP-UTILS-1.1.0.20]</span><br><span class="line">name=HDP Utils Version - HDP-UTILS-1.1.0.20</span><br><span class="line">baseurl=http://192.168.91.17/ambari/HDP-UTILS-1.1.0.20/repos/centos7</span><br><span class="line">gpgcheck=1</span><br><span class="line">gpgkey=http://192.168.91.17/ambari/HDP/centos7/2.x/updates/2.4.0.0/RPM-GPG-KEY/RPM-GPG-KEY-Jenkins</span><br><span class="line">enabled=1</span><br><span class="line">priority=1</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"># 新增ambari.repo</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># VERSION_NUMBER=2.2.2.0-460</span><br><span class="line">[Updates-ambari-2.2.2.0]</span><br><span class="line">name=ambari-2.2.2.0 - Updates</span><br><span class="line">baseurl=http://192.168.91.17/ambari/AMBARI-2.2.2.0/centos7/2.2.2.0-460</span><br><span class="line">gpgcheck=1</span><br><span class="line">gpgkey=http://192.168.91.17/ambari/AMBARI-2.2.2.0/centos7/2.2.2.0-460/RPM-GPG-KEY/RPM-GPG-KEY-Jenkins</span><br><span class="line">enabled=1</span><br><span class="line">priority=1</span><br></pre></td></tr></table></figure>
                 
 
                 <hr>
                 <!-- Pager -->
                 <ul class="pager">
                     
+                        <li class="previous">
+                            <a href="/article/SpringCloud-05-Ribbon/" data-toggle="tooltip" data-placement="top" title="Spring Cloud Ribbon">&larr; Previous Post</a>
+                        </li>
+                    
                     
                         <li class="next">
-                            <a href="/article/SpringCloud-02-Eureka/" data-toggle="tooltip" data-placement="top" title="Spring Cloud Eureka">Next Post &rarr;</a>
+                            <a href="/article/SpringCloud-03-Zuul/" data-toggle="tooltip" data-placement="top" title="Spring Cloud Zuul">Next Post &rarr;</a>
                         </li>
                     
                 </ul>
@@ -253,7 +263,7 @@ Apache Ambari 支持HDFS、MapReduce、Hive、Pig、Hbase、Zookeepr、Sqoop和H
                 <br>
                 <!--分享-->
                 
-                    <div class="social-share"  data-wechat-qrcode-helper="" align="center"></div>
+                    <div class="social-share" data-wechat-qrcode-helper="" align="center"></div>
                     <!--  css & js -->
                     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/css/share.min.css">
                     <script src="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/js/social-share.min.js"></script>
@@ -289,7 +299,7 @@ Apache Ambari 支持HDFS、MapReduce、Hive、Pig、Hbase、Zookeepr、Sqoop和H
         <div id="toc" class="toc-article">
         <strong class="toc-title">Contents</strong>
         
-          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.</span> <span class="toc-nav-text"><span id="centos-75x64&#x642D;&#x5EFA;ambari">CentOS-7.5x64&#x642D;&#x5EFA;Ambari</span></span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text"><span id="ambari&#x7B80;&#x4ECB;">Ambari&#x7B80;&#x4ECB;</span></span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.2.</span> <span class="toc-nav-text"><span id="&#x7CFB;&#x7EDF;&#x73AF;&#x5883;">&#x7CFB;&#x7EDF;&#x73AF;&#x5883;</span></span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.3.</span> <span class="toc-nav-text"><span id="&#x5E73;&#x53F0;&#x642D;&#x5EFA;">&#x5E73;&#x53F0;&#x642D;&#x5EFA;</span></span></a></li></ol></li></ol>
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">CentOS-7.5_x64搭建Ambari</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text">Ambari简介</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.2.</span> <span class="toc-nav-text">系统环境</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.3.</span> <span class="toc-nav-text">平台搭建</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.3.1.</span> <span class="toc-nav-text">修改本地yum源配置</span></a></li></ol></li></ol></li></ol>
         
         </div>
       </aside>
@@ -403,7 +413,7 @@ Apache Ambari 支持HDFS、MapReduce、Hive、Pig、Hbase、Zookeepr、Sqoop和H
 
                 
                     <li>
-                        <a target="_blank"  href="https://github.com/janlle">
+                        <a target="_blank" href="https://github.com/janlle">
                             <span class="fa-stack fa-lg">
                                 <i class="fa fa-circle fa-stack-2x"></i>
                                 <i class="fa fa-github fa-stack-1x fa-inverse"></i>
@@ -423,10 +433,7 @@ Apache Ambari 支持HDFS、MapReduce、Hive、Pig、Hbase、Zookeepr、Sqoop和H
                         <i class="fa fa-heart"></i>
                     </span> 
                     re-Ported by <a href="http://wealip.cn">leone</a> | 
-                    <iframe
-                        style="margin-left: 2px; margin-bottom:-5px;"
-                        frameborder="0" scrolling="0" width="91px" height="20px"
-                        src="https://ghbtns.com/github-btn.html?user=janlle&repo=blogs&type=star&count=true" >
+                    <iframe style="margin-left: 2px; margin-bottom:-5px;" frameborder="0" scrolling="0" width="91px" height="20px" src="https://ghbtns.com/github-btn.html?user=janlle&repo=blogs&type=star&count=true">
                     </iframe>
                 </p>
             </div>

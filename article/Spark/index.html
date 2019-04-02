@@ -2,13 +2,13 @@
 <html lang="en">
 
 <!-- Head tag -->
-<head>
+<head><meta name="generator" content="Hexo 3.8.0">
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
-    <meta name="keyword"  content="">
+    <meta name="keyword" content="">
     <link rel="shortcut icon" href="/img/ironman-draw.png">
     <!-- Place this tag in your head or just before your close body tag. -->
     <script async defer src="https://buttons.github.io/buttons.js"></script>
@@ -78,7 +78,7 @@
     
 </style>
 
-<header class="intro-header" >
+<header class="intro-header">
     <!-- Signature -->
     <div id="signature">
         <div class="container">
@@ -94,10 +94,10 @@
                             
                         </div>
                         <h1>Spark</h1>
-                        <h2 class="subheading">Spark 核心概念及入门</h2>
+                        <h2 class="subheading">Spark 快速入门</h2>
                         <span class="meta">
                             Posted by leone on
-                            2018-07-07
+                            2018-08-07
                         </span>
                     </div>
                 
@@ -139,6 +139,13 @@
 
                     
 
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/Elasticsearch集群搭建.html">Elasticsearch</a>
+                        </li>
                         
                     
 
@@ -225,13 +232,13 @@
 <p>Hadoop的MapReduce计算模型存在问题:<br>
 Hadoop的MapReduce的核心是Shuffle(洗牌).在整个Shuffle的过程中,至少产生6次I/O流.基于MapReduce计算引擎通常会将结果输出到次盘上,进行存储和容错.另外,当一些查询(如:hive)翻译到MapReduce任务是,往往会产生多个Stage,而这些Stage有依赖底层文件系统来存储每一个Stage的输出结果,而I/O的效率往往较低,从而影响MapReduce的运行速度.</p>
 <h3><span id="spark的特点">Spark的特点</span></h3>
-<p><strong>快：</strong></p>
+<p><strong>快</strong></p>
 <p>与Hadoop的MapReduce相比，Spark基于内存的运算要快100倍以上，基于硬盘的运算也要快10倍以上。Spark实现了高效的DAG执行引擎，可以通过基于内存来高效处理数据流。</p>
-<p><strong>易用：</strong></p>
+<p><strong>易用</strong></p>
 <p>Spark支持Java、Python和Scala的API，还支持超过80种高级算法，使用户可以快速构建不同的应用。而且Spark支持交互式的Python和Scala的shell，可以非常方便地在这些shell中使用Spark集群来验证解决问题的方法。</p>
-<p><strong>通用：</strong></p>
+<p><strong>通用</strong></p>
 <p>Spark提供了统一的解决方案。Spark可以用于批处理、交互式查询（Spark SQL）、实时流处理（Spark Streaming）、机器学习（Spark MLlib）和图计算（GraphX）。这些不同类型的处理都可以在同一个应用中无缝使用。Spark统一的解决方案非常具有吸引力，毕竟任何公司都想用统一的平台去处理遇到的问题，减少开发和维护的人力成本和部署平台的物力成本。</p>
-<p><strong>兼容性：</strong></p>
+<p><strong>兼容性</strong></p>
 <p>Spark 可以非常方便地与其他的开源产品进行融合。比如，Spark 可以使用Hadoop 的 YARN 和 Apache Mesos 作为它的资源管理和调度器.并且可以处理所有 Hadoop 支持的数据，包括 HDFS、HBase 和 Cassandra 等。这对于已经部署Hadoop 集群的用户特别重要，因为不需要做任何数据迁移就可以使用 Spark 的强大处理能力。Spark 也可以不依赖于第三方的资源管理和调度器，它实现了Standalone 作为其内置的资源管理和调度框架，这样进一步降低了 Spark 的使用门槛，使得所有人都可以非常容易地部署和使用 Spark。此外，Spark 还提供了在EC2 上部Standalone 的 Spark 集群的工具。</p>
 <h3><span id="spark的生态系统">Spark的生态系统</span></h3>
 <ul>
@@ -265,25 +272,25 @@ Hadoop的MapReduce的核心是Shuffle(洗牌).在整个Shuffle的过程中,至�
 <p>主要是数据分析领域，数据科学家要负责分析数据并建模，具备 SQL、统计、预测建模(机器学习)等方面的经验，以及一定的使用 Python、 Matlab 或 R 语言进行编程的能力。</p>
 <p><strong>数据处理应用</strong></p>
 <p>工程师定义为使用 Spark 开发 生产环境中的数据处理应用的软件开发者，通过对接Spark的API实现对处理的处理和转换等任务。</p>
-<h3><span id="sparkde架构中的基本组件">Sparkde架构中的基本组件:</span></h3>
+<h3><span id="spark架构中的基本组件">Spark架构中的基本组件:</span></h3>
 <ul>
 <li>
-<p>ClusterManager:在standlone模式中即为Master(主节点),控制整个集群.监控Worker.在Yarn模式中为资源管理器.</p>
+<p>Driver:运行Application的main() 函数并创建SparkContext</p>
 </li>
 <li>
 <p>Worker:从节点,负责控制计算节点,启动Ex而粗投入或Driver</p>
 </li>
 <li>
-<p>NodeManager:负责计算节点的控制。</p>
+<p>SparkContext: 整个应用的上下文,监控应用的生命周期</p>
 </li>
 <li>
-<p>Driver:运行Application的main() 函数并创建SparkContext</p>
+<p>SparkConf：负责存储配置信息。</p>
 </li>
 <li>
 <p>Executor: 执行器,在worker node上执行任务组件,用于启动线程执行任务.每个Application拥有独立的一组Executors</p>
 </li>
 <li>
-<p>SparkContext: 整个应用的上下文,监控应用的生命周期</p>
+<p>ClusterManager:在standlone模式中即为Master(主节点),控制整个集群.监控Worker.在Yarn模式中为资源管理器.</p>
 </li>
 <li>
 <p>RDD:弹性分布式集合,spark的基本计算单元，一组RDD可形成执行的有向无环图RDD Graph</p>
@@ -309,47 +316,114 @@ Hadoop的MapReduce的核心是Shuffle(洗牌).在整个Shuffle的过程中,至�
 <li>
 <p>MetricsSystem：监控运行时性能指标信息。</p>
 </li>
-<li>
-<p>SparkConf：负责存储配置信息。</p>
-</li>
 </ul>
 <p>Spark的整体流程:client提交应用,Master找到一个Worker启动Driver,Driver向Master或者向资源管理器申请资源,之后将应用转化为RDD Graph，再由DAGScheduler将RDD Graph转化为Stage的有向无环图提交给TaskScheduler，由TaskScheduler提交任务给Executor执行。在任务执行的过程中，其他组件协同工作，确保整个应用顺利执行。</p>
 <h2><span id="搭建-spark-集群">搭建 Spark 集群</span></h2>
 <blockquote>
 <p>Spark的部署模式有Local、Local-Cluster、Standalone、Yarn、Mesos，我们选择最具代表性的Standalone集群部署模式。安装java环境,Spark自动会把scala SDK打包到Spark中无需安装scala环境</p>
 </blockquote>
+<h3><span id="环境">环境</span></h3>
+<p>linux: CentOS-7.5_x64<br>
+hadoop: hadoop-3.2.0<br>
+spark: spark-2.3.3<br>
+zookeeper: zookeeper-3.4.10</p>
+<h3><span id="机器规划">机器规划</span></h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">主机名</th>
+<th style="text-align:left">IP</th>
+<th style="text-align:left">安装软件</th>
+<th style="text-align:left">运行进程</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">node-1</td>
+<td style="text-align:left">192.168.91.11</td>
+<td style="text-align:left">spark</td>
+<td style="text-align:left">Master</td>
+</tr>
+<tr>
+<td style="text-align:left">node-2</td>
+<td style="text-align:left">192.168.91.12</td>
+<td style="text-align:left">spark,zookeeper</td>
+<td style="text-align:left">Worker,QuorumPeerMain</td>
+</tr>
+<tr>
+<td style="text-align:left">node-3</td>
+<td style="text-align:left">192.168.91.13</td>
+<td style="text-align:left">spark,zookeeper</td>
+<td style="text-align:left">Worker,QuorumPeerMain</td>
+</tr>
+<tr>
+<td style="text-align:left">node-4</td>
+<td style="text-align:left">192.168.91.14</td>
+<td style="text-align:left">spark,zookeeper</td>
+<td style="text-align:left">Worker,QuorumPeerMain</td>
+</tr>
+</tbody>
+</table>
 <h3><span id="配置-spark-环境">配置 Spark 环境</span></h3>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"># 下载对应的Spark安装包</span><br><span class="line">$ wget http://mirrors.hust.edu.cn/apache/spark/spark-2.3.2/spark-2.3.2-bin-hadoop2.7.tgz</span><br><span class="line"></span><br><span class="line"># 解压缩</span><br><span class="line">$ tar -zxvf spark-2.3.2-bin-hadoop2.7.tgz -C /xxx/xxx</span><br><span class="line"></span><br><span class="line"># 修改Spark的环境配置文件</span><br><span class="line">$ cp $SPARK_HOME/conf/spark-env.sh.template spark-env.sh</span><br><span class="line">$ vim $SPARK_HOME/conf/spark-env.sh</span><br><span class="line"></span><br><span class="line"># 添加如下配置</span><br><span class="line">export JAVA_HOME=/usr/java/jdk1.8.0_191</span><br><span class="line"></span><br><span class="line"># export SPARK_MASTER_IP=node-1</span><br><span class="line"># export SPARK_MASTER_PORT=7077</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># 修改slave的配置</span><br><span class="line">$ cp $SPARK_HOME/conf/slaves.template slaves</span><br><span class="line"></span><br><span class="line">$ vi slaves</span><br><span class="line"># 在该文件中添加子节点所在的位置（Worker节点）</span><br><span class="line">node-2</span><br><span class="line">node-3</span><br><span class="line">node-4</span><br><span class="line"></span><br><span class="line"># 将配置好的spark 复制到其他机器上</span><br><span class="line">$ scp -r spark-2.3.2-bin-hadoop2.7 root@node-2:/xxx/xxx</span><br><span class="line"></span><br><span class="line"># 启动spark集群</span><br><span class="line">$ $SPARK_HOME/sbin/start-master.sh</span><br><span class="line"></span><br><span class="line">$ $SPARK_HOME/sbin/start-slaves.sh</span><br><span class="line"></span><br><span class="line"># 也可以是用这个脚本启动所有机器</span><br><span class="line">$ $SPARK_HOME/sbin/start-all.sh</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"># 下载对应的Spark安装包</span><br><span class="line">$ wget http://mirrors.hust.edu.cn/apache/spark/spark-2.3.3/spark-2.3.3-bin-hadoop2.7.tgz</span><br><span class="line"></span><br><span class="line"># 解压缩</span><br><span class="line">$ tar -zxvf spark-2.3.3-bin-hadoop2.7.tgz</span><br><span class="line"></span><br><span class="line"># 进入spark解压目录</span><br><span class="line">$ cd $SPARK_HOME</span><br><span class="line"></span><br><span class="line"># 修改Spark的环境配置文件</span><br><span class="line">$ cp conf/spark-env.sh.template spark-env.sh</span><br><span class="line">$ vim conf/spark-env.sh</span><br><span class="line"></span><br><span class="line"># 添加如下配置</span><br><span class="line">export JAVA_HOME=/usr/java/jdk1.8.0_191</span><br><span class="line"></span><br><span class="line"># 修改slave的配置</span><br><span class="line">$ cp $SPARK_HOME/conf/slaves.template slaves</span><br><span class="line">$ vi slaves</span><br><span class="line"></span><br><span class="line"># 在该文件中添加子节点所在的位置（Worker节点）</span><br><span class="line">node-2</span><br><span class="line">node-3</span><br><span class="line">node-4</span><br><span class="line"></span><br><span class="line"># 将配置好的spark 复制到其他机器上(node-2,node-3,node-4)</span><br><span class="line">$ scp -r spark-2.3.2-bin-hadoop2.7 root@node-2:/xxx/xxx</span><br><span class="line"></span><br><span class="line"># 启动spark集群</span><br><span class="line">$ sbin/start-master.sh</span><br><span class="line">$ sbin/start-slaves.sh</span><br><span class="line"></span><br><span class="line"># 也可以是用这个脚本启动所有机器</span><br><span class="line">$ sbin/start-all.sh</span><br></pre></td></tr></table></figure>
 <p>启动后执行jps命令，主节点上有Master进程，其他子节点上有Work进行，登录Spark管理界面查看集群状态（主节点）：<a href="http://node-1:8080/" target="_blank" rel="noopener">http://node-1:8080/</a></p>
-<p>到此为止，Spark集群安装完毕，但是有一个很大的问题，那就是Master节点存在单点故障，要解决此问题，就要借助zookeeper，并且启动至少两个Master节点来实现高可靠，配置方式比较简单：</p>
-<p>Spark集群规划：node-1，node-2是Master；node-3，node-4，node-5是Worker</p>
-<p>安装配置zk集群，并启动zk集群</p>
-<p>停止spark所有服务，<a href="http://xn--spark-env-477nh9f666h82an66xy9tc.sh" target="_blank" rel="noopener">修改配置文件spark-env.sh</a>，在该配置文件中删掉SPARK_MASTER_IP并添加如下配置</p>
-<p>export SPARK_DAEMON_JAVA_OPTS=&quot;-Dspark.deploy.recoveryMode=ZOOKEEPER -Dspark.deploy.zookeeper.url=zk1,zk2,zk3 -Dspark.deploy.zookeeper.dir=/spark&quot;</p>
-<p>1.在node1节点上修改slaves配置文件内容指定worker节点</p>
-<p>2.在node1上执行$SPARK_HOME/sbin/start-all.sh，然后在node2上执行$SPARK_HOME/sbin/start-master.sh启动第二个Master</p>
+<h3><span id="spark-集群-ha">Spark 集群 HA</span></h3>
+<h4><span id="机器规划">机器规划</span></h4>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">主机名</th>
+<th style="text-align:left">IP</th>
+<th style="text-align:left">安装软件</th>
+<th style="text-align:left">运行进程</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">node-1</td>
+<td style="text-align:left">192.168.91.11</td>
+<td style="text-align:left">spark</td>
+<td style="text-align:left">Master</td>
+</tr>
+<tr>
+<td style="text-align:left">node-2</td>
+<td style="text-align:left">192.168.91.12</td>
+<td style="text-align:left">spark,zookeeper</td>
+<td style="text-align:left">Master,QuorumPeerMain</td>
+</tr>
+<tr>
+<td style="text-align:left">node-3</td>
+<td style="text-align:left">192.168.91.13</td>
+<td style="text-align:left">spark,zookeeper</td>
+<td style="text-align:left">Worker,QuorumPeerMain</td>
+</tr>
+<tr>
+<td style="text-align:left">node-4</td>
+<td style="text-align:left">192.168.91.14</td>
+<td style="text-align:left">spark,zookeeper</td>
+<td style="text-align:left">Worker,QuorumPeerMain</td>
+</tr>
+</tbody>
+</table>
+<p>1.安装配置zk集群，并启动zk集群<a href="https://blog.csdn.net/fooelliot/article/details/85196423" target="_blank" rel="noopener">zookeeper安装</a></p>
+<p>2.修改spark的配置文件添加如下配置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export SPARK_DAEMON_JAVA_OPTS=&quot;-Dspark.deploy.recoveryMode=ZOOKEEPER -Dspark.deploy.zookeeper.url=node-2:2181,node-3:2181,node-4:2181 -Dspark.deploy.zookeeper.dir=/spark&quot;</span><br></pre></td></tr></table></figure>
+<p>3.修改所有节点的slaves文件改为（node-3,node-4）节点</p>
+<p>4.在node1上执行 sbin/start-all.sh，然后在 node-2 上启动第二个 Master（sbin/start-master.sh ）</p>
 <h3><span id="执行第一个spark程序">执行第一个spark程序</span></h3>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$SPARK_HOME/bin/spark-submit --class org.apache.spark.examples.SparkPi --master spark://localhost:7077 --executor-memory 1G --total-executor-cores 1 $SPARK_HOME/examples/jars/spark-examples_2.11-2.2.2.jar 100</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$SPARK_HOME/bin/spark-submit --class org.apache.spark.examples.SparkPi --master spark://master-ip:7077 --executor-memory 1G --total-executor-cores 2 $SPARK_HOME/examples/jars/spark-examples_2.11-2.3.3.jar 100</span><br></pre></td></tr></table></figure>
 <h3><span id="spark-shell">spark Shell</span></h3>
 <p>spark-shell是Spark自带的交互式Shell程序，方便用户进行交互式编程，用户可以在该命令行下用scala编写spark程序。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$SPARK_HOME/bin/spark-shell \</span><br><span class="line"></span><br><span class="line">--master spark://localhost:7077 \</span><br><span class="line"></span><br><span class="line">--executor-memory 2g \</span><br><span class="line"></span><br><span class="line">--total-executor-cores 2</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$SPARK_HOME/bin/spark-shell --master spark://node-1:7077 --executor-memory 2g --total-executor-cores 2</span><br></pre></td></tr></table></figure>
 <p>参数说明：</p>
-<p>–master spark://localhost:7077       指定Master的地址</p>
-<p>–executor-memory 2g                指定每个worker可用内存为2G</p>
-<p>–total-executor-cores 2                指定整个集群使用的cup核数为2个</p>
-<p>注意：</p>
-<p>如果启动spark shell时没有指定master地址，但是也可以正常启动spark shell和执行spark shell中的程序，其实是启动了spark的local模式，该模式仅在本机启动一个进程，没有与集群建立联系。Spark Shell中已经默认将SparkContext类初始化为对象sc。用户代码如果需要用到，则直接应用sc即可</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># 指定Master的地址</span><br><span class="line">--master spark://node-1:7077</span><br><span class="line"></span><br><span class="line"># 指定每个worker可用内存为2G</span><br><span class="line">--executor-memory 2g</span><br><span class="line"></span><br><span class="line"># 指定整个集群使用的cup核数为2个</span><br><span class="line">--total-executor-cores 2</span><br></pre></td></tr></table></figure>
+<p><strong>注意</strong></p>
+<p>如果启动spark shell时没有指定master地址，但是也可以正常启动spark shell和执行spark<br>
+shell中的程序，其实是启动了spark的local模式，该模式仅在本机启动一个进程，没有与集群建立联系。<br>
+Spark Shell中已经默认将SparkContext类初始化为对象sc。用户代码如果需要用到，则直接应用sc即可</p>
 <h3><span id="spark-shell中编写wordcount">spark shell中编写WordCount</span></h3>
 <p>在spark shell中用scala语言编写spark程序</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sc.textFile(&quot;file:///root/tmp/words.dta&quot;).flatMap(_.split(&quot; &quot;)).map((_,1)).reduceByKey(_+_).saveAsTextFile(&quot;file:///root/tmp/out&quot;)</span><br></pre></td></tr></table></figure>
-<p>说明：</p>
-<p>sc是SparkContext对象，该对象时提交spark程序的入口</p>
-<p>textFile(“file:///root/tmp/words.dta”)  从本地文件中读取数据</p>
-<p>flatMap(_.split(&quot; &quot;))                     先map在压平</p>
-<p>map((_,1))                              将单词和1构成元组</p>
-<p>reduceByKey(<em>+</em>)                          按照key进行reduce，并将value累加</p>
-<p>saveAsTextFile(“file:///root/tmp/out”)  将结果写入到指定位置</p>
-
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"># sc是SparkContext对象，该对象时提交spark程序的入口</span><br><span class="line">sc.textFile(&quot;file:///root/data/words.txt&quot;).flatMap(_.split(&quot; &quot;)).map((_,1)).reduceByKey(_+_).saveAsTextFile(&quot;file:///root/data/output1&quot;)</span><br><span class="line"></span><br><span class="line"># 从本地文件系统中读取数据</span><br><span class="line">textFile(&quot;file:///root/data/words.txt&quot;)</span><br><span class="line"></span><br><span class="line"># 读取每一行数据并切分</span><br><span class="line">flatMap(_.split(&quot; &quot;))</span><br><span class="line"></span><br><span class="line"># 将数据切分映射将单词和1构成元组</span><br><span class="line">map((_,1))</span><br><span class="line"></span><br><span class="line"># 按照key进行reduce，并将value累加</span><br><span class="line">reduceByKey(_+_)</span><br><span class="line"></span><br><span class="line"># 将结果写入到指定位置</span><br><span class="line">saveAsTextFile(&quot;file:///root/data/output1&quot;)</span><br></pre></td></tr></table></figure>
                 
 
                 <hr>
@@ -357,12 +431,12 @@ Hadoop的MapReduce的核心是Shuffle(洗牌).在整个Shuffle的过程中,至�
                 <ul class="pager">
                     
                         <li class="previous">
-                            <a href="/article/Git-commit-standard/" data-toggle="tooltip" data-placement="top" title="Git 提交规范">&larr; Previous Post</a>
+                            <a href="/article/redis/" data-toggle="tooltip" data-placement="top" title="Redis">&larr; Previous Post</a>
                         </li>
                     
                     
                         <li class="next">
-                            <a href="/article/java-pay/" data-toggle="tooltip" data-placement="top" title="java 第三方支付">Next Post &rarr;</a>
+                            <a href="/article/SpringBoot-11-aop/" data-toggle="tooltip" data-placement="top" title="Spring Boot aop">Next Post &rarr;</a>
                         </li>
                     
                 </ul>
@@ -376,7 +450,7 @@ Hadoop的MapReduce的核心是Shuffle(洗牌).在整个Shuffle的过程中,至�
                 <br>
                 <!--分享-->
                 
-                    <div class="social-share"  data-wechat-qrcode-helper="" align="center"></div>
+                    <div class="social-share" data-wechat-qrcode-helper="" align="center"></div>
                     <!--  css & js -->
                     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/css/share.min.css">
                     <script src="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/js/social-share.min.js"></script>
@@ -412,7 +486,7 @@ Hadoop的MapReduce的核心是Shuffle(洗牌).在整个Shuffle的过程中,至�
         <div id="toc" class="toc-article">
         <strong class="toc-title">Contents</strong>
         
-          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.</span> <span class="toc-nav-text"><span id="spark">Spark</span></span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text"><span id="spark-&#x80CC;&#x666F;">Spark &#x80CC;&#x666F;</span></span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.1.1.</span> <span class="toc-nav-text"><span id="&#x4EC0;&#x4E48;&#x662F;-spark">&#x4EC0;&#x4E48;&#x662F; Spark</span></span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.1.2.</span> <span class="toc-nav-text"><span id="spark&#x4E0E;hadoop">Spark&#x4E0E;Hadoop</span></span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.1.3.</span> <span class="toc-nav-text"><span id="&#x4E3A;&#x4EC0;&#x4E48;&#x4F7F;&#x7528;spark">&#x4E3A;&#x4EC0;&#x4E48;&#x4F7F;&#x7528;Spark?</span></span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.1.4.</span> <span class="toc-nav-text"><span id="spark&#x7684;&#x7279;&#x70B9;">Spark&#x7684;&#x7279;&#x70B9;</span></span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.1.5.</span> <span class="toc-nav-text"><span id="spark&#x7684;&#x751F;&#x6001;&#x7CFB;&#x7EDF;">Spark&#x7684;&#x751F;&#x6001;&#x7CFB;&#x7EDF;</span></span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.1.6.</span> <span class="toc-nav-text"><span id="spark-&#x7684;&#x7528;&#x6237;&#x548C;&#x7528;&#x9014;">Spark &#x7684;&#x7528;&#x6237;&#x548C;&#x7528;&#x9014;</span></span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.1.7.</span> <span class="toc-nav-text"><span id="sparkde&#x67B6;&#x6784;&#x4E2D;&#x7684;&#x57FA;&#x672C;&#x7EC4;&#x4EF6;">Sparkde&#x67B6;&#x6784;&#x4E2D;&#x7684;&#x57FA;&#x672C;&#x7EC4;&#x4EF6;:</span></span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.2.</span> <span class="toc-nav-text"><span id="&#x642D;&#x5EFA;-spark-&#x96C6;&#x7FA4;">&#x642D;&#x5EFA; Spark &#x96C6;&#x7FA4;</span></span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.2.1.</span> <span class="toc-nav-text"><span id="&#x914D;&#x7F6E;-spark-&#x73AF;&#x5883;">&#x914D;&#x7F6E; Spark &#x73AF;&#x5883;</span></span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.2.2.</span> <span class="toc-nav-text"><span id="&#x6267;&#x884C;&#x7B2C;&#x4E00;&#x4E2A;spark&#x7A0B;&#x5E8F;">&#x6267;&#x884C;&#x7B2C;&#x4E00;&#x4E2A;spark&#x7A0B;&#x5E8F;</span></span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.2.3.</span> <span class="toc-nav-text"><span id="spark-shell">spark Shell</span></span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.2.4.</span> <span class="toc-nav-text"><span id="spark-shell&#x4E2D;&#x7F16;&#x5199;wordcount">spark shell&#x4E2D;&#x7F16;&#x5199;WordCount</span></span></a></li></ol></li></ol></li></ol>
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">Spark</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text">Spark 背景</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.1.1.</span> <span class="toc-nav-text">什么是 Spark</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.1.2.</span> <span class="toc-nav-text">Spark与Hadoop</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.1.3.</span> <span class="toc-nav-text">为什么使用Spark?</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.1.4.</span> <span class="toc-nav-text">Spark的特点</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.1.5.</span> <span class="toc-nav-text">Spark的生态系统</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.1.6.</span> <span class="toc-nav-text">Spark 的用户和用途</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.1.7.</span> <span class="toc-nav-text">Spark架构中的基本组件:</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.2.</span> <span class="toc-nav-text">搭建 Spark 集群</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.2.1.</span> <span class="toc-nav-text">环境</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.2.2.</span> <span class="toc-nav-text">机器规划</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.2.3.</span> <span class="toc-nav-text">配置 Spark 环境</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.2.4.</span> <span class="toc-nav-text">Spark 集群 HA</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.2.4.1.</span> <span class="toc-nav-text">机器规划</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.2.5.</span> <span class="toc-nav-text">执行第一个spark程序</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.2.6.</span> <span class="toc-nav-text">spark Shell</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.2.7.</span> <span class="toc-nav-text">spark shell中编写WordCount</span></a></li></ol></li></ol></li></ol>
         
         </div>
       </aside>
@@ -522,7 +596,7 @@ Hadoop的MapReduce的核心是Shuffle(洗牌).在整个Shuffle的过程中,至�
 
                 
                     <li>
-                        <a target="_blank"  href="https://github.com/janlle">
+                        <a target="_blank" href="https://github.com/janlle">
                             <span class="fa-stack fa-lg">
                                 <i class="fa fa-circle fa-stack-2x"></i>
                                 <i class="fa fa-github fa-stack-1x fa-inverse"></i>
@@ -542,10 +616,7 @@ Hadoop的MapReduce的核心是Shuffle(洗牌).在整个Shuffle的过程中,至�
                         <i class="fa fa-heart"></i>
                     </span> 
                     re-Ported by <a href="http://wealip.cn">leone</a> | 
-                    <iframe
-                        style="margin-left: 2px; margin-bottom:-5px;"
-                        frameborder="0" scrolling="0" width="91px" height="20px"
-                        src="https://ghbtns.com/github-btn.html?user=janlle&repo=blogs&type=star&count=true" >
+                    <iframe style="margin-left: 2px; margin-bottom:-5px;" frameborder="0" scrolling="0" width="91px" height="20px" src="https://ghbtns.com/github-btn.html?user=janlle&repo=blogs&type=star&count=true">
                     </iframe>
                 </p>
             </div>

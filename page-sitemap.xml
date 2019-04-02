@@ -7,29 +7,36 @@
     </url>
     
     <url>
-        <loc>http://www.wealip.cn/about/</loc>
-        <lastmod>2019-02-13T08:07:52.457Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    
-    <url>
         <loc>http://www.wealip.cn/tags/</loc>
-        <lastmod>2019-02-07T10:01:59.400Z</lastmod>
+        <lastmod>2019-04-02T07:24:24.001Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
     
     <url>
         <loc>http://www.wealip.cn/archive/</loc>
-        <lastmod>2019-02-07T10:01:59.325Z</lastmod>
+        <lastmod>2019-04-02T07:24:23.950Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>http://www.wealip.cn/about/</loc>
+        <lastmod>2019-04-02T07:24:23.949Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>http://www.wealip.cn/Elasticsearch%E9%9B%86%E7%BE%A4%E6%90%AD%E5%BB%BA.html</loc>
+        <lastmod>2019-04-02T07:24:23.930Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
     
     <url>
         <loc>http://www.wealip.cn/404.html</loc>
-        <lastmod>2019-02-07T10:01:59.316Z</lastmod>
+        <lastmod>2019-04-02T07:24:23.925Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
