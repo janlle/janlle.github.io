@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/ironman-draw.png">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <title>
+        
+          linux shell - leone | Blog
+        
+    </title>
+
+    <link rel="canonical" href="http://www.wealip.cn/article/linux-shell/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS --> 
+    <link rel="stylesheet" href="/css/beantech.min.css">
+
+    <link rel="stylesheet" href="/css/donate.css">
+    
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <link rel="stylesheet" href="/css/widget.css">
+
+    <link rel="stylesheet" href="/css/rocket.css">
+
+    <link rel="stylesheet" href="/css/signature.css">
+
+    <link rel="stylesheet" href="/css/toc.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        
+            background-image: url('/img/article_header/article_header.png')
+            /*post*/
+        
+    }
+    
+</style>
+
+<header class="intro-header" >
+    <!-- Signature -->
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#linux" title="linux">linux</a>
+                            
+                              <a class="tag" href="/tags/#shell" title="shell">shell</a>
+                            
+                        </div>
+                        <h1>linux shell</h1>
+                        <h2 class="subheading">linux shell 详解</h2>
+                        <span class="meta">
+                            Posted by leone on
+                            2019-04-23
+                        </span>
+                    </div>
+                
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">leone</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archive/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h1><span id="linux-shell">linux shell</span></h1>
+<h2><span id="什么是-shell">什么是 shell</span></h2>
+<p>Shell本身是一个用 C 语言编写的程序，它是用户使用 Unix/Linux 的桥梁，用户的大部分工作都是通过 Shell 完成的。Shell既是一种命令语言，又是一种程序设计语言。作为命令语言，它交互式地解释和执行用户输入的命令；作为程序设计语言，它定义了各种变量和参数，并提供了许多在高级语言中才具有的控制结构，包括循环和分支。</p>
+<p>它虽然不是Unix/Linux系统内核的一部分，但它调用了系统核心的大部分功能来执行程序、建立文件并以并行的方式协调各个程序的运行。因此，对于用户来说，shell是最重要的实用程序，深入了解和熟练掌握shell的特性极其使用方法，是用好Unix/Linux系统的关键。可以说，shell使用的熟练程度反映了用户对Unix/Linux使用的熟练程度</p>
+<h2><span id="shell-命令执行的方式">Shell 命令执行的方式</span></h2>
+<ul>
+<li>
+<p>交互式（Interactive）：解释执行用户的命令，用户输入一条命令，Shell就解释执行一条。</p>
+</li>
+<li>
+<p>批处理（Batch）：用户事先写一个Shell脚本(Script)，其中有很多条命令，让Shell一次把这些命令执行完，而不必一条一条地敲命令。<br>
+Shell脚本和编程语言很相似，也有变量和流程控制语句，但Shell脚本是解释执行的，不需要编译，Shell程序从脚本中一行一行读取并执行这些命令，相当于一个用户把脚本中的命令一行一行敲到Shell提示符下执行。可以使用sh或者bash命令来运行<br>
+、通过source来运行、通过./xxx.sh来运行（这种方式要求对脚本文件有r和x权限才行）。</p>
+</li>
+</ul>
+<p>Shell 初学者请注意，在平常应用中，建议不要用 root 帐号运行 Shell 。作为普通用户，不管您有意还是无意，都无法破坏系统；但如果是 root，那就不同了，只要敲几个字母，就可能导致灾难性后果。</p>
+<h2><span id="linux-shell-的种类">linux shell 的种类</span></h2>
+<p>查看当前系统使用的shell可以使用<code>echo $SHELL</code>、<code>echo$0</code>、<code>ps</code>等命令查看。</p>
+<ul>
+<li>/bin/ash</li>
+</ul>
+<p>ash Shell是由Kenneth Almquist编写的，是Linux 中占用系统资源最少的一个小Shell，它只包含24个内部命令，因而使用起来很不方便。</p>
+<ul>
+<li>/bin/bash</li>
+</ul>
+<p>bash是Linux系统默认使用的Shell，它由Brian Fox 和Chet Ramey共同完成，是BourneAgain Shell的缩写，内部命令一共有40 个。Linux 使用它作为默认的Shell是因为它具有以下特色：可以使用类似DOS下面的doskey的功能，用上下方向键查阅和快速输入并修改命令。自动通过查找匹配的方式，给出以某字串开头的命令。包含了自身的帮助功能，你只要在提示符下面键入help就可以得到相关的帮助信息。</p>
+<ul>
+<li>/bin/sh</li>
+</ul>
+<p>是一个快捷方式，默认指向/bin/bash</p>
+<ul>
+<li>/bin/csh</li>
+</ul>
+<p>csh 是Linux 比较大的内核，它由以William Joy 为代表的共计47 位作者编成，共有52个内部命令。该Shell其实是指向/bin/tcsh这样的一个Shell，也就是说，csh其实就是tcsh。</p>
+<ul>
+<li>/bin/ksh</li>
+</ul>
+<p>ksh是Korn Shell的缩写，由Eric Gisin编写，共有42 条内部命令。该Shell最大的优点是几乎和商业发行版的ksh 完全相容，这样就可以在不用花钱购买商业版本的情况下尝试商业版本的性能了。<br>
+用于编写 script 的 shell，从可移植性和普遍性上考虑，建议用 ksh。<br>
+因为 POSIX 1003.2 就是以 ksh 为蓝本的。而 bash 又是遵寻 POSIX 写的。但 bash 除 linux 外，应用较少。而且，有些 ksh93 中的特性 bash 中没有，如　associative arrays。</p>
+<ul>
+<li>/bin/tcsh</li>
+</ul>
+<p>tcsh是csh的增强版，与C shell完全兼容。</p>
+<ul>
+<li>/sbin/nologin</li>
+</ul>
+<p>当用户配置成/sbin/nologin时，如果再使用该用户ssh到linux操作系统，会提示<br>
+This account is currently not available. 指用户不能登录</p>
+<ul>
+<li>/bin/zsh</li>
+</ul>
+<p>目前Linux里最庞大的一种shell：zsh。它有84个内部命令，使用起来也比较复杂。一般情况下，不会使用<br>
+该shell。</p>
+<h2><span id="linux-shell命令的基本格式">Linux Shell命令的基本格式</span></h2>
+<p>Linux Shell命令的基本格式</p>
+<p><code>command [选项] [参数]</code></p>
+<p>[]表示可选的，也就是可有可无。有些命令不写选项和参数也能执行，有些命令在必要的时候可以附带选项和参数。</p>
+<p>ls 是常用的一个命令，它属于目录操作命令，用来列出当前目录下的文件和文件夹。ls 可以附带选项，也可以不带，不带选项的写法为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost python]# ls</span><br><span class="line">demo01.py  demo02.py  demo03.py  demo04.py  demo05.py  demo06.py  myScrapy  urllit.py</span><br><span class="line">[root@localhost python]#</span><br></pre></td></tr></table></figure>
+<p><strong>使用选项</strong></p>
+<p>ls 命令之后不加选项和参数也能执行，不过只能执行最基本的功能，即显示当前目录下的文件名。那么加入一个选项，会出现什么结果？</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">[root@localhost python]# ls -l</span><br><span class="line">total 32</span><br><span class="line">-rw-r--r-- 1 root root  297 Mar 11  2018 demo01.py</span><br><span class="line">-rw-r--r-- 1 root root  295 Mar 11  2018 demo02.py</span><br><span class="line">-rw-r--r-- 1 root root   95 Apr  5  2018 demo03.py</span><br><span class="line">-rw-r--r-- 1 root root  206 Mar  7 10:57 demo04.py</span><br><span class="line">-rw-r--r-- 1 root root  143 Apr 13  2018 demo05.py</span><br><span class="line">-rw-r--r-- 1 root root  219 Apr 14  2018 demo06.py</span><br><span class="line">drwxr-xr-x 3 root root 4096 Aug 19  2018 myScrapy</span><br><span class="line">-rw-r--r-- 1 root root   35 Jul 31  2018 urllit.py</span><br><span class="line">[root@localhost python]#</span><br></pre></td></tr></table></figure>
+<p>如果加一个-l选项，则可以看到显示的内容明显增多了。-l是长格式（long list）的意思，也就是显示文件的详细信息。</p>
+<p>可以看到，选项的作用是调整命令功能。如果没有选项，那么命令只能执行最基本的功能；而一旦有选项，则能执行更多功能，或者显示更加丰富的数据。</p>
+<p><strong>短格式选项和长格式选项</strong></p>
+<p>Linux 的选项又分为短格式选项和长格式选项。</p>
+<ul>
+<li>
+<p>短格式选项是长格式选项的简写，用一个减号-和一个字母表示，例如ls -l。</p>
+</li>
+<li>
+<p>长格式选项是完整的英文单词，用两个减号–和一个单词表示，例如ls --all。</p>
+</li>
+</ul>
+<p><strong>选项附带的参数</strong></p>
+<p>有些命令的选项后面也可以附带参数，这些参数用来补全选项，或者调整选项的功能细节。</p>
+<p>例如，read 命令用来读取用户输入的数据，并把读取到的数据赋值给一个变量，它通常的用法为：<br>
+read str</p>
+<p>str 为变量名。</p>
+<p>如果我们只是想读取固定长度的字符串，那么可以给 read 命令增加-n选项。比如读取一个字符作为性别的标志，那么可以这样写：<br>
+read -n 1 sex</p>
+<p>1是-n选项的参数，sex是 read 命令的参数。</p>
+<p>-n选项表示读取固定长度的字符串，那么它后面必然要跟一个数字用来指明长度，否则选项是不完整的</p>
+<h2><span id="shell命令的本质到底是什么">Shell命令的本质到底是什么</span></h2>
+<p>Shell 命令分为两种：</p>
+<ul>
+<li>
+<p>Shell 自带的命令称为内置命令，它在 Shell 内部可以通过函数来实现，当 Shell 启动后，这些命令所对应的代码（函数体代码）也被加载到内存中，所以使用内置命令是非常快速的。</p>
+</li>
+<li>
+<p>更多的命令是外部的应用程序，一个命令就对应一个应用程序。运行外部命令要开启一个新的进程，所以效率上比内置命令差很多。</p>
+</li>
+</ul>
+<p>用户输入一个命令后，Shell 先检测该命令是不是内置命令，如果是就执行，如果不是就检测有没有对应的外部程序：有的话就转而执行外部程序，执行结束后再回到 Shell；没有的话就报错，告诉用户该命令不存在。</p>
+<p><strong>内置命令</strong></p>
+<p>内置命令不宜过多，过多的内置命令会导致 Shell 程序本身体积膨胀，运行 Shell 程序后就会占用更多的内存。Shell 是一个常驻内存的程序，占用过多内存会影响其它的程序。</p>
+<p>只有那些最常用的命令才有理由成为内置命令，比如 cd、kill、echo 等；</p>
+<p><strong>外部命令</strong></p>
+<p>外部命令可能是读者比较疑惑的，一个外部的应用程序究竟是如何变成一个 Shell 命令的呢？</p>
+<p>应用程序就是一个文件，只不过这个文件是可以执行的。既然是文件，那么它就有一个名字，并且存放在文件系统中。用户在 Shell 中输入一个外部命令后，只是将可执行文件的名字告诉了 Shell，但是并没有告诉 Shell 去哪里寻找这个文件。</p>
+<p>难道 Shell 要遍历整个文件系统，查看每个目录吗？这显然是不能实现的。</p>
+<p>为了解决这个问题，Shell 在启动文件中增加了一个叫做 PATH 的环境变量，该变量就保存了 Shell 对外部命令的查找路径，如果在这些路径下找不到同名的文件，Shell 也不会再去其它路径下查找了，它就直接报错。</p>
+<h2><span id="linux-shell命令提示符">Linux Shell命令提示符</span></h2>
+<p>启动 Linux 桌面环境自带的终端模拟包，或者从 Linux 控制台登录后，便可以看到 Shell 命令提示符。看见命令提示符就意味着可以输入命令了。命令提示符不是命令的一部分，它只是起到一个提示作用。</p>
+<p>不同的 Linux 发行版使用的提示符格式大同小异，例如在 CentOS 中，默认的提示符类似下面这样：</p>
+<p><code>[root@localhost ~]#</code></p>
+<p>各个部分的含义如下：</p>
+<ul>
+<li>
+<p>[]是提示符的分隔符号，没有特殊含义。</p>
+</li>
+<li>
+<p>root表示当前登录的用户，我现在使用的是 root 用户登录。</p>
+</li>
+<li>
+<p>@是分隔符号，没有特殊含义。</p>
+</li>
+<li>
+<p>localhost表示当前系统的简写主机名（完整主机名是 localhost.localdomain）。</p>
+</li>
+<li>
+<p>~代表用户当前所在的目录为主目录（home 目录）。如果用户当前位于主目录下的 bin 目录中，那么这里显示的就是bin。</p>
+</li>
+<li>
+<p>$是命令提示符。Linux 用这个符号标识登录的用户权限等级：如果是超级用户 root 提示符就是#；普通用户的提示符是$。</p>
+</li>
+</ul>
+<p><strong>什么是主目录？</strong></p>
+<p>Linux 系统是纯字符界面，用户登录后，要有一个初始登录的位置，这个初始登录位置就称为用户的主目录（home 目录）。超级用户的主目录为/root/，普通用户的主目录为/home/用户名/。<br>
+有的资料也称为“家目录”，“家”是 home 的直译，它们都是一个意思。</p>
+<p><strong>第二层命令提示符</strong></p>
+<p>有些命令不能在一行内输入完成，需要换行，这个时候就会看到第二层命令提示符。第二层命令提示符默认为&gt;，如果需要换行输入可以输入 <code>&quot;</code> 然后回车，如果需要结束输入可以则需要继续输入一个<code>&quot;</code>，</p>
+
+                
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                    
+                        <li class="next">
+                            <a href="/article/HomeBrew/" data-toggle="tooltip" data-placement="top" title="HomeBrew">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                <br>
+
+                <!--打赏-->
+                
+                <!--打赏-->
+
+                <br>
+                <!--分享-->
+                
+                    <div class="social-share"  data-wechat-qrcode-helper="" align="center"></div>
+                    <!--  css & js -->
+                    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/css/share.min.css">
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/js/social-share.min.js"></script>
+                
+                <!--分享-->
+                <br>                       
+                
+                <!-- require APlayer -->
+                
+
+                <!-- duoshuo Share start -->
+                
+                <!-- 多说 Share end-->
+
+                <!-- 多说评论框 start -->
+                
+                <!-- 多说评论框 end -->
+
+                <!-- disqus comment start -->
+                
+                <!-- disqus comment end -->
+
+                
+
+            </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+  
+    
+      <aside id="sidebar">
+        <div id="toc" class="toc-article">
+        <strong class="toc-title">Contents</strong>
+        
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.</span> <span class="toc-nav-text"><span id="linux-shell">linux shell</span></span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text"><span id="&#x4EC0;&#x4E48;&#x662F;-shell">&#x4EC0;&#x4E48;&#x662F; shell</span></span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.2.</span> <span class="toc-nav-text"><span id="shell-&#x547D;&#x4EE4;&#x6267;&#x884C;&#x7684;&#x65B9;&#x5F0F;">Shell &#x547D;&#x4EE4;&#x6267;&#x884C;&#x7684;&#x65B9;&#x5F0F;</span></span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.3.</span> <span class="toc-nav-text"><span id="linux-shell-&#x7684;&#x79CD;&#x7C7B;">linux shell &#x7684;&#x79CD;&#x7C7B;</span></span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.4.</span> <span class="toc-nav-text"><span id="linux-shell&#x547D;&#x4EE4;&#x7684;&#x57FA;&#x672C;&#x683C;&#x5F0F;">Linux Shell&#x547D;&#x4EE4;&#x7684;&#x57FA;&#x672C;&#x683C;&#x5F0F;</span></span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.5.</span> <span class="toc-nav-text"><span id="shell&#x547D;&#x4EE4;&#x7684;&#x672C;&#x8D28;&#x5230;&#x5E95;&#x662F;&#x4EC0;&#x4E48;">Shell&#x547D;&#x4EE4;&#x7684;&#x672C;&#x8D28;&#x5230;&#x5E95;&#x662F;&#x4EC0;&#x4E48;</span></span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.6.</span> <span class="toc-nav-text"><span id="linux-shell&#x547D;&#x4EE4;&#x63D0;&#x793A;&#x7B26;">Linux Shell&#x547D;&#x4EE4;&#x63D0;&#x793A;&#x7B26;</span></span></a></li></ol></li></ol>
+        
+        </div>
+      </aside>
+    
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#linux" title="linux">linux</a>
+                        
+                          <a class="tag" href="/tags/#shell" title="shell">shell</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="http://blog.csdn.net/fooelliot" target="_blank">CSDN fooelliot</a></li>
+                    
+                        <li><a href="http://github.com/janlle" target="_blank">GitHub janlle</a></li>
+                    
+                        <li><a href="https://www.cnblogs.com/ruolin/" target="_blank">博客园 janlle</a></li>
+                    
+                        <li><a href="https://www.jianshu.com/u/2c8b6b4a6523" target="_blank">简书 janlle</a></li>
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/janlle">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; leone 2019 
+                    <br>
+                    Theme by <a href="http://beantech.org">BeanTech</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    re-Ported by <a href="http://wealip.cn">leone</a> | 
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=janlle&repo=blogs&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://www.wealip.cn/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-XXXXXXXX-X';
+    var _gaDomain = 'yoursite';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = 'xxx';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<img src="http://www.wealip.cn/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

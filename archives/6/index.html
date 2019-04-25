@@ -211,32 +211,28 @@
 
 <div class="post-preview">
 
-    <a href="/article/Git/">
+    <a href="/article/Nginx-limited/">
         <h2 class="post-title">
-            Git
+            nginx 限流
         </h2>
         <h3 class="post-subtitle">
-            Git 核心概念及
+            nginx 限流配置详解
         </h3>
         <div class="post-content-preview">
-            Git
-Git核心概念及
-什么是git
-git是一个分布式版本控制软件，最初由林纳斯·托瓦兹创作，于2005年以GPL发布。最初目的是为更好地管理Linux内核开发而设计。应注意的是，这与GNU Interactive Tools（一个类似Norton Commander界面的文件管理器）有所不同。git最初的开发动力来自于BitKeeper和Monotone。git最初只是作为一个可以被其......
+            nginx限流
+nginx限流算法（漏桶算法）
+漏桶算法(Leaky Bucket)是网络世界中流量整形（Traffic Shaping）或速率限制（Rate Limiting）时经常使用的一种算法，它的主要目的是控制数据注入到网络的速率，平滑网络上的突发流量。漏桶算法提供了一种机制，通过它，突发流量可以被整形以便为网络提供一个稳定的流量。
+漏桶可以看作是一个带有常量服务时间的单服务器队列，......
         </div>
     </a>
     
         <p class="post-meta" style="margin: 10px 0;">
             Posted by leone on
-            2017-05-11
+            2018-04-20
         </p>
         <div class="tags">
             
-              <a href="/tags/#Git" title="Git">Git</a>
-            
-              <a href="/tags/#版本控制" title="版本控制">版本控制</a>
-            
-              <a href="/tags/#工具" title="工具">工具</a>
+              <a href="/tags/#nginx" title="nginx">nginx</a>
             
         </div>
     
@@ -246,30 +242,315 @@ git是一个分布式版本控制软件，最初由林纳斯·托瓦兹创作，
 
 <div class="post-preview">
 
-    <a href="/article/linux/">
+    <a href="/article/ab/">
         <h2 class="post-title">
-            linux
+            ApacheBench
         </h2>
         <h3 class="post-subtitle">
-            linux 核心概念详解
+            nginx 限流配置详解
         </h3>
         <div class="post-content-preview">
-            linux
-linux 简介
-什么是linux
-Linux是一种自由和开放源代码的类UNIX操作系统。该操作系统的内核由林纳斯·托瓦兹在1991年10月5日首次发布，在加上用户空间的应用程序之后，成为Linux操作系统。Linux也是自由软件和开放源代码软件发展中最著名的例子。只要遵循GNU通用公共许可证（GPL），任何个人和机构都可以自由地使用Linux的所有底层源代码，也可以自由地修改和......
+            ApacheBench
+ApacheBench
+是一个指令列程式，专门用来执行网站服务器的运行效能，特别是针对Apache 网站服务器。这原本是用来检测 Apache 网站服务器能够提供的效能，特别是可以看出Apache能提供每秒能送出多少网页。
+ApacheBench( ab )工具程式是标准 Apache 网站服务器发布的一部分，跟 Apache 网站服务器一样，也是免费软件，并可以用 ......
         </div>
     </a>
     
         <p class="post-meta" style="margin: 10px 0;">
             Posted by leone on
-            2017-04-18
+            2018-04-20
+        </p>
+        <div class="tags">
+            
+              <a href="/tags/#nginx" title="nginx">nginx</a>
+            
+        </div>
+    
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/article/Nginx-upstream/">
+        <h2 class="post-title">
+            Nginx 负载均衡配置
+        </h2>
+        <h3 class="post-subtitle">
+            Nginx 负载均衡配置详解
+        </h3>
+        <div class="post-content-preview">
+            nginx负载均衡
+Nginx 配置 upstream 模块实现负载均衡，假设Nginx只代理到一台下游服务的话，那么当下游服务宕掉之后那么nginx就无法在处理客户端的请求，就达不到高可用的效果。
+负载均衡的作用
+
+1、转发功能
+
+按照一定的算法【权重、轮询】，将客户端请求转发到不同应用服务器上，减轻单个服务器压力，提高系统并发量。
+
+2、故障移除
+
+通过心跳检测的方式，判断应用服务器当前......
+        </div>
+    </a>
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by leone on
+            2018-04-18
+        </p>
+        <div class="tags">
+            
+              <a href="/tags/#nginx" title="nginx">nginx</a>
+            
+        </div>
+    
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/article/Nginx-log/">
+        <h2 class="post-title">
+            Nginx 日志
+        </h2>
+        <h3 class="post-subtitle">
+            Nginx 访问日志配置详解
+        </h3>
+        <div class="post-content-preview">
+            nginx access_log
+nginx 日志说明
+不同用户防卫Nginx会把每个用户访问往咱的日志信息记录到指定的日志文件里，供网站管理员分析用户浏览行为等，此功能又ngx_http_log_module 模块负责。
+控制访问日志的参数
+
+
+
+参数
+说明
+
+
+
+
+log_format
+通过不同的名称来定义日志的输出格式，可以定义多个
+
+
+access_log
+用来指定日志保存的路径和使......
+        </div>
+    </a>
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by leone on
+            2018-04-18
+        </p>
+        <div class="tags">
+            
+              <a href="/tags/#nginx" title="nginx">nginx</a>
+            
+        </div>
+    
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/article/linux-compress/">
+        <h2 class="post-title">
+            linux 解压缩
+        </h2>
+        <h3 class="post-subtitle">
+            linux常用的解压缩命令详解
+        </h3>
+        <div class="post-content-preview">
+            linux 文件压缩格式详解
+压缩文件原理
+在计算机科学和信息论中，数据压缩或者源编码是按照特定的编码机制用比未经编码少的数据比特（或者其它信息相关的单位）表示信息的过程。例如，如果我们将“compression”编码为“comp”那么这篇文章可以用较少的数据位表示。常见的例子是ZIP文件格式，此格式不仅仅提供压缩功能，还可作为归档工具（Archiver），能够将许多文件存储到同一个文件中。......
+        </div>
+    </a>
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by leone on
+            2018-04-18
         </p>
         <div class="tags">
             
               <a href="/tags/#linux" title="linux">linux</a>
             
-              <a href="/tags/#运维" title="运维">运维</a>
+        </div>
+    
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/article/regular/">
+        <h2 class="post-title">
+            正则表达式
+        </h2>
+        <h3 class="post-subtitle">
+            正则表达式详解
+        </h3>
+        <div class="post-content-preview">
+            regular
+...
+        </div>
+    </a>
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by leone on
+            2018-04-18
+        </p>
+        <div class="tags">
+            
+              <a href="/tags/#regular" title="regular">regular</a>
+            
+        </div>
+    
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/article/Hadoop-HA/">
+        <h2 class="post-title">
+            Hadoop-HA
+        </h2>
+        <h3 class="post-subtitle">
+            Hadoop-HA 搭建
+        </h3>
+        <div class="post-content-preview">
+            Hadoop HA
+什么是 HA
+HA是High Available缩写，是双机集群系统简称，指高可用性集群，是保证业务连续性的有效解决方案，一般有两个或两个以上的节点，且分为活动节点及备用节点。通常把正在执行业务的称为活动节点，而作为活动节点的一个备份的则称为备用节点。当活动节点出现问题，导致正在运行的业务（任务）不能正常运行时，备用节点此时就会侦测到，并立即接续活动节点来执行业务。从而实......
+        </div>
+    </a>
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by leone on
+            2018-04-17
+        </p>
+        <div class="tags">
+            
+              <a href="/tags/#大数据" title="大数据">大数据</a>
+            
+              <a href="/tags/#hadoop" title="hadoop">hadoop</a>
+            
+        </div>
+    
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/article/SpringBoot-2.x升级指南/">
+        <h2 class="post-title">
+            Spring Boot2.x
+        </h2>
+        <h3 class="post-subtitle">
+            Spring Boot 2.0 升级指南
+        </h3>
+        <div class="post-content-preview">
+            Spring Boot 2.0 升级指南
+前言
+Spring Boot已经发布2.0有5个月多，多了很多新特性，一些坑也慢慢被填上，最近有空，就把项目中Spring Boot 版本做了升级，顺便整理下升级的时候遇到的一些坑，做个记录，参考官方文档翻译。
+开始之前
+
+
+2.x 至少需要 JDK 8 的支持，2.x 里面的许多方法应用了 JDK 8 的许多高级新特性，所以你要升级到 2.0 版本......
+        </div>
+    </a>
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by leone on
+            2018-04-12
+        </p>
+        <div class="tags">
+            
+              <a href="/tags/#后端" title="后端">后端</a>
+            
+              <a href="/tags/#javaEE" title="javaEE">javaEE</a>
+            
+              <a href="/tags/#springBoot" title="springBoot">springBoot</a>
+            
+        </div>
+    
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/article/sso/">
+        <h2 class="post-title">
+            SSO
+        </h2>
+        <h3 class="post-subtitle">
+            基于 Spring Security OAuth2 SSO 单点登录系统
+        </h3>
+        <div class="post-content-preview">
+            基于 Spring Security OAuth2 SSO 单点登录系统
+SSO简介
+单点登录（英语：Single sign-on，缩写为 SSO），又译为单一签入，一种对于许多相互关连，但是又是各自独立的软件系统，提供访问控制的属性。当拥有这项属性时，当用户登录时，就可以获取所有系统的访问权限，不用对每个单一系统都逐一登录。这项功能通常是以轻型目录访问协议（LDAP）来实现，在服务器上会将......
+        </div>
+    </a>
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by leone on
+            2018-04-03
+        </p>
+        <div class="tags">
+            
+              <a href="/tags/#后端" title="后端">后端</a>
+            
+              <a href="/tags/#SSO" title="SSO">SSO</a>
+            
+        </div>
+    
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/article/SpringBoot-03-docker/">
+        <h2 class="post-title">
+            Spring Boot Docker
+        </h2>
+        <h3 class="post-subtitle">
+            Spring Boot Docker 入门实战
+        </h3>
+        <div class="post-content-preview">
+            Spring Boot Docker
+开发环境
+开发工具： Intellij IDEA 2018.2.6
+springboot: 2.0.6.RELEASE
+jdk： 1.8.0_192
+maven: 3.6.0
+docker: Docker Engine - Community 18.09.0
+搭建项目
+由于使用了 Spring Cloud 的Eureka所以加了 eureka 的依赖，基......
+        </div>
+    </a>
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by leone on
+            2018-03-12
+        </p>
+        <div class="tags">
+            
+              <a href="/tags/#后端" title="后端">后端</a>
+            
+              <a href="/tags/#javaEE" title="javaEE">javaEE</a>
+            
+              <a href="/tags/#springBoot" title="springBoot">springBoot</a>
+            
+              <a href="/tags/#dokcer" title="dokcer">dokcer</a>
             
         </div>
     
@@ -287,6 +568,10 @@ Linux是一种自由和开放源代码的类UNIX操作系统。该操作系统�
             <a href="/archives/5/">&larr; Newer Posts</a>
         </li>
     
+    
+        <li class="next">
+            <a href="/archives/7/">Older Posts &rarr;</a>
+        </li>
     
 </ul>
 
@@ -318,11 +603,11 @@ Linux是一种自由和开放源代码的类UNIX操作系统。该操作系统�
     <div class="tags">
         
             
-            <a href="/tags/#linux" title="linux" rel="7">linux</a>
+            <a href="/tags/#linux" title="linux" rel="12">linux</a>
             
         
             
-            <a href="/tags/#运维" title="运维" rel="5">运维</a>
+            <a href="/tags/#运维" title="运维" rel="6">运维</a>
             
         
             
@@ -330,7 +615,73 @@ Linux是一种自由和开放源代码的类UNIX操作系统。该操作系统�
             
         
             
-            <a href="/tags/#大数据" title="大数据" rel="12">大数据</a>
+        
+            
+            <a href="/tags/#大数据" title="大数据" rel="18">大数据</a>
+            
+        
+            
+            <a href="/tags/#hadoop" title="hadoop" rel="4">hadoop</a>
+            
+        
+            
+        
+            
+            <a href="/tags/#Git" title="Git" rel="3">Git</a>
+            
+        
+            
+            <a href="/tags/#版本控制" title="版本控制" rel="3">版本控制</a>
+            
+        
+            
+            <a href="/tags/#mac" title="mac" rel="2">mac</a>
+            
+        
+            
+            <a href="/tags/#nginx" title="nginx" rel="5">nginx</a>
+            
+        
+            
+            <a href="/tags/#python" title="python" rel="3">python</a>
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+            <a href="/tags/#后端" title="后端" rel="20">后端</a>
+            
+        
+            
+            <a href="/tags/#javaEE" title="javaEE" rel="12">javaEE</a>
+            
+        
+            
+            <a href="/tags/#springBoot" title="springBoot" rel="11">springBoot</a>
+            
+        
+            
+        
+            
+            <a href="/tags/#springCloud" title="springCloud" rel="7">springCloud</a>
+            
+        
+            
+            <a href="/tags/#微服务" title="微服务" rel="7">微服务</a>
+            
+        
+            
+        
+            
+        
             
         
             
@@ -346,37 +697,7 @@ Linux是一种自由和开放源代码的类UNIX操作系统。该操作系统�
             
         
             
-        
-            
-            <a href="/tags/#后端" title="后端" rel="17">后端</a>
-            
-        
-            
-            <a href="/tags/#javaEE" title="javaEE" rel="12">javaEE</a>
-            
-        
-            
-        
-            
-        
-            
-            <a href="/tags/#微服务" title="微服务" rel="4">微服务</a>
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-            <a href="/tags/#Git" title="Git" rel="3">Git</a>
-            
-        
-            
-            <a href="/tags/#版本控制" title="版本控制" rel="3">版本控制</a>
+            <a href="/tags/#工具" title="工具" rel="2">工具</a>
             
         
             
@@ -393,6 +714,20 @@ Linux是一种自由和开放源代码的类UNIX操作系统。该操作系统�
         
             
         
+            
+        
+            
+        
+            
+        
+            
+            <a href="/tags/#spark" title="spark" rel="3">spark</a>
+            
+        
+            
+        
+            
+            <a href="/tags/#Spark" title="Spark" rel="2">Spark</a>
             
         
             
@@ -437,40 +772,6 @@ Linux是一种自由和开放源代码的类UNIX操作系统。该操作系统�
         
             
         
-            
-        
-            
-        
-            
-            <a href="/tags/#工具" title="工具" rel="2">工具</a>
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-            <a href="/tags/#spark" title="spark" rel="3">spark</a>
-            
-        
-            
-            <a href="/tags/#springBoot" title="springBoot" rel="11">springBoot</a>
-            
-        
-            
-        
-            
-            <a href="/tags/#springCloud" title="springCloud" rel="4">springCloud</a>
             
         
             
@@ -532,23 +833,23 @@ Linux是一种自由和开放源代码的类UNIX操作系统。该操作系统�
     <ul>
       
         <li>
-          <a href="/article/ContOS-7.6x64搭建Ambari/">Ambari平台搭建</a>
+          <a href="/article/linux-shell/">linux shell</a>
         </li>
       
         <li>
-          <a href="/article/SpringCloud-02-Eureka/">Spring Cloud Eureka</a>
+          <a href="/article/HomeBrew/">HomeBrew</a>
         </li>
       
         <li>
-          <a href="/article/SpringCloud-03-Zuul/">Spring Cloud Zuul</a>
+          <a href="/article/Emacs/">emacs</a>
         </li>
       
         <li>
-          <a href="/article/SpringCloud-03-zookeeper/">Spring Cloud Zookeeper</a>
+          <a href="/article/Mac/">Mac</a>
         </li>
       
         <li>
-          <a href="/article/SpringCloud-01-Microservice/">Spring Cloud</a>
+          <a href="/article/Spark-Structured-Steaming/">Spark Structured Steaming</a>
         </li>
       
     </ul>
@@ -577,7 +878,7 @@ Linux是一种自由和开放源代码的类UNIX操作系统。该操作系统�
         
     <h5>ARCHIVES</h5>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">April 2017</a><span class="archive-list-count">1</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">April 2017</a><span class="archive-list-count">1</span></li></ul>
     </div>
 
         <hr>

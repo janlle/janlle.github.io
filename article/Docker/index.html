@@ -90,7 +90,7 @@
                             
                               <a class="tag" href="/tags/#linux" title="linux">linux</a>
                             
-                              <a class="tag" href="/tags/#Docker" title="Docker">Docker</a>
+                              <a class="tag" href="/tags/#docker" title="docker">docker</a>
                             
                               <a class="tag" href="/tags/#容器" title="容器">容器</a>
                             
@@ -99,7 +99,7 @@
                         <h2 class="subheading">Docker 核心概念及入门</h2>
                         <span class="meta">
                             Posted by leone on
-                            2018-10-18
+                            2018-02-18
                         </span>
                     </div>
                 
@@ -307,117 +307,20 @@ Docker 仓库是用来包含镜像的位置，Docker提供一个注册服务器�
 <p>那Image和Container的区别是什么？很简单，他们的区别仅仅是一个是只读的层，一个是可写的层，你可以使用docker commit 命令，将你的Container变成一个Image，也就是提交你所运行的Container的修改内容，变成一个新的只读的Image，这非常类似于git commit命令。</p>
 <h3><span id="前置准备和安装docker基于centos-7-安装-docker-ce">前置准备和安装Docker（基于CentOS 7 安装 Docker CE)</span></h3>
 <p>Docker 要求 CentOS 系统的内核版本高于 3.10 ，安装前需要验证 CentOS 版本是否支持 Docker。</p>
-<p>命令查看你当前的内核版本</p>
-<ul>
-<li><code>$ uname -r</code></li>
-</ul>
-<p>更新yum</p>
-<ul>
-<li><code>$ sudo yum makecache fast</code></li>
-</ul>
-<p>安装yum-utils</p>
-<ul>
-<li><code>$ sudo yum install yum-utils</code></li>
-</ul>
-<p>使用以下命令设置稳定存储库</p>
-<ul>
-<li><code>$ sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo</code></li>
-</ul>
-<p>卸载旧版本(如果安装过旧版本的话)</p>
-<ul>
-<li><code>$ sudo yum remove docker docker-common docker-selinux docker-engine</code></li>
-</ul>
-<p>安装需要的软件包， yum-util 提供yum-config-manager功能，另外两个是devicemapper驱动依赖的</p>
-<ul>
-<li><code>$ sudo yum install -y yum-utils device-mapper-persistent-data lvm2</code></li>
-</ul>
-<p>安装Docker</p>
-<ul>
-<li><code>sudo yum install docker-ce</code></li>
-</ul>
-<p>启动、停止、重启Docker服务</p>
-<ul>
-<li><code>$systemctl start | stop | restart docker.service</code></li>
-</ul>
-<p>设置开机启动、关闭服务</p>
-<ul>
-<li><code>$ systemctl enable | disable docker.service</code></li>
-</ul>
-<p>验证安装是否成功(有client和service两部分表示docker安装启动都成功了)</p>
-<ul>
-<li><code>$ docker version</code></li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">[root@localhost ~]# docker version</span><br><span class="line">Client:</span><br><span class="line"> Version:       18.03.0-ce</span><br><span class="line"> API version:   1.37</span><br><span class="line"> Go version:    go1.9.4</span><br><span class="line"> Git commit:    0520e24</span><br><span class="line"> Built: Wed Mar 21 23:09:15 2018</span><br><span class="line"> OS/Arch:       linux/amd64</span><br><span class="line"> Experimental:  false</span><br><span class="line"> Orchestrator:  swarm</span><br><span class="line"></span><br><span class="line">Server:</span><br><span class="line"> Engine:</span><br><span class="line">  Version:      18.03.0-ce</span><br><span class="line">  API version:  1.37 (minimum version 1.12)</span><br><span class="line">  Go version:   go1.9.4</span><br><span class="line">  Git commit:   0520e24</span><br><span class="line">  Built:        Wed Mar 21 23:13:03 2018</span><br><span class="line">  OS/Arch:      linux/amd64</span><br><span class="line">  Experimental: false</span><br><span class="line">[root@localhost ~]#</span><br></pre></td></tr></table></figure>
-<p>docker通过运行hello-world 映像验证是否已正确安装。</p>
-<ul>
-<li><code>$ sudo docker run hello-world</code></li>
-</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"># 命令查看你当前的内核版本</span><br><span class="line">$ uname -r</span><br><span class="line"></span><br><span class="line"># 更新yum</span><br><span class="line">$ sudo yum makecache fast</span><br><span class="line"></span><br><span class="line"># 安装yum-utils</span><br><span class="line">$ sudo yum install yum-utils</span><br><span class="line"></span><br><span class="line"># 使用以下命令设置稳定存储库</span><br><span class="line">$ sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo</span><br><span class="line"></span><br><span class="line"># 卸载旧版本(如果安装过旧版本的话)</span><br><span class="line">$ sudo yum remove docker  docker-common docker-selinux docker-engine</span><br><span class="line"></span><br><span class="line"># 安装需要的软件包， yum-util 提供yum-config-manager功能，另外两个是devicemapper驱动依赖的</span><br><span class="line">$ sudo yum install -y yum-utils device-mapper-persistent-data lvm2</span><br><span class="line"></span><br><span class="line"># 安装Docker</span><br><span class="line">$ sudo yum install docker-ce</span><br><span class="line"></span><br><span class="line"># 启动、停止、重启Docker服务</span><br><span class="line">$ systemctl start | stop | restart  docker.service</span><br><span class="line"></span><br><span class="line"># 设置开机启动、关闭服务</span><br><span class="line">$ systemctl enable | disable docker.service</span><br><span class="line"></span><br><span class="line"># 验证安装是否成功(有client和service两部分表示docker安装启动都成功了)</span><br><span class="line">$ docker version</span><br><span class="line"></span><br><span class="line">[root@localhost ~]# docker version</span><br><span class="line">Client:</span><br><span class="line"> Version:       18.03.0-ce</span><br><span class="line"> API version:   1.37</span><br><span class="line"> Go version:    go1.9.4</span><br><span class="line"> Git commit:    0520e24</span><br><span class="line"> Built: Wed Mar 21 23:09:15 2018</span><br><span class="line"> OS/Arch:       linux/amd64</span><br><span class="line"> Experimental:  false</span><br><span class="line"> Orchestrator:  swarm</span><br><span class="line"></span><br><span class="line">Server:</span><br><span class="line"> Engine:</span><br><span class="line">  Version:      18.03.0-ce</span><br><span class="line">  API version:  1.37 (minimum version 1.12)</span><br><span class="line">  Go version:   go1.9.4</span><br><span class="line">  Git commit:   0520e24</span><br><span class="line">  Built:        Wed Mar 21 23:13:03 2018</span><br><span class="line">  OS/Arch:      linux/amd64</span><br><span class="line">  Experimental: false</span><br><span class="line">[root@localhost ~]# </span><br><span class="line"></span><br><span class="line"># docker通过运行hello-world 映像验证是否已正确安装。</span><br><span class="line">$ sudo docker run hello-world</span><br></pre></td></tr></table></figure>
 <h3><span id="docker的常用操作">Docker的常用操作</span></h3>
-<p><strong>获取镜像</strong></p>
-<p>搜索镜像(我这里搜索的是tomcat的镜像)</p>
-<ul>
-<li><code>$ docker search tomcat</code></li>
-</ul>
-<p>下载镜像(在搜索出来的镜像列表中选择一个下载，我这里下载的是官方提供的centos镜像，速度会有点慢，耐心等待)</p>
-<ul>
-<li><code>$ docker pull tomcat</code></li>
-</ul>
-<p>列出本机的镜像</p>
-<ul>
-<li><code>$ docker images</code></li>
-</ul>
-<p>基于image创建一个容器，运行完毕后并退出</p>
-<ul>
-<li><code>$ docker run [centos] /bin/echo 'Hello world'</code></li>
-</ul>
-<p>运行一个交互式容器,-t表示指定一个容器内的伪tty。-i表示创建一个交互式连接,命令运行后，将会进入shell交互式界面，可执行任意的命令.</p>
-<ul>
-<li><code>$ docker run -t -i centos /bin/bash</code></li>
-</ul>
-<p>创建一个带名字的容器</p>
-<ul>
-<li><code>$ docker run -d --name myweb centos /bin/bash</code></li>
-</ul>
-<p>开始/停止/强制停止/重启一个的容器</p>
-<ul>
-<li><code>$ docker start/stop/kill/restart [container]</code></li>
-</ul>
-<p>删除一个容器</p>
-<ul>
-<li><code>$ docker rm [container]</code></li>
-</ul>
-<p>进入容器内容</p>
-<ul>
-<li><code>docker exec -it [container] /bin/bash</code></li>
-</ul>
-<p>如果指定-a参数，则列出所有状态下的容器，包含处于stop状态的容器。如果没有带-a参数，则只显示出处于运行状态的容器。-l参数表示只列出最后一个启动的容器。</p>
-<ul>
-<li><code>$ docker ps [-a] [-l]</code></li>
-</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"># 搜索镜像(我这里搜索的是tomcat的镜像)</span><br><span class="line">$ docker search tomcat</span><br><span class="line"></span><br><span class="line"># 下载镜像(在搜索出来的镜像列表中选择一个下载，我这里下载的是官方提供的centos镜像，速度会有点慢，耐心等待)</span><br><span class="line">$ docker pull tomcat</span><br><span class="line"></span><br><span class="line"># 列出本机的镜像</span><br><span class="line">$ docker images</span><br><span class="line"></span><br><span class="line"># 基于image创建一个容器，运行完毕后并退出</span><br><span class="line">$ docker run [centos] /bin/echo &apos;Hello world&apos;</span><br><span class="line"></span><br><span class="line"># 运行一个交互式容器,-t表示指定一个容器内的伪tty。</span><br><span class="line"># -i表示创建一个交互式连接,命令运行后，将会进入shell交互式界面，可执行任意的命令.</span><br><span class="line">$ docker run -t -i centos /bin/bash</span><br><span class="line"></span><br><span class="line"># 创建一个带名字的容器</span><br><span class="line">$ docker run -d --name myweb centos /bin/bash</span><br><span class="line"></span><br><span class="line"># 开始/停止/强制停止/重启一个的容器</span><br><span class="line">$ docker start/stop/kill/restart [container]</span><br><span class="line"></span><br><span class="line"># 删除一个容器</span><br><span class="line">$ docker rm [container]</span><br><span class="line"></span><br><span class="line"># 进入容器内容</span><br><span class="line">$ docker exec -it [container] /bin/bash</span><br><span class="line"></span><br><span class="line"># 列出正在运行的容器，[-a]列出所有状态下的容器，[-l]只列出最后一个启动的容器。</span><br><span class="line">$ docker ps [-a] [-l]</span><br></pre></td></tr></table></figure>
 <h2><span id="docker容器的常用软件安装过程">docker容器的常用软件安装过程</span></h2>
 <h3><span id="docker中运行mysql">docker中运行mysql</span></h3>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">docker run -d --name mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=[password] -v /xxx/mysql:/var/lib/mysql -v /etc/my.cnf:/etc/my.cnf mysql:5.7.23 </span><br><span class="line"></span><br><span class="line">create user &apos;user&apos;@&apos;%&apos; identified by &apos;password&apos;;</span><br><span class="line"></span><br><span class="line">grant replication slave on *.* to &apos;user&apos;@&apos;%&apos;;</span><br><span class="line"></span><br><span class="line">flush privileges;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"># -p 3306:3306：表示在这个容器中使用3306端口(第二个)映射到本机的端口号也为3306(第一个)</span><br><span class="line"># 创建一个容器</span><br><span class="line">docker run -d \</span><br><span class="line">--name mysql \</span><br><span class="line">-p 3306:3306 \</span><br><span class="line">-e MYSQL_ROOT_PASSWORD=[password] \</span><br><span class="line">-v /xxx/mysql:/var/lib/mysql \</span><br><span class="line">-v /etc/my.cnf:/etc/my.cnf mysql:5.7.23 </span><br><span class="line"></span><br><span class="line"># 创建用户</span><br><span class="line">create user &apos;user&apos;@&apos;%&apos; identified by &apos;password&apos;;</span><br><span class="line"># 授权</span><br><span class="line">grant replication slave on *.* to &apos;user&apos;@&apos;%&apos;;</span><br><span class="line"># 刷新</span><br><span class="line">flush privileges;</span><br></pre></td></tr></table></figure>
 <h3><span id="docker中运行redis">docker中运行redis</span></h3>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">docker run -d --name redis -p 6379:6379 -v /xxx/data/redis:/data redis redis-server --appendonly yes --requirepass &quot;[password]&quot;</span><br><span class="line"></span><br><span class="line">docker run \</span><br><span class="line">-p 6379:6379 \          # 端口映射 宿主机:容器</span><br><span class="line">-v /xxx/data:/data:rw \ # 映射数据目录 rw 为读写</span><br><span class="line">-v /xxx/conf/redis.conf:/etc/redis/redis.conf:ro \ # 挂载配置文件 ro 为readonly</span><br><span class="line">--privileged=true \     # 给与一些权限</span><br><span class="line">--name redis \          # 给容器起个名字</span><br><span class="line">--appendonly yes \      # 开启数据持久化</span><br><span class="line">-d redis redis-server /xxx/conf/redis.conf # deamon 运行 服务使用指定的配置文件</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"># 运行一个docker容器</span><br><span class="line">docker run -d \</span><br><span class="line">--name redis \</span><br><span class="line">-p 6379:6379 \</span><br><span class="line">-v /xxx/redis:/data redis redis-server \</span><br><span class="line">--appendonly yes \</span><br><span class="line">--requirepass &quot;[password]&quot;</span><br><span class="line"></span><br><span class="line"># 参数详解</span><br><span class="line">docker run \</span><br><span class="line"># 端口映射 宿主机:容器</span><br><span class="line">-p 6379:6379 \          </span><br><span class="line"># 映射数据目录 rw 为读写</span><br><span class="line">-v /xxx/data:/data:rw \ </span><br><span class="line"># 挂载配置文件 ro 为readonly</span><br><span class="line">-v /xxx/conf/redis.conf:/etc/redis/redis.conf:ro \ </span><br><span class="line"># 给与一些权限</span><br><span class="line">--privileged=true \     </span><br><span class="line"># 给容器起个名字</span><br><span class="line">--name redis \          </span><br><span class="line"># 开启数据持久化</span><br><span class="line">--appendonly yes \      </span><br><span class="line"># deamon 运行 服务使用指定的配置文件</span><br><span class="line">-d redis redis-server /xxx/conf/redis.conf</span><br></pre></td></tr></table></figure>
 <h3><span id="docker中运行nexus">docker中运行nexus</span></h3>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d -p 8080:8080 --name nexus -v /xxx/nexus:/var/nexus-data --restart=always sonatype/nexus3</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">docker run -d \</span><br><span class="line">-p 8080:8080 \</span><br><span class="line">--name nexus \</span><br><span class="line">-v /xxx/nexus:/var/nexus-data \</span><br><span class="line">--restart=always sonatype/nexus3</span><br></pre></td></tr></table></figure>
 <h3><span id="docker中运行jenkins">docker中运行Jenkins</span></h3>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d -p 8080:8080 -p 50000:50000 --name jenkins --privileged=true  -v /xxx/jenkins:/var/jenkins_home jenkins</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">docker run -d \</span><br><span class="line">-p 8080:8080 \</span><br><span class="line">-p 50000:50000 \</span><br><span class="line">--name jenkins \</span><br><span class="line">--privileged=true \</span><br><span class="line">-v /xxx/jenkins:/var/jenkins_home jenkins</span><br></pre></td></tr></table></figure>
 <h3><span id="docker中安装gitlab">docker中安装gitlab</span></h3>
-<p>docker run --detach <br>
-–hostname 120.76.77.230 <br>
-–publish 444:443 --publish 8088:8088 --publish 25:22 <br>
-–name gitlab <br>
-–restart always <br>
-–volume /xxx/gitlab/config:/etc/gitlab <br>
-–volume /xxx/gitlab/logs:/var/log/gitlab <br>
-–volume /xxx/gitlab/data:/var/opt/gitlab <br>
-gitlab/gitlab-ce:latest</p>
-<h3><span id="docker中运行java">docker中运行java</span></h3>
-<p>some-mysql： 容器别名<br>
-my-secret-pw：初始化设置的root用户的密码<br>
-tag：mysql的版本，不写默认使用最新版<br>
--p 3306:3306：表示在这个容器中使用3306端口(第二个)映射到本机的端口号也为3306(第一个)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">docker run --detach \</span><br><span class="line">    --hostname 120.76.77.230 \</span><br><span class="line">    --publish 444:443 \</span><br><span class="line">    --publish 8088:8088 \</span><br><span class="line">    --publish 25:22 \</span><br><span class="line">    --name gitlab \</span><br><span class="line">    --restart always \</span><br><span class="line">    --volume /xxx/gitlab/config:/etc/gitlab \</span><br><span class="line">    --volume /xxx/gitlab/logs:/var/log/gitlab \</span><br><span class="line">    --volume /xxx/gitlab/data:/var/opt/gitlab \</span><br><span class="line">    gitlab/gitlab-ce:latest</span><br></pre></td></tr></table></figure>
 
                 
 
@@ -426,12 +329,12 @@ tag：mysql的版本，不写默认使用最新版<br>
                 <ul class="pager">
                     
                         <li class="previous">
-                            <a href="/article/Storm/" data-toggle="tooltip" data-placement="top" title="Storm">&larr; Previous Post</a>
+                            <a href="/article/Nginx/" data-toggle="tooltip" data-placement="top" title="Nginx">&larr; Previous Post</a>
                         </li>
                     
                     
                         <li class="next">
-                            <a href="/article/Flume/" data-toggle="tooltip" data-placement="top" title="Flume">Next Post &rarr;</a>
+                            <a href="/article/SpringBoot-07-swagger/" data-toggle="tooltip" data-placement="top" title="Spring Boot Swagger">Next Post &rarr;</a>
                         </li>
                     
                 </ul>
@@ -481,7 +384,7 @@ tag：mysql的版本，不写默认使用最新版<br>
         <div id="toc" class="toc-article">
         <strong class="toc-title">Contents</strong>
         
-          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.</span> <span class="toc-nav-text"><span id="docker">Docker</span></span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text"><span id="docker-&#x6838;&#x5FC3;&#x6982;&#x5FF5;&#x53CA;&#x5165;&#x95E8;">Docker &#x6838;&#x5FC3;&#x6982;&#x5FF5;&#x53CA;&#x5165;&#x95E8;</span></span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.1.1.</span> <span class="toc-nav-text"><span id="&#x4EC0;&#x4E48;&#x662F;docker">&#x4EC0;&#x4E48;&#x662F;docker</span></span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.1.2.</span> <span class="toc-nav-text"><span id="docker-&#x7248;&#x672C;&#x7B80;&#x4ECB;">Docker &#x7248;&#x672C;&#x7B80;&#x4ECB;</span></span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.1.3.</span> <span class="toc-nav-text"><span id="&#x5173;&#x4E8E;&#x5BB9;&#x5668;&#x6280;&#x672F;&#x7684;&#x4ECB;&#x7ECD;&#x53CA;&#x6982;&#x5FF5;">&#x5173;&#x4E8E;&#x5BB9;&#x5668;&#x6280;&#x672F;&#x7684;&#x4ECB;&#x7ECD;&#x53CA;&#x6982;&#x5FF5;</span></span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.1.4.</span> <span class="toc-nav-text"><span id="&#x524D;&#x7F6E;&#x51C6;&#x5907;&#x548C;&#x5B89;&#x88C5;docker&#x57FA;&#x4E8E;centos-7-&#x5B89;&#x88C5;-docker-ce">&#x524D;&#x7F6E;&#x51C6;&#x5907;&#x548C;&#x5B89;&#x88C5;Docker&#xFF08;&#x57FA;&#x4E8E;CentOS 7 &#x5B89;&#x88C5; Docker CE)</span></span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.1.5.</span> <span class="toc-nav-text"><span id="docker&#x7684;&#x5E38;&#x7528;&#x64CD;&#x4F5C;">Docker&#x7684;&#x5E38;&#x7528;&#x64CD;&#x4F5C;</span></span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.2.</span> <span class="toc-nav-text"><span id="docker&#x5BB9;&#x5668;&#x7684;&#x5E38;&#x7528;&#x8F6F;&#x4EF6;&#x5B89;&#x88C5;&#x8FC7;&#x7A0B;">docker&#x5BB9;&#x5668;&#x7684;&#x5E38;&#x7528;&#x8F6F;&#x4EF6;&#x5B89;&#x88C5;&#x8FC7;&#x7A0B;</span></span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.2.1.</span> <span class="toc-nav-text"><span id="docker&#x4E2D;&#x8FD0;&#x884C;mysql">docker&#x4E2D;&#x8FD0;&#x884C;mysql</span></span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.2.2.</span> <span class="toc-nav-text"><span id="docker&#x4E2D;&#x8FD0;&#x884C;redis">docker&#x4E2D;&#x8FD0;&#x884C;redis</span></span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.2.3.</span> <span class="toc-nav-text"><span id="docker&#x4E2D;&#x8FD0;&#x884C;nexus">docker&#x4E2D;&#x8FD0;&#x884C;nexus</span></span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.2.4.</span> <span class="toc-nav-text"><span id="docker&#x4E2D;&#x8FD0;&#x884C;jenkins">docker&#x4E2D;&#x8FD0;&#x884C;Jenkins</span></span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.2.5.</span> <span class="toc-nav-text"><span id="docker&#x4E2D;&#x5B89;&#x88C5;gitlab">docker&#x4E2D;&#x5B89;&#x88C5;gitlab</span></span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.2.6.</span> <span class="toc-nav-text"><span id="docker&#x4E2D;&#x8FD0;&#x884C;java">docker&#x4E2D;&#x8FD0;&#x884C;java</span></span></a></li></ol></li></ol></li></ol>
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.</span> <span class="toc-nav-text"><span id="docker">Docker</span></span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text"><span id="docker-&#x6838;&#x5FC3;&#x6982;&#x5FF5;&#x53CA;&#x5165;&#x95E8;">Docker &#x6838;&#x5FC3;&#x6982;&#x5FF5;&#x53CA;&#x5165;&#x95E8;</span></span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.1.1.</span> <span class="toc-nav-text"><span id="&#x4EC0;&#x4E48;&#x662F;docker">&#x4EC0;&#x4E48;&#x662F;docker</span></span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.1.2.</span> <span class="toc-nav-text"><span id="docker-&#x7248;&#x672C;&#x7B80;&#x4ECB;">Docker &#x7248;&#x672C;&#x7B80;&#x4ECB;</span></span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.1.3.</span> <span class="toc-nav-text"><span id="&#x5173;&#x4E8E;&#x5BB9;&#x5668;&#x6280;&#x672F;&#x7684;&#x4ECB;&#x7ECD;&#x53CA;&#x6982;&#x5FF5;">&#x5173;&#x4E8E;&#x5BB9;&#x5668;&#x6280;&#x672F;&#x7684;&#x4ECB;&#x7ECD;&#x53CA;&#x6982;&#x5FF5;</span></span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.1.4.</span> <span class="toc-nav-text"><span id="&#x524D;&#x7F6E;&#x51C6;&#x5907;&#x548C;&#x5B89;&#x88C5;docker&#x57FA;&#x4E8E;centos-7-&#x5B89;&#x88C5;-docker-ce">&#x524D;&#x7F6E;&#x51C6;&#x5907;&#x548C;&#x5B89;&#x88C5;Docker&#xFF08;&#x57FA;&#x4E8E;CentOS 7 &#x5B89;&#x88C5; Docker CE)</span></span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.1.5.</span> <span class="toc-nav-text"><span id="docker&#x7684;&#x5E38;&#x7528;&#x64CD;&#x4F5C;">Docker&#x7684;&#x5E38;&#x7528;&#x64CD;&#x4F5C;</span></span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.2.</span> <span class="toc-nav-text"><span id="docker&#x5BB9;&#x5668;&#x7684;&#x5E38;&#x7528;&#x8F6F;&#x4EF6;&#x5B89;&#x88C5;&#x8FC7;&#x7A0B;">docker&#x5BB9;&#x5668;&#x7684;&#x5E38;&#x7528;&#x8F6F;&#x4EF6;&#x5B89;&#x88C5;&#x8FC7;&#x7A0B;</span></span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.2.1.</span> <span class="toc-nav-text"><span id="docker&#x4E2D;&#x8FD0;&#x884C;mysql">docker&#x4E2D;&#x8FD0;&#x884C;mysql</span></span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.2.2.</span> <span class="toc-nav-text"><span id="docker&#x4E2D;&#x8FD0;&#x884C;redis">docker&#x4E2D;&#x8FD0;&#x884C;redis</span></span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.2.3.</span> <span class="toc-nav-text"><span id="docker&#x4E2D;&#x8FD0;&#x884C;nexus">docker&#x4E2D;&#x8FD0;&#x884C;nexus</span></span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.2.4.</span> <span class="toc-nav-text"><span id="docker&#x4E2D;&#x8FD0;&#x884C;jenkins">docker&#x4E2D;&#x8FD0;&#x884C;Jenkins</span></span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.2.5.</span> <span class="toc-nav-text"><span id="docker&#x4E2D;&#x5B89;&#x88C5;gitlab">docker&#x4E2D;&#x5B89;&#x88C5;gitlab</span></span></a></li></ol></li></ol></li></ol>
         
         </div>
       </aside>
@@ -503,7 +406,7 @@ tag：mysql的版本，不写默认使用最新版<br>
                        
                           <a class="tag" href="/tags/#linux" title="linux">linux</a>
                         
-                          <a class="tag" href="/tags/#Docker" title="Docker">Docker</a>
+                          <a class="tag" href="/tags/#docker" title="docker">docker</a>
                         
                           <a class="tag" href="/tags/#容器" title="容器">容器</a>
                         

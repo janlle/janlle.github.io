@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/ironman-draw.png">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <title>
+        
+          Python3 - leone | Blog
+        
+    </title>
+
+    <link rel="canonical" href="http://www.wealip.cn/article/Python/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS --> 
+    <link rel="stylesheet" href="/css/beantech.min.css">
+
+    <link rel="stylesheet" href="/css/donate.css">
+    
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <link rel="stylesheet" href="/css/widget.css">
+
+    <link rel="stylesheet" href="/css/rocket.css">
+
+    <link rel="stylesheet" href="/css/signature.css">
+
+    <link rel="stylesheet" href="/css/toc.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        
+            background-image: url('/img/article_header/article_header.png')
+            /*post*/
+        
+    }
+    
+</style>
+
+<header class="intro-header" >
+    <!-- Signature -->
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#python" title="python">python</a>
+                            
+                        </div>
+                        <h1>Python3</h1>
+                        <h2 class="subheading">python 基础教程</h2>
+                        <span class="meta">
+                            Posted by leone on
+                            2018-06-23
+                        </span>
+                    </div>
+                
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">leone</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archive/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h1><span id="python">python</span></h1>
+<h2><span id="什么是-python">什么是 python</span></h2>
+<p><a href="https://zh.wikipedia.org/wiki/Python" target="_blank" rel="noopener">维基百科</a></p>
+<p>Python是一种广泛使用的高级编程语言，属于通用型编程语言，由吉多·范罗苏姆创造，第一版发布于1991年。可以视之为一种改良（加入一些其他编程语言的优点，如面向对象）的LISP。作为一种解释型语言，Python的设计哲学强调代码的可读性和简洁的语法（尤其是使用空格缩进划分代码块，而非使用大括号或者关键词）。相比于C++或Java，Python让开发者能够用更少的代码表达想法。不管是小型还是大型程序，该语言都试图让程序的结构清晰明了。</p>
+<p>与Scheme、Ruby、Perl、Tcl等动态类型编程语言一样，Python拥有动态类型系统和垃圾回收功能，能够自动管理内存使用，并且支持多种编程范式，包括面向对象、命令式、函数式和过程式编程。其本身拥有一个巨大而广泛的标准库。</p>
+<p>Python 解释器本身几乎可以在所有的操作系统中运行。Python的其中一个解释器CPython是用C语言编写的、是一个由社群驱动的自由软件，当前由Python软件基金会管理。</p>
+<h2><span id="python的发展史">python的发展史</span></h2>
+<p>Python的创始人为吉多·范罗苏姆。1989年的圣诞节期间，吉多·范罗苏姆为了在阿姆斯特丹打发时间，决心开发一个新的脚本解释程序，作为ABC语言的一种继承。之所以选中Python作为程序的名字，是因为他是BBC电视剧——蒙提·派森的飞行马戏团的爱好者。ABC是由吉多参加设计的一种教学语言。就吉多本人看来，ABC这种语言非常优美和强大，是专门为非专业程序员设计的。但是ABC语言并没有成功，究其原因，吉多认为是非开放造成的。吉多决心在Python中避免这一错误，并获取了非常好的效果，完美结合了C和其他一些语言。[5]</p>
+<p>就这样，Python在吉多手中诞生了。实际上，第一个实现是在Mac机上。可以说，Python是从ABC发展起来，主要受到了Modula-3（另一种相当优美且强大的语言，为小型团体所设计的）的影响。并且结合了Unix shell和C的习惯。</p>
+<p>当前吉多仍然是Python的主要开发者，决定整个Python语言的发展方向。Python社群经常称呼他是终身仁慈独裁者（BDFL）。</p>
+<p>Python 2.0于2000年10月16日发布，增加了实现完整的垃圾回收，并且支持Unicode。同时，整个开发过程更加透明，社群对开发进度的影响逐渐扩大。</p>
+<p>Python 3.0于2008年12月3日发布，此版不完全兼容之前的Python源代码。不过，很多新特性后来也被移植到旧的Python 2.6/2.7版本。</p>
+<h2><span id="python的设计哲学">python的设计哲学</span></h2>
+<p>Python是完全面向对象的语言。函数、模块、数字、字符串都是对象。并且完全支持继承、重载、派生、多重继承，有益于增强源代码的复用性。Python支持重载运算符，因此Python也支持泛型设计。相对于Lisp这种传统的函数式编程语言，Python对函数式编程只提供了有限的支持。有两个标准库（functools, itertools）提供了与Haskell和Standard ML中类似的函数式程序设计工具。</p>
+<p>虽然Python可能被粗略地分类为“脚本语言”，但实际上一些大规模软件开发计划例如Zope、Mnet及BitTorrent，Google也广泛地使用它。Python的支持者较喜欢称它为一种高端动态编程语言，原因是“脚本语言”泛指仅作简单程序设计任务的语言，如shell script、VBScript等只能处理简单任务的编程语言，并不能与Python相提并论。</p>
+<p>Python本身被设计为可扩展的。并非所有的特性和功能都集成到语言核心。Python提供了丰富的API和工具，以便程序员能够轻松地使用C、C++、Cython来编写扩展模块。Python编译器本身也可以被集成到其它需要脚本语言的程序内。因此，有很多人把Python作为一种“胶水语言”使用。使用Python将其他语言编写的程序进行集成和封装。在Google内部的很多项目，例如Google应用服务引擎使用C++编写性能要求极高的部分，然后用Python或Java/Go调用相应的模块。《Python技术手册》的作者马特利（Alex Martelli）说：“这很难讲，不过，2004年，Python已在Google内部使用，Google召募许多Python高手，但在这之前就已决定使用Python。他们的目的是尽量使用Python，在不得已时改用C++；在操控硬件的场合使用C++，在快速开发时候使用Python。”[7]</p>
+<p>Python的设计哲学是“优雅”、“明确”、“简单”。Python开发者的哲学是“用一种方法，最好是只有一种方法来做一件事”，也因此它和拥有明显个人风格的其他语言很不一样。在设计Python语言时，如果面临多种选择，Python开发者一般会拒绝花俏的语法，而选择明确没有或者很少有歧义的语法。这些准则被称为“Python格言”</p>
+<p>Python开发人员尽量避开不成熟或者不重要的优化。一些针对非重要部位的加快运行速度的补丁通常不会被合并到Python内。再加上因为Python属于动态类型语言，动态类型语言是在运行期间检查数据的类型，不得不保持描述变量值的实际类型标记，程序在每次操作变量时，需要执行数据依赖分支，而静态类型语言相对于动态类型语言，在声明变量时已经指定了数据类型和表示方法，根据这一原理导致Python相对于C、Visual Basic等静态类型语言来说运行速度较慢。不过，根据二八定律，大多数程序对速度要求不高。在某些对运行速度要求很高的情况，Python设计师倾向于使用JIT技术，或者用使用C/C++语言改写这部分程序。当前可用的JIT技术是PyPy。</p>
+<h2><span id="python的应用范围">python的应用范围</span></h2>
+<ul>
+<li>网络应用程序</li>
+</ul>
+<p>Python经常被用于Web开发。比如，通过mod_wsgi模块，Apache可以运行用Python编写的Web程序。使用Python语言编写的Gunicorn作为Web服务器，也能够运行Python语言编写的Web程序。Python定义了WSGI标准应用接口来协调Http服务器与基于Python的Web程序之间的沟通。一些Web框架，如Django、Pyramid、TurboGears、Tornado、web2py、Zope、Flask等，可以让程序员轻松地开发和管理复杂的Web程序。</p>
+<p>Python对于各种网络协议的支持很完善，因此经常被用于编写服务器软件、网络爬虫。第三方库Twisted支持异步在线编写程序和多数标准的网络协议（包含客户端和服务器），并且提供了多种工具，被广泛用于编写高性能的服务器软件。另有gevent这个流行的第三方库，同样能够支持高性能高并发的网络开发。</p>
+<ul>
+<li>GUI开发</li>
+</ul>
+<p>Python本身包含的Tkinter库能够支持简单的GUI开发。但是越来越多的Python程序员选择wxPython或者PyQt等GUI包来开发跨平台的桌面软件。使用它们开发的桌面软件运行速度快，与用户的桌面环境相契合。通过PyInstaller还能将程序发布为独立的安装程序包。</p>
+<ul>
+<li>操作系统</li>
+</ul>
+<p>在很多操作系统里，Python是标准的系统组件。大多数Linux发行版和Mac OS X都集成了Python，可以在终端机下直接运行Python。有一些Linux发行版的安装器使用Python语言编写，比如Ubuntu的Ubiquity安装器、Red Hat Linux和Fedora的Anaconda安装器。在RPM系列Linux发行版中，有一些系统组件就是用Python编写的。Gentoo Linux使用Python来编写它的Portage软件包管理系统。Python标准库包含了多个调用作业系统功能的库。通过pywin32这个第三方软件包，Python能够访问Windows的COM服务及其它Windows API。使用IronPython，<a href="http://xn--Python-uw3kg37a3pl477bseee5kpqx5i9a.Net" target="_blank" rel="noopener">Python程序能够直接调用.Net</a> Framework。</p>
+<ul>
+<li>科学计算</li>
+</ul>
+<p>NumPy、SciPy、Matplotlib可以让Python程序员编写科学计算程序。有些公司会使用Scons代替make构建C++程序。</p>
+<p>很多游戏使用C++编写图形显示等高性能模块，而使用Python或者Lua编写游戏的逻辑、服务器。相较于Python，Lua的功能更简单、体积更小；而Python则支持更多的特性和数据类型。很多游戏，如EVE Online使用Python来处理游戏中繁多的逻辑。</p>
+<p>YouTube、Google、Yahoo!、NASA都在内部大量地使用Python。OLPC的作业系统Sugar项目的大多数软件都是使用Python编写。</p>
+<ul>
+<li>Hello World</li>
+</ul>
+<p>一个在标准输出设备上输出Hello World的简单程序，这种程序通常作为开始学习编程语言时的第一个程序：</p>
+<p>适用于Python 3.0以上版本以及Python 2.6、Python 2.7<br>
+print(“Hello, world!”)</p>
+<p>适用于Python 2.6以下版本<br>
+print “Hello, world!”</p>
+<h2><span id="python-各种包">python 各种包</span></h2>
+<h2><span id="python语法介绍基于python3">python语法介绍(基于python3)</span></h2>
+<h3><span id="编码">编码</span></h3>
+<p>默认情况下，Python 3 源码文件以 UTF-8 编码，所有字符串都是 unicode 字符串。 当然你也可以为源码文件指定不同的编码：</p>
+<p><code># -*- coding: cp-1252 -*-</code></p>
+<h3><span id="标识符">标识符</span></h3>
+<p>第一个字符必须是字母表中字母或下划线 _ 。</p>
+<p>标识符的其他的部分由字母、数字和下划线组成。</p>
+<p>标识符对大小写敏感。</p>
+<p>在 Python 3 中，非 ASCII 标识符也是允许的了。</p>
+<h3><span id="python保留字">python保留字</span></h3>
+<p>保留字即关键字，我们不能把它们用作任何标识符名称。Python 的标准库提供了一个 keyword 模块，可以输出当前版本的所有关键字：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; import keyword</span><br><span class="line">&gt;&gt;&gt; keyword.kwlist</span><br><span class="line">[&apos;False&apos;, &apos;None&apos;, &apos;True&apos;, &apos;and&apos;, &apos;as&apos;, &apos;assert&apos;, &apos;break&apos;, &apos;class&apos;, &apos;continue&apos;, &apos;def&apos;, &apos;del&apos;, &apos;elif&apos;, &apos;else&apos;, &apos;except&apos;, &apos;finally&apos;, &apos;for&apos;, &apos;from&apos;, &apos;global&apos;, &apos;if&apos;, &apos;import&apos;, &apos;in&apos;, &apos;is&apos;, &apos;lambda&apos;, &apos;nonlocal&apos;, &apos;not&apos;, &apos;or&apos;, &apos;pass&apos;, &apos;raise&apos;, &apos;return&apos;, &apos;try&apos;, &apos;while&apos;, &apos;with&apos;, &apos;yield&apos;]</span><br></pre></td></tr></table></figure>
+<h3><span id="注释">注释</span></h3>
+<p>Python中单行注释以 # 开头，实例如下：</p>
+<p>实例</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">#!/usr/bin/python3</span><br><span class="line"> </span><br><span class="line"># 第一个注释</span><br><span class="line"># 第二个注释</span><br><span class="line"> </span><br><span class="line">&apos;&apos;&apos;</span><br><span class="line">第三注释</span><br><span class="line">第四注释</span><br><span class="line">&apos;&apos;&apos;</span><br><span class="line"> </span><br><span class="line">&quot;&quot;&quot;</span><br><span class="line">第五注释</span><br><span class="line">第六注释</span><br><span class="line">&quot;&quot;&quot;</span><br><span class="line">print (&quot;Hello, Python!&quot;)</span><br></pre></td></tr></table></figure>
+<h3><span id="行与缩进">行与缩进</span></h3>
+<p>python最具特色的就是使用缩进来表示代码块，不需要使用大括号 {} 。</p>
+<p>缩进的空格数是可变的，但是同一个代码块的语句必须包含相同的缩进空格数。实例如下：</p>
+<p>实例</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># 缩进不一致，会导致运行错误</span><br><span class="line"></span><br><span class="line">if True:</span><br><span class="line">    print(&quot;True&quot;)</span><br><span class="line">else:</span><br><span class="line">    print(&quot;False&quot;)</span><br></pre></td></tr></table></figure>
+<h3><span id="多行语句">多行语句</span></h3>
+<p>Python 通常是一行写完一条语句，但如果语句很长，我们可以使用反斜杠()来实现多行语句，例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">total = item_one + \</span><br><span class="line">        item_two + \</span><br><span class="line">        item_three</span><br><span class="line"># 在 [], &#123;&#125;, 或 () 中的多行语句，不需要使用反斜杠(\)，例如：</span><br><span class="line"></span><br><span class="line">total = [&apos;item_one&apos;, &apos;item_two&apos;, &apos;item_three&apos;, &apos;item_four&apos;, &apos;item_five&apos;]</span><br></pre></td></tr></table></figure>
+<h3><span id="import-与-fromimport">import 与 from…import</span></h3>
+<p>在 python 用 import 或者 from…import 来导入相应的模块。</p>
+<p>将整个模块(somemodule)导入，格式为： import somemodule</p>
+<p>从某个模块中导入某个函数,格式为： from somemodule import somefunction</p>
+<p>从某个模块中导入多个函数,格式为： from somemodule import firstfunc, secondfunc, thirdfunc</p>
+<p>将某个模块中的全部函数导入，格式为： from somemodule import *</p>
+<h3><span id="python3-基本数据类型">Python3 基本数据类型</span></h3>
+<p>Python 中的变量不需要声明。每个变量在使用前都必须赋值，变量赋值以后该变量才会被创建。</p>
+<p>在 Python 中，变量就是变量，它没有类型，我们所说的&quot;类型&quot;是变量所指的内存中对象的类型。</p>
+<p>等号（=）用来给变量赋值。</p>
+<p>等号（=）运算符左边是一个变量名,等号（=）运算符右边是存储在变量中的值。例如：</p>
+<p>Python3 中有六个标准的数据类型：</p>
+<ul>
+<li>Number（数字）</li>
+<li>String（字符串）</li>
+<li>List（列表）</li>
+<li>Tuple（元组）</li>
+<li>Set（集合）</li>
+<li>Dictionary（字典）</li>
+</ul>
+<p>不可变数据（3 个）：Number（数字）、String（字符串）、Tuple（元组）；</p>
+<p>可变数据（3 个）：List（列表）、Dictionary（字典）、Set（集合）。</p>
+<h4><span id="number数字">Number（数字）</span></h4>
+<p><strong>python中数字有四种类型</strong>：整数、布尔型、浮点数和复数。</p>
+<ul>
+<li>
+<p>int (整数), 如 1, 只有一种整数类型 int，表示为长整型，没有 python2 中的 Long。</p>
+</li>
+<li>
+<p>bool (布尔), 如 True。</p>
+</li>
+<li>
+<p>float (浮点数), 如 1.23、3E-2</p>
+</li>
+<li>
+<p>complex (复数), 如 1 + 2j、 1.1 + 2.2j</p>
+</li>
+</ul>
+<p>在Python 3里，只有一种整数类型 int，表示为长整型，没有 python2 中的 Long。</p>
+<p>像大多数语言一样，数值类型的赋值和计算都是很直观的。</p>
+<p>内置的 type() 函数可以用来查询变量所指的对象类型。</p>
+<p><strong>isinstance 和 type</strong></p>
+<p>type(a) 判断某种变量是那种类型</p>
+<p>isinstance(a, b) 判断a类型是不是b的子类型</p>
+<p><strong>del</strong></p>
+<p>您可以通过使用del语句删除单个或多个对象。例如：</p>
+<p>del var_c<br>
+del var_a, var_b</p>
+<p><strong>数值运算</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">&gt;&gt;&gt;5 + 4  # 加法</span><br><span class="line">9</span><br><span class="line">&gt;&gt;&gt; 4.3 - 2 # 减法</span><br><span class="line">2.3</span><br><span class="line">&gt;&gt;&gt; 3 * 7  # 乘法</span><br><span class="line">21</span><br><span class="line">&gt;&gt;&gt; 2 / 4  # 除法，得到一个浮点数</span><br><span class="line">0.5</span><br><span class="line">&gt;&gt;&gt; 2 // 4 # 除法，得到一个整数</span><br><span class="line">0</span><br><span class="line">&gt;&gt;&gt; 17 % 3 # 取余 </span><br><span class="line">2</span><br><span class="line">&gt;&gt;&gt; 2 ** 5 # 乘方</span><br><span class="line">32</span><br></pre></td></tr></table></figure>
+<p><strong>注意</strong></p>
+<p>1、Python可以同时为多个变量赋值，如a, b = 1, 2。<br>
+2、一个变量可以通过赋值指向不同类型的对象。<br>
+3、数值的除法包含两个运算符：/ 返回一个浮点数，// 返回一个整数。<br>
+4、在混合计算时，Python会把整型转换成为浮点数。</p>
+<p><strong>字符串</strong>(String)</p>
+<p>Python中的字符串用单引号 ’ 或双引号 &quot; 括起来，同时使用反斜杠 \ 转义特殊字符。</p>
+<p>反斜杠可以用来转义，使用r可以让反斜杠不发生转义。。 如 r&quot;this is a line with \n&quot; 则\n会显示，并不是换行。</p>
+<p>按字面意义级联字符串，如&quot;this &quot; &quot;is &quot; &quot;string&quot;会被自动转换为this is string。</p>
+<p>字符串可以用 + 运算符连接在一起，用 * 运算符重复。</p>
+<p>Python 中的字符串有两种索引方式，从左往右以 0 开始，从右往左以 -1 开始。</p>
+<p>Python中的字符串不能改变。</p>
+<p>Python 没有单独的字符类型，一个字符就是长度为 1 的字符串。</p>
+<p>字符串的截取的语法格式如下：变量[头下标:尾下标:步长]</p>
+<p>字符串的截取的语法格式如下：</p>
+<p>变量[头下标:尾下标]<br>
+索引值以 0 为开始值，-1 为从末尾的开始位置。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">-6   -5   -4   -3   -2   -1</span><br><span class="line"> 0    1    2    3    4    5</span><br><span class="line"> a    b    c    d    e    f</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">#!/usr/bin/python3</span><br><span class="line"> </span><br><span class="line">str = &apos;helloworld&apos;</span><br><span class="line"> </span><br><span class="line">print (str)          # 输出字符串</span><br><span class="line">print (str[0:-1])    # 输出第一个到倒数第二个的所有字符</span><br><span class="line">print (str[0])       # 输出字符串第一个字符</span><br><span class="line">print (str[2:5])     # 输出从第三个开始到第五个的字符</span><br><span class="line">print (str[2:])      # 输出从第三个开始的后的所有字符</span><br><span class="line">print (str * 2)      # 输出字符串两次</span><br><span class="line">print (str + &quot;TEST&quot;) # 连接字符串</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># 执行以上程序会输出如下结果：</span><br><span class="line"></span><br><span class="line">helloworld</span><br><span class="line">helloworl</span><br><span class="line">h</span><br><span class="line">llo</span><br><span class="line">lloworld</span><br><span class="line">helloworldhelloworld</span><br><span class="line">helloworldTEST</span><br></pre></td></tr></table></figure>
+<p>另外，反斜杠()可以作为续行符，表示下一行是上一行的延续。也可以使用 “”&quot;…&quot;&quot;&quot; 或者 ‘’’…’’’ 跨越多行。</p>
+<p>注意，Python 没有单独的字符类型，一个字符就是长度为1的字符串。</p>
+<p>实例</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt;word = &apos;Python&apos;</span><br><span class="line">&gt;&gt;&gt; print(word[0], word[5])</span><br><span class="line">P n</span><br><span class="line">&gt;&gt;&gt; print(word[-1], word[-6])</span><br><span class="line">n P</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">#!/usr/bin/python3</span><br><span class="line"> </span><br><span class="line">counter = 100          # 整型变量</span><br><span class="line">miles   = 1000.0       # 浮点型变量</span><br><span class="line">name    = &quot;runoob&quot;     # 字符串</span><br><span class="line"> </span><br><span class="line">print (counter)</span><br><span class="line">print (miles)</span><br><span class="line">print (name)</span><br></pre></td></tr></table></figure>
+
+                
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/article/java-pay/" data-toggle="tooltip" data-placement="top" title="java 第三方支付">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/article/yum源制作/" data-toggle="tooltip" data-placement="top" title="制作本地yum源">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                <br>
+
+                <!--打赏-->
+                
+                <!--打赏-->
+
+                <br>
+                <!--分享-->
+                
+                    <div class="social-share"  data-wechat-qrcode-helper="" align="center"></div>
+                    <!--  css & js -->
+                    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/css/share.min.css">
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/js/social-share.min.js"></script>
+                
+                <!--分享-->
+                <br>                       
+                
+                <!-- require APlayer -->
+                
+
+                <!-- duoshuo Share start -->
+                
+                <!-- 多说 Share end-->
+
+                <!-- 多说评论框 start -->
+                
+                <!-- 多说评论框 end -->
+
+                <!-- disqus comment start -->
+                
+                <!-- disqus comment end -->
+
+                
+
+            </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+  
+    
+      <aside id="sidebar">
+        <div id="toc" class="toc-article">
+        <strong class="toc-title">Contents</strong>
+        
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.</span> <span class="toc-nav-text"><span id="python">python</span></span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text"><span id="&#x4EC0;&#x4E48;&#x662F;-python">&#x4EC0;&#x4E48;&#x662F; python</span></span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.2.</span> <span class="toc-nav-text"><span id="python&#x7684;&#x53D1;&#x5C55;&#x53F2;">python&#x7684;&#x53D1;&#x5C55;&#x53F2;</span></span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.3.</span> <span class="toc-nav-text"><span id="python&#x7684;&#x8BBE;&#x8BA1;&#x54F2;&#x5B66;">python&#x7684;&#x8BBE;&#x8BA1;&#x54F2;&#x5B66;</span></span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.4.</span> <span class="toc-nav-text"><span id="python&#x7684;&#x5E94;&#x7528;&#x8303;&#x56F4;">python&#x7684;&#x5E94;&#x7528;&#x8303;&#x56F4;</span></span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.5.</span> <span class="toc-nav-text"><span id="python-&#x5404;&#x79CD;&#x5305;">python &#x5404;&#x79CD;&#x5305;</span></span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.6.</span> <span class="toc-nav-text"><span id="python&#x8BED;&#x6CD5;&#x4ECB;&#x7ECD;&#x57FA;&#x4E8E;python3">python&#x8BED;&#x6CD5;&#x4ECB;&#x7ECD;(&#x57FA;&#x4E8E;python3)</span></span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.6.1.</span> <span class="toc-nav-text"><span id="&#x7F16;&#x7801;">&#x7F16;&#x7801;</span></span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.6.2.</span> <span class="toc-nav-text"><span id="&#x6807;&#x8BC6;&#x7B26;">&#x6807;&#x8BC6;&#x7B26;</span></span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.6.3.</span> <span class="toc-nav-text"><span id="python&#x4FDD;&#x7559;&#x5B57;">python&#x4FDD;&#x7559;&#x5B57;</span></span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.6.4.</span> <span class="toc-nav-text"><span id="&#x6CE8;&#x91CA;">&#x6CE8;&#x91CA;</span></span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.6.5.</span> <span class="toc-nav-text"><span id="&#x884C;&#x4E0E;&#x7F29;&#x8FDB;">&#x884C;&#x4E0E;&#x7F29;&#x8FDB;</span></span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.6.6.</span> <span class="toc-nav-text"><span id="&#x591A;&#x884C;&#x8BED;&#x53E5;">&#x591A;&#x884C;&#x8BED;&#x53E5;</span></span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.6.7.</span> <span class="toc-nav-text"><span id="import-&#x4E0E;-fromimport">import &#x4E0E; from&#x2026;import</span></span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.6.8.</span> <span class="toc-nav-text"><span id="python3-&#x57FA;&#x672C;&#x6570;&#x636E;&#x7C7B;&#x578B;">Python3 &#x57FA;&#x672C;&#x6570;&#x636E;&#x7C7B;&#x578B;</span></span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.6.8.1.</span> <span class="toc-nav-text"><span id="number&#x6570;&#x5B57;">Number&#xFF08;&#x6570;&#x5B57;&#xFF09;</span></span></a></li></ol></li></ol></li></ol></li></ol>
+        
+        </div>
+      </aside>
+    
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#python" title="python">python</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="http://blog.csdn.net/fooelliot" target="_blank">CSDN fooelliot</a></li>
+                    
+                        <li><a href="http://github.com/janlle" target="_blank">GitHub janlle</a></li>
+                    
+                        <li><a href="https://www.cnblogs.com/ruolin/" target="_blank">博客园 janlle</a></li>
+                    
+                        <li><a href="https://www.jianshu.com/u/2c8b6b4a6523" target="_blank">简书 janlle</a></li>
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/janlle">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; leone 2019 
+                    <br>
+                    Theme by <a href="http://beantech.org">BeanTech</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    re-Ported by <a href="http://wealip.cn">leone</a> | 
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=janlle&repo=blogs&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://www.wealip.cn/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-XXXXXXXX-X';
+    var _gaDomain = 'yoursite';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = 'xxx';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<img src="http://www.wealip.cn/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

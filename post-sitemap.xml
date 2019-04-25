@@ -7,8 +7,344 @@
     </url>
 
     <url>
-        <loc>http://www.wealip.cn/article/OpenCV/</loc>
-        <lastmod>2019-02-24T03:27:36.351Z</lastmod>
+        <loc>http://www.wealip.cn/article/Crontab/</loc>
+        <lastmod>2019-04-25T14:39:03.513Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>http://www.wealip.cn/article/linux-compress/</loc>
+        <lastmod>2019-04-25T14:35:35.231Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>http://www.wealip.cn/article/linux-shell/</loc>
+        <lastmod>2019-04-22T14:11:18.241Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>http://www.wealip.cn/article/HomeBrew/</loc>
+        <lastmod>2019-04-21T09:57:56.443Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>http://www.wealip.cn/article/Nginx-log/</loc>
+        <lastmod>2019-04-21T09:57:56.443Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>http://www.wealip.cn/article/Python-pip/</loc>
+        <lastmod>2019-04-21T09:18:19.602Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>http://www.wealip.cn/article/regular/</loc>
+        <lastmod>2019-04-21T09:13:29.551Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>http://www.wealip.cn/article/Python-virtualenv/</loc>
+        <lastmod>2019-04-21T08:50:14.480Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>http://www.wealip.cn/article/Mac/</loc>
+        <lastmod>2019-04-19T14:53:27.989Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>http://www.wealip.cn/article/ab/</loc>
+        <lastmod>2019-04-19T14:46:35.113Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>http://www.wealip.cn/article/Nginx-limited/</loc>
+        <lastmod>2019-04-19T14:06:01.018Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>http://www.wealip.cn/article/Nginx-upstream/</loc>
+        <lastmod>2019-04-19T13:37:30.375Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>http://www.wealip.cn/article/Groovy/</loc>
+        <lastmod>2019-04-19T12:53:04.524Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>http://www.wealip.cn/article/ContOS-7.6x64%E6%90%AD%E5%BB%BAAmbari/</loc>
+        <lastmod>2019-04-14T12:15:29.523Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>http://www.wealip.cn/article/Emacs/</loc>
+        <lastmod>2019-04-14T12:04:04.505Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>http://www.wealip.cn/article/SpringCloud-05-Ribbon/</loc>
+        <lastmod>2019-04-06T13:04:13.892Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>http://www.wealip.cn/article/Bash/</loc>
+        <lastmod>2019-04-06T12:57:48.220Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>http://www.wealip.cn/article/Spark-Structured-Steaming/</loc>
+        <lastmod>2019-04-06T12:57:48.219Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>http://www.wealip.cn/article/Python/</loc>
+        <lastmod>2019-03-31T11:08:21.042Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>http://www.wealip.cn/article/SpringCloud-06-Config/</loc>
+        <lastmod>2019-03-31T11:08:21.041Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>http://www.wealip.cn/article/SpringCloud-04-hystrix/</loc>
+        <lastmod>2019-03-31T11:08:21.032Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>http://www.wealip.cn/article/NIO/</loc>
+        <lastmod>2019-03-31T11:08:21.013Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>http://www.wealip.cn/article/Hive/</loc>
+        <lastmod>2019-03-31T11:08:20.999Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>http://www.wealip.cn/article/Elasticsearch%E9%9B%86%E7%BE%A4%E6%90%AD%E5%BB%BA/</loc>
+        <lastmod>2019-03-31T11:08:20.972Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>http://www.wealip.cn/article/yum%E6%BA%90%E5%88%B6%E4%BD%9C/</loc>
+        <lastmod>2019-03-26T14:42:13.801Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>http://www.wealip.cn/article/redis/</loc>
+        <lastmod>2019-03-26T14:42:13.801Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>http://www.wealip.cn/article/idea/</loc>
+        <lastmod>2019-03-26T14:42:13.794Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>http://www.wealip.cn/article/OpenVC/</loc>
+        <lastmod>2019-03-26T14:42:13.781Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>http://www.wealip.cn/article/Git/</loc>
+        <lastmod>2019-03-26T14:42:13.768Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>http://www.wealip.cn/article/Compile_Hadoop/</loc>
+        <lastmod>2019-03-26T14:42:13.745Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>http://www.wealip.cn/article/Spark/</loc>
+        <lastmod>2019-03-17T15:22:16.619Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>http://www.wealip.cn/article/Hadoop/</loc>
+        <lastmod>2019-03-17T15:22:16.608Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>http://www.wealip.cn/article/Hadoop-HA/</loc>
+        <lastmod>2019-03-17T15:22:16.607Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>http://www.wealip.cn/article/Flink/</loc>
+        <lastmod>2019-03-05T13:07:06.181Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>http://www.wealip.cn/article/Kafka/</loc>
+        <lastmod>2019-03-05T12:58:15.646Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>http://www.wealip.cn/article/Docker/</loc>
+        <lastmod>2019-03-05T12:58:15.634Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>http://www.wealip.cn/article/Spark-Steaming/</loc>
+        <lastmod>2019-03-02T12:29:29.243Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>http://www.wealip.cn/article/Spark-Sql/</loc>
+        <lastmod>2019-03-02T12:29:29.239Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>http://www.wealip.cn/article/Flume/</loc>
+        <lastmod>2019-02-25T14:04:54.141Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>http://www.wealip.cn/article/jvm/</loc>
+        <lastmod>2019-02-25T14:04:54.141Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>http://www.wealip.cn/article/Sqoop/</loc>
+        <lastmod>2019-02-25T14:04:54.119Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>http://www.wealip.cn/article/Nginx/</loc>
+        <lastmod>2019-02-25T14:04:54.110Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>http://www.wealip.cn/article/HBase/</loc>
+        <lastmod>2019-02-25T14:04:54.108Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -47,7 +383,7 @@
     </url>
 
     <url>
-        <loc>http://www.wealip.cn/article/SpringCloud-03-zookeeper/</loc>
+        <loc>http://www.wealip.cn/article/SpringCloud-07-zookeeper/</loc>
         <lastmod>2019-02-24T03:25:33.716Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
@@ -167,32 +503,8 @@
     </url>
 
     <url>
-        <loc>http://www.wealip.cn/article/Spark-Steaming/</loc>
-        <lastmod>2019-02-24T03:17:58.370Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>http://www.wealip.cn/article/Spark-Sql/</loc>
-        <lastmod>2019-02-24T03:17:06.761Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
         <loc>http://www.wealip.cn/article/Spark-Core/</loc>
         <lastmod>2019-02-24T03:16:58.158Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>http://www.wealip.cn/article/Spark/</loc>
-        <lastmod>2019-02-24T03:16:46.324Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -223,30 +535,6 @@
     </url>
 
     <url>
-        <loc>http://www.wealip.cn/article/Redis/</loc>
-        <lastmod>2019-02-24T03:14:52.612Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>http://www.wealip.cn/article/NIO/</loc>
-        <lastmod>2019-02-24T03:14:08.528Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>http://www.wealip.cn/article/Nginx/</loc>
-        <lastmod>2019-02-24T03:13:55.407Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
         <loc>http://www.wealip.cn/article/MySql/</loc>
         <lastmod>2019-02-24T03:13:18.476Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -271,22 +559,6 @@
     </url>
 
     <url>
-        <loc>http://www.wealip.cn/article/Kafka/</loc>
-        <lastmod>2019-02-24T03:12:23.289Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>http://www.wealip.cn/article/jvm/</loc>
-        <lastmod>2019-02-24T03:11:58.906Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
         <loc>http://www.wealip.cn/article/java-pay/</loc>
         <lastmod>2019-02-24T03:11:44.802Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -295,64 +567,8 @@
     </url>
 
     <url>
-        <loc>http://www.wealip.cn/article/Idea/</loc>
-        <lastmod>2019-02-24T03:11:37.002Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>http://www.wealip.cn/article/Hive/</loc>
-        <lastmod>2019-02-24T03:11:31.362Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>http://www.wealip.cn/article/HBase/</loc>
-        <lastmod>2019-02-24T03:11:14.227Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>http://www.wealip.cn/article/hadoop/</loc>
-        <lastmod>2019-02-24T03:10:50.124Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
         <loc>http://www.wealip.cn/article/Git-commit-standard/</loc>
         <lastmod>2019-02-24T03:10:16.754Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>http://www.wealip.cn/article/Git/</loc>
-        <lastmod>2019-02-24T03:09:23.668Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>http://www.wealip.cn/article/Flume/</loc>
-        <lastmod>2019-02-24T03:09:03.012Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>http://www.wealip.cn/article/Crontab/</loc>
-        <lastmod>2019-02-24T03:08:27.666Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -369,14 +585,6 @@
     <url>
         <loc>http://www.wealip.cn/article/%E5%90%8E%E5%8F%B0%E9%A1%B9%E7%9B%AE%E6%8A%80%E6%9C%AF%E8%A7%84%E8%8C%83/</loc>
         <lastmod>2019-02-24T02:59:05.854Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>http://www.wealip.cn/article/ContOS-7.6x64%E6%90%AD%E5%BB%BAAmbari/</loc>
-        <lastmod>2019-02-24T02:35:27.363Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -401,14 +609,6 @@
     <url>
         <loc>http://www.wealip.cn/article/Git-Commit-Message-Style-Guide/</loc>
         <lastmod>2019-02-08T01:19:35.503Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>http://www.wealip.cn/article/Docker/</loc>
-        <lastmod>2019-02-07T13:45:37.289Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 

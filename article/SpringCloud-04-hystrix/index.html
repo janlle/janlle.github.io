@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/ironman-draw.png">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <title>
+        
+          Spring Cloud Hystrix - leone | Blog
+        
+    </title>
+
+    <link rel="canonical" href="http://www.wealip.cn/article/SpringCloud-04-hystrix/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS --> 
+    <link rel="stylesheet" href="/css/beantech.min.css">
+
+    <link rel="stylesheet" href="/css/donate.css">
+    
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <link rel="stylesheet" href="/css/widget.css">
+
+    <link rel="stylesheet" href="/css/rocket.css">
+
+    <link rel="stylesheet" href="/css/signature.css">
+
+    <link rel="stylesheet" href="/css/toc.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        
+            background-image: url('/img/article_header/article_header.png')
+            /*post*/
+        
+    }
+    
+</style>
+
+<header class="intro-header" >
+    <!-- Signature -->
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#后端" title="后端">后端</a>
+                            
+                              <a class="tag" href="/tags/#springCloud" title="springCloud">springCloud</a>
+                            
+                              <a class="tag" href="/tags/#微服务" title="微服务">微服务</a>
+                            
+                              <a class="tag" href="/tags/#hystrix" title="hystrix">hystrix</a>
+                            
+                        </div>
+                        <h1>Spring Cloud Hystrix</h1>
+                        <h2 class="subheading">微服务框架 Spring Cloud 核心组件 Hystrix</h2>
+                        <span class="meta">
+                            Posted by leone on
+                            2019-01-11
+                        </span>
+                    </div>
+                
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">leone</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archive/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h1><span id="spring-cloud-hystrix">Spring Cloud Hystrix</span></h1>
+<p><strong>开发环境</strong></p>
+<p>开发工具：Intellij IDEA 2018.2.6</p>
+<p>springboot: 2.0.6.RELEASE</p>
+<p>jdk：1.8.0_192</p>
+<p>maven: 3.6.0</p>
+<p>Hystrix：2.0.2.RELEASE</p>
+<h2><span id="hystrix简介">Hystrix简介</span></h2>
+<p>hystrix对应的中文名字是 “豪猪”，豪猪身上全是刺，能保护自己不受天敌的伤害，代表了一种防御机制，这与 hystrix 本身的功能不谋而合，因此 Netflix 团队将该框架命名为 Hystrix，并使用了对应的卡通形象做作为logo。Hystrix是一个通过添加延迟容忍和容错逻辑来帮助您控制这些分布式服务之间的交互的库。Hystrix通过隔离服务之间的访问点来实现这一点，停止跨级的级联故障，并提供备用选项，所有这些都可以提高系统的整体弹性。Hystrix是由Netflix的API团队在2011年开始的弹性工程工作演变而来的。2012年，Hystrix继续发展和成熟，Netflix的许多团队都采用了它。如今，在Netflix上，每天都有数百亿的线程被隔离，以及数以千亿计的信号隔离电话。这导致了正常运行时间和弹性的显著改善。</p>
+<h2><span id="hystrix-提供了什么">hystrix 提供了什么</span></h2>
+<ul>
+<li>
+<p>资源隔离:（线程池隔离和信号量隔离）机制,限制调用分布式服务的资源使用，某一个调用的服务出现问题不会影响其它服务调用。</p>
+</li>
+<li>
+<p>限流机制：限流机制主要是提前对各个类型的请求设置最高的QPS阈值，若高于设置的阈值则对该请求直接返回，不再调用后续资源。</p>
+</li>
+<li>
+<p>熔断机制：当失败率达到阀值自动触发降级（如因网络故障、超时造成的失败率真高），熔断器触发的快速失败会进行快速恢复。</p>
+</li>
+<li>
+<p>降级机制：超时降级、资源不足时（线程或信号量）降级 、运行异常降级等，降级后可以配合降级接口返回托底数据。</p>
+</li>
+<li>
+<p>缓存支持：提供了请求缓存、请求合并实现</p>
+</li>
+<li>
+<p>通过近实时的统计/监控/报警功能，来提高故障发现的速度</p>
+</li>
+<li>
+<p>通过近实时的属性和配置热修改功能，来提高故障处理和恢复的速度</p>
+</li>
+</ul>
+<h2><span id="结合-spring-cloud-使用">结合 Spring Cloud 使用</span></h2>
+<ul>
+<li>pom.xml</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span><br><span class="line">&lt;project xmlns=&quot;http://maven.apache.org/POM/4.0.0&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span><br><span class="line">         xsi:schemaLocation=&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd&quot;&gt;</span><br><span class="line">    </span><br><span class="line">    &lt;packaging&gt;jar&lt;/packaging&gt;</span><br><span class="line">    &lt;groupId&gt;com.andy&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;spring-cloud-hystrix&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;1.0.6.RELEASE&lt;/version&gt;</span><br><span class="line"></span><br><span class="line">    &lt;dependencyManagement&gt;</span><br><span class="line">        &lt;dependencies&gt;</span><br><span class="line">            &lt;dependency&gt;</span><br><span class="line">                &lt;groupId&gt;io.spring.platform&lt;/groupId&gt;</span><br><span class="line">                &lt;artifactId&gt;platform-bom&lt;/artifactId&gt;</span><br><span class="line">                &lt;version&gt;Cairo-SR6&lt;/version&gt;</span><br><span class="line">                &lt;type&gt;pom&lt;/type&gt;</span><br><span class="line">                &lt;scope&gt;import&lt;/scope&gt;</span><br><span class="line">            &lt;/dependency&gt;</span><br><span class="line">            &lt;dependency&gt;</span><br><span class="line">                &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;</span><br><span class="line">                &lt;artifactId&gt;spring-cloud-dependencies&lt;/artifactId&gt;</span><br><span class="line">                &lt;version&gt;Finchley.SR2&lt;/version&gt;</span><br><span class="line">                &lt;type&gt;pom&lt;/type&gt;</span><br><span class="line">                &lt;scope&gt;import&lt;/scope&gt;</span><br><span class="line">            &lt;/dependency&gt;</span><br><span class="line">        &lt;/dependencies&gt;</span><br><span class="line">    &lt;/dependencyManagement&gt;</span><br><span class="line"></span><br><span class="line">    &lt;dependencies&gt;</span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;</span><br><span class="line">        &lt;/dependency&gt;</span><br><span class="line"></span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;spring-cloud-starter-netflix-eureka-client&lt;/artifactId&gt;</span><br><span class="line">        &lt;/dependency&gt;</span><br><span class="line"></span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;spring-cloud-starter-openfeign&lt;/artifactId&gt;</span><br><span class="line">        &lt;/dependency&gt;</span><br><span class="line"></span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;spring-cloud-starter-netflix-hystrix&lt;/artifactId&gt;</span><br><span class="line">        &lt;/dependency&gt;</span><br><span class="line"></span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;spring-cloud-starter-netflix-ribbon&lt;/artifactId&gt;</span><br><span class="line">        &lt;/dependency&gt;</span><br><span class="line"></span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;spring-boot-starter-test&lt;/artifactId&gt;</span><br><span class="line">        &lt;/dependency&gt;</span><br><span class="line"></span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;com.andy&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;spring-cloud-common&lt;/artifactId&gt;</span><br><span class="line">            &lt;version&gt;1.0.6.RELEASE&lt;/version&gt;</span><br><span class="line">        &lt;/dependency&gt;</span><br><span class="line"></span><br><span class="line">    &lt;/dependencies&gt;</span><br><span class="line"></span><br><span class="line">    &lt;build&gt;</span><br><span class="line">        &lt;plugins&gt;</span><br><span class="line">            &lt;plugin&gt;</span><br><span class="line">                &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;</span><br><span class="line">                &lt;artifactId&gt;maven-compiler-plugin&lt;/artifactId&gt;</span><br><span class="line">                &lt;version&gt;3.8.0&lt;/version&gt;</span><br><span class="line">                &lt;configuration&gt;</span><br><span class="line">                    &lt;source&gt;1.8&lt;/source&gt;</span><br><span class="line">                    &lt;target&gt;1.8&lt;/target&gt;</span><br><span class="line">                    &lt;encoding&gt;UTF-8&lt;/encoding&gt;</span><br><span class="line">                &lt;/configuration&gt;</span><br><span class="line">            &lt;/plugin&gt;</span><br><span class="line"></span><br><span class="line">            &lt;plugin&gt;</span><br><span class="line">                &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">                &lt;artifactId&gt;spring-boot-maven-plugin&lt;/artifactId&gt;</span><br><span class="line">                &lt;version&gt;2.0.3.RELEASE&lt;/version&gt;</span><br><span class="line">                &lt;configuration&gt;</span><br><span class="line">                    &lt;!--&lt;mainClass&gt;$&#123;start-class&#125;&lt;/mainClass&gt;--&gt;</span><br><span class="line">                    &lt;layout&gt;ZIP&lt;/layout&gt;</span><br><span class="line">                &lt;/configuration&gt;</span><br><span class="line">                &lt;executions&gt;</span><br><span class="line">                    &lt;execution&gt;</span><br><span class="line">                        &lt;goals&gt;</span><br><span class="line">                            &lt;goal&gt;repackage&lt;/goal&gt;</span><br><span class="line">                        &lt;/goals&gt;</span><br><span class="line">                    &lt;/execution&gt;</span><br><span class="line">                &lt;/executions&gt;</span><br><span class="line">            &lt;/plugin&gt;</span><br><span class="line">        &lt;/plugins&gt;</span><br><span class="line">    &lt;/build&gt;</span><br><span class="line"></span><br><span class="line">&lt;/project&gt;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>启动类</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">import com.netflix.hystrix.contrib.metrics.eventstream.HystrixMetricsStreamServlet;</span><br><span class="line">import org.springframework.boot.SpringApplication;</span><br><span class="line">import org.springframework.boot.web.servlet.ServletRegistrationBean;</span><br><span class="line">import org.springframework.cloud.client.SpringCloudApplication;</span><br><span class="line">import org.springframework.cloud.client.loadbalancer.LoadBalanced;</span><br><span class="line">import org.springframework.cloud.netflix.hystrix.EnableHystrix;</span><br><span class="line">import org.springframework.context.annotation.Bean;</span><br><span class="line">import org.springframework.web.client.RestTemplate;</span><br><span class="line"></span><br><span class="line">import java.util.Random;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * &lt;p&gt;</span><br><span class="line"> *</span><br><span class="line"> * @author Leone</span><br><span class="line"> * @since 2018-02-11</span><br><span class="line"> **/</span><br><span class="line">@EnableHystrix</span><br><span class="line">@SpringCloudApplication</span><br><span class="line">public class HystrixApplication &#123;</span><br><span class="line"></span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        SpringApplication.run(HystrixApplication.class, args);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Bean</span><br><span class="line">    public ServletRegistrationBean&lt;HystrixMetricsStreamServlet&gt; getServlet() &#123;</span><br><span class="line">        HystrixMetricsStreamServlet streamServlet = new HystrixMetricsStreamServlet();</span><br><span class="line">        ServletRegistrationBean&lt;HystrixMetricsStreamServlet&gt; registrationBean = new ServletRegistrationBean&lt;&gt;(streamServlet);</span><br><span class="line">        registrationBean.setLoadOnStartup(1);</span><br><span class="line">        registrationBean.addUrlMappings(&quot;/hystrix.stream&quot;);</span><br><span class="line">        registrationBean.setName(&quot;HystrixMetricsStreamServlet&quot;);</span><br><span class="line">        return registrationBean;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Bean</span><br><span class="line">    @LoadBalanced</span><br><span class="line">    public RestTemplate restTemplate() &#123;</span><br><span class="line">        return new RestTemplate();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Bean</span><br><span class="line">    public Random random() &#123;</span><br><span class="line">        return new Random();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>application.yml</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line">server:</span><br><span class="line">  port: 8109</span><br><span class="line"></span><br><span class="line">spring:</span><br><span class="line">  application:</span><br><span class="line">    name: mc-hystrix</span><br><span class="line">eureka:</span><br><span class="line">  client: </span><br><span class="line">    serviceUrl:</span><br><span class="line">      defaultZone: http://localhost:8761/eureka</span><br><span class="line">  instance:</span><br><span class="line">    appname: hystrix-service</span><br><span class="line"></span><br><span class="line"># 新版本中需要独立设置开启feign对hystrix的支持，旧版本中默认开启对hystrix支持</span><br><span class="line">feign:</span><br><span class="line">  hystrix:</span><br><span class="line">    enabled: true</span><br><span class="line"></span><br><span class="line"># spring boot 2.x actuator 的配置</span><br><span class="line">management:</span><br><span class="line">  endpoints:</span><br><span class="line">    web:</span><br><span class="line">      exposure:</span><br><span class="line">        include: &quot;*&quot;</span><br><span class="line">      base-path: /monitor</span><br><span class="line">  endpoint:</span><br><span class="line">    health:</span><br><span class="line">      show-details: always</span><br><span class="line"></span><br><span class="line"># 配置hystrix</span><br><span class="line">hystrix:</span><br><span class="line">  threadpool:</span><br><span class="line">    default:</span><br><span class="line">      # hystrix核心线程池线程数</span><br><span class="line">      coreSize: 10</span><br><span class="line">  metrics:</span><br><span class="line">    polling-interval-ms: 2000</span><br><span class="line">    enabled: true</span><br><span class="line">  command:</span><br><span class="line">    # IService#hello(): 设置某一个接口 default: 设置全部接口</span><br><span class="line">    default:</span><br><span class="line">      execution:</span><br><span class="line">        timeout:</span><br><span class="line">          # 开启超时熔断功能</span><br><span class="line">          enabled: true</span><br><span class="line">        isolation:</span><br><span class="line">          thread:</span><br><span class="line">            timeoutInMilliseconds: 2000 # 超时时间</span><br><span class="line">      circuitBreaker:</span><br><span class="line">        requestVolumeThreshold: 3       # 当在配置时间窗口内达到此数量后，进行短路。默认20个</span><br><span class="line">        sleepWindowInMilliseconds: 5    # 短路多久以后开始尝试是否恢复，默认5s</span><br><span class="line">        errorThresholdPercentage: 50%   # 出错百分比阈值，当达到此阈值后，开始短路。默认50%</span><br></pre></td></tr></table></figure>
+<h3><span id="hystrix-基于注解结合-spring-cloud-使用">hystrix 基于注解结合 Spring Cloud 使用</span></h3>
+<ul>
+<li>HystrixController.java</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">import com.andy.common.entity.User;</span><br><span class="line">import com.andy.hystrix.service.HystrixService;</span><br><span class="line">import com.andy.hystrix.service.RibbonService;</span><br><span class="line">import com.netflix.hystrix.contrib.javanica.annotation.DefaultProperties;</span><br><span class="line">import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;</span><br><span class="line">import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;</span><br><span class="line">import lombok.extern.slf4j.Slf4j;</span><br><span class="line">import org.springframework.beans.factory.annotation.Autowired;</span><br><span class="line">import org.springframework.web.bind.annotation.*;</span><br><span class="line"></span><br><span class="line">import java.util.Random;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * @author Leone</span><br><span class="line"> * @since 2017-12-22</span><br><span class="line"> **/</span><br><span class="line">@Slf4j</span><br><span class="line">@RestController</span><br><span class="line">@RequestMapping(&quot;/hystrix&quot;)</span><br><span class="line">@DefaultProperties(defaultFallback = &quot;defaultFallback&quot;)</span><br><span class="line">public class HystrixController &#123;</span><br><span class="line"></span><br><span class="line">    @Autowired</span><br><span class="line">    private Random random;</span><br><span class="line"></span><br><span class="line">    @Autowired</span><br><span class="line">    private RibbonService ribbonService;</span><br><span class="line"></span><br><span class="line">    @Autowired</span><br><span class="line">    private HystrixService hystrixService;</span><br><span class="line"></span><br><span class="line">    @GetMapping(&quot;/user/&#123;userId&#125;&quot;)</span><br><span class="line">    public User findOne(@PathVariable(&quot;userId&quot;) Long userId) &#123;</span><br><span class="line">        return ribbonService.find(userId);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @GetMapping(&quot;/user&quot;)</span><br><span class="line">    public User user(@RequestParam Long userId) &#123;</span><br><span class="line">        return hystrixService.find(userId);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @HystrixCommand(</span><br><span class="line">            fallbackMethod = &quot;testFallback&quot;,</span><br><span class="line">            threadPoolProperties = &#123;</span><br><span class="line">                    @HystrixProperty(name = &quot;coreSize&quot;, value = &quot;10&quot;),//10个核心线程池,超过20个的队列外的请求被拒绝; 当一切都是正常的时候，线程池一般仅会有1到2个线程激活来提供服务</span><br><span class="line">                    @HystrixProperty(name = &quot;maxQueueSize&quot;, value = &quot;100&quot;),</span><br><span class="line">                    @HystrixProperty(name = &quot;queueSizeRejectionThreshold&quot;, value = &quot;20&quot;)&#125;,</span><br><span class="line">            commandProperties = &#123;</span><br><span class="line">                    @HystrixProperty(name = &quot;execution.isolation.thread.timeoutInMilliseconds&quot;, value = &quot;3000&quot;), //命令执行超时时间</span><br><span class="line">                    @HystrixProperty(name = &quot;circuitBreaker.requestVolumeThreshold&quot;, value = &quot;2&quot;), //若干10s一个窗口内失败三次, 则达到触发熔断的最少请求量</span><br><span class="line">                    @HystrixProperty(name = &quot;circuitBreaker.sleepWindowInMilliseconds&quot;, value = &quot;30000&quot;) //断路30s后尝试执行, 默认为5s</span><br><span class="line">            &#125;)</span><br><span class="line">    @GetMapping(&quot;/user/test&quot;)</span><br><span class="line">    public String test() throws Exception &#123;</span><br><span class="line">        Thread.sleep(2500);</span><br><span class="line">        return &quot;success&quot;;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    public String testFallback() &#123;</span><br><span class="line">        return &quot;fallback&quot;;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    @HystrixCommand</span><br><span class="line">    @GetMapping(&quot;/test1&quot;)</span><br><span class="line">    public String test1() &#123;</span><br><span class="line">        if (random.nextInt(100) &lt; 30) &#123;</span><br><span class="line">            int i = 1 / 0;</span><br><span class="line">        &#125;</span><br><span class="line">        return &quot;test1&quot;;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @HystrixCommand</span><br><span class="line">    @GetMapping(&quot;/test2&quot;)</span><br><span class="line">    public String test2() &#123;</span><br><span class="line">        if (random.nextInt(100) &lt; 20) &#123;</span><br><span class="line">            int i = 1 / 0;</span><br><span class="line">        &#125;</span><br><span class="line">        return &quot;test2&quot;;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    public String defaultFallback() &#123;</span><br><span class="line">        return &quot;default&quot;;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>HystrixService.java</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">import java.util.Random;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * &lt;p&gt;</span><br><span class="line"> *</span><br><span class="line"> * @author leone</span><br><span class="line"> * @since 2019-03-29</span><br><span class="line"> **/</span><br><span class="line">@Service</span><br><span class="line">public class HystrixService &#123;</span><br><span class="line"></span><br><span class="line">    private Random random;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * @param userId</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    @HystrixCommand(fallbackMethod = &quot;simpleFallback&quot;)</span><br><span class="line">    public User find(Long userId) &#123;</span><br><span class="line">        if (random.nextInt(100) &lt; 10) &#123;</span><br><span class="line">            int i = 1 / 0;</span><br><span class="line">        &#125;</span><br><span class="line">        return new User();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public User simpleFallback(Long userId) &#123;</span><br><span class="line">        return EntityFactory.getUser(1L);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2><span id="hystrix-实操">hystrix 实操</span></h2>
+<h3><span id="hystrix-资源隔离">hystrix 资源隔离</span></h3>
+<p>Hystrix使用命令模式HystrixCommand(Command)包装依赖调用逻辑，每个命令在单独线程中/信号授权下执行。<br>
+可配置依赖调用超时时间,超时时间一般设为比99.5%平均时间略高即可.当调用超时时，直接返回或执行fallback逻辑。<br>
+为每个依赖提供一个小的线程池（或信号），如果线程池已满调用将被立即拒绝，默认不采用排队.加速失败判定时间。<br>
+依赖调用结果分:成功，失败（抛出异常），超时，线程拒绝，短路。 请求失败(异常，拒绝，超时，短路)时执行fallback(降级)逻辑。<br>
+提供熔断器组件,可以自动运行或手动调用,停止当前依赖一段时间(10秒)，熔断器默认错误率阈值为50%,超过将自动运行。</p>
+<p>Hystrix的资源隔离策略有两种，分别为：线程池和信号量</p>
+<table>
+<thead>
+<tr>
+<th>对比</th>
+<th>线程池隔离</th>
+<th>信号量隔离</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>线程</td>
+<td>与调用线程非相同线程</td>
+<td>与调用线程相同（jetty线程）</td>
+</tr>
+<tr>
+<td>开销</td>
+<td>排队、调度、上下文开销等</td>
+<td>无线程切换，开销低</td>
+</tr>
+<tr>
+<td>异步</td>
+<td>支持</td>
+<td>不支持</td>
+</tr>
+<tr>
+<td>并发支持</td>
+<td>支持（最大线程池大小）</td>
+<td>支持（最大信号量上限）</td>
+</tr>
+</tbody>
+</table>
+<p><strong>信号量的隔离</strong></p>
+<p>it executes on the calling thread and concurrent requests are limited by the semaphore count</p>
+<p>我的理解是hystrix自己维护一定数量的信号量，每个线程都需要获取一个信号量才可以继续往下执行，没有获取到信号量的线程就会直接返回做fallback,执行完成后归还信号量。最重要的是，信号量的调用是同步的，也就是说，每次调用都得阻塞调用方的线程，直到结果返回。这样就导致了无法对访问做超时（只能依靠调用协议超时，无法主动释放）</p>
+<ul>
+<li>SemaphoreCommandTest.java</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">import com.netflix.hystrix.HystrixCommand;</span><br><span class="line">import com.netflix.hystrix.HystrixCommandGroupKey;</span><br><span class="line">import com.netflix.hystrix.HystrixCommandProperties;</span><br><span class="line"></span><br><span class="line">import java.util.Random;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * &lt;p&gt; 资源隔离：信号量隔离</span><br><span class="line"> *</span><br><span class="line"> * @author leone</span><br><span class="line"> * @since 2019-03-29</span><br><span class="line"> **/</span><br><span class="line">public class SemaphoreCommandTest extends HystrixCommand&lt;String&gt; &#123;</span><br><span class="line"></span><br><span class="line">    private int time = new Random().nextInt(1500);</span><br><span class="line"></span><br><span class="line">    private final int id;</span><br><span class="line"></span><br><span class="line">    public SemaphoreCommandTest(int id) &#123;</span><br><span class="line">        super(Setter.withGroupKey(HystrixCommandGroupKey.Factory.asKey(&quot;SemaphoreGroup&quot;))</span><br><span class="line">                // 使用信号量来隔离资源只允许一定的线程执行业务代码默认 10 个</span><br><span class="line">                .andCommandPropertiesDefaults(HystrixCommandProperties.Setter()</span><br><span class="line">                        .withExecutionIsolationStrategy(HystrixCommandProperties.ExecutionIsolationStrategy.SEMAPHORE)</span><br><span class="line">                        // 设置超时时间</span><br><span class="line">                        .withExecutionTimeoutInMilliseconds(900)</span><br><span class="line">                        // 设置信号量隔离时的最大并发请求</span><br><span class="line">                        .withExecutionIsolationSemaphoreMaxConcurrentRequests(5)</span><br><span class="line">                        // 设置fallback的最大并发数（默认 10 个）</span><br><span class="line">                        .withFallbackIsolationSemaphoreMaxConcurrentRequests(20)));</span><br><span class="line">        this.id = id;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    protected String run() throws InterruptedException &#123;</span><br><span class="line">        // 当业务调用线程操作信号量的最大数量后就会走降级（fallback）方法</span><br><span class="line">        Thread.sleep(time);</span><br><span class="line">        return &quot;id: &quot; + id + &quot; time: &quot; + time;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    protected String getFallback() &#123;</span><br><span class="line">        return &quot;id: 1 time: &quot; + time;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    static class UnitTest &#123;</span><br><span class="line">        public static void main(String[] args) &#123;</span><br><span class="line">            for (int i = 0; i &lt; 25; i++) &#123;</span><br><span class="line">                SemaphoreCommandTest command = new SemaphoreCommandTest(2000);</span><br><span class="line">                new Thread(() -&gt; &#123;</span><br><span class="line">                    String execute = null;</span><br><span class="line">                    try &#123;</span><br><span class="line">                        execute = command.queue().get();</span><br><span class="line">                        // execute = command.execute();</span><br><span class="line">                    &#125; catch (Exception e) &#123;</span><br><span class="line">                        e.printStackTrace();</span><br><span class="line">                    &#125;</span><br><span class="line">                    if (execute.startsWith(&quot;id: 1&quot;)) &#123;</span><br><span class="line">                        System.err.println(Thread.currentThread().getName() + &quot;\t\t&quot; + execute);</span><br><span class="line">                    &#125; else &#123;</span><br><span class="line">                        System.out.println(Thread.currentThread().getName() + &quot;\t\t&quot; + execute);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;).start();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>线程池隔离</strong></p>
+<p>it executes on a separate thread and concurrent requests are limited by the number of threads in the thread-pool</p>
+<p>线程池隔离适合绝大多数的场景，对依赖服务的网络调用timeout，TPS要求高的，这种问题。Netflix在使用过程中详细评估了使用异步线程和同步线程带来的性能差异，结果表明在99%的情况下，异步线程带来的几毫秒延迟的完全可以接受的。</p>
+<ul>
+<li>ThreadPoolCommandTest.java</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br></pre></td><td class="code"><pre><span class="line">import com.netflix.hystrix.*;</span><br><span class="line"></span><br><span class="line">import java.util.Random;</span><br><span class="line">import java.util.concurrent.Future;</span><br><span class="line">import java.util.concurrent.TimeUnit;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * hystrix 资源隔离：线程池隔离</span><br><span class="line"> *</span><br><span class="line"> * @author leone</span><br><span class="line"> * @since 2019-03-12</span><br><span class="line"> **/</span><br><span class="line">public class ThreadPoolCommandTest extends HystrixCommand&lt;String&gt; &#123;</span><br><span class="line"></span><br><span class="line">    private final String name;</span><br><span class="line"></span><br><span class="line">    private int time = new Random().nextInt(1500);</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 在继承hystrixCommand的构造函数中实现添加线程池参数记性资源隔离</span><br><span class="line">     *</span><br><span class="line">     * @param name</span><br><span class="line">     */</span><br><span class="line">    public ThreadPoolCommandTest(String name) &#123;</span><br><span class="line">        super(Setter.withGroupKey(HystrixCommandGroupKey.Factory.asKey(&quot;ExampleGroup&quot;))</span><br><span class="line">                .andCommandKey(HystrixCommandKey.Factory.asKey(&quot;ExampleCommand&quot;))</span><br><span class="line">                .andThreadPoolKey(HystrixThreadPoolKey.Factory.asKey(&quot;ExampleThreadPool&quot;))</span><br><span class="line">                .andThreadPoolPropertiesDefaults(HystrixThreadPoolProperties.Setter()</span><br><span class="line">                        // hystrix核心线程数默认10个</span><br><span class="line">                        .withCoreSize(5)</span><br><span class="line">                        // 最大排队长度。默认-1</span><br><span class="line">                        .withMaxQueueSize(10)</span><br><span class="line">                        // 排队线程数量阈值，默认为5，达到时拒绝，如果配置了该选项，队列的大小是该队列 如果maxQueueSize=-1的话，则该选项不起作用</span><br><span class="line">                        .withQueueSizeRejectionThreshold(7))</span><br><span class="line">                .andCommandPropertiesDefaults(HystrixCommandProperties.Setter()</span><br><span class="line">                        // 打开timeout开关</span><br><span class="line">                        .withExecutionTimeoutEnabled(true)</span><br><span class="line">                        // 设置超时时间</span><br><span class="line">                        .withExecutionTimeoutInMilliseconds(1000)</span><br><span class="line">                )</span><br><span class="line">        );</span><br><span class="line">        this.name = name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 依赖逻辑封装在run()方法中</span><br><span class="line">     *</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    @Override</span><br><span class="line">    protected String run() throws InterruptedException &#123;</span><br><span class="line">        Thread.sleep(time);</span><br><span class="line">        return &quot;run:&quot; + name + &quot;\t\t&quot; + time + &quot;\t\t&quot; + Thread.currentThread().getName();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 失败调用降级方法</span><br><span class="line">     *</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    @Override</span><br><span class="line">    protected String getFallback() &#123;</span><br><span class="line">        return &quot;fallback \t\t time: &quot; + time + &quot;\t\t&quot; + Thread.currentThread().getName();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    public static void main(String[] args) throws Exception &#123;</span><br><span class="line">        // 模拟使用2个线程调用业务代码</span><br><span class="line">        for (int i = 0; i &lt; 20; i++) &#123;</span><br><span class="line">            // 每个Command对象不可以重复调用，否则报错:This instance can only be executed once. Please instantiate a new instance.</span><br><span class="line">            ThreadPoolCommandTest command = new ThreadPoolCommandTest(&quot;james&quot;);</span><br><span class="line">            new Thread(() -&gt; &#123;</span><br><span class="line">                String execute = &quot;&quot;;</span><br><span class="line">                try &#123;</span><br><span class="line">                    // 异步调用,可自由控制获取结果时机</span><br><span class="line">                    Future&lt;String&gt; queue = command.queue();</span><br><span class="line">                    // get操作不能超过command定义的超时时间,默认:1秒</span><br><span class="line">                    execute = queue.get(100, TimeUnit.MINUTES);</span><br><span class="line"></span><br><span class="line">                    // 使用execute() 同步调用代码,效果等同于:helloWorldCommandTest.queue().get();</span><br><span class="line">                    // execute = command.execute();</span><br><span class="line">                    // execute = command.queue().get();</span><br><span class="line">                &#125; catch (Exception e) &#123;</span><br><span class="line">                    e.printStackTrace();</span><br><span class="line">                &#125;</span><br><span class="line">                if (execute.startsWith(&quot;fallback&quot;)) &#123;</span><br><span class="line">                    System.err.println(execute);</span><br><span class="line">                &#125; else &#123;</span><br><span class="line">                    System.out.println(execute);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;).start();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>注意</strong></p>
+<p>因为Hystrix默认使用了线程池模式，所以对于每个Command，在初始化的时候，会创建一个对应的线程池，如果项目中需要进行降级的接口非常多，比如有上百个的话，不太了解Hystrix内部机制的同学，按照默认配置直接使用，可能就会造成线程资源的大量浪费。</p>
+<h3><span id="hystrix-断路器">hystrix 断路器</span></h3>
+<ul>
+<li>1、 创建一个 HystrixCommand 或 HystrixObservableCommand 实例</li>
+</ul>
+<p>第一步就是构建一个 HystrixCommand 或 HystrixObservableCommand 实例来向其它组件发出操作请求，通过构造方法来创建实例。</p>
+<p>HystrixCommand：返回一个单响应</p>
+<p>HystrixObservableCommand：返回一个观察者发出的响应</p>
+<ul>
+<li>2、 执行方法</li>
+</ul>
+<p>这里有4个方法，前两个只适用于 HystrixCommand 不适用于 HystrixObservableCommand</p>
+<p>execute()：阻塞型方法，返回单个结果（或者抛出异常）</p>
+<p>queue()：异步方法，返回一个 Future 对象，可以从中取出单个结果（或者抛出异常）</p>
+<p>observe()：返回Observable 对象</p>
+<p>toObservable()：返回Observable 对象</p>
+<ul>
+<li>3、 缓存判断</li>
+</ul>
+<p>检查缓存内是否有对应指令的结果，如果有的话，将缓存的结果直接以 Observable 对象的形式返回</p>
+<ul>
+<li>4、 断路器判断</li>
+</ul>
+<p>检查Circuit Breaker的状态。如果Circuit Breaker的状态为开启状态，Hystrix将不会执行对应指令，而是直接进入失败处理状态（图中8）。如果Circuit Breaker的状态为关闭状态，Hystrix会继续执行（图5）</p>
+<ul>
+<li>5、 线程池、任务队列、信号量的检查</li>
+</ul>
+<p>确认是否有足够的资源执行操作指令。当线程池和队列（或者是信号量，当不使用线程池隔离模式的时候）资源满的时候，Hystrix将不会执行对应指令并且会直接进入失败处理状态（图8）</p>
+<ul>
+<li>6、 HystrixObservableCommand.construct() 和 HystrixCommand.run()</li>
+</ul>
+<p>如果资源充足，Hystrix将会执行操作指令。操作指令的调用最终都会到这两个方法：</p>
+<p>HystrixCommand.run()：返回一个响应或者抛出一个异常</p>
+<p>HystrixObservableCommand.construct()：返回一个可观测的发出响应(s)或发送一个onError通知</p>
+<p>如果执行指令的时间超时，执行线程会抛出 TimeoutException 异常。Hystrix会抛弃结果并直接进入失败处理状态。如果执行指令成功，Hystrix会进行一系列的数据记录，然后返回执行的结果。</p>
+<ul>
+<li>7、 统计断路器的健康情况</li>
+</ul>
+<p>Hystrix会根据记录的数据来计算失败比率，一旦失败比率达到某一阈值将自动开启Circuit Breaker</p>
+<ul>
+<li>8、 回退</li>
+</ul>
+<p>如果我们在Command中实现了HystrixCommand.getFallback()方法（或HystrixObservableCommand. resumeWithFallback() 方法，Hystrix会返回对应方法的结果。如果没有实现这些方法的话，仍然 Hystrix会返回一个空的 Observable 对象，并且可以通过 onError 来终止并处理错误。</p>
+<p>调用不同的方法返回不同的结果：</p>
+<p>execute()： 将会抛出异常</p>
+<p>queue()： 将会返回一个Future 对象，如果调用它的get()方法将会抛出异常</p>
+<p>observe()和 toObservable()：都会返回上述的 Observable 对象</p>
+<ul>
+<li>9、 返回成功</li>
+</ul>
+<p>如果Hystrix执行成功，返回的响应取决于在步骤2中调用命令。</p>
+<p>execute()：阻塞型方法，返回单个结果（或者抛出异常）</p>
+<p>queue()：异步方法，返回一个 Future 对象，可以从中取出单个结果（或者抛出异常）</p>
+<p>observe()：返回Observable 对象</p>
+<p>toObservable()：返回Observable 对象</p>
+<ul>
+<li>CircuitBreakerTest.java</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line">import com.netflix.hystrix.*;</span><br><span class="line">import org.junit.Test;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * &lt;p&gt; 断路器</span><br><span class="line"> *</span><br><span class="line"> * @author leone</span><br><span class="line"> * @since 2019-03-12</span><br><span class="line"> **/</span><br><span class="line">public class CircuitBreakerTest &#123;</span><br><span class="line"></span><br><span class="line">    public static int num = 0;</span><br><span class="line"></span><br><span class="line">    //</span><br><span class="line">    static HystrixCommand.Setter setter = HystrixCommand.Setter</span><br><span class="line">            .withGroupKey(HystrixCommandGroupKey.Factory.asKey(&quot;circuitBreakerTestGroup&quot;))</span><br><span class="line">            .andCommandKey(HystrixCommandKey.Factory.asKey(&quot;circuitBreakerTestCommand&quot;))</span><br><span class="line">            .andThreadPoolKey(HystrixThreadPoolKey.Factory.asKey(&quot;circuitBreakerTestPool&quot;))</span><br><span class="line">            .andThreadPoolPropertiesDefaults(HystrixThreadPoolProperties.Setter()</span><br><span class="line">                    .withCoreSize(10)) // 配置线程池</span><br><span class="line">            .andCommandPropertiesDefaults(HystrixCommandProperties.Setter()</span><br><span class="line">                    .withCircuitBreakerEnabled(true)</span><br><span class="line">                    .withCircuitBreakerRequestVolumeThreshold(10)</span><br><span class="line">                    .withCircuitBreakerErrorThresholdPercentage(80));</span><br><span class="line"></span><br><span class="line">    // 未配置的值均取系统默认值</span><br><span class="line">    HystrixCommand&lt;Object&gt; hystrixCommand = new HystrixCommand&lt;Object&gt;(setter) &#123;</span><br><span class="line">        @Override</span><br><span class="line">        protected Object run() throws Exception &#123;</span><br><span class="line">            if (num % 2 == 0) &#123;</span><br><span class="line">                return String.valueOf(num);</span><br><span class="line">            &#125; else &#123;</span><br><span class="line">                int j = 0;</span><br><span class="line">                // 死循环模拟调用超时</span><br><span class="line">                while (true) &#123;</span><br><span class="line">                    j++;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        @Override</span><br><span class="line">        protected Object getFallback() &#123;</span><br><span class="line">            return &quot;CircuitBreaker fallback: &quot; + num;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    @Test</span><br><span class="line">    public void circuitBreakerTest() throws Exception &#123;</span><br><span class="line"></span><br><span class="line">        for (int i = 0; i &lt; 30; i++) &#123;</span><br><span class="line">            CircuitBreakerTest.num = i;</span><br><span class="line">            CircuitBreakerTest circuitBreakerTest = new CircuitBreakerTest();</span><br><span class="line">            String result = (String) circuitBreakerTest.hystrixCommand.execute();</span><br><span class="line">            System.out.println(result);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><a href="https://github.com/janlle/spring-cloud-examples" target="_blank" rel="noopener">github</a></p>
+
+                
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/article/NIO/" data-toggle="tooltip" data-placement="top" title="NIO">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/article/Scala/" data-toggle="tooltip" data-placement="top" title="Scala">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                <br>
+
+                <!--打赏-->
+                
+                <!--打赏-->
+
+                <br>
+                <!--分享-->
+                
+                    <div class="social-share"  data-wechat-qrcode-helper="" align="center"></div>
+                    <!--  css & js -->
+                    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/css/share.min.css">
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/js/social-share.min.js"></script>
+                
+                <!--分享-->
+                <br>                       
+                
+                <!-- require APlayer -->
+                
+
+                <!-- duoshuo Share start -->
+                
+                <!-- 多说 Share end-->
+
+                <!-- 多说评论框 start -->
+                
+                <!-- 多说评论框 end -->
+
+                <!-- disqus comment start -->
+                
+                <!-- disqus comment end -->
+
+                
+
+            </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+  
+    
+      <aside id="sidebar">
+        <div id="toc" class="toc-article">
+        <strong class="toc-title">Contents</strong>
+        
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.</span> <span class="toc-nav-text"><span id="spring-cloud-hystrix">Spring Cloud Hystrix</span></span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text"><span id="hystrix&#x7B80;&#x4ECB;">Hystrix&#x7B80;&#x4ECB;</span></span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.2.</span> <span class="toc-nav-text"><span id="hystrix-&#x63D0;&#x4F9B;&#x4E86;&#x4EC0;&#x4E48;">hystrix &#x63D0;&#x4F9B;&#x4E86;&#x4EC0;&#x4E48;</span></span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.3.</span> <span class="toc-nav-text"><span id="&#x7ED3;&#x5408;-spring-cloud-&#x4F7F;&#x7528;">&#x7ED3;&#x5408; Spring Cloud &#x4F7F;&#x7528;</span></span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.3.1.</span> <span class="toc-nav-text"><span id="hystrix-&#x57FA;&#x4E8E;&#x6CE8;&#x89E3;&#x7ED3;&#x5408;-spring-cloud-&#x4F7F;&#x7528;">hystrix &#x57FA;&#x4E8E;&#x6CE8;&#x89E3;&#x7ED3;&#x5408; Spring Cloud &#x4F7F;&#x7528;</span></span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.4.</span> <span class="toc-nav-text"><span id="hystrix-&#x5B9E;&#x64CD;">hystrix &#x5B9E;&#x64CD;</span></span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.4.1.</span> <span class="toc-nav-text"><span id="hystrix-&#x8D44;&#x6E90;&#x9694;&#x79BB;">hystrix &#x8D44;&#x6E90;&#x9694;&#x79BB;</span></span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.4.2.</span> <span class="toc-nav-text"><span id="hystrix-&#x65AD;&#x8DEF;&#x5668;">hystrix &#x65AD;&#x8DEF;&#x5668;</span></span></a></li></ol></li></ol></li></ol>
+        
+        </div>
+      </aside>
+    
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#后端" title="后端">后端</a>
+                        
+                          <a class="tag" href="/tags/#springCloud" title="springCloud">springCloud</a>
+                        
+                          <a class="tag" href="/tags/#微服务" title="微服务">微服务</a>
+                        
+                          <a class="tag" href="/tags/#hystrix" title="hystrix">hystrix</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="http://blog.csdn.net/fooelliot" target="_blank">CSDN fooelliot</a></li>
+                    
+                        <li><a href="http://github.com/janlle" target="_blank">GitHub janlle</a></li>
+                    
+                        <li><a href="https://www.cnblogs.com/ruolin/" target="_blank">博客园 janlle</a></li>
+                    
+                        <li><a href="https://www.jianshu.com/u/2c8b6b4a6523" target="_blank">简书 janlle</a></li>
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/janlle">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; leone 2019 
+                    <br>
+                    Theme by <a href="http://beantech.org">BeanTech</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    re-Ported by <a href="http://wealip.cn">leone</a> | 
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=janlle&repo=blogs&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://www.wealip.cn/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-XXXXXXXX-X';
+    var _gaDomain = 'yoursite';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = 'xxx';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<img src="http://www.wealip.cn/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>
