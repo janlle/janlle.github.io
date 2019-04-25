@@ -18,7 +18,7 @@
         
     </title>
 
-    <link rel="canonical" href="http://www.wealip.cn/article/OpenCV/">
+    <link rel="canonical" href="http://www.wealip.cn/article/OpenVC/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -232,7 +232,7 @@
                     
                     
                         <li class="next">
-                            <a href="/article/jvm/" data-toggle="tooltip" data-placement="top" title="JVM">Next Post &rarr;</a>
+                            <a href="/article/jvm/" data-toggle="tooltip" data-placement="top" title="JVM从入门到精通">Next Post &rarr;</a>
                         </li>
                     
                 </ul>
