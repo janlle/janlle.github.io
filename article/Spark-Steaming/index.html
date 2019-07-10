@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keyword" content="">
+    <link rel="shortcut icon" href="/img/ironman-draw.png">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <title>
+        
+          Spark Steaming - leone | Blog
+        
+    </title>
+
+    <link rel="canonical" href="http://www.wealip.cn/article/Spark-Steaming/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS --> 
+    <link rel="stylesheet" href="/css/beantech.min.css">
+
+    <link rel="stylesheet" href="/css/donate.css">
+    
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <link rel="stylesheet" href="/css/widget.css">
+
+    <link rel="stylesheet" href="/css/rocket.css">
+
+    <link rel="stylesheet" href="/css/signature.css">
+
+    <link rel="stylesheet" href="/css/toc.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        
+            background-image: url('/img/article_header/article_header.png')
+            /*post*/
+        
+    }
+    
+</style>
+
+<header class="intro-header">
+    <!-- Signature -->
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#大数据" title="大数据">大数据</a>
+                            
+                              <a class="tag" href="/tags/#Spark" title="Spark">Spark</a>
+                            
+                        </div>
+                        <h1>Spark Steaming</h1>
+                        <h2 class="subheading">Spark Steaming 实战入门</h2>
+                        <span class="meta">
+                            Posted by leone on
+                            2018-10-17
+                        </span>
+                    </div>
+                
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">leone</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archive/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h1><span id="spark-steaming">Spark Steaming</span></h1>
+<h2><span id="spark-streaming-简介">Spark Streaming 简介</span></h2>
+<h3><span id="什么是spark-streaming">什么是Spark Streaming</span></h3>
+<p>Spark Streaming使用Spark Core的快速调度功能来执行流分析。它以小批量方式提取数据，并对这些小批量数据执行RDD转换。此设计使得为批量分析编写的同一组应用程序代码可用于流分析，从而有助于轻松实现lambda体系结构。 然而，这种便利性带来的等待时间等于小批量持续时间。其他按事件而不是小批量处理事件的流数据引擎包括Storm和Flink的流媒体组件。 Spark Streaming内置支持消费Kafka，Flume，Twitter，ZeroMQ，Kinesis和TCP / IP套接字。</p>
+<p>在Spark 2.x中，还提供了一种基于数据集的独立技术，称为结构化流，具有更高级别的接口，以支持流式传输。</p>
+<p>spark streaming实时接收输入数据流，并根据时间将数据流分成连续的多个batch，然后由Spark引擎一次处理一批数据，以批量生成最终结果流。</p>
+<p>spark streaming的核心参数，设置流数据被分成多个batch的时间间隔，每个spark引擎处理的就是这个时间间隔内的数据。在Spark Streaming中，Job之间有可能存在依赖关系，所以后面的作业必须确保前面的作业执行完后才会被调度执行。如果批处理时间超过了batch duration，意味着数据处理速率跟不上数据接收速率，那么会导致后面正常的batch提交的作业无法按时执行，随着时间的推移，越来越多的作业被延迟执行，最后导致整个Streaming作业被阻塞，所以需要设置一个合理的批处理间隔以确保作业能够在这个批处理间隔内执行完成。</p>
+<h3><span id="spark-streaming-特点">Spark Streaming 特点</span></h3>
+<p>1、Spark Streaming用于处理流式计算问题。能够和Spark的其他模块无缝集成。</p>
+<p>2、Spark Streaming是一个粗粒度的框架【也就是只能对一批数据指定处理方法】，核心是采用微批次架构。和Storm采用的以条处理的不同。</p>
+<p>3、Spark Streaming会运行接收器来不断的接收输入的数据流，然后根据程序配置的时间，将时间范围内的所有数据打成一个RDD，发送给Spark Core去进行处理。依次来打成对数据流的计算。</p>
+<p>4、Spark Streaming有它自己的抽象，叫DStream Discretized Stream离散化流</p>
+<p>5、如果入水口的速度大于出水口的速度，那么势必导致水管爆裂，Spark Streaming也存在这个问题，内部采用背压机制来进行处理，会通过ReceiverRateController来不断计算RDD的处理速度和RDD的生成速度，来通过令牌桶机制进行速度控制。只要是控制令牌的生成周期。</p>
+<h3><span id="术语定义">术语定义</span></h3>
+<ul>
+<li>
+<p>离散流（discretized stream）或DStream：这是Spark Streaming对内部持续的实时数据流的抽象描述，即我们处理的一个实时数据流，在Spark Streaming中对应于一个DStream 实例。</p>
+</li>
+<li>
+<p>批数据（batch data）：这是化整为零的第一步，将实时流数据以时间片为单位进行分批，将流处理转化为时间片数据的批处理。随着持续时间的推移，这些处理结果就形成了对应的结果数据流了。</p>
+</li>
+<li>
+<p>时间片或批处理时间间隔（ batch interval）：这是人为地对流数据进行定量的标准，以时间片作为我们拆分流数据的依据。一个时间片的数据对应一个RDD实例。</p>
+</li>
+<li>
+<p>窗口长度（window length）：一个窗口覆盖的流数据的时间长度。必须是批处理时间间隔的倍数，</p>
+</li>
+<li>
+<p>滑动时间间隔：前一个窗口到后一个窗口所经过的时间长度。必须是批处理时间间隔的倍数</p>
+</li>
+<li>
+<p>Input DStream :一个input DStream是一个特殊的DStream，将Spark Streaming连接到一个外部数据源来读取数据。</p>
+</li>
+</ul>
+<h3><span id="storm与spark-streming比较">Storm与Spark Streming比较</span></h3>
+<ul>
+<li>处理模型以及延迟</li>
+</ul>
+<p>虽然两框架都提供了可扩展性(scalability)和可容错性(fault tolerance)，但是它们的处理模型从根本上说是不一样的。Storm可以实现亚秒级时延的处理，而每次只处理一条event，而Spark Streaming可以在一个短暂的时间窗口里面处理多条(batches)Event。所以说Storm可以实现亚秒级时延的处理，而Spark Streaming则有一定的时延。</p>
+<ul>
+<li>容错和数据保证</li>
+</ul>
+<p>然而两者的代价都是容错时候的数据保证，Spark Streaming的容错为有状态的计算提供了更好的支持。在Storm中，每条记录在系统的移动过程中都需要被标记跟踪，所以Storm只能保证每条记录最少被处理一次，但是允许从错误状态恢复时被处理多次。这就意味着可变更的状态可能被更新两次从而导致结果不正确。</p>
+<p>任一方面，Spark Streaming仅仅需要在批处理级别对记录进行追踪，所以他能保证每个批处理记录仅仅被处理一次，即使是node节点挂掉。虽然说Storm的 Trident library可以保证一条记录被处理一次，但是它依赖于事务更新状态，而这个过程是很慢的，并且需要由用户去实现。</p>
+<ul>
+<li>实现和编程API</li>
+</ul>
+<p>Storm主要是由Clojure语言实现，Spark Streaming是由Scala实现。如果你想看看这两个框架是如何实现的或者你想自定义一些东西你就得记住这一点。Storm是由BackType和 Twitter开发，而Spark Streaming是在UC Berkeley开发的。</p>
+<p>Storm提供了Java API，同时也支持其他语言的API。 Spark Streaming支持Scala和Java语言(其实也支持Python)。</p>
+<ul>
+<li>批处理框架集成</li>
+</ul>
+<p>Spark Streaming的一个很棒的特性就是它是在Spark框架上运行的。这样你就可以想使用其他批处理代码一样来写Spark Streaming程序，或者是在Spark中交互查询。这就减少了单独编写流批量处理程序和历史数据处理程序。</p>
+<ul>
+<li>生产支持</li>
+</ul>
+<p>Storm已经出现好多年了，而且自从2011年开始就在Twitter内部生产环境中使用，还有其他一些公司。而Spark Streaming是一个新的项目，并且在2013年仅仅被Sharethrough使用(据作者了解)。</p>
+<p>Storm是 Hortonworks Hadoop数据平台中流处理的解决方案，而Spark Streaming出现在 MapR的分布式平台和Cloudera的企业数据平台中。除此之外，Databricks是为Spark提供技术支持的公司，包括了Spark Streaming。</p>
+<p>虽然说两者都可以在各自的集群框架中运行，但是Storm可以在Mesos上运行, 而Spark Streaming可以在YARN和Mesos上运行。</p>
+<h3><span id="dstream">DStream</span></h3>
+<p>表示一系列时间序列上连续的RDDs，每一个RDDs代表一定时间间隔内到达的数据，这样就把连续的数据流拆成很多小的RDDs数据块(RDDs数据块内的数据是连续的数据)。可以通过实时数据创建DStream，也可以对现有的DStream进行transformation操作生成，例如map、window、reduceByKeyAndWindow等转换操作。    在spark streaming运行期间，每个DStream都会定期生成一个RDDs，具体的是compute(time) 方法，生成的RDDs代表一个批次内的数据，作为提交job的输入元数据</p>
+<h2><span id="spark-streaming-实战">Spark Streaming 实战</span></h2>
+<h3><span id="spark-nc-word-count-scala">spark nc word count scala</span></h3>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.apache.spark.streaming.dstream.&#123;<span class="type">DStream</span>, <span class="type">ReceiverInputDStream</span>&#125;</span><br><span class="line"><span class="keyword">import</span> org.apache.spark.streaming.&#123;<span class="type">Seconds</span>, <span class="type">StreamingContext</span>&#125;</span><br><span class="line"><span class="keyword">import</span> org.apache.spark.&#123;<span class="type">SparkConf</span>, <span class="type">SparkContext</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">  * &lt;p&gt;</span></span><br><span class="line"><span class="comment">  *</span></span><br><span class="line"><span class="comment">  * @author leone</span></span><br><span class="line"><span class="comment">  * @since 2018-12-24</span></span><br><span class="line"><span class="comment">  **/</span></span><br><span class="line"><span class="class"><span class="keyword">object</span> <span class="title">NcWordCount</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">main</span></span>(args: <span class="type">Array</span>[<span class="type">String</span>]): <span class="type">Unit</span> = &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 创建sparkContext</span></span><br><span class="line">    <span class="keyword">val</span> sc = <span class="keyword">new</span> <span class="type">SparkContext</span>(<span class="keyword">new</span> <span class="type">SparkConf</span>().setAppName(<span class="string">"nc-wc-steaming"</span>).setMaster(<span class="string">"local[2]"</span>))</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 设置批次产生的时间间隔</span></span><br><span class="line">    <span class="keyword">val</span> ssc = <span class="keyword">new</span> <span class="type">StreamingContext</span>(sc, <span class="type">Seconds</span>(<span class="number">5000</span>))</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 从一个socket端口读取数据</span></span><br><span class="line">    <span class="keyword">val</span> lines: <span class="type">ReceiverInputDStream</span>[<span class="type">String</span>] = ssc.socketTextStream(<span class="string">"node-1"</span>, <span class="number">8888</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 对DStream进行操作</span></span><br><span class="line">    <span class="keyword">val</span> words: <span class="type">DStream</span>[<span class="type">String</span>] = lines.flatMap(_.split(<span class="string">" "</span>))</span><br><span class="line"></span><br><span class="line">    <span class="keyword">val</span> wordAndOne: <span class="type">DStream</span>[(<span class="type">String</span>, <span class="type">Int</span>)] = words.map((_, <span class="number">1</span>))</span><br><span class="line"></span><br><span class="line">    <span class="keyword">val</span> reduced: <span class="type">DStream</span>[(<span class="type">String</span>, <span class="type">Int</span>)] = wordAndOne.reduceByKey(_ + _)</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 打印结果</span></span><br><span class="line">    reduced.print()</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 启动spark程序</span></span><br><span class="line">    ssc.start()</span><br><span class="line">    ssc.awaitTermination()</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3><span id="spark-streaming-kafka-scala">Spark Streaming kafka scala</span></h3>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> org.apache.kafka.clients.consumer.<span class="type">ConsumerConfig</span></span><br><span class="line"><span class="keyword">import</span> org.apache.kafka.common.serialization.<span class="type">StringDeserializer</span></span><br><span class="line"><span class="keyword">import</span> org.apache.spark.<span class="type">SparkConf</span></span><br><span class="line"><span class="keyword">import</span> org.apache.spark.streaming.kafka010.&#123;<span class="type">ConsumerStrategies</span>, <span class="type">KafkaUtils</span>, <span class="type">LocationStrategies</span>&#125;</span><br><span class="line"><span class="keyword">import</span> org.apache.spark.streaming.&#123;<span class="type">Seconds</span>, <span class="type">StreamingContext</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">  * &lt;p&gt;</span></span><br><span class="line"><span class="comment">  *</span></span><br><span class="line"><span class="comment">  * @author leone</span></span><br><span class="line"><span class="comment">  * @since 2018-12-24</span></span><br><span class="line"><span class="comment">  **/</span></span><br><span class="line"><span class="class"><span class="keyword">object</span> <span class="title">KafkaWordCount</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">main</span></span>(args: <span class="type">Array</span>[<span class="type">String</span>]): <span class="type">Unit</span> = &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// offset保存路径</span></span><br><span class="line">    <span class="keyword">val</span> checkpointPath = <span class="string">"file:///e:/tmp/spark/streaming/checkpoint/kafka-direct"</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">val</span> conf = <span class="keyword">new</span> <span class="type">SparkConf</span>().setAppName(<span class="string">"ScalaKafkaStream"</span>).setMaster(<span class="string">"local[2]"</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">val</span> ssc = <span class="keyword">new</span> <span class="type">StreamingContext</span>(conf, <span class="type">Seconds</span>(<span class="number">3</span>))</span><br><span class="line"></span><br><span class="line">    ssc.checkpoint(checkpointPath)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">val</span> bootstrapServers = <span class="string">"node-2:9092,node-3:9092,node-4:9092"</span></span><br><span class="line">    <span class="keyword">val</span> groupId = <span class="string">"streaming-group"</span></span><br><span class="line">    <span class="keyword">val</span> topicName = <span class="string">"streaming-topic"</span></span><br><span class="line">    <span class="keyword">val</span> maxPoll = <span class="number">20000</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">val</span> kafkaParams = <span class="type">Map</span>(</span><br><span class="line">      <span class="type">ConsumerConfig</span>.<span class="type">BOOTSTRAP_SERVERS_CONFIG</span> -&gt; bootstrapServers,</span><br><span class="line">      <span class="type">ConsumerConfig</span>.<span class="type">GROUP_ID_CONFIG</span> -&gt; groupId,</span><br><span class="line">      <span class="type">ConsumerConfig</span>.<span class="type">MAX_POLL_RECORDS_CONFIG</span> -&gt; maxPoll.toString,</span><br><span class="line">      <span class="type">ConsumerConfig</span>.<span class="type">KEY_DESERIALIZER_CLASS_CONFIG</span> -&gt; classOf[<span class="type">StringDeserializer</span>],</span><br><span class="line">      <span class="type">ConsumerConfig</span>.<span class="type">VALUE_DESERIALIZER_CLASS_CONFIG</span> -&gt; classOf[<span class="type">StringDeserializer</span>]</span><br><span class="line">    )</span><br><span class="line"></span><br><span class="line">    <span class="keyword">val</span> <span class="type">DStream</span> = <span class="type">KafkaUtils</span>.createDirectStream(ssc, <span class="type">LocationStrategies</span>.<span class="type">PreferConsistent</span>,</span><br><span class="line">      <span class="type">ConsumerStrategies</span>.<span class="type">Subscribe</span>[<span class="type">String</span>, <span class="type">String</span>](<span class="type">Set</span>(topicName), kafkaParams))</span><br><span class="line"></span><br><span class="line">    <span class="type">DStream</span>.map(_.value)</span><br><span class="line">      .flatMap(_.split(<span class="string">" "</span>))</span><br><span class="line">      .map(x =&gt; (x, <span class="number">1</span>L))</span><br><span class="line">      .reduceByKey(_ + _)</span><br><span class="line">      .transform(data =&gt; &#123;</span><br><span class="line">        data.sortBy(_._2, <span class="literal">false</span>)</span><br><span class="line">      &#125;).print()</span><br><span class="line"></span><br><span class="line">    ssc.start()</span><br><span class="line">    ssc.awaitTermination()</span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3><span id="spark-streaming-nc-word-count-java">Spark Streaming nc word count java</span></h3>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.apache.spark.SparkConf;</span><br><span class="line"><span class="keyword">import</span> org.apache.spark.api.java.function.FlatMapFunction;</span><br><span class="line"><span class="keyword">import</span> org.apache.spark.api.java.function.Function2;</span><br><span class="line"><span class="keyword">import</span> org.apache.spark.api.java.function.PairFunction;</span><br><span class="line"><span class="keyword">import</span> org.apache.spark.streaming.Seconds;</span><br><span class="line"><span class="keyword">import</span> org.apache.spark.streaming.api.java.JavaDStream;</span><br><span class="line"><span class="keyword">import</span> org.apache.spark.streaming.api.java.JavaPairDStream;</span><br><span class="line"><span class="keyword">import</span> org.apache.spark.streaming.api.java.JavaReceiverInputDStream;</span><br><span class="line"><span class="keyword">import</span> org.apache.spark.streaming.api.java.JavaStreamingContext;</span><br><span class="line"><span class="keyword">import</span> scala.Tuple2;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.Arrays;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * &lt;p&gt;</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> leone</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@since</span> 2018-12-25</span></span><br><span class="line"><span class="comment"> **/</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">JavaStreamingTest</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">        SparkConf conf = <span class="keyword">new</span> SparkConf().setMaster(<span class="string">"local[*]"</span>).setAppName(<span class="string">"streaming"</span>);</span><br><span class="line"></span><br><span class="line">        JavaStreamingContext jsc = <span class="keyword">new</span> JavaStreamingContext(conf, Seconds.apply(<span class="number">5</span>));</span><br><span class="line"></span><br><span class="line">        JavaReceiverInputDStream&lt;String&gt; stream = jsc.socketTextStream(<span class="string">"node-1"</span>, <span class="number">8888</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 拆分每一行数据</span></span><br><span class="line">        JavaDStream&lt;String&gt; words = stream.flatMap((FlatMapFunction&lt;String, String&gt;) s -&gt; Arrays.asList(s.split(<span class="string">" "</span>)).iterator());</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 单词映射成 (word, 1) 的形式</span></span><br><span class="line">        JavaPairDStream&lt;Object, Integer&gt; pairWords = words.mapToPair((PairFunction&lt;String, Object, Integer&gt;) s -&gt; <span class="keyword">new</span> Tuple2&lt;&gt;(s, <span class="number">1</span>));</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 进行reduce聚合操作</span></span><br><span class="line">        JavaPairDStream&lt;Object, Integer&gt; result = pairWords.reduceByKey((Function2&lt;Integer, Integer, Integer&gt;) (integer, integer2) -&gt; integer + integer2);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 打印输出结构</span></span><br><span class="line">        result.print();</span><br><span class="line"></span><br><span class="line">        jsc.start();</span><br><span class="line">        jsc.awaitTermination();</span><br><span class="line">        jsc.close();</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3><span id="spark-streaming-kafka-word-count-java">Spark Streaming kafka word count java</span></h3>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.apache.kafka.clients.consumer.ConsumerRecord;</span><br><span class="line"><span class="keyword">import</span> org.apache.spark.SparkConf;</span><br><span class="line"><span class="keyword">import</span> org.apache.spark.api.java.function.FlatMapFunction;</span><br><span class="line"><span class="keyword">import</span> org.apache.spark.api.java.function.Function2;</span><br><span class="line"><span class="keyword">import</span> org.apache.spark.api.java.function.PairFunction;</span><br><span class="line"><span class="keyword">import</span> org.apache.spark.streaming.Durations;</span><br><span class="line"><span class="keyword">import</span> org.apache.spark.streaming.api.java.JavaDStream;</span><br><span class="line"><span class="keyword">import</span> org.apache.spark.streaming.api.java.JavaInputDStream;</span><br><span class="line"><span class="keyword">import</span> org.apache.spark.streaming.api.java.JavaPairDStream;</span><br><span class="line"><span class="keyword">import</span> org.apache.spark.streaming.api.java.JavaStreamingContext;</span><br><span class="line"><span class="keyword">import</span> org.apache.spark.streaming.kafka010.ConsumerStrategies;</span><br><span class="line"><span class="keyword">import</span> org.apache.spark.streaming.kafka010.KafkaUtils;</span><br><span class="line"><span class="keyword">import</span> org.apache.spark.streaming.kafka010.LocationStrategies;</span><br><span class="line"><span class="keyword">import</span> scala.Tuple2;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.*;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * &lt;p&gt;基于Kafka Direct方式实时 word count 程序</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> leone</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@since</span> 2018-12-25</span></span><br><span class="line"><span class="comment"> **/</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">JavaStreamingKafkaTest</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">        <span class="comment">// 创建SparkConf对象</span></span><br><span class="line">        SparkConf conf = <span class="keyword">new</span> SparkConf().setAppName(<span class="string">"KafkaDirectWordCount"</span>).setMaster(<span class="string">"local[*]"</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 创建JavaStreamingContext对象</span></span><br><span class="line">        JavaStreamingContext jsc = <span class="keyword">new</span> JavaStreamingContext(conf, Durations.seconds(<span class="number">5</span>));</span><br><span class="line"></span><br><span class="line">        <span class="comment">// kafka的brokers</span></span><br><span class="line">        String brokers = <span class="string">"node-2:9092,node-3:9092,node-4:9092"</span>;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 创建Kafka参数Map</span></span><br><span class="line">        Map&lt;String, Object&gt; kafkaParams = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">        kafkaParams.put(<span class="string">"metadata.broker.list"</span>, brokers);</span><br><span class="line">        kafkaParams.put(<span class="string">"bootstrap.servers"</span>, brokers);</span><br><span class="line">        kafkaParams.put(<span class="string">"group.id"</span>, <span class="string">"g1"</span>);</span><br><span class="line">        kafkaParams.put(<span class="string">"key.serializer"</span>, <span class="string">"org.apache.kafka.common.serialization.StringSerializer"</span>);</span><br><span class="line">        kafkaParams.put(<span class="string">"key.deserializer"</span>, <span class="string">"org.apache.kafka.common.serialization.StringDeserializer"</span>);</span><br><span class="line">        kafkaParams.put(<span class="string">"value.deserializer"</span>, <span class="string">"org.apache.kafka.common.serialization.StringDeserializer"</span>);</span><br><span class="line">        kafkaParams.put(<span class="string">"auto.offset.reset"</span>, <span class="string">"latest"</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 创建Kafka的topics ，里面可以填多个topic</span></span><br><span class="line">        Collection&lt;String&gt; topics = Collections.singletonList(<span class="string">"streaming-topic"</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 创建DStream</span></span><br><span class="line">        JavaInputDStream&lt;ConsumerRecord&lt;Object, Object&gt;&gt; lines = KafkaUtils.createDirectStream(jsc, LocationStrategies.PreferConsistent(), ConsumerStrategies.Subscribe(topics, kafkaParams));</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 拆分Kafka topic里面的数据</span></span><br><span class="line">        JavaDStream&lt;String&gt; linesSplit = lines.flatMap((FlatMapFunction&lt;ConsumerRecord&lt;Object, Object&gt;, String&gt;) line -&gt; Arrays.asList(line.value().toString().split(<span class="string">" "</span>)).iterator());</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 单词映射成（word，1）的形式</span></span><br><span class="line">        JavaPairDStream&lt;String, Integer&gt; word = linesSplit.mapToPair((PairFunction&lt;String, String, Integer&gt;) everyWord -&gt; <span class="keyword">new</span> Tuple2&lt;&gt;(everyWord, <span class="number">1</span>));</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 进行reduce聚合操作</span></span><br><span class="line">        JavaPairDStream&lt;String, Integer&gt; wordsCount = word.reduceByKey((Function2&lt;Integer, Integer, Integer&gt;) (v1, v2) -&gt; v1 + v2);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 打印输出结构</span></span><br><span class="line">        wordsCount.print();</span><br><span class="line"></span><br><span class="line">        jsc.start();</span><br><span class="line">        jsc.awaitTermination();</span><br><span class="line">        jsc.close();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2><span id="spark-streaming-提交模式">Spark Streaming 提交模式</span></h2>
+<h3><span id="local-模式">Local 模式</span></h3>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># 在 Spark home 下执行，无需启动 Spark 集群在一个节点直接运行即可</span><br><span class="line"></span><br><span class="line">bin/spark-submit --master local[2] \</span><br><span class="line">--class com.leone.bigdata.spark.java.streaming.JavaSparkStreamingKafka \</span><br><span class="line">/root/jars/spark-wc.jar file:///root/data/words/ file:///root/data/output/</span><br></pre></td></tr></table></figure>
+<h3><span id="standalone-模式">Standalone 模式</span></h3>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"># 在 Spark home 下执行，需要启动 Spark 集群并指定 master</span><br><span class="line"></span><br><span class="line">bin/spark-submit --master spark://node-1:7077 \</span><br><span class="line">--class com.leone.bigdata.spark.java.streaming.JavaSparkStreamingKafka \</span><br><span class="line">/root/jars/spark-wc.jar hdfs://node-1:9000/data/common hdfs://node-1:9000/data/output \</span><br><span class="line">–-executor-memory 1G \</span><br><span class="line">–-total-executor-cores 2</span><br></pre></td></tr></table></figure>
+<h3><span id="yarn-client-模式">yarn Client 模式</span></h3>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># 在 Spark home 下执行，需要启动 Spark 集群 hdfs 集群 yarn 集群</span><br><span class="line"></span><br><span class="line">bin/spark-submit --master yarn \</span><br><span class="line">--class com.leone.bigdata.spark.java.streaming.JavaSparkStreamingKafka \</span><br><span class="line">--deploy-mode client \</span><br><span class="line">/root/jars/spark-wc.jar hdfs://node-1:9000/data/common hdfs://node-1:9000/data/output</span><br></pre></td></tr></table></figure>
+<h3><span id="yarn-cluster-模式">yarn Cluster 模式</span></h3>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"># 在 Spark home 下执行，需要启动 Spark 集群 hdfs 集群 yarn 集群</span><br><span class="line"></span><br><span class="line">bin/spark-submit \</span><br><span class="line">--class com.leone.bigdata.spark.java.streaming.JavaSparkStreamingKafka \</span><br><span class="line">--master yarn \</span><br><span class="line">--deploy-mode cluster \</span><br><span class="line">/root/jars/spark-wc.jar hdfs://node-1:9000/data/common hdfs://node-1:9000/data/output</span><br></pre></td></tr></table></figure>
+
+                
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/article/Flume/" data-toggle="tooltip" data-placement="top" title="Flume">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/article/HBase/" data-toggle="tooltip" data-placement="top" title="HBase">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                <br>
+
+                <!--打赏-->
+                
+                <!--打赏-->
+
+                <br>
+                <!--分享-->
+                
+                    <div class="social-share" data-wechat-qrcode-helper="" align="center"></div>
+                    <!--  css & js -->
+                    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/css/share.min.css">
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/js/social-share.min.js"></script>
+                
+                <!--分享-->
+                <br>                       
+                
+                <!-- require APlayer -->
+                
+
+                <!-- duoshuo Share start -->
+                
+                <!-- 多说 Share end-->
+
+                <!-- 多说评论框 start -->
+                
+                <!-- 多说评论框 end -->
+
+                <!-- disqus comment start -->
+                
+                <!-- disqus comment end -->
+
+                
+
+            </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+  
+    
+      <aside id="sidebar">
+        <div id="toc" class="toc-article">
+        <strong class="toc-title">Contents</strong>
+        
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">Spark Steaming</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text">Spark Streaming 简介</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.1.1.</span> <span class="toc-nav-text">什么是Spark Streaming</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.1.2.</span> <span class="toc-nav-text">Spark Streaming 特点</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.1.3.</span> <span class="toc-nav-text">术语定义</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.1.4.</span> <span class="toc-nav-text">Storm与Spark Streming比较</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.1.5.</span> <span class="toc-nav-text">DStream</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.2.</span> <span class="toc-nav-text">Spark Streaming 实战</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.2.1.</span> <span class="toc-nav-text">spark nc word count scala</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.2.2.</span> <span class="toc-nav-text">Spark Streaming kafka scala</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.2.3.</span> <span class="toc-nav-text">Spark Streaming nc word count java</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.2.4.</span> <span class="toc-nav-text">Spark Streaming kafka word count java</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.3.</span> <span class="toc-nav-text">Spark Streaming 提交模式</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.3.1.</span> <span class="toc-nav-text">Local 模式</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.3.2.</span> <span class="toc-nav-text">Standalone 模式</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.3.3.</span> <span class="toc-nav-text">yarn Client 模式</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.3.4.</span> <span class="toc-nav-text">yarn Cluster 模式</span></a></li></ol></li></ol></li></ol>
+        
+        </div>
+      </aside>
+    
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#大数据" title="大数据">大数据</a>
+                        
+                          <a class="tag" href="/tags/#Spark" title="Spark">Spark</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="http://blog.csdn.net/fooelliot" target="_blank">CSDN fooelliot</a></li>
+                    
+                        <li><a href="http://github.com/janlle" target="_blank">GitHub janlle</a></li>
+                    
+                        <li><a href="https://www.cnblogs.com/ruolin/" target="_blank">博客园 janlle</a></li>
+                    
+                        <li><a href="https://www.jianshu.com/u/2c8b6b4a6523" target="_blank">简书 janlle</a></li>
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://github.com/janlle">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; leone 2019 
+                    <br>
+                    Theme by <a href="http://beantech.org">BeanTech</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    re-Ported by <a href="http://wealip.cn">leone</a> | 
+                    <iframe style="margin-left: 2px; margin-bottom:-5px;" frameborder="0" scrolling="0" width="91px" height="20px" src="https://ghbtns.com/github-btn.html?user=janlle&repo=blogs&type=star&count=true">
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://www.wealip.cn/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-XXXXXXXX-X';
+    var _gaDomain = 'yoursite';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = 'xxx';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<img src="http://www.wealip.cn/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>
