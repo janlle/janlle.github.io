@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keyword" content="">
+    <link rel="shortcut icon" href="/img/ironman-draw.png">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <title>
+        
+          NIO - leone | Blog
+        
+    </title>
+
+    <link rel="canonical" href="http://www.wealip.cn/article/NIO/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS --> 
+    <link rel="stylesheet" href="/css/beantech.min.css">
+
+    <link rel="stylesheet" href="/css/donate.css">
+    
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <link rel="stylesheet" href="/css/widget.css">
+
+    <link rel="stylesheet" href="/css/rocket.css">
+
+    <link rel="stylesheet" href="/css/signature.css">
+
+    <link rel="stylesheet" href="/css/toc.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        
+            background-image: url('/img/article_header/article_header.png')
+            /*post*/
+        
+    }
+    
+</style>
+
+<header class="intro-header">
+    <!-- Signature -->
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#java" title="java">java</a>
+                            
+                              <a class="tag" href="/tags/#NIO" title="NIO">NIO</a>
+                            
+                        </div>
+                        <h1>NIO</h1>
+                        <h2 class="subheading">NIO 核心概念及入门</h2>
+                        <span class="meta">
+                            Posted by leone on
+                            2019-01-12
+                        </span>
+                    </div>
+                
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">leone</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archive/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h1><span id="nio">NIO</span></h1>
+<h2><span id="nio-核心概念">NIO 核心概念</span></h2>
+<h3><span id="java-nio-概述">Java NIO 概述</span></h3>
+<p>Java NIO (New IO，Non-Blocking IO)是从Java 1.4版本开始引入的一套新的IO API，可以替代标准的Java IO API。NIO与原来的IO有同样的作用和目的，但是使用的方式完全不同，NIO支持面向缓冲区的、基于通道的IO操作。NIO将以更加高效的方式进行文件的读写操作。</p>
+<p>随着 JDK 7 的发布，Java对NIO进行了极大的扩展，增强了对文件处理和文件系统特性的支持，以至于我们称他们为 NIO.2。因为 NIO 提供的一些功能，NIO已经成为文件处理中越来越重要的部分。</p>
+<p><strong>nio与传统io区别</strong></p>
+<table>
+<thead>
+<tr>
+<th><strong>IO模型</strong></th>
+<th><strong>IO</strong></th>
+<th><strong>NIO</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>方式</td>
+<td>从硬盘到内存</td>
+<td>从内存到硬盘</td>
+</tr>
+<tr>
+<td>通信</td>
+<td>面向流（乡村公路）</td>
+<td>面向缓存（多路复用技术）</td>
+</tr>
+<tr>
+<td>处理</td>
+<td>阻塞IO（多线程）</td>
+<td>非阻塞IO（反应堆Reactor）</td>
+</tr>
+<tr>
+<td>触发</td>
+<td>无</td>
+<td>选择器（轮询机制）</td>
+</tr>
+</tbody>
+</table>
+<h3><span id="阻塞与同步">阻塞与同步</span></h3>
+<ul>
+<li>1.阻塞(Block)和非租塞(NonBlock):</li>
+</ul>
+<p>阻塞和非阻塞是进程在访问数据的时候，数据是否准备就绪的一种处理方式，当数据没有准备的时候阻塞：往往需要等待缞冲区中的数据准备好过后才处理其他的事情，否則一直等待在那里。</p>
+<p>非阻塞：当我们的进程访问我们的数据缓冲区的时候，如果数据没有准备好则直接返回，不会等待。如果数据已经准备好，也直接返回</p>
+<ul>
+<li>2.同步(Synchronization)和异步(Async)的方式：</li>
+</ul>
+<p>同步和异步都是基于应用程序私操作系统处理IO事件所采用的方式，比如同步：是应用程序要直接参与IO读写的操作。异步：所有的IO读写交给搡作系统去处理，应用程序只需要等待通知。</p>
+<p>同步方式在处理IO事件的时候，必须阻塞在某个方法上靣等待我们的IO事件完成(阻塞IO事件或者通过轮询IO事件的方式）.对于异步来说，所有的IO读写都交给了搡作系统。这个时候，我们可以去做其他的事情，并不拓要去完成真正的IO搡作，当搡作完成IO后.会给我们的应用程序一个通知</p>
+<p>同步：阻塞到IO事件，阻塞到read成则write。这个时候我们就完全不能做自己的事情，让读写方法加入到线程里面，然后阻塞线程来实现，对线程的性能开销比较大，</p>
+<h3><span id="面向流与面向缓冲">面向流与面向缓冲</span></h3>
+<p>Java IO和NIO之间第一个最大的区别是，IO是面向流的，NIO是面向缓冲区的。 Java IO面向流意味着每次从流中读一个或多个字节，直至读取所有字节，它们没有被缓存在任何地方。此外，它不能前后移动流中的数据。如果需要前后移动从流中读取的数据，需要先将它缓存到一个缓冲区。 Java NIO的缓冲导向方法略有不同。数据读取到一个它稍后处理的缓冲区，需要时可在缓冲区中前后移动。这就增加了处理过程中的灵活性。但是，还需要检查是否该缓冲区中包含所有您需要处理的数据。而且，需确保当更多的数据读入缓冲区时，不要覆盖缓冲区里尚未处理的数据。</p>
+<h3><span id="缓冲区buffer">缓冲区Buffer</span></h3>
+<p>为什么说NIO是基于缓冲区的IO方式呢？因为，当一个链接建立完成后，IO的数据未必会马上到达，为了当数据到达时能够正确完成IO操作，在BIO（阻塞IO）中，等待IO的线程必须被阻塞，以全天候地执行IO操作。为了解决这种IO方式低效的问题，引入了缓冲区的概念，当数据到达时，可以预先被写入缓冲区，再由缓冲区交给线程，因此线程无需阻塞地等待IO。</p>
+<h3><span id="通道">通道：</span></h3>
+<p>当执行：SocketChannel.write(Buffer)，便将一个 buffer 写到了一个通道中。如果说缓冲区还好理解，通道相对来说就更加抽象。网上博客难免有写不严谨的地方，容易使初学者感到难以理解。</p>
+<p>引用 Java NIO 中权威的说法：通道是 I/O 传输发生时通过的入口，而缓冲区是这些数 据传输的来源或目标。对于离开缓冲区的传输，您想传递出去的数据被置于一个缓冲区，被传送到通道。对于传回缓冲区的传输，一个通道将数据放置在您所提供的缓冲区中。</p>
+<p>例如 有一个服务器通道 ServerSocketChannel serverChannel，一个客户端通道 SocketChannel clientChannel；服务器缓冲区：serverBuffer，客户端缓冲区：clientBuffer。</p>
+<p>当服务器想向客户端发送数据时，需要调用：clientChannel.write(serverBuffer)。当客户端要读时，调用 clientChannel.read(clientBuffer)</p>
+<p>当客户端想向服务器发送数据时，需要调用：serverChannel.write(clientBuffer)。当服务器要读时，调用 serverChannel.read(serverBuffer)</p>
+<p>这样，通道和缓冲区的关系似乎更好理解了。在实践中，未必会出现这种双向连接的蠢事（然而这确实存在的，后面的内容还会涉及），但是可以理解为在NIO中：如果想将Data发到目标端，则需要将存储该Data的Buffer，写入到目标端的Channel中，然后再从Channel中读取数据到目标端的Buffer中。</p>
+<h3><span id="selector">Selector：</span></h3>
+<p>通道和缓冲区的机制，使得线程无需阻塞地等待IO事件的就绪，但是总是要有人来监管这些IO事件。这个工作就交给了selector来完成，这就是所谓的同步。</p>
+<p>Selector允许单线程处理多个 Channel。如果你的应用打开了多个连接（通道），但每个连接的流量都很低，使用Selector就会很方便。</p>
+<p>要使用Selector，得向Selector注册Channel，然后调用它的select()方法。这个方法会一直阻塞到某个注册的通道有事件就绪，这就是所说的轮询。一旦这个方法返回，线程就可以处理这些事件。</p>
+<p>selector 中注册的事件有：OP_ACCEPT、OP_CONNECT、OP_READ、OP_WRITE</p>
+<h3><span id="传统io">传统IO</span></h3>
+<p>使用传统的I/O程序读取文件内容, 并写入到另一个文件(或Socket), 如下程序:<br>
+File.read(fileDesc, buf, len);<br>
+Socket.send(socket, buf, len);<br>
+会有较大的性能开销, 主要表现在一下两方面:</p>
+<ul>
+<li>
+<ol>
+<li>上下文切换(context switch), 此处有4次用户态和内核态的切换</li>
+</ol>
+</li>
+<li>
+<ol start="2">
+<li>Buffer内存开销, 一个是应用程序buffer, 另一个是系统读取buffer以及socket buffer</li>
+</ol>
+</li>
+</ul>
+<h3><span id="nio">NIO</span></h3>
+<p>NIO技术省去了将操作系统的read buffer拷贝到程序的buffer, 以及从程序buffer拷贝到socket buffer的步骤, 直接将 read buffer 拷贝到 socket buffer. java 的 FileChannel.transferTo() 方法就是这样的实现, 这个实现是依赖于操作系统底层的sendFile()实现的.<br>
+publicvoid transferTo(long position, long count, WritableByteChannel target);<br>
+他的底层调用的是系统调用sendFile()方法<br>
+sendfile(int out_fd, int in_fd, off_t *offset, size_t count);</p>
+<h3><span id="java-nio2-之path-paths-与-files-的使用">Java NIO.2 之Path、Paths 与 Files 的使用</span></h3>
+<p>早期的java只提供了一个File类来访问文件系统，但File类的功能比较有限，所提供的方法性能也不高。而且，大多数方法在出错时仅返回失败，并不会提供异常信息。<br>
+NIO. 2为了弥补这种不足，引入了Path接口，代表一个平台无关的平台路径，描述了目录结构中文件的位置。Path可以看成是File类的升级版本，实际引用的资源也可以不存在。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">// 在以前IO操作都是这样写的:</span><br><span class="line">import java.io.File;</span><br><span class="line">File file = new File(&quot;index.html&quot;);</span><br><span class="line"></span><br><span class="line">// 但在Java7 中，我们可以这样写：</span><br><span class="line">import java.nio.file.Path; </span><br><span class="line">import java.nio.file.Paths; </span><br><span class="line">Path path = Paths.get(&quot;index.html&quot;);</span><br></pre></td></tr></table></figure>
+<p>同时，NIO.2还提供了Files、Paths工具类，Files包含了大量静态的工具方法来操作文件；Paths则包含了两个返回Path的静态工厂方法。<code>static Path get(String first, String … more)</code> : 用于将多个字符串串连成路径，<code>static Path get(URI uri)</code>: 返回指定uri对应的Path路径</p>
+<p><strong>java.nio.file.Paths 常用方法</strong></p>
+<ul>
+<li>
+<p>String toString() ： 返回调用 Path 对象的字符串表示形式</p>
+</li>
+<li>
+<p>boolean startsWith(String path) : 判断是否以 path 路径开始</p>
+</li>
+<li>
+<p>boolean endsWith(String path) : 判断是否以 path 路径结束</p>
+</li>
+<li>
+<p>boolean isAbsolute() : 判断是否是绝对路径</p>
+</li>
+<li>
+<p>Path getParent() ：返回Path对象包含整个路径，不包含 Path 对象指定的文件路径</p>
+</li>
+<li>
+<p>Path getRoot() ：返回调用 Path 对象的根路径</p>
+</li>
+<li>
+<p>Path getFileName() : 返回与调用 Path 对象关联的文件名</p>
+</li>
+<li>
+<p>Path getName(int idx) : 返回指定索引位置 idx 的路径名称</p>
+</li>
+<li>
+<p>int getNameCount() : 返回Path 根目录后面元素的数量</p>
+</li>
+<li>
+<p>Path toAbsolutePath() : 作为绝对路径返回调用 Path 对象</p>
+</li>
+<li>
+<p>Path resolve(Path p) :合并两个路径，返回合并后的路径对应的Path对象</p>
+</li>
+<li>
+<p>File toFile(): 将Path转化为File类的对象</p>
+</li>
+</ul>
+<p><strong>java.nio.file.Files 常用方法</strong></p>
+<ul>
+<li>
+<p>Path copy(Path src, Path dest, CopyOption … how) : 文件的复制</p>
+</li>
+<li>
+<p>Path createDirectory(Path path, FileAttribute&lt;?&gt; … attr) : 创建一个目录</p>
+</li>
+<li>
+<p>Path createFile(Path path, FileAttribute&lt;?&gt; … arr) : 创建一个文件</p>
+</li>
+<li>
+<p>void delete(Path path) : 删除一个文件，如果不存在，执行报错</p>
+</li>
+<li>
+<p>void deleteIfExists(Path path) : Path对应的文件如果存在，执行删除</p>
+</li>
+<li>
+<p>Path move(Path src, Path dest, CopyOption…how) : 将 src 移动到 dest 位置</p>
+</li>
+<li>
+<p>long size(Path path) : 返回 path 指定文件的大小</p>
+</li>
+</ul>
+<h2><span id="netty简介">netty简介</span></h2>
+<p>Netty是基于Java NIO的网络应用框架.</p>
+<p>Netty是一个NIO client-server(客户端服务器)框架，使用Netty可以快速开发网络应用，例如服务器和客户端协议。Netty提供了一种新的方式来使开发网络应用程序，这种新的方式使得它很容易使用和有很强的扩展性。Netty的内部实现时很复杂的，但是Netty提供了简单易用的api从网络处理代码中解耦业务逻辑。Netty是完全基于NIO实现的，所以整个Netty都是异步的。网络应用程序通常需要有较高的可扩展性，无论是Netty还是其他的基于Java NIO的框架，都会提供可扩展性的解决方案。Netty中一个关键组成部分是它的异步特性.</p>
+<p>netty官网 <a href="http://netty.io/" target="_blank" rel="noopener">http://netty.io/</a> ，netty包下载地址 <a href="https://netty.io/downloads.html" target="_blank" rel="noopener">https://netty.io/downloads.html</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;io.netty&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;netty-all&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;4.1.33.Final&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+<h3><span id="netty-通信demo">netty 通信demo</span></h3>
+<ul>
+<li>SimpleClient.java</li>
+</ul>
+<p>客户端启动类</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">import io.netty.bootstrap.Bootstrap;</span><br><span class="line">import io.netty.channel.ChannelFuture;</span><br><span class="line">import io.netty.channel.ChannelInitializer;</span><br><span class="line">import io.netty.channel.EventLoopGroup;</span><br><span class="line">import io.netty.channel.nio.NioEventLoopGroup;</span><br><span class="line">import io.netty.channel.socket.SocketChannel;</span><br><span class="line">import io.netty.channel.socket.nio.NioSocketChannel;</span><br><span class="line">import lombok.extern.slf4j.Slf4j;</span><br><span class="line"></span><br><span class="line">import java.net.InetSocketAddress;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * @author Leone</span><br><span class="line"> * @since 2018-06-29</span><br><span class="line"> **/</span><br><span class="line">@Slf4j</span><br><span class="line">public class SimpleClient &#123;</span><br><span class="line"></span><br><span class="line">    private String host;</span><br><span class="line"></span><br><span class="line">    private int port;</span><br><span class="line"></span><br><span class="line">    public SimpleClient(String host, int port) &#123;</span><br><span class="line">        this.host = host;</span><br><span class="line">        this.port = port;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void start() throws Exception &#123;</span><br><span class="line"></span><br><span class="line">        EventLoopGroup eventLoopGroup = null;</span><br><span class="line">        try &#123;</span><br><span class="line">            // 创建Bootstrap对象用来引导启动客户端</span><br><span class="line">            Bootstrap bootstrap = new Bootstrap();</span><br><span class="line">            // 创建EventLoopGroup对象并设置到Bootstrap中，EventLoopGroup可以理解为是一个线程池，这个线程池用来处理连接、接受数据、发送数据</span><br><span class="line">            eventLoopGroup = new NioEventLoopGroup();</span><br><span class="line">            // 创建InetSocketAddress并设置到Bootstrap中，InetSocketAddress是指定连接的服务器地址</span><br><span class="line">            bootstrap.group(eventLoopGroup).channel(NioSocketChannel.class).remoteAddress(new InetSocketAddress(host, port))</span><br><span class="line">                    .handler(new ChannelInitializer&lt;SocketChannel&gt;() &#123;</span><br><span class="line">                        @Override</span><br><span class="line">                        protected void initChannel(SocketChannel socketChannel) &#123;</span><br><span class="line">                            socketChannel.pipeline().addLast(new SimpleClientHandler());</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;);</span><br><span class="line">            // 调用Bootstrap.connect()来连接服务器</span><br><span class="line">            ChannelFuture future = bootstrap.connect().sync();</span><br><span class="line">            // 最后关闭EventLoopGroup来释放资源</span><br><span class="line">            future.channel().close().sync();</span><br><span class="line">        &#125; catch (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; finally &#123;</span><br><span class="line">            if (eventLoopGroup != null) &#123;</span><br><span class="line">                eventLoopGroup.shutdownGracefully().sync();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static void main(String[] args) throws Exception &#123;</span><br><span class="line">        new SimpleClient(&quot;localhost&quot;, 8888).start();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>SimpleClientHandler.java</li>
+</ul>
+<p>客户端回调方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">import io.netty.buffer.ByteBuf;</span><br><span class="line">import io.netty.buffer.Unpooled;</span><br><span class="line">import io.netty.channel.ChannelHandlerContext;</span><br><span class="line">import io.netty.channel.SimpleChannelInboundHandler;</span><br><span class="line">import lombok.extern.slf4j.Slf4j;</span><br><span class="line"></span><br><span class="line">import java.nio.charset.StandardCharsets;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * @author Leone</span><br><span class="line"> * @since 2018-06-29</span><br><span class="line"> **/</span><br><span class="line">@Slf4j</span><br><span class="line">public class SimpleClientHandler extends SimpleChannelInboundHandler&lt;ByteBuf&gt; &#123;</span><br><span class="line"></span><br><span class="line">    //客户端连接服务器后被调用</span><br><span class="line">    @Override</span><br><span class="line">    public void channelActive(ChannelHandlerContext ctx) throws Exception &#123;</span><br><span class="line">        String data = &quot;client say hello&quot;;</span><br><span class="line">        log.info(&quot;客户端连接服务器，开始发送数据: &#123;&#125;&quot;, data);</span><br><span class="line">        byte[] req = data.getBytes();</span><br><span class="line">        ByteBuf message = Unpooled.buffer(req.length);</span><br><span class="line">        message.writeBytes(req);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 从服务器接收到数据后调用</span><br><span class="line">    @Override</span><br><span class="line">    protected void channelRead0(ChannelHandlerContext channelHandlerContext, ByteBuf byteBuf) throws Exception &#123;</span><br><span class="line">        // 服务端返回消息后</span><br><span class="line">        ByteBuf buf = byteBuf;</span><br><span class="line">        byte[] req = new byte[buf.readableBytes()];</span><br><span class="line">        buf.readBytes(req);</span><br><span class="line">        String body = new String(req, StandardCharsets.UTF_8);</span><br><span class="line">        log.info(&quot;服务端响应的数据为: &#123;&#125;&quot;, body);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception &#123;</span><br><span class="line">        log.info(&quot;client exceptionCaught..&quot;);</span><br><span class="line">        ctx.close();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>SimpleServer.java</li>
+</ul>
+<p>服务端启动类</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line">import io.netty.bootstrap.ServerBootstrap;</span><br><span class="line">import io.netty.channel.Channel;</span><br><span class="line">import io.netty.channel.ChannelFuture;</span><br><span class="line">import io.netty.channel.ChannelInitializer;</span><br><span class="line">import io.netty.channel.EventLoopGroup;</span><br><span class="line">import io.netty.channel.nio.NioEventLoopGroup;</span><br><span class="line">import io.netty.channel.socket.nio.NioServerSocketChannel;</span><br><span class="line">import lombok.extern.slf4j.Slf4j;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * @author Leone</span><br><span class="line"> * @since 2018-06-29</span><br><span class="line"> **/</span><br><span class="line">@Slf4j</span><br><span class="line">public class SimpleServer &#123;</span><br><span class="line"></span><br><span class="line">    private int port;</span><br><span class="line"></span><br><span class="line">    public SimpleServer(int port) &#123;</span><br><span class="line">        this.port = port;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void start() throws Exception &#123;</span><br><span class="line">        EventLoopGroup eventLoopGroup = null;</span><br><span class="line">        try &#123;</span><br><span class="line">            // 创建ServerBootstrap实例来引导绑定和启动服务器</span><br><span class="line">            ServerBootstrap bootstrap = new ServerBootstrap();</span><br><span class="line">            // 创建NioEventLoopGroup对象来处理事件，如接受新连接、接收数据、写数据等等</span><br><span class="line">            eventLoopGroup = new NioEventLoopGroup();</span><br><span class="line">            // 指定通道类型为NioServerSocketChannel，设置InetSocketAddress让服务器监听某个端口已等待客户端连接。</span><br><span class="line">            bootstrap.group(eventLoopGroup).channel(NioServerSocketChannel.class).localAddress(&quot;localhost&quot;, port)</span><br><span class="line">                    .childHandler(new ChannelInitializer&lt;Channel&gt;() &#123;</span><br><span class="line">                        // 设置childHandler执行所有的连接请求</span><br><span class="line">                        @Override</span><br><span class="line">                        protected void initChannel(Channel channel) &#123;</span><br><span class="line">                            channel.pipeline().addLast(new SimpleServerHandler());</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;);</span><br><span class="line">            // 最后绑定服务器等待直到绑定完成，调用sync()方法会阻塞直到服务器完成绑定,然后服务器等待通道关闭，因为使用sync()，所以关闭操作也会被阻塞。</span><br><span class="line">            ChannelFuture channelFuture = bootstrap.bind().sync();</span><br><span class="line">            log.info(&quot;开始监听，端口为:&#123;&#125;&quot;, channelFuture.channel().localAddress());</span><br><span class="line">            channelFuture.channel().closeFuture().sync();</span><br><span class="line">        &#125; catch (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; finally &#123;</span><br><span class="line">            if (eventLoopGroup != null) &#123;</span><br><span class="line">                eventLoopGroup.shutdownGracefully().sync();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    public static void main(String[] args) throws Exception &#123;</span><br><span class="line">        new SimpleServer(8888).start();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>SimpleServerHandler.java</li>
+</ul>
+<p>客户端回调方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">import io.netty.buffer.ByteBuf;</span><br><span class="line">import io.netty.buffer.Unpooled;</span><br><span class="line">import io.netty.channel.ChannelHandlerContext;</span><br><span class="line">import io.netty.channel.ChannelInboundHandlerAdapter;</span><br><span class="line">import lombok.extern.slf4j.Slf4j;</span><br><span class="line"></span><br><span class="line">import java.nio.charset.StandardCharsets;</span><br><span class="line">import java.util.Date;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * @author Leone</span><br><span class="line"> * @since 2018-06-29</span><br><span class="line"> **/</span><br><span class="line">@Slf4j</span><br><span class="line">public class SimpleServerHandler extends ChannelInboundHandlerAdapter &#123;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception &#123;</span><br><span class="line">        ByteBuf buf = (ByteBuf) msg;</span><br><span class="line">        byte[] req = new byte[buf.readableBytes()];</span><br><span class="line">        buf.readBytes(req);</span><br><span class="line">        String body = new String(req, StandardCharsets.UTF_8);</span><br><span class="line">        log.info(&quot;server 收到 client 发送的数据: &#123;&#125;&quot;, body);</span><br><span class="line">        // 向客户端响应数据</span><br><span class="line">        String currentTime = new Date().toString();</span><br><span class="line">        log.info(&quot;向客户端响应数据: &#123;&#125;&quot;, currentTime);</span><br><span class="line">        ByteBuf res = Unpooled.copiedBuffer(currentTime.getBytes());</span><br><span class="line">        ctx.write(res);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void channelReadComplete(ChannelHandlerContext ctx) throws Exception &#123;</span><br><span class="line">        log.info(&quot;数据读取完毕&quot;);</span><br><span class="line">        // 刷新后才将数据发送到socketChannel</span><br><span class="line">        ctx.flush();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception &#123;</span><br><span class="line">        cause.printStackTrace();</span><br><span class="line">        ctx.close();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3><span id="netty中handler的执行顺序">netty中handler的执行顺序</span></h3>
+<p>Handler在netty中，无疑占据着非常重要的地位。Handler与Servlet中的filter很像，通过Handler可以完成通讯报文的解码编码、拦截指定的报文、统一对日志错误进行处理、统一对请求进行计数、控制Handler执行与否。一句话，没有它做不到的只有你想不到的。</p>
+<p>Netty中的所有handler都实现自ChannelHandler接口。按照输出输出来分，分为ChannelInboundHandler、ChannelOutboundHandler两大类。ChannelInboundHandler对从客户端发往服务器的报文进行处理，一般用来执行解码、读取客户端数据、进行业务处理等；ChannelOutboundHandler对从服务器发往客户端的报文进行处理，一般用来进行编码、发送报文到客户端。</p>
+<p>Netty中，可以注册多个handler。ChannelInboundHandler按照注册的先后顺序执行；ChannelOutboundHandler按照注册的先后顺序逆序执行。</p>
+<h3><span id="总结">总结</span></h3>
+<p>在使用Handler的过程中，需要注意：</p>
+<p>1、ChannelInboundHandler之间的传递，通过调用 ctx.fireChannelRead(msg) 实现；调用ctx.write(msg) 将传递到ChannelOutboundHandler。<br>
+2、ctx.write()方法执行后，需要调用flush()方法才能令它立即执行。<br>
+3、流水线pipeline中outhandler不能放在最后，否则不生效<br>
+4、Handler的消费处理放在最后一个处理。</p>
+
+                
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/article/SpringBoot-06-mongodb/" data-toggle="tooltip" data-placement="top" title="Spring Boot MongoDB">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/article/SpringCloud-04-hystrix/" data-toggle="tooltip" data-placement="top" title="Spring Cloud Hystrix">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                <br>
+
+                <!--打赏-->
+                
+                <!--打赏-->
+
+                <br>
+                <!--分享-->
+                
+                    <div class="social-share" data-wechat-qrcode-helper="" align="center"></div>
+                    <!--  css & js -->
+                    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/css/share.min.css">
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/js/social-share.min.js"></script>
+                
+                <!--分享-->
+                <br>                       
+                
+                <!-- require APlayer -->
+                
+
+                <!-- duoshuo Share start -->
+                
+                <!-- 多说 Share end-->
+
+                <!-- 多说评论框 start -->
+                
+                <!-- 多说评论框 end -->
+
+                <!-- disqus comment start -->
+                
+                <!-- disqus comment end -->
+
+                
+
+            </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+  
+    
+      <aside id="sidebar">
+        <div id="toc" class="toc-article">
+        <strong class="toc-title">Contents</strong>
+        
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">NIO</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text">NIO 核心概念</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.1.1.</span> <span class="toc-nav-text">Java NIO 概述</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.1.2.</span> <span class="toc-nav-text">阻塞与同步</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.1.3.</span> <span class="toc-nav-text">面向流与面向缓冲</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.1.4.</span> <span class="toc-nav-text">缓冲区Buffer</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.1.5.</span> <span class="toc-nav-text">通道：</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.1.6.</span> <span class="toc-nav-text">Selector：</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.1.7.</span> <span class="toc-nav-text">传统IO</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.1.8.</span> <span class="toc-nav-text">NIO</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.1.9.</span> <span class="toc-nav-text">Java NIO.2 之Path、Paths 与 Files 的使用</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.2.</span> <span class="toc-nav-text">netty简介</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.2.1.</span> <span class="toc-nav-text">netty 通信demo</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.2.2.</span> <span class="toc-nav-text">netty中handler的执行顺序</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.2.3.</span> <span class="toc-nav-text">总结</span></a></li></ol></li></ol></li></ol>
+        
+        </div>
+      </aside>
+    
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#java" title="java">java</a>
+                        
+                          <a class="tag" href="/tags/#NIO" title="NIO">NIO</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="http://blog.csdn.net/fooelliot" target="_blank">CSDN fooelliot</a></li>
+                    
+                        <li><a href="http://github.com/janlle" target="_blank">GitHub janlle</a></li>
+                    
+                        <li><a href="https://www.cnblogs.com/ruolin/" target="_blank">博客园 janlle</a></li>
+                    
+                        <li><a href="https://www.jianshu.com/u/2c8b6b4a6523" target="_blank">简书 janlle</a></li>
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://github.com/janlle">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; leone 2019 
+                    <br>
+                    Theme by <a href="http://beantech.org">BeanTech</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    re-Ported by <a href="http://wealip.cn">leone</a> | 
+                    <iframe style="margin-left: 2px; margin-bottom:-5px;" frameborder="0" scrolling="0" width="91px" height="20px" src="https://ghbtns.com/github-btn.html?user=janlle&repo=blogs&type=star&count=true">
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://www.wealip.cn/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-XXXXXXXX-X';
+    var _gaDomain = 'yoursite';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = 'xxx';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<img src="http://www.wealip.cn/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

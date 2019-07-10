@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keyword" content="">
+    <link rel="shortcut icon" href="/img/ironman-draw.png">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <title>
+        
+          Hadoop - leone | Blog
+        
+    </title>
+
+    <link rel="canonical" href="http://www.wealip.cn/article/Hadoop/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS --> 
+    <link rel="stylesheet" href="/css/beantech.min.css">
+
+    <link rel="stylesheet" href="/css/donate.css">
+    
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <link rel="stylesheet" href="/css/widget.css">
+
+    <link rel="stylesheet" href="/css/rocket.css">
+
+    <link rel="stylesheet" href="/css/signature.css">
+
+    <link rel="stylesheet" href="/css/toc.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        
+            background-image: url('/img/article_header/article_header.png')
+            /*post*/
+        
+    }
+    
+</style>
+
+<header class="intro-header">
+    <!-- Signature -->
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#大数据" title="大数据">大数据</a>
+                            
+                              <a class="tag" href="/tags/#hadoop" title="hadoop">hadoop</a>
+                            
+                        </div>
+                        <h1>Hadoop</h1>
+                        <h2 class="subheading">Hadoop 核心概念及入门教程</h2>
+                        <span class="meta">
+                            Posted by leone on
+                            2017-08-17
+                        </span>
+                    </div>
+                
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">leone</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archive/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h1><span id="hadoop">Hadoop</span></h1>
+<h2><span id="hadoop-核心概念">Hadoop 核心概念</span></h2>
+<h3><span id="什么是-hadoop">什么是 Hadoop</span></h3>
+<p>HADOOP是apache旗下的一套开源软件平台HADOOP提供利用服务器集群，根据用户的自定义业务逻辑，对海量数据进行分布式处理,HADOOP的核心组件有:HDFS（分布式文件系统）、YARN（运算资源调度系统）、MAPREDUCE（分布式运算编程框架），广义上来说，HADOOP通常是指一个更广泛的概念——HADOOP生态圈</p>
+<h3><span id="hadoop-产生背景">Hadoop 产生背景</span></h3>
+<p>HADOOP最早起源于Nutch。Nutch的设计目标是构建一个大型的全网搜索引擎，包括网页抓取、索引、查询等功能，但随着抓取网页数量的增加，遇到了严重的可扩展性问题——如何解决数十亿网页的存储和索引问题。2003年、2004年谷歌发表的两篇论文为该问题提供了可行的解决方案。——分布式文件系统（GFS），可用于处理海量网页的存储——分布式计算框架MAPREDUCE，可用于处理海量网页的索引计算问题。Nutch的开发人员完成了相应的开源实现HDFS和MAPREDUCE，并从Nutch中剥离成为独立项目HADOOP，到2008年1月，HADOOP成为Apache顶级项目，迎来了它的快速发展期。</p>
+<h3><span id="hadoop生态圈以及各组成部分的简介">HADOOP生态圈以及各组成部分的简介</span></h3>
+<ul>
+<li>HDFS：分布式文件系统</li>
+<li>MAPREDUCE：分布式运算程序开发框架</li>
+<li>HIVE：基于大数据技术（文件系统+运算框架）的SQL数据仓库工具</li>
+<li>HBASE：基于HADOOP的分布式海量数据库</li>
+<li>ZOOKEEPER：分布式协调服务基础组件</li>
+<li>Mahout：基于mapreduce/spark/flink等分布式运算框架的机器学习算法库</li>
+<li>Oozie：工作流调度框架</li>
+<li>Sqoop：数据导入导出工具</li>
+<li>Flume：日志数据采集框架</li>
+</ul>
+<h2><span id="分布式系统概述">分布式系统概述</span></h2>
+<p><strong>注：由于大数据技术领域的各类技术框架基本上都是分布式系统，因此，理解hadoop、storm、spark等技术框架，都需要具备基本的分布式系统概念</strong></p>
+<h3><span id="什么是分布式">什么是分布式</span></h3>
+<p>分布式系统是由一组通过网络进行通信、为了完成共同的任务而协调工作的计算机节点组成的系统。分布式系统的出现是为了用廉价的、普通的机器完成单个计算机无法完成的计算、存储任务。其目的是利用更多的机器，处理更多的数据 。分布式系统的特点是：硬件独立，各设备之间独立，互不依赖、 软件统一，对用户来说，就像是跟单个系统打交道。</p>
+<h2><span id="为什么需要分布式">为什么需要分布式</span></h2>
+<p>为了性能扩展：系统负载高，单台机器无法承受，希望通过多台机器来提高系统负载能力 为了增强可靠性：软件不是完美的，网络不是完美的，甚至机器也不是完美的，随时可能出错，为了避免故障，需要将业务分散开保留一定的冗余度</p>
+<h3><span id="分布式软件系统distributed-software-systems">分布式软件系统(Distributed Software Systems)</span></h3>
+<ol>
+<li>
+<p>该软件系统会划分成多个子系统或模块，各自运行在不同的机器上，子系统或模块之间通过网络通信进行协作，实现最终的整体功能</p>
+</li>
+<li>
+<p>比如分布式操作系统、分布式程序设计语言及其编译(解释)系统、分布式文件系统和分布式数据库系统等。</p>
+</li>
+</ol>
+<h3><span id="为什么使用分布式">为什么使用分布式</span></h3>
+<ul>
+<li>单机处理能力存在瓶颈；</li>
+<li>升级单机处理能力的性价比越来越低；</li>
+<li>分布式系统稳定性、可用性好</li>
+</ul>
+<h3><span id="web日志数据挖掘">web日志数据挖掘</span></h3>
+<blockquote>
+<p>“Web点击流日志”包含着网站运营很重要的信息，通过日志分析，我们可以知道网站的访问量，哪个网页访问人数最多，哪个网页最有价值，广告转化率、访客的来源信息，访客的终端信息等。</p>
+</blockquote>
+<h2><span id="hadoop集群搭建">hadoop集群搭建</span></h2>
+<h3><span id="集群简介">集群简介</span></h3>
+<p>HADOOP集群具体来说包含两个集群：HDFS集群和YARN集群，两者逻辑上分离，但物理上常在一起<strong>HDFS集群</strong>：负责海量数据的存储，集群中的角色主要有 NameNode / DataNode <strong>YARN集群</strong>：负责海量数据运算时的资源调度，集群中的角色主要有 ResourceManager / NodeManager (那mapreduce是什么呢？它其实是一个应用程序开发包)</p>
+<p>服务器分配<br>
+本集群搭建案例，以5节点为例进行搭建，角色分配如下：</p>
+<table>
+<thead>
+<tr>
+<th>节点</th>
+<th>进程</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>node-1</td>
+<td>NameNode ResourceManager</td>
+</tr>
+<tr>
+<td>node-2</td>
+<td>SecondaryNameNode</td>
+</tr>
+<tr>
+<td>node-3</td>
+<td>DataNode    NodeManager</td>
+</tr>
+<tr>
+<td>node-4</td>
+<td>DataNode    NodeManager</td>
+</tr>
+<tr>
+<td>node-5</td>
+<td>DataNode    NodeManager</td>
+</tr>
+</tbody>
+</table>
+<h3><span id="服务器系统配置">服务器系统配置</span></h3>
+<ol>
+<li>
+<p>配置系统网络，安装常用依赖包如文件上传、编辑器、网络工具</p>
+</li>
+<li>
+<p>同步时间、配置各主机名称映射、配置ssh免密登陆</p>
+</li>
+<li>
+<p>安装java环境</p>
+</li>
+</ol>
+<h3><span id="hadoop集群安装部署">hadoop集群安装部署</span></h3>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"># 下载</span><br><span class="line">$ wget https://mirrors.shu.edu.cn/apache/hadoop/common/hadoop-2.7.7/hadoop-2.7.7.tar.gz</span><br><span class="line"></span><br><span class="line"># 解压缩</span><br><span class="line">$  tar -zxvf hadoop-2.7.7/hadoop-2.7.7.tar.gz</span><br><span class="line"></span><br><span class="line"># 修改系统环境变量</span><br><span class="line">$ vi /etc/profile</span><br><span class="line"></span><br><span class="line">export HADOOP_HOME=/export/servers/hadoop2.7.7</span><br><span class="line">export PATH=$PATH:$HADOOP_HOME/bin:$HADOOP_HOME/sbin</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># 配置环境变量</span><br><span class="line">$ vi  hadoop-env.sh</span><br><span class="line"></span><br><span class="line">export JAVA_HOME=/usr/local/jdk1.8.0_191</span><br><span class="line"></span><br><span class="line"># core-site.xml配置如下</span><br><span class="line">$ vi core-site.xml</span><br><span class="line"></span><br><span class="line">&lt;configuration&gt;   </span><br><span class="line">    &lt;property&gt;   </span><br><span class="line">        &lt;name&gt;fs.defaultFS&lt;/name&gt;   </span><br><span class="line">        &lt;value&gt;hdfs://node-1:9000&lt;/value&gt;   </span><br><span class="line">    &lt;/property&gt;   </span><br><span class="line">    &lt;property&gt;   </span><br><span class="line">        &lt;name&gt;hadoop.tmp.dir&lt;/name&gt;   </span><br><span class="line">        &lt;value&gt;/export/data/hadoop/tmp&lt;/value&gt;</span><br><span class="line">    &lt;/property&gt;</span><br><span class="line">&lt;/configuration&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># hdfs-site.xml配置如下</span><br><span class="line">$ vi  hdfs-site.xml</span><br><span class="line"></span><br><span class="line">&lt;configuration&gt;</span><br><span class="line">    &lt;property&gt;</span><br><span class="line">        &lt;name&gt;dfs.namenode.name.dir&lt;/name&gt;</span><br><span class="line">        &lt;value&gt;/export/data/hadoop/name&lt;/value&gt;</span><br><span class="line">    &lt;/property&gt;</span><br><span class="line">    &lt;property&gt;</span><br><span class="line">        &lt;name&gt;dfs.datanode.data.dir&lt;/name&gt;</span><br><span class="line">        &lt;value&gt;/export/data/hadoop/data&lt;/value&gt;</span><br><span class="line">    &lt;/property&gt;</span><br><span class="line"></span><br><span class="line">    &lt;property&gt;</span><br><span class="line">        &lt;name&gt;dfs.replication&lt;/name&gt;</span><br><span class="line">        &lt;value&gt;3&lt;/value&gt;</span><br><span class="line">    &lt;/property&gt;</span><br><span class="line"></span><br><span class="line">    &lt;property&gt;</span><br><span class="line">        &lt;name&gt;dfs.secondary.http.address&lt;/name&gt;</span><br><span class="line">        &lt;value&gt;node-2:50090&lt;/value&gt;</span><br><span class="line">    &lt;/property&gt;</span><br><span class="line"></span><br><span class="line">&lt;/configuration&gt;</span><br><span class="line"></span><br><span class="line"># mapred-site.xml配置如下</span><br><span class="line">$ vi mapred-site.xml</span><br><span class="line"></span><br><span class="line">&lt;configuration&gt;</span><br><span class="line">    &lt;property&gt;</span><br><span class="line">        &lt;name&gt;mapreduce.framework.name&lt;/name&gt;</span><br><span class="line">        &lt;value&gt;yarn&lt;/value&gt;</span><br><span class="line">    &lt;/property&gt;</span><br><span class="line">&lt;/configuration&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># yarn-site.xml配置如下</span><br><span class="line">$ vi yarn-site.xml</span><br><span class="line"></span><br><span class="line">&lt;configuration&gt;</span><br><span class="line"></span><br><span class="line">  &lt;property&gt;</span><br><span class="line">        &lt;name&gt;yarn.resourcemanager.hostname&lt;/name&gt;</span><br><span class="line">        &lt;value&gt;node-1&lt;/value&gt;</span><br><span class="line">    &lt;/property&gt;</span><br><span class="line"></span><br><span class="line">    &lt;property&gt;</span><br><span class="line">        &lt;name&gt;yarn.nodemanager.aux-services&lt;/name&gt;</span><br><span class="line">        &lt;value&gt;mapreduce_shuffle&lt;/value&gt;</span><br><span class="line">    &lt;/property&gt;</span><br><span class="line"></span><br><span class="line">&lt;/configuration&gt;</span><br><span class="line"></span><br><span class="line"># 修改 slaves 配置</span><br><span class="line">$ vim salves</span><br><span class="line"></span><br><span class="line">node-3</span><br><span class="line">node-4</span><br><span class="line">node-5</span><br></pre></td></tr></table></figure>
+<h3><span id="启动hadoop集群">启动hadoop集群</span></h3>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"># 初始化HDFS</span><br><span class="line">$ hadoop namenode -format</span><br><span class="line"></span><br><span class="line"># 启动HDFS</span><br><span class="line">$ $HADOOP_HOME/sbin/start-dfs.sh</span><br><span class="line"></span><br><span class="line"># 启动yarn</span><br><span class="line">$ $HADOOP_HOME/sbin/start-yarn.sh</span><br><span class="line"></span><br><span class="line"># 启动hdfs和yarn</span><br><span class="line">$ $HADOOP_HOME/sbin/start-all.sh</span><br><span class="line"></span><br><span class="line"># hadoop常用命令</span><br><span class="line"></span><br><span class="line"># 查看hadoop版本</span><br><span class="line">$ hadoop verion</span><br><span class="line"></span><br><span class="line"># 运行jar文件</span><br><span class="line">$ hadoop jar</span><br><span class="line"></span><br><span class="line"># 创建文件夹</span><br><span class="line">$ hadoop fs -mkdir -p /data/input</span><br><span class="line"></span><br><span class="line"># 递归查看文件夹</span><br><span class="line">$ hadoop fs -ls -R /data/input</span><br><span class="line"></span><br><span class="line"># 上传本地文件到HDFS</span><br><span class="line">$ hadoop fs -put /root/words.txt  /data/input</span><br><span class="line"></span><br><span class="line"># 查看HDFS上的文件</span><br><span class="line">$ hadoop fs -cat /data/input/words.txt</span><br><span class="line"></span><br><span class="line"># 删除HDFS上的文件</span><br><span class="line">$ hadoop fs -rm -f /data/input/words.txt</span><br></pre></td></tr></table></figure>
+<h3><span id="运行一个mapreduce程序">运行一个mapreduce程序</span></h3>
+<p>使用hadoop自带的例子程序，运行一个示例mr程序</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hadoop jar $HADOOP_HOME/share/hadoop/mapreduce/hadoop-mapreduce-examples-2.7.7.jar wordcount /data/input /data/output</span><br></pre></td></tr></table></figure>
+<h3><span id="集群使用初步">集群使用初步</span></h3>
+<p>可打开web控制台查看 HDFS 和 yarn 集群信息 hdfs 的 web 页面是 http://node-1:50070/ yarn 集群信息的 web 页面是http://node-1:8088/</p>
+<p>mapreduce是hadoop中的分布式运算编程框架，只要按照其编程规范，只需要编写少量的业务逻辑代码即可实现一个强大的海量数据并发处理程序</p>
+<h2><span id="hdfs详解">HDFS详解</span></h2>
+<h3><span id="hdfs前言">HDFS前言</span></h3>
+<p>设计思想</p>
+<ul>
+<li>分而治之：将大文件、大批量文件，分布式存放在大量服务器上，以便于采取分而治之的方式对海量数据进行运算分析；</li>
+</ul>
+<p>在大数据系统中作用：</p>
+<ul>
+<li>为各类分布式运算框架（如：mapreduce，spark，tez，……）提供数据存储服务</li>
+</ul>
+<p>重点概念</p>
+<ul>
+<li>文件切块，副本存放，元数据</li>
+</ul>
+<h3><span id="hdfs的概念和特性">HDFS的概念和特性</span></h3>
+<p>首先，它是一个文件系统，用于存储文件，通过统一的命名空间——目录树来定位文件</p>
+<p>其次，它是分布式的，由很多服务器联合起来实现其功能，集群中的服务器有各自的角色</p>
+<p>重要特性如下</p>
+<ul>
+<li>
+<p>HDFS中的文件在物理上是分块存储（block），块的大小可以通过配置参数( dfs.blocksize)来规定，默认大小在hadoop2.x版本中是128M，老版本中是64M</p>
+</li>
+<li>
+<p>HDFS文件系统会给客户端提供一个统一的抽象目录树，客户端通过路径来访问文件，形如：hdfs://host:port/xxx/xxx/file.data</p>
+</li>
+<li>
+<p>目录结构及文件分块信息(元数据)的管理由namenode节点承担namenode是HDFS集群主节点，负责维护整个hdfs文件系统的目录树，以及每一个路径（文件）所对应的block块信息（block的id，及所在的datanode服务器）</p>
+</li>
+<li>
+<p>文件的各个 block 的存储管理由datanode节点承担 datanode 是HDFS集群从节点，每一 个block 都可以在多个 datanode 上存储多个副本（副本数量也可以通过参数设置dfs.replication）</p>
+</li>
+<li>
+<p>HDFS是设计成适应一次写入，多次读出的场景，且不支持文件的修改</p>
+</li>
+</ul>
+<p><strong>(注：适合用来做数据分析，并不适合用来做网盘应用，因为，不便修改，延迟大，网络开销大，成本太高)</strong></p>
+<h3><span id="hdfs常用命令">HDFS常用命令</span></h3>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">dfs == hadoop fs</span><br><span class="line"></span><br><span class="line"># 在hdfs上创建目录</span><br><span class="line">$ dfs -mkdir /xxx</span><br><span class="line"></span><br><span class="line"># 显示目录信息</span><br><span class="line">$ dfs -ls -r /xxx</span><br><span class="line"></span><br><span class="line"># 递归查看HDFS目录文件</span><br><span class="line">$ dfs -lsr  /xxx</span><br><span class="line"></span><br><span class="line"># 等同于copyFromLocal </span><br><span class="line">$ dfs -put a.html /xxx</span><br><span class="line"></span><br><span class="line"># 等同于copyToLocal，就是从hdfs下载文件到本地</span><br><span class="line">$ dfs -get /xxx/a.html</span><br><span class="line"></span><br><span class="line"># 删除文件夹下所有文件</span><br><span class="line">$ dfs -rm -r -f /data</span><br><span class="line"></span><br><span class="line"># 显示文件内容</span><br><span class="line">$ dfs -cat  /xxx/a.txt</span><br><span class="line"></span><br><span class="line"># 从本地剪切粘贴到hdfs</span><br><span class="line">$ dfs -moveFromLocal</span><br><span class="line"></span><br><span class="line"># 从hdfs剪切粘贴到本地</span><br><span class="line">$ dfs -moveToLocal</span><br><span class="line"></span><br><span class="line"># 追加一个文件到已经存在的文件末尾</span><br><span class="line">$ dfs -appendToFile</span><br><span class="line"></span><br><span class="line"># 显示一个文件的末尾</span><br><span class="line">$ dfs -tail</span><br><span class="line"></span><br><span class="line"># 从hdfs的一个路径拷贝hdfs的另一个路径</span><br><span class="line">$ dfs -cp</span><br><span class="line"></span><br><span class="line"># 从hdfs的一个路径拷贝hdfs的另一个路径</span><br><span class="line">$ dfs -mv</span><br><span class="line"></span><br><span class="line"># 删除文件或文件夹</span><br><span class="line">$ dfs -rm</span><br></pre></td></tr></table></figure>
+<h3><span id="hsfs原理">HSFS原理</span></h3>
+<ul>
+<li>
+<p>概述</p>
+<ul>
+<li>HDFS集群分为两大角色：NameNode、DataNode  (Secondary Namenode)</li>
+<li>NameNode负责管理整个文件系统的元数据</li>
+<li>DataNode 负责管理用户的文件数据块</li>
+<li>文件会按照固定的大小（blocksize）切成若干块后分布式存储在若干台datanode上</li>
+<li>每一个文件块可以有多个副本，并存放在不同的datanode上</li>
+<li>Datanode会定期向Namenode汇报自身所保存的文件block信息，而namenode则会负责保持文件的副本数量</li>
+<li>HDFS的内部工作机制对客户端保持透明，客户端请求访问HDFS都是通过向namenode申请来进行</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>
+<p>HDFS上传文件的步骤</p>
+<p>客户端要向HDFS写数据，首先要跟namenode通信以确认可以写文件并获得接收文件block的datanode，然后，客户端按顺序将文件逐个block传递给相应datanode，并由接收到block的datanode负责向其他datanode复制block的副本</p>
+<ul>
+<li>根namenode通信请求上传文件，namenode检查目标文件是否已存在，父目录是否存在</li>
+<li>namenode返回是否可以上传</li>
+<li>client请求第一个 block该传输到哪些datanode服务器上</li>
+<li>namenode返回3个datanode服务器ABC</li>
+<li>client请求3台dn中的一台A上传数据（本质上是一个RPC调用，建立pipeline），A收到请求会继续调</li>
+<li>然后B调用C，将真个pipeline建立完成，逐级返回客户端</li>
+<li>client开始往A上传第一个block（先从磁盘读取数据放到一个本地内存缓存），以packet为单位，A收到一个packet就会传给B，B传给C；A每传一个packet会放入一个应答队列等待应答</li>
+<li>当一个block传输完成之后，client再次请求namenode上传第二个block的服务器。</li>
+</ul>
+</li>
+<li>
+<p>HDFS 读数据流程</p>
+<p>客户端将要读取的文件路径发送给namenode，namenode获取文件的元信息（主要是block的存放位置信息）返回给客户端，客户端根据返回的信息找到相应datanode逐个获取文件的block并在客户端本地进行数据追加合并从而获得整个文件</p>
+<ul>
+<li>跟namenode通信查询元数据，找到文件块所在的datanode服务器</li>
+<li>挑选一台datanode（就近原则，然后随机）服务器，请求建立socket流</li>
+<li>datanode开始发送数据（从磁盘里面读取数据放入流，以packet为单位来做校验）</li>
+<li>客户端以packet为单位接收，现在本地缓存，然后写入目标文件</li>
+</ul>
+</li>
+</ul>
+<h3><span id="namenode职责">namenode职责</span></h3>
+<p>负责客户端请求的响应，元数据的管理（查询，修改）</p>
+<h3><span id="元数据管理">元数据管理</span></h3>
+<p>namenode对数据的管理采用了三种存储形式：<br>
+1.内存元数据(NameSystem)<br>
+2.磁盘元数据镜像文件<br>
+3.数据操作日志文件（可通过日志运算出元数据）</p>
+<h3><span id="元数据存储机制">元数据存储机制</span></h3>
+<ul>
+<li>
+<p>内存中有一份完整的元数据(<strong>内存meta data</strong>)</p>
+</li>
+<li>
+<p>磁盘有一个“准完整”的元数据镜像（<strong>fsimage</strong>）文件在 namenode 的工作目录中</p>
+</li>
+<li>
+<p>用于衔接内存metadata和持久化元数据镜像fsimage之间的操作日志 edits 文件</p>
+</li>
+</ul>
+<p><strong>注：当客户端对hdfs中的文件进行新增或者修改操作，操作记录首先被记入edits日志文件中，当客户端操作成功后，相应的元数据会更新到内存meta.data中</strong></p>
+<h3><span id="元数据手动查看">元数据手动查看</span></h3>
+<ul>
+<li>可以通过hdfs的一个工具来查看edits中的信息</li>
+<li>bin/hdfs oev -i edits -o edits.xml</li>
+<li>bin/hdfs oiv -i fsimage_0000000000000000087 -p XML -o fsimage.xml</li>
+</ul>
+<h3><span id="元数据的checkpoint">元数据的checkpoint</span></h3>
+<p>每隔一段时间，会由secondary namenode将namenode上积累的所有edits和一个最新的fsimage下载到本地，并加载到内存进行merge（这个过程称为checkpoint）</p>
+<h3><span id="元数据目录说明">元数据目录说明</span></h3>
+<p>在第一次部署好Hadoop集群的时候，我们需要在NameNode（NN）节点上格式化磁盘：</p>
+<p>$ $HADOOP_HOME/bin/hdfs namenode -format</p>
+<p>格式化完成之后，将会在$dfs.namenode.name.dir/current目录下如下的文件结构</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">current/</span><br><span class="line">|-- VERSION</span><br><span class="line">|-- edits_*</span><br><span class="line">|-- fsimage_0000000000008547077</span><br><span class="line">|-- fsimage_0000000000008547077.md5</span><br><span class="line">|-- seen_txid</span><br></pre></td></tr></table></figure>
+<h3><span id="datanode的工作机制">DATANODE的工作机制</span></h3>
+<ul>
+<li>Datanode工作职责：</li>
+</ul>
+<p>存储管理用户的文件块数据，定期向namenode汇报自身所持有的block信息（通过心跳信息上报，这点很重要，因为，当集群中发生某些block副本失效时，集群如何恢复block初始副本数量的问题）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;property&gt;</span><br><span class="line">    &lt;name&gt;dfs.blockreport.intervalMsec&lt;/name&gt;</span><br><span class="line">    &lt;value&gt;3600000&lt;/value&gt;</span><br><span class="line">&lt;/property&gt;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Datanode掉线判断时限参数</li>
+</ul>
+<p>datanode进程死亡或者网络故障造成datanode无法与namenode通信，namenode不会立即把该节点判定为死亡，要经过一段时间，这段时间暂称作超时时长。HDFS默认的超时时长为10分钟+30秒。如果定义超时时间为timeout，则超时时长的计算公式为:<code>timeout = 2 * heartbeat.recheck.interval + 10 * dfs.heartbeat.interval。</code></p>
+<p>而默认的heartbeat.recheck.interval 大小为5分钟，dfs.heartbeat.interval默认为3秒。<br>
+需要注意的是hdfs-site.xml 配置文件中的heartbeat.recheck.interval的单位为毫秒，dfs.heartbeat.interval的单位为秒。所以，举个例子，如果heartbeat.recheck.interval设置为5000（毫秒），dfs.heartbeat.interval设置为3（秒，默认），则总的超时时间为40秒。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;property&gt;</span><br><span class="line">    &lt;name&gt;heartbeat.recheck.interval&lt;/name&gt;</span><br><span class="line">    &lt;value&gt;2000&lt;/value&gt;</span><br><span class="line">&lt;/property&gt;</span><br><span class="line">&lt;property&gt;</span><br><span class="line">    &lt;name&gt;dfs.heartbeat.interval&lt;/name&gt;</span><br><span class="line">    &lt;value&gt;1&lt;/value&gt;</span><br><span class="line">&lt;/property&gt;</span><br></pre></td></tr></table></figure>
+<h3><span id="验证datanode功能">验证DATANODE功能</span></h3>
+<p>上传一个文件，观察文件的block具体的物理存放情况：</p>
+<p>在每一台datanode机器上的这个目录中能找到文件的切块：<br>
+/export/data/hadoop/tmp/dfs/data/current/BP-193442119-192.168.2.120-1432457733977/current/finalized</p>
+<h3><span id="hadoop-hdfs-java客户端">hadoop hdfs java客户端</span></h3>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> org.apache.hadoop.conf.Configuration;</span><br><span class="line"><span class="keyword">import</span> org.apache.hadoop.fs.FileSystem;</span><br><span class="line"><span class="keyword">import</span> org.apache.hadoop.fs.Path;</span><br><span class="line"><span class="keyword">import</span> org.junit.Before;</span><br><span class="line"><span class="keyword">import</span> org.junit.Test;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"><span class="keyword">import</span> java.net.URI;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * &lt;p&gt;</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> leone</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@since</span> 2018-05-06</span></span><br><span class="line"><span class="comment"> **/</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HdfsClientTest</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    FileSystem fs = <span class="keyword">null</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 初始化</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Before</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        Configuration conf = <span class="keyword">new</span> Configuration();</span><br><span class="line">        fs = FileSystem.get(<span class="keyword">new</span> URI(<span class="string">"hdfs://node-1:9000/"</span>), conf, <span class="string">"root"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 上传文件</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@throws</span> IOException</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">putTest</span><span class="params">()</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">        fs.copyFromLocalFile(<span class="keyword">new</span> Path(<span class="string">"file:///D:/tmp/hadoop/input1/words.txt"</span>),</span><br><span class="line">                <span class="keyword">new</span> Path(<span class="string">"hdfs://node-1:9000/hadoop-2.7.7/input1/words.txt"</span>));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 下载文件</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@throws</span> Exception</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@throws</span> IOException</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">download</span><span class="params">()</span> <span class="keyword">throws</span> Exception, IOException </span>&#123;</span><br><span class="line">        fs.copyToLocalFile(<span class="keyword">new</span> Path(<span class="string">"/hadoop-2.7.7/input1/words.txt"</span>), <span class="keyword">new</span> Path(<span class="string">"file:///E:/hadoop/words.txt"</span>));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 创建目录</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@throws</span> IllegalArgumentException</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@throws</span> IOException</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">mkdirTest</span><span class="params">()</span> <span class="keyword">throws</span> IllegalArgumentException, IOException </span>&#123;</span><br><span class="line">        fs.mkdirs(<span class="keyword">new</span> Path(<span class="string">"/test/input/"</span>));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 删除文件或目录</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">deleteTest</span><span class="params">()</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">        fs.delete(<span class="keyword">new</span> Path(<span class="string">"/test"</span>), <span class="keyword">true</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 移动文件</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@throws</span> IllegalArgumentException</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@throws</span> IOException</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">mvFileTest</span><span class="params">()</span> <span class="keyword">throws</span> IllegalArgumentException, IOException </span>&#123;</span><br><span class="line">        fs.rename(<span class="keyword">new</span> Path(<span class="string">"/hadoop-2.7.7/input1/words.txt"</span>), <span class="keyword">new</span> Path(<span class="string">"/hadoop-2.7.7/input3/words.txt"</span>));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+                
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/article/Groovy/" data-toggle="tooltip" data-placement="top" title="Hadoop">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/article/Hive/" data-toggle="tooltip" data-placement="top" title="Hive">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                <br>
+
+                <!--打赏-->
+                
+                <!--打赏-->
+
+                <br>
+                <!--分享-->
+                
+                    <div class="social-share" data-wechat-qrcode-helper="" align="center"></div>
+                    <!--  css & js -->
+                    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/css/share.min.css">
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/js/social-share.min.js"></script>
+                
+                <!--分享-->
+                <br>                       
+                
+                <!-- require APlayer -->
+                
+
+                <!-- duoshuo Share start -->
+                
+                <!-- 多说 Share end-->
+
+                <!-- 多说评论框 start -->
+                
+                <!-- 多说评论框 end -->
+
+                <!-- disqus comment start -->
+                
+                <!-- disqus comment end -->
+
+                
+
+            </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+  
+    
+      <aside id="sidebar">
+        <div id="toc" class="toc-article">
+        <strong class="toc-title">Contents</strong>
+        
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">Hadoop</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text">Hadoop 核心概念</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.1.1.</span> <span class="toc-nav-text">什么是 Hadoop</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.1.2.</span> <span class="toc-nav-text">Hadoop 产生背景</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.1.3.</span> <span class="toc-nav-text">HADOOP生态圈以及各组成部分的简介</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.2.</span> <span class="toc-nav-text">分布式系统概述</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.2.1.</span> <span class="toc-nav-text">什么是分布式</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.3.</span> <span class="toc-nav-text">为什么需要分布式</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.3.1.</span> <span class="toc-nav-text">分布式软件系统(Distributed Software Systems)</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.3.2.</span> <span class="toc-nav-text">为什么使用分布式</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.3.3.</span> <span class="toc-nav-text">web日志数据挖掘</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.4.</span> <span class="toc-nav-text">hadoop集群搭建</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.4.1.</span> <span class="toc-nav-text">集群简介</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.4.2.</span> <span class="toc-nav-text">服务器系统配置</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.4.3.</span> <span class="toc-nav-text">hadoop集群安装部署</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.4.4.</span> <span class="toc-nav-text">启动hadoop集群</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.4.5.</span> <span class="toc-nav-text">运行一个mapreduce程序</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.4.6.</span> <span class="toc-nav-text">集群使用初步</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.5.</span> <span class="toc-nav-text">HDFS详解</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.5.1.</span> <span class="toc-nav-text">HDFS前言</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.5.2.</span> <span class="toc-nav-text">HDFS的概念和特性</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.5.3.</span> <span class="toc-nav-text">HDFS常用命令</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.5.4.</span> <span class="toc-nav-text">HSFS原理</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.5.5.</span> <span class="toc-nav-text">namenode职责</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.5.6.</span> <span class="toc-nav-text">元数据管理</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.5.7.</span> <span class="toc-nav-text">元数据存储机制</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.5.8.</span> <span class="toc-nav-text">元数据手动查看</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.5.9.</span> <span class="toc-nav-text">元数据的checkpoint</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.5.10.</span> <span class="toc-nav-text">元数据目录说明</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.5.11.</span> <span class="toc-nav-text">DATANODE的工作机制</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.5.12.</span> <span class="toc-nav-text">验证DATANODE功能</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.5.13.</span> <span class="toc-nav-text">hadoop hdfs java客户端</span></a></li></ol></li></ol></li></ol>
+        
+        </div>
+      </aside>
+    
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#大数据" title="大数据">大数据</a>
+                        
+                          <a class="tag" href="/tags/#hadoop" title="hadoop">hadoop</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="http://blog.csdn.net/fooelliot" target="_blank">CSDN fooelliot</a></li>
+                    
+                        <li><a href="http://github.com/janlle" target="_blank">GitHub janlle</a></li>
+                    
+                        <li><a href="https://www.cnblogs.com/ruolin/" target="_blank">博客园 janlle</a></li>
+                    
+                        <li><a href="https://www.jianshu.com/u/2c8b6b4a6523" target="_blank">简书 janlle</a></li>
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://github.com/janlle">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; leone 2019 
+                    <br>
+                    Theme by <a href="http://beantech.org">BeanTech</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    re-Ported by <a href="http://wealip.cn">leone</a> | 
+                    <iframe style="margin-left: 2px; margin-bottom:-5px;" frameborder="0" scrolling="0" width="91px" height="20px" src="https://ghbtns.com/github-btn.html?user=janlle&repo=blogs&type=star&count=true">
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://www.wealip.cn/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-XXXXXXXX-X';
+    var _gaDomain = 'yoursite';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = 'xxx';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<img src="http://www.wealip.cn/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>
