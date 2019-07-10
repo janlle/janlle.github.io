@@ -88,9 +88,9 @@
                     <div class="post-heading">
                         <div class="tags">
                             
-                              <a class="tag" href="/tags/#aop" title="aop">aop</a>
-                            
                               <a class="tag" href="/tags/#java" title="java">java</a>
+                            
+                              <a class="tag" href="/tags/#aop" title="aop">aop</a>
                             
                         </div>
                         <h1>Spring Boot aop</h1>
@@ -214,16 +214,173 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-                <h1><span id="基于自定义注解的aop">基于自定义注解的aop</span></h1>
-<p>在日常开发中有很多的场景会用到aop例如：日志记录功能，某些接口需要记录请求和响应，执行时间，类名，方法名等日志信息等。但是有些场景拦截所有方法又不太合适，所以配和自定义注解使用会更加灵活。</p>
-<p>springBoot整合aop很简单（这里基于java config的方式）</p>
+                <p>Spring Boot入门系列之：十一、Spring Boot Aop</p>
+<h1><span id="spring-boot-aop">spring-boot-aop</span></h1>
+<h2><span id="什么是aop">什么是aop</span></h2>
+<p>面向切面的程序设计（Aspect-oriented programming，AOP，又译作面向方面的程序设计、剖面导向程序设计）是计算机科学中的一种程序设计思想，旨在将横切关注点与业务主体进行进一步分离，以提高程序代码的模块化程度。通过在现有代码基础上增加额外的通知（Advice）机制，能够对被声明为“切点（Pointcut）”的代码块进行统一管理与装饰，如“对所有方法名以‘set*’开头的方法添加后台日志”。该思想使得开发人员能够将与代码核心业务逻辑关系不那么密切的功能（如日志功能）添加至程序中，同时又不降低业务代码的可读性。面向切面的程序设计思想也是面向切面软件开发的基础。</p>
+<p>面向切面的程序设计将代码逻辑切分为不同的模块（即关注点（Concern），一段特定的逻辑功能)。几乎所有的编程思想都涉及代码功能的分类，将各个关注点封装成独立的抽象模块（如函数、过程、模块、类以及方法等），后者又可供进一步实现、封装和重写。部分关注点“横切”程序代码中的数个模块，即在多个模块中都有出现，它们即被称作“横切关注点（Cross-cutting concerns, Horizontal concerns）”。</p>
+<p>日志功能即是横切关注点的一个典型案例，因为日志功能往往横跨系统中的每个业务模块，即“横切”所有有日志需求的类及方法体。而对于一个信用卡应用程序来说，存款、取款、帐单管理是它的核心关注点，日志和持久化将成为横切整个对象结构的横切关注点。</p>
+<p>切面的概念源于对面向对象的程序设计的改进，但并不只限于此，它还可以用来改进传统的函数。与切面相关的编程概念还包括元对象协议、主题（Subject）、混入（Mixin）和委托（Delegate）。</p>
+<h2><span id="aop中的相关概念">AOP中的相关概念</span></h2>
+<p>看过了上面解释，想必大家对aop已经有个大致的雏形了,但是又对上面提到的切面之类的术语有一些模糊的地方，接下来就来讲解一下AOP中的相关概念，了解了AOP中的概念，才能真正的掌握AOP的精髓。</p>
+<ul>
+<li>
+<p>Aspect（切面）： Aspect 声明类似于 Java 中的类声明，在 Aspect 中会包含着一些 Pointcut 以及相应的 Advice。</p>
+</li>
+<li>
+<p>Joint point（连接点）：表示在程序中明确定义的点，典型的包括方法调用，对类成员的访问以及异常处理程序块的执行等等，它自身还可以嵌套其它 joint point。</p>
+</li>
+<li>
+<p>Pointcut（切点）：表示一组 joint point，这些 joint point 或是通过逻辑关系组合起来，或是通过通配、正则表达式等方式集中起来，它定义了相应的 Advice 将要发生的地方。</p>
+</li>
+<li>
+<p>Advice（增强）：Advice 定义了在 Pointcut 里面定义的程序点具体要做的操作，它通过 before、after 和 around 来区别是在每个 joint point 之前、之后还是代替执行的代码。</p>
+</li>
+<li>
+<p>Target（目标对象）：织入 Advice 的目标对象.。<br>
+Weaving（织入）：将 Aspect 和其他对象连接起来, 并创建 Adviced object 的过程</p>
+</li>
+</ul>
+<h2><span id="spring-aop">spring aop</span></h2>
+<p>Spring AOP使用纯Java实现，它不需要专门的编译过程，也不需要特殊的类装载器，它在运行期通过代理方式向目标类织入增强代码。在Spring中可以无缝地将Spring AOP、IoC和AspectJ整合在一起。Spring AOP构建在动态代理基础之上，因此，Spring对AOP的支持局限于方法拦截。在Java中动态代理有两种方式：JDK动态代理和CGLib动态代理</p>
+<ul>
+<li>jdk proxy</li>
+</ul>
+<p>java动态代理是利用反射机制生成一个实现代理接口的匿名类，在调用具体方法前调用InvokeHandler来处理。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">import java.lang.reflect.InvocationHandler;</span><br><span class="line">import java.lang.reflect.Method;</span><br><span class="line">import java.lang.reflect.Proxy;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * &lt;p&gt;</span><br><span class="line"> *</span><br><span class="line"> * @author leone</span><br><span class="line"> * @since 2018-11-09</span><br><span class="line"> **/</span><br><span class="line">public class JdkProxy &#123;</span><br><span class="line"></span><br><span class="line">    interface IUserService &#123;</span><br><span class="line">        Integer delete(Integer userId);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    static class UserServiceImpl implements IUserService &#123;</span><br><span class="line">        @Override</span><br><span class="line">        public Integer delete(Integer userId) &#123;</span><br><span class="line">            // 业务</span><br><span class="line">            System.out.println(&quot;delete user&quot;);</span><br><span class="line">            return userId;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 自定义InvocationHandler</span><br><span class="line">    static class UserServiceProxy implements InvocationHandler &#123;</span><br><span class="line">        // 目标对象</span><br><span class="line">        private Object target;</span><br><span class="line"></span><br><span class="line">        public UserServiceProxy(Object target) &#123;</span><br><span class="line">            this.target = target;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        public Object invoke(Object proxy, Method method, Object[] args) throws Throwable &#123;</span><br><span class="line">            System.out.println(&quot;------方法调用前---------&quot;);</span><br><span class="line">            //执行相应的目标方法</span><br><span class="line">            Object result = method.invoke(target, args);</span><br><span class="line">            System.out.println(&quot;------方法调用后---------&quot;);</span><br><span class="line">            return result;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        IUserService userService = new UserServiceImpl();</span><br><span class="line">        // 创建调用处理类</span><br><span class="line">        UserServiceProxy handler = new UserServiceProxy(userService);</span><br><span class="line">        // 得到代理类实例</span><br><span class="line">        IUserService proxy = (IUserService) Proxy.newProxyInstance(UserServiceImpl.class.getClassLoader(),</span><br><span class="line">                                 new Class[]&#123;IUserService.class&#125;, handler);</span><br><span class="line">        // 调用代理类的方法</span><br><span class="line">        Integer userId = proxy.delete(3);</span><br><span class="line">        System.out.println(userId);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>cglib proxy</li>
+</ul>
+<p>而cglib动态代理是利用asm开源包，对代理对象类的class文件加载进来，通过修改其字节码生成子类来处理。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br></pre></td><td class="code"><pre><span class="line">import org.springframework.cglib.proxy.Enhancer;</span><br><span class="line">import org.springframework.cglib.proxy.MethodInterceptor;</span><br><span class="line">import org.springframework.cglib.proxy.MethodProxy;</span><br><span class="line"></span><br><span class="line">import java.lang.reflect.Method;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * &lt;p&gt;</span><br><span class="line"> *</span><br><span class="line"> * @author leone</span><br><span class="line"> * @since 2018-11-09</span><br><span class="line"> **/</span><br><span class="line">public class CglibProxy &#123;</span><br><span class="line"></span><br><span class="line">    static class UserService implements MethodInterceptor &#123;</span><br><span class="line"></span><br><span class="line">        private Object target;</span><br><span class="line"></span><br><span class="line">        /**</span><br><span class="line">         * 业务方法</span><br><span class="line">         *</span><br><span class="line">         * @param userId</span><br><span class="line">         * @return</span><br><span class="line">         */</span><br><span class="line">        public Integer delete(Integer userId) &#123;</span><br><span class="line">            System.out.println(&quot;delete user&quot;);</span><br><span class="line">            return userId;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        /**</span><br><span class="line">         * 利用Enhancer类生成代理类</span><br><span class="line">         *</span><br><span class="line">         * @param target</span><br><span class="line">         * @return</span><br><span class="line">         */</span><br><span class="line">        public Object getInstance(Object target) &#123;</span><br><span class="line">            this.target = target;</span><br><span class="line">            // 创建加强器，用来创建动态代理类</span><br><span class="line">            Enhancer enhancer = new Enhancer();</span><br><span class="line">            // 为加强器指定要代理的业务类（即：为下面生成的代理类指定父类）</span><br><span class="line">            enhancer.setSuperclass(target.getClass());</span><br><span class="line">            // 设置回调：对于代理类上所有方法的调用，都会调用CallBack，而Callback则需要实现intercept()方法进行拦</span><br><span class="line">            enhancer.setCallback(this);</span><br><span class="line">            // 创建动态代理类对象并返回</span><br><span class="line">            return enhancer.create();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        /**</span><br><span class="line">         * @param o</span><br><span class="line">         * @param method</span><br><span class="line">         * @param objects</span><br><span class="line">         * @param methodProxy</span><br><span class="line">         * @return</span><br><span class="line">         * @throws Throwable</span><br><span class="line">         */</span><br><span class="line">        @Override</span><br><span class="line">        public Object intercept(Object o, Method method, Object[] objects, MethodProxy methodProxy) </span><br><span class="line">                                throws Throwable &#123;</span><br><span class="line">            System.out.println(&quot;------方法调用前---------&quot;);</span><br><span class="line">            Object object = methodProxy.invokeSuper(o, objects);</span><br><span class="line">            System.out.println(&quot;------方法调用后---------&quot;);</span><br><span class="line">            return object;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        UserService userService = new UserService();</span><br><span class="line">        UserService proxy = (UserService) userService.getInstance(userService);</span><br><span class="line">        Integer userId = proxy.delete(2);</span><br><span class="line">        System.out.println(userId);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>1、如果目标对象实现了接口，默认情况下会采用JDK的动态代理实现AOP，可以强制使用CGLIB实现AOP<br>
+2、如果目标对象没有实现了接口，必须采用CGLIB库，spring会自动在JDK动态代理和CGLIB之间转换</p>
+<h2><span id="spirng-boot-aop">spirng boot aop</span></h2>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;spring-boot-starter-aop&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
-<p>定义自定义注解，用于标识需要拦截的方法</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">// 在默认的情况下javadoc命令不会将我们的annotation生成再doc中去的，所以使用该标记就是告诉jdk让它也将annotation生成到doc中去</span><br><span class="line">@Documented</span><br><span class="line">// 比如有一个类A，在他上面有一个标记annotation，那么A的子类B是否不用再次标记annotation就可以继承得到呢，答案是肯定的</span><br><span class="line">@Inherited</span><br><span class="line">@Target 用于描述注解的使用范围（即：被描述的注解可以用在什么地方），其取值有：CONSTRUCTOR、FIELD、LOCAL_VARIABLE、METHOD、PACKAGE、PARAMETER、TYPE</span><br><span class="line">@Target(ElementType.METHOD)</span><br><span class="line">// 用于描述注解的生命周期（即：被描述的注解在什么范围内有效），其取值有SOURCE、CLASS、RUNTIME</span><br><span class="line">@Retention(RetentionPolicy.RUNTIME)</span><br><span class="line">public @interface LocalLock &#123;</span><br><span class="line">    // Annotation属性值 有以下几种： 基本类型、String、Class、annotation、数组类型、枚举类型</span><br><span class="line">    String key() default &quot;&quot;;</span><br><span class="line"></span><br><span class="line">    int expire() default 5;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>在需要拦截的方法上加上自定义注解</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">@PostMapping</span><br><span class="line">@LocalLock(key = &quot;book:arg[0]&quot;)</span><br><span class="line">public String save(@RequestParam String token) &#123;</span><br><span class="line">    return &quot;success - &quot; + token;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3><span id="编写xx切面通知实现类">编写xx切面通知实现类</span></h3>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">@Aspect</span><br><span class="line">@Component</span><br><span class="line">public class TestMethodInterceptor &#123;</span><br><span class="line"></span><br><span class="line">    @Pointcut(&quot;execution(public * *(..)) &amp;&amp; @annotation(com.xxx.xsx.xxx.LocalLock)&quot;)</span><br><span class="line">    public void pointCut() &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Around(&quot;pointCut()&quot;)</span><br><span class="line">    public Object interceptor(ProceedingJoinPoint pjp) throws Throwable &#123;</span><br><span class="line">        MethodSignature signature = (MethodSignature) pjp.getSignature();</span><br><span class="line">        Method method = signature.getMethod();</span><br><span class="line">        LocalLock localLock = method.getAnnotation(LocalLock.class);</span><br><span class="line"></span><br><span class="line">        System.out.println(localLock.key());</span><br><span class="line"></span><br><span class="line">        System.out.println(localLock.expire());</span><br><span class="line"></span><br><span class="line">        // 这里就可以处理其他业务逻辑和获取注解中的值</span><br><span class="line"></span><br><span class="line">        return pjp.proceed();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2><span id="advice的主要类型">Advice的主要类型</span></h2>
+<ul>
+<li>
+<p>@Before：该注解标注的方法在业务模块代码执行之前执行，其不能阻止业务模块的执行，除非抛出异常；</p>
+</li>
+<li>
+<p>@AfterReturning：该注解标注的方法在业务模块代码执行之后执行；</p>
+</li>
+<li>
+<p>@AfterThrowing：该注解标注的方法在业务模块抛出指定异常后执行；</p>
+</li>
+<li>
+<p>@After：该注解标注的方法在所有的Advice执行完成后执行，无论业务模块是否抛出异常，类似于finally的作用；</p>
+</li>
+<li>
+<p>@Around：该注解功能最为强大，其所标注的方法用于编写包裹业务模块执行的代码，其可以传入一个ProceedingJoinPoint用于调用业务模块的代码，无论是调用前逻辑还是调用后逻辑，都可以在该方法中编写，甚至其可以根据一定的条件而阻断业务模块的调用；</p>
+</li>
+<li>
+<p>@DeclareParents：其是一种Introduction类型的模型，在属性声明上使用，主要用于为指定的业务模块添加新的接口和相应的实现。</p>
+</li>
+</ul>
+<h2><span id="切点表达式">切点表达式</span></h2>
+<p><strong>1.通配符</strong></p>
+<ul>
+<li>
+<p>[*]  匹配任意字符，但只能匹配一个元素</p>
+</li>
+<li>
+<p>[…] 匹配任意字符，可以匹配任意多个元素，表示类时，必须和*联合使用</p>
+</li>
+<li>
+<p>[+]  必须跟在类名后面，如Horseman+，表示类本身和继承或扩展指定类的所有类</p>
+</li>
+</ul>
+<p><strong>2.逻辑运算符</strong></p>
+<p>表达式可由多个切点函数通过逻辑运算组成</p>
+<ul>
+<li>&amp;&amp; 与操作，求交集，也可以写成and</li>
+</ul>
+<p>例如 execution(* chop(…)) &amp;&amp; target(Horseman)  表示Horseman及其子类的chop方法</p>
+<ul>
+<li>|| 或操作，任一表达式成立即为true，也可以写成 or</li>
+</ul>
+<p>例如 execution(* chop(…)) || args(String)  表示名称为chop的方法或者有一个String型参数的方法</p>
+<ul>
+<li>! 非操作，表达式为false则结果为true，也可以写成 not</li>
+</ul>
+<p>例如 execution(* chop(…)) and !args(String)  表示名称为chop的方法但是不能是只有一个String型参数的方法</p>
+<ul>
+<li>execution() 方法匹配模式串</li>
+</ul>
+<p>表示满足某一匹配模式的所有目标类方法连接点。如execution(* save(…))表示所有目标类中的 save()方法。</p>
+<p>由于Spring切面粒度最小是达到方法级别，而execution表达式可以用于明确指定方法返回类型，类名，方法名和参数名等与方法相关的部件，并且在Spring中，大部分需要使用AOP的业务场景也只需要达到方法级别即可，因而execution表达式的使用是最为广泛的。如下是execution表达式的语法</p>
+<p><code>execution(modifiers-pattern? ret-type-pattern declaring-type-pattern?name-pattern(param-pattern) throws-pattern?)</code></p>
+<p>execution(&lt;修饰符&gt; &lt;返回类型&gt; &lt;类路径&gt; &lt;方法名&gt;(&lt;参数列表&gt;) &lt;异常模式&gt; )</p>
+<ul>
+<li>
+<p>modifiers-pattern：方法的可见性，如public，protected；</p>
+</li>
+<li>
+<p>ret-type-pattern：方法的返回值类型，如int，void等；</p>
+</li>
+<li>
+<p>declaring-type-pattern：方法所在类的全路径名，如com.spring.Aspect；</p>
+</li>
+<li>
+<p>name-pattern：方法名类型，如buisinessService()；</p>
+</li>
+<li>
+<p>param-pattern：方法的参数类型，如java.lang.String；</p>
+</li>
+<li>
+<p>throws-pattern：方法抛出的异常类型，如java.lang.Exception；</p>
+</li>
+</ul>
+<h3><span id="切点函数">切点函数</span></h3>
+<ul>
+<li>
+<p>@annotation(annotation-type) 方法注解类名</p>
+<p>如下示例表示匹配使用com.leone.aop.AopTest注解标注的方法：</p>
+<p>@annotation(com.leone.aop.AopTest)</p>
+</li>
+<li>
+<p>args(param-pattern) 方法入参切点函数</p>
+<p>如下示例表示匹配所有只有一个参数，并且参数类型是java.lang.String类型的方法：</p>
+<p>args(java.lang.String)</p>
+</li>
+<li>
+<p>@args(annotation-type) 方法入参类注解切点函数</p>
+<p>如下示例表示匹配使用了com.leone.aop.AopTest注解标注的类作为参数的方法：</p>
+<p>@args(com.leone.aop.AopTest)</p>
+</li>
+<li>
+<p>within(declaring-type-pattern) 类名匹配切点函数</p>
+<p>within表达式只能指定到类级别，如下示例表示匹配com.leone.aop.UserService中的所有方法：</p>
+<p>within(com.leone.aop.UserService)</p>
+</li>
+<li>
+<p>@within(annotation-type) 类注解匹配切点函数</p>
+<p>如下示例表示匹配使用org.springframework.web.bind.annotation.RestController注解标注的类：</p>
+<p>@within(org.springframework.web.bind.annotation.RestController)</p>
+</li>
+<li>
+<p>target(declaring-type-pattern) 类名切点函数</p>
+<p>如下示例表示匹配com.leone.aop.UserService中的所有方法：</p>
+<p>target(com.leone.aop.UserService)</p>
+</li>
+<li>
+<p>this</p>
+</li>
+</ul>
+<h2><span id="spring-boot-aop-实战">spring-boot-aop 实战</span></h2>
+<ul>
+<li>配置切面类，实现代理</li>
+</ul>
+<p>1.在类上使用 @Component 注解把切面类加入到IOC容器中<br>
+2.在类上使用 @Aspect 注解使之成为切面类</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br></pre></td><td class="code"><pre><span class="line">import lombok.extern.slf4j.Slf4j;</span><br><span class="line">import org.aspectj.lang.JoinPoint;</span><br><span class="line">import org.aspectj.lang.ProceedingJoinPoint;</span><br><span class="line">import org.aspectj.lang.annotation.*;</span><br><span class="line">import org.springframework.stereotype.Component;</span><br><span class="line"></span><br><span class="line">import java.util.Arrays;</span><br><span class="line">import java.util.List;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * 描述一个切面类</span><br><span class="line"> *</span><br><span class="line"> * @author leone</span><br><span class="line"> * @since 2018-06-21</span><br><span class="line"> **/</span><br><span class="line">@Slf4j</span><br><span class="line">@Aspect</span><br><span class="line">@Component</span><br><span class="line">public class AopConfig &#123;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 1.通配符</span><br><span class="line">     * [*]  匹配任意字符，但只能匹配一个元素</span><br><span class="line">     * &lt;p&gt;</span><br><span class="line">     * [..] 匹配任意字符，可以匹配任意多个元素，表示类时，必须和*联合使用</span><br><span class="line">     * &lt;p&gt;</span><br><span class="line">     * [+]  必须跟在类名后面，如Horseman+，表示类本身和继承或扩展指定类的所有类</span><br><span class="line">     * &lt;p&gt;</span><br><span class="line">     * 切点表达式分为 修饰符  返回类型  包路径  方法名  参数</span><br><span class="line">     * &lt;p&gt;</span><br><span class="line">     * 2.切点表达式</span><br><span class="line">     * &lt;p&gt;</span><br><span class="line">     * 3.逻辑运算符</span><br><span class="line">     * 表达式可由多个切点函数通过逻辑运算组成</span><br><span class="line">     * ** &amp;&amp; 与操作，求交集，也可以写成and</span><br><span class="line">     * &lt;p&gt;</span><br><span class="line">     * 例如 execution(* chop(..)) &amp;&amp; target(Horseman)  表示Horseman及其子类的chop方法</span><br><span class="line">     * &lt;p&gt;</span><br><span class="line">     * ** || 或操作，任一表达式成立即为true，也可以写成 or</span><br><span class="line">     * &lt;p&gt;</span><br><span class="line">     * 例如 execution(* chop(..)) || args(String)  表示名称为chop的方法或者有一个String型参数的方法</span><br><span class="line">     * &lt;p&gt;</span><br><span class="line">     * ** ! 非操作，表达式为false则结果为true，也可以写成 not</span><br><span class="line">     * &lt;p&gt;</span><br><span class="line">     * 例如 execution(* chop(..)) and !args(String)  表示名称为chop的方法但是不能是只有一个String型参数的方法</span><br><span class="line">     */</span><br><span class="line">    @Pointcut(&quot;execution(* com.leone.boot.aop.service.*.*(..))&quot;)</span><br><span class="line">    public void pointCut() &#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 环绕通知在 target 开始和结束执行</span><br><span class="line">     *</span><br><span class="line">     * @param point</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    @Around(value = &quot;pointCut()&quot;)</span><br><span class="line">    public Object around(ProceedingJoinPoint point) &#123;</span><br><span class="line">        long start = System.currentTimeMillis();</span><br><span class="line">        String methodName = point.getSignature().getName();</span><br><span class="line">        log.info(&quot;around method name: &#123;&#125; params: &#123;&#125;&quot;, methodName, Arrays.asList(point.getArgs()));</span><br><span class="line">        try &#123;</span><br><span class="line">            log.info(&quot;around end time: &#123;&#125;&quot;, (System.currentTimeMillis() - start) + &quot; ms!&quot;);</span><br><span class="line">            return point.proceed();</span><br><span class="line">        &#125; catch (Throwable e) &#123;</span><br><span class="line">            log.error(&quot;message: &#123;&#125;&quot;, e.getMessage());</span><br><span class="line">        &#125;</span><br><span class="line">        return null;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 前置通知在 target 前执行</span><br><span class="line">     *</span><br><span class="line">     * @param joinPoint</span><br><span class="line">     */</span><br><span class="line">    // @Before(&quot;@annotation(com.leone.boot.aop.anno.AopBefore)&quot;)</span><br><span class="line">    // @Before(&quot;within(com.leone.boot.aop.controller.*)&quot;)</span><br><span class="line">    // @Before(&quot;@within(org.springframework.web.bind.annotation.RestController)&quot;)</span><br><span class="line">    // @Before(&quot;target(com.leone.boot.aop.controller.UserController)&quot;)</span><br><span class="line">    @Before(&quot;@target(com.leone.boot.aop.anno.ClassAop) &amp;&amp; @annotation(com.leone.boot.aop.anno.AopBefore)&quot;)</span><br><span class="line">    public void beforeMethod(JoinPoint joinPoint) &#123;</span><br><span class="line">        String methodName = joinPoint.getSignature().getName();</span><br><span class="line">        List&lt;Object&gt; args = Arrays.asList(joinPoint.getArgs());</span><br><span class="line">        log.info(&quot;before inform method name: &#123;&#125; param: &#123;&#125;&quot;, methodName, args);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 后置通知在target后执行</span><br><span class="line">     *</span><br><span class="line">     * @param joinPoint</span><br><span class="line">     */</span><br><span class="line">    @After(&quot;@args(org.springframework.stereotype.Component) &amp;&amp; </span><br><span class="line">            execution(* com.leone.boot.aop.controller.*.*(..))&quot;)</span><br><span class="line">    public void afterMethod(JoinPoint joinPoint) &#123;</span><br><span class="line">        String methodName = joinPoint.getSignature().getName();</span><br><span class="line">        List&lt;Object&gt; args = Arrays.asList(joinPoint.getArgs());</span><br><span class="line">        log.info(&quot;after inform method name : &#123;&#125; param: &#123;&#125;&quot;, methodName, args);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 后置返回在target返回后执行</span><br><span class="line">     *</span><br><span class="line">     * @param joinPoint</span><br><span class="line">     * @param result</span><br><span class="line">     */</span><br><span class="line">    @AfterReturning(value = &quot;within(com.leone.boot.aop.controller.*)&quot;, returning = &quot;result&quot;)</span><br><span class="line">    public void afterReturning(JoinPoint joinPoint, Object result) &#123;</span><br><span class="line">        String methodName = joinPoint.getSignature().getName();</span><br><span class="line">        log.info(&quot;afterReturning inform method name: &#123;&#125; return value: &#123;&#125;&quot;, methodName, result);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 后置异常通知在target异常后执行</span><br><span class="line">     *</span><br><span class="line">     * @param joinPoint</span><br><span class="line">     * @param ex</span><br><span class="line">     */</span><br><span class="line">    @AfterThrowing(value = &quot;args(com.leone.boot.common.entity.User) &amp;&amp; </span><br><span class="line">            execution(* com.leone.boot.aop.controller.*.*(..))&quot;, throwing = &quot;ex&quot;)</span><br><span class="line">    public void afterThrowing(JoinPoint joinPoint, Exception ex) &#123;</span><br><span class="line">        String methodName = joinPoint.getSignature().getName();</span><br><span class="line">        log.info(&quot;afterThrowing inform method name: &#123;&#125; exceptions: &#123;&#125;&quot; + methodName, ex);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>测试类</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">import com.leone.boot.aop.anno.AopBefore;</span><br><span class="line">import com.leone.boot.aop.anno.ClassAop;</span><br><span class="line">import com.leone.boot.aop.interf.UserService;</span><br><span class="line">import com.leone.boot.common.entity.User;</span><br><span class="line">import lombok.extern.slf4j.Slf4j;</span><br><span class="line">import org.springframework.web.bind.annotation.PathVariable;</span><br><span class="line">import org.springframework.web.bind.annotation.RequestMapping;</span><br><span class="line">import org.springframework.web.bind.annotation.RequestMethod;</span><br><span class="line">import org.springframework.web.bind.annotation.RestController;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * @author leone</span><br><span class="line"> * @since 2018-06-21</span><br><span class="line"> **/</span><br><span class="line">@Slf4j</span><br><span class="line">@ClassAop</span><br><span class="line">@RestController</span><br><span class="line">@RequestMapping(&quot;/api&quot;)</span><br><span class="line">public class UserController &#123;</span><br><span class="line"></span><br><span class="line">    private UserService userService;</span><br><span class="line"></span><br><span class="line">    public UserController(UserService userService) &#123;</span><br><span class="line">        this.userService = userService;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    @AopBefore</span><br><span class="line">    @RequestMapping(value = &quot;/user/&#123;userId&#125;&quot;, method = RequestMethod.GET)</span><br><span class="line">    public User findOne(@PathVariable Long userId) &#123;</span><br><span class="line">        return userService.findOne(userId);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @AopBefore</span><br><span class="line">    @RequestMapping(&quot;/user&quot;)</span><br><span class="line">    public User save(User user) &#123;</span><br><span class="line">        return user;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><a href="https://github.com/janlle/spring-boot-examples" target="_blank" rel="noopener">github</a></p>
+
                 
 
                 <hr>
@@ -236,7 +393,7 @@
                     
                     
                         <li class="next">
-                            <a href="/article/git-commit-standard/" data-toggle="tooltip" data-placement="top" title="Git 提交规范">Next Post &rarr;</a>
+                            <a href="/article/Git-Commit-Standard/" data-toggle="tooltip" data-placement="top" title="Git 提交规范">Next Post &rarr;</a>
                         </li>
                     
                 </ul>
@@ -286,7 +443,7 @@
         <div id="toc" class="toc-article">
         <strong class="toc-title">Contents</strong>
         
-          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">基于自定义注解的aop</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.0.1.</span> <span class="toc-nav-text">编写xx切面通知实现类</span></a></li></ol></li></ol>
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">spring-boot-aop</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text">什么是aop</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.2.</span> <span class="toc-nav-text">AOP中的相关概念</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.3.</span> <span class="toc-nav-text">spring aop</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.4.</span> <span class="toc-nav-text">spirng boot aop</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.5.</span> <span class="toc-nav-text">Advice的主要类型</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.6.</span> <span class="toc-nav-text">切点表达式</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.6.1.</span> <span class="toc-nav-text">切点函数</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.7.</span> <span class="toc-nav-text">spring-boot-aop 实战</span></a></li></ol></li></ol>
         
         </div>
       </aside>
@@ -306,9 +463,9 @@
                     <h5><a href="/tags/">FEATURED TAGS</a></h5>
                     <div class="tags">
                        
-                          <a class="tag" href="/tags/#aop" title="aop">aop</a>
-                        
                           <a class="tag" href="/tags/#java" title="java">java</a>
+                        
+                          <a class="tag" href="/tags/#aop" title="aop">aop</a>
                         
                     </div>
                 </section>

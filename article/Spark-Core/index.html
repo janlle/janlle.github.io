@@ -214,12 +214,16 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-                <h1><span id="spark-core">Spark Core</span></h1>
-<h2><span id="rdd概述">RDD概述</span></h2>
-<h3><span id="什么是rdd">什么是RDD</span></h3>
+                <h1><span id="spark">Spark</span></h1>
+<p>Apache Spark 是专为大规模数据处理而设计的快速通用的计算引擎。Spark是UC Berkeley AMP lab (加州大学伯克利分校的AMP实验室)所开源的类Hadoop MapReduce的通用并行框架，Spark，拥有Hadoop MapReduce所具有的优点；但不同于MapReduce的是——Job中间输出结果可以保存在内存中，从而不再需要读写HDFS，因此Spark能更好地适用于数据挖掘与机器学习等需要迭代的MapReduce的算法。<br>
+Spark 是一种与 Hadoop 相似的开源集群计算环境，但是两者之间还存在一些不同之处，这些有用的不同之处使 Spark 在某些工作负载方面表现得更加优越，换句话说，Spark 启用了内存分布数据集，除了能够提供交互式查询外，它还可以优化迭代工作负载。<br>
+Spark 是在 Scala 语言中实现的，它将 Scala 用作其应用程序框架。与 Hadoop 不同，Spark 和 Scala 能够紧密集成，其中的 Scala 可以像操作本地集合对象一样轻松地操作分布式数据集。<br>
+尽管创建 Spark 是为了支持分布式数据集上的迭代作业，但是实际上它是对 Hadoop 的补充，可以在 Hadoop 文件系统中并行运行。通过名为 Mesos 的第三方集群框架可以支持此行为。Spark 由加州大学伯克利分校 AMP 实验室 (Algorithms, Machines, and People Lab) 开发，可用来构建大型的、低延迟的数据分析应用程序。</p>
+<h2><span id="spark-core">Spark Core</span></h2>
+<h3><span id="rdd">RDD</span></h3>
 <p>RDD（Resilient Distributed Dataset）叫做分布式数据集，是Spark中最基本的数据抽象，它代表一个不可变、可分区、里面的元素可并行计算的集合。在 Spark 中，对数据的所有操作不外乎创建 RDD、转化已有RDD 以及调用 RDD 操作进行求值。每个 RDD 都被分为多个分区，这些分区运行在集群中的不同节点上。RDD 可以包含 Python、Java、Scala 中任意类型的对象， 甚至可以包含用户自定义的对象。RDD具有数据流模型的特点：自动容错、位置感知性调度和可伸缩性。RDD允许用户在执行多个查询时显式地将工作集缓存在内存中，后续的查询能够重用工作集，这极大地提升了查询速度。RDD支持两种操作:转化操作和行动操作。RDD 的转化操作是返回一个新的 RDD的操作，比如 map()和 filter()，而行动操作则是向驱动器程序返回结果或把结果写入外部系统的操作。比如 count() 和 first()。 Spark采用惰性计算模式，RDD只有第一次在一个行动操作中用到时，才会真正计算。Spark可以优化整个计算过程。默认情况下，Spark 的 RDD 会在你每次对它们进行行动操作时重新计算。如果想在多个行动操作中重用同一个 RDD，可以使用 RDD.persist() 让 Spark 把这个 RDD 缓存下来。</p>
 <h3><span id="rdd的属性">RDD的属性</span></h3>
-<ol>
+<ul>
 <li>
 <p>一组分片（Partition），即数据集的基本组成单位。对于RDD来说，每个分片都会被一个计算任务处理，并决定并行计算的粒度。用户可以在创建RDD时指定RDD的分片个数，如果没有指定，那么就会采用默认值。默认值就是程序所分配到的CPU Core的数目。</p>
 </li>
@@ -235,7 +239,7 @@
 <li>
 <p>一个列表，存储存取每个Partition的优先位置（preferred location）。对于一个HDFS文件来说，这个列表保存的就是每个Partition所在的块的位置。按照“移动数据不如移动计算”的理念，Spark在进行任务调度的时候，会尽可能地将计算任务分配到其所要处理数据块的存储位置。</p>
 </li>
-</ol>
+</ul>
 <h3><span id="rdd为什么会产生">RDD为什么会产生</span></h3>
 <p>RDD是Spark的基石，是实现Spark数据处理的核心抽象。那么RDD为什么会产生呢？<br>
 Hadoop的MapReduce是一种基于数据集的工作模式，面向数据，这种工作模式一般是从存储上加载数据集，然后操作数据集，最后写入物理存储设备。数据更多面临的是一次性处理。</p>
@@ -244,48 +248,49 @@ Hadoop的MapReduce是一种基于数据集的工作模式，面向数据，这�
 但是无论是MR还是RDD都应该具有类似位置感知、容错和负载均衡等特性。</p>
 <h3><span id="rdd弹性">RDD弹性</span></h3>
 <ul>
-<li>自动进行内存和磁盘数据存储的切换</li>
-</ul>
+<li>
+<p>自动进行内存和磁盘数据存储的切换</p>
 <p>Spark优先把数据放到内存中，如果内存放不下，就会放到磁盘里面，程序进行自动的存储切换</p>
-<ul>
-<li>基于血统的高效容错机制</li>
-</ul>
+</li>
+<li>
+<p>基于血统的高效容错机制</p>
 <p>在RDD进行转换和动作的时候，会形成RDD的Lineage依赖链，当某一个RDD失效的时候，可以通过重新计算上游的RDD来重新生成丢失的RDD数据。</p>
-<ul>
-<li>Task如果失败会自动进行特定次数的重试</li>
-</ul>
+</li>
+<li>
+<p>Task如果失败会自动进行特定次数的重试</p>
 <p>RDD的计算任务如果运行失败，会自动进行任务的重新计算，默认次数是4次。</p>
-<ul>
-<li>Stage如果失败会自动进行特定次数的重试</li>
-</ul>
+</li>
+<li>
+<p>Stage如果失败会自动进行特定次数的重试</p>
 <p>如果Job的某个Stage阶段计算失败，框架也会自动进行任务的重新计算，默认次数也是4次。</p>
-<ul>
-<li>Checkpoint和Persist可主动或被动触发</li>
-</ul>
+</li>
+<li>
+<p>Checkpoint和Persist可主动或被动触发</p>
 <p>RDD可以通过Persist持久化将RDD缓存到内存或者磁盘，当再次用到该RDD时直接读取就行。也可以将RDD进行检查点，检查点会将数据存储在HDFS中，该RDD的所有父RDD依赖都会被移除。</p>
-<ul>
-<li>数据调度弹性</li>
-</ul>
+</li>
+<li>
+<p>数据调度弹性</p>
 <p>Spark把这个JOB执行模型抽象为通用的有向无环图DAG，可以将多Stage的任务串联或并行执行，调度引擎自动处理Stage的失败以及Task的失败。</p>
-<ul>
-<li>数据分片的高度弹性</li>
+</li>
+<li>
+<p>数据分片的高度弹性</p>
+<p>可以根据业务的特征，动态调整数据分片的个数，提升整体的应用执行效率。</p>
+</li>
 </ul>
-<p>可以根据业务的特征，动态调整数据分片的个数，提升整体的应用执行效率。<br>
-RDD全称叫做弹性分布式数据集(Resilient Distributed Datasets)，它是一种分布式的内存抽象，表示一个只读的记录分区的集合，它只能通过其他RDD转换而创建，为此，RDD支持丰富的转换操作(如map, join, filter, groupBy等)，通过这种转换操作，新的RDD则包含了如何从其他RDDs衍生所必需的信息，所以说RDDs之间是有依赖关系的。基于RDDs之间的依赖，RDDs会形成一个有向无环图DAG，该DAG描述了整个流式计算的流程，实际执行的时候，RDD是通过血缘关系(Lineage)一气呵成的，即使出现数据分区丢失，也可以通过血缘关系重建分区，总结起来，基于RDD的流式计算任务可描述为：从稳定的物理存储(如分布式文件系统)中加载记录，记录被传入由一组确定性操作构成的DAG，然后写回稳定存储。另外RDD还可以将数据集缓存到内存中，使得在多个操作之间可以重用数据集，基于这个特点可以很方便地构建迭代型应用(图计算、机器学习等)或者交互式数据分析应用。可以说Spark最初也就是实现RDD的一个分布式系统，后面通过不断发展壮大成为现在较为完善的大数据生态系统，简单来讲，Spark-RDD的关系类似于Hadoop-MapReduce关系。</p>
 <h3><span id="rdd特点">RDD特点</span></h3>
 <p>RDD表示只读的分区的数据集，对RDD进行改动，只能通过RDD的转换操作，由一个RDD得到一个新的RDD，新的RDD包含了从其他RDD衍生所必需的信息。RDDs之间存在依赖，RDD的执行是按照血缘关系延时计算的。如果血缘关系较长，可以通过持久化RDD来切断血缘关系。</p>
-<h4><span id="分区">分区</span></h4>
+<p><strong>分区</strong></p>
 <p>RDD逻辑上是分区的，每个分区的数据是抽象存在的，计算的时候会通过一个compute函数得到每个分区的数据。如果RDD是通过已有的文件系统构建，则compute函数是读取指定文件系统中的数据，如果RDD是通过其他RDD转换而来，则compute函数是执行转换逻辑将其他RDD的数据进行转换。</p>
-<h4><span id="只读">只读</span></h4>
+<p><strong>只读</strong></p>
 <p>RDD是只读的，要想改变RDD中的数据，只能在现有的RDD基础上创建新的RDD。由一个RDD转换到另一个RDD，可以通过丰富的操作算子实现，不再像MapReduce那样只能写map和reduce了。</p>
 <p>RDD的操作算子包括两类，一类叫做transformations，它是用来将RDD进行转化，构建RDD的血缘关系；另一类叫做actions，它是用来触发RDD的计算，得到RDD的相关计算结果或者将RDD保存的文件系统中。下图是RDD所支持的操作算子列表。</p>
-<h4><span id="依赖">依赖</span></h4>
+<p><strong>依赖</strong></p>
 <p>RDDs通过操作算子进行转换，转换得到的新RDD包含了从其他RDDs衍生所必需的信息，RDDs之间维护着这种血缘关系，也称之为依赖。依赖包括两种，一种是窄依赖，RDDs之间分区是一一对应的，另一种是宽依赖，下游RDD的每个分区与上游RDD(也称之为父RDD)的每个分区都有关，是多对多的关系。</p>
-<h4><span id="缓存">缓存</span></h4>
+<p><strong>缓存</strong></p>
 <p>如果在应用程序中多次使用同一个RDD，可以将该RDD缓存起来，该RDD只有在第一次计算的时候会根据血缘关系得到分区的数据，在后续其他地方用到该RDD的时候，会直接从缓存处取而不用再根据血缘关系计算，这样就加速后期的重用。</p>
-<h4><span id="checkpoint">checkpoint</span></h4>
+<p><strong>Checkpoint</strong></p>
 <p>虽然RDD的血缘关系天然地可以实现容错，当RDD的某个分区数据失败或丢失，可以通过血缘关系重建。但是对于长时间迭代型应用来说，随着迭代的进行，RDDs之间的血缘关系会越来越长，一旦在后续迭代过程中出错，则需要通过非常长的血缘关系去重建，势必影响性能。为此，RDD支持checkpoint将数据保存到持久化的存储中，这样就可以切断之前的血缘关系，因为checkpoint后的RDD不需要知道它的父RDDs了，它可以从checkpoint处拿到数据。</p>
-<p>给定一个RDD我们至少可以知道如下几点信息：1、分区数以及分区方式；2、由父RDDs衍生而来的相关依赖信息；3、计算每个分区的数据，计算步骤为：1）如果被缓存，则从缓存中取的分区的数据；2）如果被checkpoint，则从checkpoint处恢复数据；3）根据血缘关系计算分区的数据。</p>
+<p>给定一个RDD我们至少可以知道如下几点信息：1、分区数以及分区方式；2、由父RDDs衍生而来的相关依赖信息；3、计算每个分区的数据，计算步骤为a: 如果被缓存，则从缓存中取的分区的数据 b: 如果被checkpoint，则从checkpoint处恢复数据c: 根据血缘关系计算分区的数据。</p>
 <h2><span id="rdd编程">RDD编程</span></h2>
 <h3><span id="编程模型">编程模型</span></h3>
 <p>在Spark中，RDD被表示为对象，通过对象上的方法调用来对RDD进行转换。经过一系列的transformations定义RDD之后，就可以调用actions触发RDD的计算，action可以是向应用程序返回结果(count, collect等)，或者是向存储系统保存数据(saveAsTextFile等)。在Spark中，只有遇到action，才会执行RDD的计算(即延迟计算)，这样在运行时可以通过管道的方式传输多个转换。</p>
@@ -499,7 +504,7 @@ RDD全称叫做弹性分布式数据集(Resilient Distributed Datasets)，它是
 <ul>
 <li>java代码checkpoint示例</li>
 </ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.apache.spark.SparkConf;</span><br><span class="line"><span class="keyword">import</span> org.apache.spark.api.java.JavaPairRDD;</span><br><span class="line"><span class="keyword">import</span> org.apache.spark.api.java.JavaRDD;</span><br><span class="line"><span class="keyword">import</span> org.apache.spark.api.java.JavaSparkContext;</span><br><span class="line"><span class="keyword">import</span> org.apache.spark.api.java.function.PairFlatMapFunction;</span><br><span class="line"><span class="keyword">import</span> scala.Tuple2;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.ArrayList;</span><br><span class="line"><span class="keyword">import</span> java.util.List;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * &lt;p&gt; spark rdd checkpoint 机制</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> leone</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@since</span> 2019-02-17</span></span><br><span class="line"><span class="comment"> **/</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">JavaSparkRddCheckpoint</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        JavaSparkContext sc = <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            SparkConf conf = <span class="keyword">new</span> SparkConf().setAppName(<span class="string">"spark-checkpoint"</span>).setMaster(<span class="string">"local[*]"</span>);</span><br><span class="line">            sc = <span class="keyword">new</span> JavaSparkContext(conf);</span><br><span class="line"></span><br><span class="line">            <span class="comment">// 设置 checkpoint 目录</span></span><br><span class="line">            sc.setCheckpointDir(<span class="string">"file:///E:/tmp/spark/output1"</span>);</span><br><span class="line"></span><br><span class="line">            JavaRDD&lt;String&gt; rdd = sc.textFile(<span class="string">"file:///E:/tmp/hadoop/input1"</span>);</span><br><span class="line"></span><br><span class="line">            <span class="comment">// 注意： 现需要对RDD进行缓存</span></span><br><span class="line">            JavaPairRDD&lt;String, Integer&gt; pairRDD = rdd.flatMapToPair((PairFlatMapFunction&lt;String, String, Integer&gt;) s -&gt; &#123;</span><br><span class="line">                List&lt;Tuple2&lt;String, Integer&gt;&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">                String[] arr = s.split(<span class="string">" "</span>);</span><br><span class="line">                <span class="keyword">for</span> (String ele : arr) &#123;</span><br><span class="line">                    list.add(<span class="keyword">new</span> Tuple2&lt;&gt;(ele, <span class="number">1</span>));</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">return</span> list.iterator();</span><br><span class="line">            &#125;).cache();</span><br><span class="line"></span><br><span class="line">            <span class="comment">//为pairRDD设置检查点</span></span><br><span class="line">            pairRDD.checkpoint();</span><br><span class="line"></span><br><span class="line">            System.err.println(<span class="string">"isCheckpointed:"</span> + pairRDD.isCheckpointed() + <span class="string">" ===== checkpoint:"</span> + pairRDD.getCheckpointFile());</span><br><span class="line"></span><br><span class="line">            pairRDD.collect();</span><br><span class="line"></span><br><span class="line">            System.err.println(<span class="string">"isCheckpointed:"</span> + pairRDD.isCheckpointed() + <span class="string">" ===== checkpoint:"</span> + pairRDD.getCheckpointFile());</span><br><span class="line"></span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">            <span class="keyword">if</span> (sc != <span class="keyword">null</span>) &#123;</span><br><span class="line">                sc.close();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> org.apache.spark.SparkConf;</span><br><span class="line"><span class="keyword">import</span> org.apache.spark.api.java.JavaPairRDD;</span><br><span class="line"><span class="keyword">import</span> org.apache.spark.api.java.JavaRDD;</span><br><span class="line"><span class="keyword">import</span> org.apache.spark.api.java.JavaSparkContext;</span><br><span class="line"><span class="keyword">import</span> org.apache.spark.api.java.function.PairFlatMapFunction;</span><br><span class="line"><span class="keyword">import</span> scala.Tuple2;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.ArrayList;</span><br><span class="line"><span class="keyword">import</span> java.util.List;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * &lt;p&gt; spark rdd checkpoint 机制</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> leone</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@since</span> 2019-02-17</span></span><br><span class="line"><span class="comment"> **/</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">JavaSparkRddCheckpoint</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            JavaSparkContext sparkContext = <span class="keyword">new</span> JavaSparkContext(<span class="keyword">new</span> SparkConf().setAppName(<span class="string">"spark-checkpoint"</span>).setMaster(<span class="string">"local[*]"</span>));</span><br><span class="line">            <span class="comment">// 设置 checkpoint 目录</span></span><br><span class="line">            sparkContext.setCheckpointDir(<span class="string">"file:///tmp/output/"</span>);</span><br><span class="line"></span><br><span class="line">            JavaRDD&lt;String&gt; rdd = sparkContext.textFile(<span class="string">"file:///tmp/input/hello.txt"</span>);</span><br><span class="line"></span><br><span class="line">            <span class="comment">// 注意： 现需要对RDD进行缓存</span></span><br><span class="line">            JavaPairRDD&lt;String, Integer&gt; javaPairRDD = rdd.flatMapToPair((PairFlatMapFunction&lt;String, String, Integer&gt;) s -&gt; &#123;</span><br><span class="line">                String[] arrays = s.split(<span class="string">" "</span>);</span><br><span class="line">                List&lt;Tuple2&lt;String, Integer&gt;&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;(arrays.length);</span><br><span class="line">                <span class="keyword">for</span> (String arr : arrays) &#123;</span><br><span class="line">                    list.add(<span class="keyword">new</span> Tuple2&lt;&gt;(arr, <span class="number">1</span>));</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">return</span> list.iterator();</span><br><span class="line">            &#125;).cache();</span><br><span class="line"></span><br><span class="line">            <span class="comment">// 为pairRDD设置检查点</span></span><br><span class="line">            javaPairRDD.checkpoint();</span><br><span class="line"></span><br><span class="line">            System.err.println(<span class="string">"isCheckpoint: "</span> + javaPairRDD.isCheckpointed() + <span class="string">" -- checkpointFile: "</span> + javaPairRDD.getCheckpointFile());</span><br><span class="line"></span><br><span class="line">            javaPairRDD.collect();</span><br><span class="line"></span><br><span class="line">            System.err.println(<span class="string">"isCheckpoint: "</span> + javaPairRDD.isCheckpointed() + <span class="string">" -- checkpoint: "</span> + javaPairRDD.getCheckpointFile());</span><br><span class="line"></span><br><span class="line">            sparkContext.close();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h3><span id="rdd的依赖关系">RDD的依赖关系</span></h3>
 <p>RDD和它依赖的父RDD（s）的关系有两种不同的类型，即窄依赖（narrow dependency）和宽依赖（wide dependency）。</p>
 <p><strong>窄依赖</strong></p>
@@ -508,8 +513,110 @@ RDD全称叫做弹性分布式数据集(Resilient Distributed Datasets)，它是
 <p><strong>宽依赖</strong></p>
 <p>宽依赖指的是多个子RDD的Partition会依赖同一个父RDD的Partition，会引起shuffle<br>
 总结：宽依赖我们形象的比喻为超生</p>
-<p><strong>Lineage</strong></p>
-<p>RDD只支持粗粒度转换，即在大量记录上执行的单个操作。将创建RDD的一系列Lineage（即血统）记录下来，以便恢复丢失的分区。RDD的Lineage会记录RDD的元数据信息和转换行为，当该RDD的部分分区数据丢失时，它可以根据这些信息来重新运算和恢复丢失的数据分区。</p>
+<h2><span id="spark-提交任务">Spark 提交任务</span></h2>
+<table>
+<thead>
+<tr>
+<th>参数名</th>
+<th>参数说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>–master</td>
+<td>master 的地址，提交任务到哪里执行，例如 spark://host:port,  yarn,  local</td>
+</tr>
+<tr>
+<td>–deploy-mode</td>
+<td>在本地 (client) 启动 driver 或在 cluster 上启动，默认是 client</td>
+</tr>
+<tr>
+<td>–class</td>
+<td>应用程序的主类，仅针对 java 或 scala 应用</td>
+</tr>
+<tr>
+<td>–name</td>
+<td>应用程序的名称</td>
+</tr>
+<tr>
+<td>–jars</td>
+<td>用逗号分隔的本地 jar 包，设置后，这些 jar 将包含在 driver 和 executor 的 classpath 下</td>
+</tr>
+<tr>
+<td>–packages</td>
+<td>包含在driver 和executor 的 classpath 中的 jar 的 maven 坐标</td>
+</tr>
+<tr>
+<td>–exclude-packages</td>
+<td>为了避免冲突 而指定不包含的 package</td>
+</tr>
+<tr>
+<td>–repositories</td>
+<td>远程 repository</td>
+</tr>
+<tr>
+<td>–conf PROP=VALUE</td>
+<td>指定 spark 配置属性的值， 例如 -conf spark.executor.extraJavaOptions=&quot;-XX:MaxPermSize=256m&quot;</td>
+</tr>
+<tr>
+<td>–properties-file</td>
+<td>加载的配置文件，默认为 conf/spark-defaults.conf</td>
+</tr>
+<tr>
+<td>–driver-memory</td>
+<td>Driver内存，默认 1G</td>
+</tr>
+<tr>
+<td>–driver-java-options</td>
+<td>传给 driver 的额外的 Java 选项</td>
+</tr>
+<tr>
+<td>–driver-library-path</td>
+<td>传给 driver 的额外的库路径</td>
+</tr>
+<tr>
+<td>–driver-class-path</td>
+<td>传给 driver 的额外的类路径</td>
+</tr>
+<tr>
+<td>–driver-cores</td>
+<td>Driver 的核数，默认是1。在 yarn 或者 standalone 下使用</td>
+</tr>
+<tr>
+<td>–executor-memory</td>
+<td>每个 executor 的内存，默认是1G</td>
+</tr>
+<tr>
+<td>–total-executor-cores</td>
+<td>所有 executor 总共的核数。仅仅在 mesos 或者 standalone 下使用</td>
+</tr>
+<tr>
+<td>–num-executors</td>
+<td>启动的 executor 数量。默认为2。在 yarn 下使用</td>
+</tr>
+<tr>
+<td>–executor-core</td>
+<td>每个 executor 的核数。在yarn或者standalone下使用</td>
+</tr>
+</tbody>
+</table>
+<h3><span id="local-模式">Local 模式</span></h3>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># 在 Spark home 下执行，无需启动 Spark 集群在一个节点直接运行即可</span><br><span class="line"></span><br><span class="line">bin/spark-submit --master local[2] \</span><br><span class="line">--class com.leone.bigdata.spark.java.core.wc.JavaWordCount \</span><br><span class="line">/root/jars/spark-wc.jar file:///root/data/words/ file:///root/data/output/</span><br></pre></td></tr></table></figure>
+<h3><span id="standalone-模式">Standalone 模式</span></h3>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"># 在 Spark home 下执行，需要启动 Spark 集群并指定 master</span><br><span class="line"></span><br><span class="line">bin/spark-submit --master spark://node-1:7077 \</span><br><span class="line">--class com.leone.bigdata.spark.java.core.wc.JavaWordCount \</span><br><span class="line">/root/jars/spark-wc.jar hdfs://node-1:9000/data/common hdfs://node-1:9000/data/output \</span><br><span class="line">–-executor-memory 1G \</span><br><span class="line">–-total-executor-cores 2</span><br></pre></td></tr></table></figure>
+<h3><span id="yarn-client-模式">yarn Client 模式</span></h3>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># 在 Spark home 下执行，需要启动 Spark 集群 hdfs 集群 yarn 集群</span><br><span class="line"></span><br><span class="line">bin/spark-submit --master yarn \</span><br><span class="line">--class com.leone.bigdata.spark.java.core.wc.JavaWordCount \</span><br><span class="line">--deploy-mode client \</span><br><span class="line">/root/jars/spark-wc.jar hdfs://node-1:9000/data/common hdfs://node-1:9000/data/output</span><br></pre></td></tr></table></figure>
+<h3><span id="yarn-cluster-模式">yarn Cluster 模式</span></h3>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"># 在 Spark home 下执行，需要启动 Spark 集群 hdfs 集群 yarn 集群</span><br><span class="line"></span><br><span class="line">bin/spark-submit \</span><br><span class="line">--class com.leone.bigdata.spark.java.core.wc.JavaWordCount \</span><br><span class="line">--master yarn \</span><br><span class="line">--deploy-mode cluster \</span><br><span class="line">/root/jars/spark-wc.jar hdfs://node-1:9000/data/common hdfs://node-1:9000/data/output</span><br></pre></td></tr></table></figure>
+<h3><span id="spark-on-yarn-之-client-与-cluster-模式区别">Spark on YARN 之 Client 与 Cluster 模式区别</span></h3>
+<ul>
+<li>yarn-client</li>
+</ul>
+<p>Driver运行在本地客户端，负责调度Application，会与yarn集群产生大量的网络通信。好处是，执行时可以在本地看到所有的log，便于调试。所以一般用于测试环境。</p>
+<ul>
+<li>yarn-cluster</li>
+</ul>
+<p>Driver运行在NodeManager，每次运行都是随机分配到NM机器上去。缺点就是本地提交后看不到log，只能通过yarn application-logs application id命令来查看。比较麻烦。</p>
 
                 
 
@@ -518,12 +625,12 @@ RDD全称叫做弹性分布式数据集(Resilient Distributed Datasets)，它是
                 <ul class="pager">
                     
                         <li class="previous">
-                            <a href="/article/Crontab/" data-toggle="tooltip" data-placement="top" title="Crontab">&larr; Previous Post</a>
+                            <a href="/article/Linux-Crontab/" data-toggle="tooltip" data-placement="top" title="Crontab">&larr; Previous Post</a>
                         </li>
                     
                     
                         <li class="next">
-                            <a href="/article/redis/" data-toggle="tooltip" data-placement="top" title="Redis">Next Post &rarr;</a>
+                            <a href="/article/Redis/" data-toggle="tooltip" data-placement="top" title="Redis">Next Post &rarr;</a>
                         </li>
                     
                 </ul>
@@ -573,7 +680,7 @@ RDD全称叫做弹性分布式数据集(Resilient Distributed Datasets)，它是
         <div id="toc" class="toc-article">
         <strong class="toc-title">Contents</strong>
         
-          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">Spark Core</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text">RDD概述</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.1.1.</span> <span class="toc-nav-text">什么是RDD</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.1.2.</span> <span class="toc-nav-text">RDD的属性</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.1.3.</span> <span class="toc-nav-text">RDD为什么会产生</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.1.4.</span> <span class="toc-nav-text">RDD弹性</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.1.5.</span> <span class="toc-nav-text">RDD特点</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.1.5.1.</span> <span class="toc-nav-text">分区</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.1.5.2.</span> <span class="toc-nav-text">只读</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.1.5.3.</span> <span class="toc-nav-text">依赖</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.1.5.4.</span> <span class="toc-nav-text">缓存</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.1.5.5.</span> <span class="toc-nav-text">checkpoint</span></a></li></ol></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.2.</span> <span class="toc-nav-text">RDD编程</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.2.1.</span> <span class="toc-nav-text">编程模型</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.2.2.</span> <span class="toc-nav-text">创建RDD</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.2.3.</span> <span class="toc-nav-text">RDD编程</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.2.4.</span> <span class="toc-nav-text">Transformation算子详细介绍</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.2.5.</span> <span class="toc-nav-text">Action算子详细介绍</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.2.6.</span> <span class="toc-nav-text">RDD持久化</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.2.6.1.</span> <span class="toc-nav-text">RDD的缓存</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.2.6.2.</span> <span class="toc-nav-text">RDD缓存方式</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.2.7.</span> <span class="toc-nav-text">RDD checkpoint 机制</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.2.8.</span> <span class="toc-nav-text">RDD的依赖关系</span></a></li></ol></li></ol></li></ol>
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">Spark</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text">Spark Core</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.1.1.</span> <span class="toc-nav-text">RDD</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.1.2.</span> <span class="toc-nav-text">RDD的属性</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.1.3.</span> <span class="toc-nav-text">RDD为什么会产生</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.1.4.</span> <span class="toc-nav-text">RDD弹性</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.1.5.</span> <span class="toc-nav-text">RDD特点</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.2.</span> <span class="toc-nav-text">RDD编程</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.2.1.</span> <span class="toc-nav-text">编程模型</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.2.2.</span> <span class="toc-nav-text">创建RDD</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.2.3.</span> <span class="toc-nav-text">RDD编程</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.2.4.</span> <span class="toc-nav-text">Transformation算子详细介绍</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.2.5.</span> <span class="toc-nav-text">Action算子详细介绍</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.2.6.</span> <span class="toc-nav-text">RDD持久化</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.2.6.1.</span> <span class="toc-nav-text">RDD的缓存</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.2.6.2.</span> <span class="toc-nav-text">RDD缓存方式</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.2.7.</span> <span class="toc-nav-text">RDD checkpoint 机制</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.2.8.</span> <span class="toc-nav-text">RDD的依赖关系</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.3.</span> <span class="toc-nav-text">Spark 提交任务</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.3.1.</span> <span class="toc-nav-text">Local 模式</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.3.2.</span> <span class="toc-nav-text">Standalone 模式</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.3.3.</span> <span class="toc-nav-text">yarn Client 模式</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.3.4.</span> <span class="toc-nav-text">yarn Cluster 模式</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#undefined"><span class="toc-nav-number">1.3.5.</span> <span class="toc-nav-text">Spark on YARN 之 Client 与 Cluster 模式区别</span></a></li></ol></li></ol></li></ol>
         
         </div>
       </aside>
